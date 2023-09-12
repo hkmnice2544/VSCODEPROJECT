@@ -96,14 +96,14 @@ class _MyWidgetState extends State<ListActualize> {
                                 Row(children: [
                                   Expanded(
                                     child: Text(
-                                      "เสร็จสิ้นวันที่ ",
+                                      "วันที่ดำเนินการ ",
                                       style: const TextStyle(
                                           fontFamily: 'Itim', fontSize: 20),
                                     ),
                                   ),
                                   Expanded(
                                     child: Text(
-                                      "$formattedDate",
+                                      "${informrepairs?[index].informdate}",
                                       style: const TextStyle(
                                           fontFamily: 'Itim', fontSize: 20),
                                     ),

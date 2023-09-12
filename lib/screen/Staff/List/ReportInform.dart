@@ -37,7 +37,7 @@ class _ReportInformState extends State<ReportInform> {
 
   bool? isDataLoaded = false;
   String formattedDate = '';
-  String formattedInformDate = '';
+
   DateTime informdate = DateTime.now();
 
   List<Uint8List> imageBytesList = [];
@@ -70,9 +70,7 @@ class _ReportInformState extends State<ReportInform> {
       getInform(widget.informrepair_id!);
     }
     DateTime now = DateTime.now();
-    formattedDate = DateFormat('dd-MM-yyyy').format(now);
-    formattedInformDate = DateFormat('dd-MM-yyyy')
-        .format(informdate); // ใช้ this.formattedInformDate
+    formattedDate = DateFormat('yyyy-MM-dd' ' HH:mm:ss.000').format(now);
   }
 
   // void _pickImage() {
@@ -263,7 +261,7 @@ class _ReportInformState extends State<ReportInform> {
                 ),
                 Expanded(
                   child: Text(
-                    "${formattedInformDate}",
+                    "${informRepair?.informdate}",
                     style: TextStyle(
                       color: Colors.black,
                       fontSize: 20,
