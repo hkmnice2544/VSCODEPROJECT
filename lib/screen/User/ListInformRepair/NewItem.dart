@@ -17,7 +17,6 @@ class listAllInformRepairs extends StatefulWidget {
 class _listAllInformRepairsState extends State<listAllInformRepairs> {
   List<InformRepair>? informrepairs;
   bool? isDataLoaded = false;
-  InformRepair? informRepairs;
 
   final InformRepairController informController = InformRepairController();
 
@@ -51,70 +50,92 @@ class _listAllInformRepairsState extends State<listAllInformRepairs> {
                     itemCount: informrepairs?.length,
                     scrollDirection: Axis.vertical,
                     itemBuilder: (context, index) {
-                      return Card(
-                        elevation: 5,
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10)),
-                        child: ListTile(
-                          leading: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Icon(Icons.account_circle, color: Colors.red)
-                            ],
+                      if (informrepairs?[index].status == "เสร็จสิ้น" ||
+                          informrepairs?[index].status == "กำลังดำเนินการ") {
+                        return Container(); // สร้าง Container ว่างเปล่าเพื่อซ่อนรายการที่มี status เป็น "กำลังดำเนินการ"
+                      } else {
+                        return Card(
+                          elevation: 5,
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10)),
+                          child: ListTile(
+                            leading: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Icon(Icons.account_circle, color: Colors.red)
+                              ],
+                            ),
+                            title: Column(
+                              mainAxisSize: MainAxisSize.max,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Row(children: [
+                                  Expanded(
+                                    child: Text(
+                                      "เลขที่แจ้งซ่อม",
+                                      style: const TextStyle(
+                                          fontFamily: 'Itim', fontSize: 22),
+                                    ),
+                                  ),
+                                  Expanded(
+                                    child: Text(
+                                      "${informrepairs?[index].informrepair_id}",
+                                      style: const TextStyle(
+                                          fontFamily: 'Itim', fontSize: 22),
+                                    ),
+                                  ),
+                                ]),
+                                Row(children: [
+                                  Expanded(
+                                    child: Text(
+                                      "วันที่แจ้งซ่อม",
+                                      style: const TextStyle(
+                                          fontFamily: 'Itim', fontSize: 22),
+                                    ),
+                                  ),
+                                  Expanded(
+                                    child: Text(
+                                      "${informrepairs?[index].informdate}",
+                                      style: const TextStyle(
+                                          fontFamily: 'Itim', fontSize: 22),
+                                    ),
+                                  ),
+                                ]),
+                                Row(children: [
+                                  Expanded(
+                                    child: Text(
+                                      "สถานะ ",
+                                      style: const TextStyle(
+                                          fontFamily: 'Itim', fontSize: 22),
+                                    ),
+                                  ),
+                                  Expanded(
+                                    child: Text(
+                                      "${informrepairs?[index].status}",
+                                      style: const TextStyle(
+                                          fontFamily: 'Itim', fontSize: 22),
+                                    ),
+                                  ),
+                                ]),
+                              ],
+                            ),
+                            trailing:
+                                const Icon(Icons.zoom_in, color: Colors.red),
+                            onTap: () {
+                              WidgetsBinding.instance!
+                                  .addPostFrameCallback((_) {
+                                Navigator.pushReplacement(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (_) => View_NewItem(
+                                          informrepair_id: informrepairs?[index]
+                                              .informrepair_id)),
+                                );
+                              });
+                            },
                           ),
-                          title: Column(
-                            mainAxisSize: MainAxisSize.max,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Row(children: [
-                                Expanded(
-                                  child: Text(
-                                    "เลขที่แจ้งซ่อม",
-                                    style: const TextStyle(
-                                        fontFamily: 'Itim', fontSize: 22),
-                                  ),
-                                ),
-                                Expanded(
-                                  child: Text(
-                                    "${informrepairs?[index].informrepair_id}",
-                                    style: const TextStyle(
-                                        fontFamily: 'Itim', fontSize: 22),
-                                  ),
-                                ),
-                              ]),
-                              Row(children: [
-                                Expanded(
-                                  child: Text(
-                                    "สถานะ ",
-                                    style: const TextStyle(
-                                        fontFamily: 'Itim', fontSize: 22),
-                                  ),
-                                ),
-                                Expanded(
-                                  child: Text(
-                                    "${informrepairs?[index].status}",
-                                    style: const TextStyle(
-                                        fontFamily: 'Itim', fontSize: 22),
-                                  ),
-                                ),
-                              ]),
-                            ],
-                          ),
-                          trailing:
-                              const Icon(Icons.zoom_in, color: Colors.red),
-                          onTap: () {
-                            WidgetsBinding.instance!.addPostFrameCallback((_) {
-                              Navigator.pushReplacement(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (_) => View_NewItem(
-                                        informrepair_id: informrepairs?[index]
-                                            .informrepair_id)),
-                              );
-                            });
-                          },
-                        ),
-                      );
+                        );
+                      }
                     },
                   ),
                 )),

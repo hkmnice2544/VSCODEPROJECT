@@ -22,17 +22,25 @@ class View_NewItem extends StatefulWidget {
 }
 
 class _ViewResultState extends State<View_NewItem> {
-  final InformRepairController informRepairController =
-      InformRepairController();
+  final InformRepairController informController = InformRepairController();
 
   InformRepair? informRepair;
+  List<InformRepair>? informrepairs;
 
   bool? isDataLoaded = false;
   String formattedDate = '';
   DateTime informdate = DateTime.now();
 
+  void fetchlistAllInformRepairs() async {
+    informrepairs = await informController.listAllInformRepairs();
+    print({informrepairs?[0].informrepair_id});
+    setState(() {
+      isDataLoaded = true;
+    });
+  }
+
   void getInform(int informrepair_id) async {
-    informRepair = await informRepairController.getInform(informrepair_id);
+    informRepair = await informController.getInform(informrepair_id);
     print("getInform : ${informRepair?.informrepair_id}");
     setState(() {
       isDataLoaded = true;
@@ -42,11 +50,10 @@ class _ViewResultState extends State<View_NewItem> {
   @override
   void initState() {
     super.initState();
+    fetchlistAllInformRepairs();
     if (widget.informrepair_id != null) {
       getInform(widget.informrepair_id!);
     }
-    DateTime now = DateTime.now();
-    formattedDate = DateFormat('dd-MM-yyyy').format(now);
   }
 
   @override
@@ -189,7 +196,7 @@ class _ViewResultState extends State<View_NewItem> {
                 ),
                 Expanded(
                   child: Text(
-                    "$formattedDate",
+                    "${informRepair?.informdate}",
                     style: TextStyle(
                       color: Colors.black,
                       fontSize: 20,

@@ -23,8 +23,10 @@ class InformRepair {
 
   String formattedInformDate() {
     if (informdate != null) {
-      return DateFormat('yyyy-MM-ddTHH:mm:ss.SSSZ', 'en_US')
-          .format(informdate!);
+      final thailandLocale = const Locale('th', 'TH');
+      final outputFormat =
+          DateFormat('dd-MM-yyyy HH:mm', thailandLocale as String?);
+      return outputFormat.format(informdate!);
     } else {
       return 'N/A'; // หรือข้อความที่คุณต้องการให้แสดงถ้าไม่มีวันที่
     }
@@ -44,8 +46,14 @@ class InformRepair {
     DateTime? informdate;
 
     if (informdateString != null) {
-      final inputFormat = DateFormat('yyyy-MM-ddTHH:mm:ss.SSSZ', 'en_US');
-      informdate = inputFormat.parse(informdateString);
+      final inputFormat = DateFormat("yyyy-MM-dd'T'HH:mm:ss");
+      final DateTime dateTime = inputFormat.parse(informdateString);
+
+      // ปรับเวลาเป็นโซนเวลาไทย (ICT - Indochina Time)
+      final thailandOffset = Duration(hours: 7);
+      final thailandDateTime = dateTime.add(thailandOffset);
+
+      informdate = thailandDateTime; // กำหนดค่าให้กับ informdate
     }
 
     return InformRepair(

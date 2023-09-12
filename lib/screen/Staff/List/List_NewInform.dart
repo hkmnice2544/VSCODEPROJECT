@@ -20,7 +20,7 @@ class NewInform extends State<listNewInform> {
   bool? isDataLoaded = false;
   InformRepair? informRepairs;
   String formattedDate = '';
-  DateTime informdate = DateTime.now();
+  String formattedInformDate = '';
 
   final InformRepairController informrepairController =
       InformRepairController();
@@ -39,8 +39,8 @@ class NewInform extends State<listNewInform> {
   void initState() {
     super.initState();
     fetchInformRepairs();
-    DateTime now = DateTime.now();
-    formattedDate = DateFormat('dd-MM-yyyy').format(now);
+    // formattedInformDate = DateFormat('dd-MM-yyyy')
+    //     .format(informrepairs?[index].informdate); // ใช้ this.formattedInformDate
   }
 
   @override
@@ -104,7 +104,7 @@ class NewInform extends State<listNewInform> {
                                   ),
                                   Expanded(
                                     child: Text(
-                                      "$formattedDate",
+                                      "${informrepairs?[index].informdate}",
                                       style: const TextStyle(
                                           fontFamily: 'Itim', fontSize: 22),
                                     ),
@@ -130,12 +130,13 @@ class NewInform extends State<listNewInform> {
                             ),
                             trailing: ElevatedButton(
                               onPressed: () {
-                                // Navigator.push(
-                                //     context,
-                                //     MaterialPageRoute(
-                                //       builder: (_) => ReportInform(
-                                //           report_id: reports?[index].report_id),
-                                //     ));
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (_) => ReportInform(
+                                          informrepair_id: informrepairs?[index]
+                                              .informrepair_id),
+                                    ));
                               },
                               child: Text('รายงานผล'),
                             ),
