@@ -429,12 +429,12 @@ class _MyWidgetState extends State<Review> {
               label: Text("ยืนยัน"),
               onPressed: () async {
                 var response = await reviewController.addReview(
-                  reviewer,
-                  _rating != null
-                      ? _rating.toString()
-                      : "", // แปลง _rating เป็น String
-                  textEditingController.text,
-                );
+                    reviewer,
+                    _rating != null
+                        ? _rating.toString()
+                        : "", // แปลง _rating เป็น String
+                    textEditingController.text,
+                    reportRepair?.report_id as int);
                 Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) {
