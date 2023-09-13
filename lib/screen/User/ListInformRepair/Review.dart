@@ -6,7 +6,9 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:intl/intl.dart';
 
+import '../../../Model/Report_Model.dart';
 import '../../../Model/Review_Model.dart';
+import '../../../controller/report_controller.dart';
 import '../../../controller/review_controller.dart';
 import '../../Home.dart';
 import '../../Login.dart';
@@ -15,7 +17,11 @@ import 'ListInformRepair.dart';
 import 'Rating.dart';
 
 class Review extends StatefulWidget {
-  const Review({super.key});
+  final int? report_id;
+  const Review({
+    super.key,
+    this.report_id,
+  });
 
   @override
   State<Review> createState() => _MyWidgetState();
@@ -32,8 +38,10 @@ class _MyWidgetState extends State<Review> {
   List<Reviews>? reviews;
   Reviews? review;
   bool? isDataLoaded = false;
+  ReportRepair? reportRepair;
 
   final ReviewController reviewController = ReviewController();
+  final ReportController reportController = ReportController();
 
   void fetchReview_id() async {
     reviews = await reviewController.listAllReviews();
@@ -46,10 +54,21 @@ class _MyWidgetState extends State<Review> {
     });
   }
 
+  void getInform(int report_id) async {
+    reportRepair = await reportController.getReportRepair(report_id);
+    print("getInform : ${reportRepair?.report_id}");
+    setState(() {
+      isDataLoaded = true;
+    });
+  }
+
   @override
   void initState() {
     super.initState();
     fetchReview_id();
+    if (widget.report_id != null) {
+      getInform(widget.report_id!);
+    }
     DateTime now = DateTime.now();
     formattedDate = DateFormat('dd-MM-yyyy').format(now);
   }
@@ -204,7 +223,7 @@ class _MyWidgetState extends State<Review> {
                     ),
                     Expanded(
                       child: Text(
-                        "${(reviews?[reviews!.length - 1]?.review_id ?? 0) + 1}",
+                        "${reportRepair?.report_id}",
                         style: TextStyle(
                           color: Colors.black,
                           fontSize: 20,

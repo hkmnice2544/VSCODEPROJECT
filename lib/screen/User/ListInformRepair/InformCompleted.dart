@@ -129,11 +129,12 @@ class _MyWidgetState extends State<InformCompleted> {
 
                             trailing: ElevatedButton(
                               onPressed: () {
-                                Navigator.push(context, MaterialPageRoute(
-                                  builder: (context) {
-                                    return Review();
-                                  },
-                                ));
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (_) => Review(
+                                            report_id: reportRepair?[index]
+                                                .report_id)));
                               },
                               child: Text('ประเมิน'),
                             ),
