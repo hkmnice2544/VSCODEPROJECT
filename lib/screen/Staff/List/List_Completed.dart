@@ -69,8 +69,7 @@ class _MyWidgetState extends State<ListCompleted> {
                             leading: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                Icon(Icons.run_circle_outlined,
-                                    color: Colors.red)
+                                Icon(Icons.settings, color: Colors.red)
                               ],
                             ),
                             title: Column(
