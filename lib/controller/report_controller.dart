@@ -18,7 +18,7 @@ class ReportController {
     };
 
     var body = json.encode(data);
-    var url = Uri.parse('$baseURL/reportrepair/add');
+    var url = Uri.parse('$baseURL/reportrepairs/add');
 
     http.Response response = await http.post(url, headers: headers, body: body);
     //print(response.statusCode);
@@ -28,23 +28,19 @@ class ReportController {
     // print("addInformRepair: ${informRepair!.informdate}");
   }
 
-  Future<ReportRepair> getReportRepair(int report_id) async {
-    var url = Uri.parse(baseURL + '/reportrepair/get/' + report_id.toString());
+  Future getReportRepair(int report_id) async {
+    var url = Uri.parse(baseURL + '/reportrepairs/get/$report_id');
 
-    http.Response response = await http.get(url);
+    http.Response response = await http.post(url, headers: headers, body: null);
+    print("ข้อมูลที่ได้คือ : " + response.body);
 
-    print(response.body);
-
-    var jsonResponse = jsonDecode(response.body);
-    ReportRepair reportRepair =
-        ReportRepair.fromJsonToReportRepair(jsonResponse['result']);
-    // print("Controller informrepair_id : ${informRepair.informrepair_id}");
-    // print("Controller informdetails: ${informRepair.informdetails}");
+    Map<String, dynamic> jsonMap = json.decode(response.body);
+    ReportRepair? reportRepair = ReportRepair.fromJsonToReportRepair(jsonMap);
     return reportRepair;
   }
 
   Future Get_Reviews_id() async {
-    var url = Uri.parse('$baseURL/reportrepair/list');
+    var url = Uri.parse('$baseURL/reportrepairs/list');
 
     http.Response response = await http.post(url, headers: headers, body: null);
 
@@ -56,5 +52,24 @@ class ReportController {
     list = mapResponse['result'];
     print("listAllInformRepairs : ${reportRepair?.report_id}");
     return list!.map((e) => ReportRepair.fromJsonToReportRepair(e)).toList();
+  }
+
+  Future<List<ReportRepair>> listAllReportRepairs() async {
+    var url = Uri.parse(baseURL + '/reportrepairs/list');
+
+    http.Response response = await http.post(url, headers: headers);
+    print(response.body);
+
+    List<ReportRepair> list = [];
+
+    final utf8body = utf8.decode(response.bodyBytes);
+    final jsonList = json.decode(utf8body) as List<dynamic>;
+
+    for (final jsonData in jsonList) {
+      final reportRepair = ReportRepair.fromJsonToReportRepair(jsonData);
+      list.add(reportRepair);
+    }
+
+    return list;
   }
 }

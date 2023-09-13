@@ -6,6 +6,9 @@ import 'package:intl/intl.dart';
 import '../../../Model/Report_Model.dart';
 import '../../../controller/informrepair_controller.dart';
 import '../../../controller/listinform_controller.dart';
+import '../../../controller/report_controller.dart';
+import 'Review.dart';
+import 'View_Completed.dart';
 
 class InformCompleted extends StatefulWidget {
   const InformCompleted({super.key});
@@ -20,10 +23,10 @@ class _MyWidgetState extends State<InformCompleted> {
   String formattedDate = '';
   DateTime informdate = DateTime.now();
 
-  final ListinformController listinformController = ListinformController();
+  final ReportController reportController = ReportController();
 
   void listAllReportRepair() async {
-    reportRepair = await listinformController.listAllReportRepair();
+    reportRepair = await reportController.listAllReportRepairs();
     print({reportRepair?[0].report_id});
     // print(informRepairs?.defectiveequipment);
     setState(() {
@@ -99,7 +102,7 @@ class _MyWidgetState extends State<InformCompleted> {
                                   ),
                                   Expanded(
                                     child: Text(
-                                      "$formattedDate",
+                                      "${reportRepair?[index].details}",
                                       style: const TextStyle(
                                           fontFamily: 'Itim', fontSize: 20),
                                     ),
@@ -126,24 +129,24 @@ class _MyWidgetState extends State<InformCompleted> {
 
                             trailing: ElevatedButton(
                               onPressed: () {
-                                // Navigator.push(context, MaterialPageRoute(
-                                //   builder: (context) {
-                                //     return Review();
-                                //   },
-                                // ));
+                                Navigator.push(context, MaterialPageRoute(
+                                  builder: (context) {
+                                    return Review();
+                                  },
+                                ));
                               },
                               child: Text('ประเมิน'),
                             ),
                             onTap: () {
                               WidgetsBinding.instance!
                                   .addPostFrameCallback((_) {
-                                // Navigator.pushReplacement(
-                                //   context,
-                                //   MaterialPageRoute(
-                                //       builder: (_) => ViewCompleted(
-                                //           report_id:
-                                //               reportRepair?[index].report_id)),
-                                // );
+                                Navigator.pushReplacement(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (_) => ViewCompleted(
+                                          report_id:
+                                              reportRepair?[index].report_id)),
+                                );
                               });
                             },
                           ),
