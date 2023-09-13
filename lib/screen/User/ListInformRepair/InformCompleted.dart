@@ -102,7 +102,7 @@ class _MyWidgetState extends State<InformCompleted> {
                                   ),
                                   Expanded(
                                     child: Text(
-                                      "${reportRepair?[index].details}",
+                                      "${reportRepair?[index].repairer}",
                                       style: const TextStyle(
                                           fontFamily: 'Itim', fontSize: 20),
                                     ),
