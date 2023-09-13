@@ -29,7 +29,7 @@ class _ViewResultState extends State<ViewResultReview> {
   DateTime informdate = DateTime.now();
 
   void getReview(int review_id) async {
-    review = await reviewController.getReview(review_id);
+    review = await reviewController.getReviews(review_id);
     print("getInform : ${review?.review_id}");
     setState(() {
       isDataLoaded = true;

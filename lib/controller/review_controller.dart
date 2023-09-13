@@ -29,32 +29,41 @@ class ReviewController {
     // print("addInformRepair: ${informRepair!.informdate}");
   }
 
-  Future<Reviews> getReview(int review_id) async {
-    var url = Uri.parse(baseURL + '/review/get/' + review_id.toString());
-
-    http.Response response = await http.get(url);
-
-    print(response.body);
-
-    var jsonResponse = jsonDecode(response.body);
-    Reviews review = Reviews.fromJsonToReview(jsonResponse['result']);
-    // print("Controller informrepair_id : ${informRepair.informrepair_id}");
-    // print("Controller informdetails: ${informRepair.informdetails}");
-    return review;
+  String decodeUtf8(String input) {
+    List<int> bytes = input.codeUnits;
+    Utf8Decoder decoder = Utf8Decoder();
+    String result = decoder.convert(bytes);
+    return result;
   }
 
-  Future listAllReviews() async {
-    var url = Uri.parse('$baseURL/review/list');
+  Future getReviews(int review_id) async {
+    var url = Uri.parse(baseURL + '/reviews/get/$review_id');
 
     http.Response response = await http.post(url, headers: headers, body: null);
+    print("ข้อมูลที่ได้คือ : " + response.body);
 
+    String utf8DecodedBody = decodeUtf8(response.body); // แปลง UTF-8
+    Map<String, dynamic> jsonMap = json.decode(utf8DecodedBody);
+    Reviews? reviews = Reviews.fromJsonToReview(jsonMap);
+    return reviews;
+  }
+
+  Future<List<Reviews>> listAllReviews() async {
+    var url = Uri.parse(baseURL + '/reviews/list');
+
+    http.Response response = await http.post(url, headers: headers);
     print(response.body);
 
-    List? list;
+    List<Reviews> list = [];
 
-    Map<String, dynamic> mapResponse = json.decode(response.body);
-    list = mapResponse['result'];
-    print("listAllInformRepairs : ${review?.review_id}");
-    return list!.map((e) => Reviews.fromJsonToReview(e)).toList();
+    final utf8body = utf8.decode(response.bodyBytes);
+    final jsonList = json.decode(utf8body) as List<dynamic>;
+
+    for (final jsonData in jsonList) {
+      final review = Reviews.fromJsonToReview(jsonData);
+      list.add(review);
+    }
+
+    return list;
   }
 }

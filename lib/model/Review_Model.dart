@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'dart:convert';
 
 class Reviews {
   int? review_id;
@@ -17,13 +18,13 @@ class Reviews {
   });
 
   factory Reviews.fromJsonToReview(Map<String, dynamic> json) => Reviews(
-        review_id: int.parse(json["review_id"].toString()),
+        review_id: json["review_id"] as int?,
         reviewer: json["reviewer"],
         // reportdate: json["reportdate"],
         // enddate: json["enddate"],
         repairscore: json["repairscore"],
         comment: json["comment"],
-        report_id: int.parse(json["report_id"].toString()),
+        report_id: json["report_id"] as int?,
         // informdate: DateTime.parse(json["informdate"].toString()),
       );
 
