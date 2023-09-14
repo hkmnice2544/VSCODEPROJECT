@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-import '../../../Model/Review_Model.dart';
 import '../../../controller/review_controller.dart';
+import '../../../model/Review_Model.dart';
 import '../../Home.dart';
 import '../../Login.dart';
 import '../../User/ListInformRepair/ListInformRepair.dart';
@@ -42,8 +42,6 @@ class _ViewResultState extends State<ViewResultReview> {
     if (widget.review_id != null) {
       getReview(widget.review_id!);
     }
-    DateTime now = DateTime.now();
-    formattedDate = DateFormat('dd-MM-yyyy').format(now);
   }
 
   @override
@@ -176,7 +174,7 @@ class _ViewResultState extends State<ViewResultReview> {
               children: [
                 Expanded(
                   child: Text(
-                    "วันที่แจ้งซ่อม  :",
+                    "วันที่รีวิว  :",
                     style: TextStyle(
                       color: Colors.black,
                       fontSize: 20,
@@ -186,7 +184,7 @@ class _ViewResultState extends State<ViewResultReview> {
                 ),
                 Expanded(
                   child: Text(
-                    "$formattedDate",
+                    "${review?.reviewdate}",
                     style: TextStyle(
                       color: Colors.black,
                       fontSize: 20,

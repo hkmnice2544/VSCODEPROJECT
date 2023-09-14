@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-import '../../../Model/Review_Model.dart';
 import '../../../Model/informrepair_model.dart';
 import '../../../controller/review_controller.dart';
+import '../../../model/Review_Model.dart';
 import 'View_ResultReview.dart';
 
 class listReviewResult extends StatefulWidget {
@@ -91,14 +91,14 @@ class _listAllInformRepairsState extends State<listReviewResult> {
                               Row(children: [
                                 Expanded(
                                   child: Text(
-                                    "วันที่แจ้งซ่อม",
+                                    "วันที่รีวิว",
                                     style: const TextStyle(
                                         fontFamily: 'Itim', fontSize: 22),
                                   ),
                                 ),
                                 Expanded(
                                   child: Text(
-                                    "$formattedDate",
+                                    "${reviews?[index].reviewdate}",
                                     style: const TextStyle(
                                         fontFamily: 'Itim', fontSize: 22),
                                   ),

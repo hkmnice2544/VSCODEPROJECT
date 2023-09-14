@@ -2,8 +2,8 @@ import 'dart:convert';
 
 import 'package:http/http.dart' as http;
 
-import '../Model/Review_Model.dart';
 import '../constant/constant_value.dart';
+import '../model/Review_Model.dart';
 
 class ReviewController {
   Reviews? review;
@@ -44,7 +44,7 @@ class ReviewController {
 
     String utf8DecodedBody = decodeUtf8(response.body); // แปลง UTF-8
     Map<String, dynamic> jsonMap = json.decode(utf8DecodedBody);
-    Reviews? reviews = Reviews.fromJsonToReview(jsonMap);
+    Reviews? reviews = Reviews.fromJsonToReviews(jsonMap);
     return reviews;
   }
 
@@ -60,7 +60,7 @@ class ReviewController {
     final jsonList = json.decode(utf8body) as List<dynamic>;
 
     for (final jsonData in jsonList) {
-      final review = Reviews.fromJsonToReview(jsonData);
+      final review = Reviews.fromJsonToReviews(jsonData);
       list.add(review);
     }
 
