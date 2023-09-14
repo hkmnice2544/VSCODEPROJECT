@@ -1,10 +1,10 @@
 import 'dart:convert';
 
 import 'package:image_picker/image_picker.dart';
-
-import '../Model/informrepair_model.dart';
 import '../constant/constant_value.dart';
 import 'package:http/http.dart' as http;
+
+import '../model/informrepair_model.dart';
 
 class InformRepairController {
   InformRepair? informRepair;

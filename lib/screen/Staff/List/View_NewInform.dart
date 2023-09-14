@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-import '../../../Model/informrepair_model.dart';
 import '../../../controller/informrepair_controller.dart';
+import '../../../model/informrepair_model.dart';
 import '../../Home.dart';
 import '../../Login.dart';
 import '../../User/ListInformRepair/ListInformRepair.dart';
@@ -25,7 +25,7 @@ class _ViewNewInformState extends State<ViewNewInform> {
   final InformRepairController informRepairController =
       InformRepairController();
 
-  InformRepair? informRepair;
+  InformRepair? informRepair = null;
 
   bool? isDataLoaded = false;
   String formattedDate = '';
@@ -213,7 +213,31 @@ class _ViewNewInformState extends State<ViewNewInform> {
                 ),
                 Expanded(
                   child: Text(
-                    "${informRepair?.informrepair_id}",
+                    "${informRepair?.equipment?.equipment_id}",
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            Row(
+              children: [
+                Expanded(
+                  child: Text(
+                    "อาคาร   :",
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+                Expanded(
+                  child: Text(
+                    "${informRepair?.equipment?.equipmentname}",
                     style: TextStyle(
                       color: Colors.black,
                       fontSize: 20,

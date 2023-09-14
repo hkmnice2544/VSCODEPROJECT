@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
+import 'Equipment_Model.dart';
+
 class InformRepair {
   int? informrepair_id;
   DateTime? informdate;
@@ -8,7 +10,7 @@ class InformRepair {
   String? informdetails;
   String? informtype;
   String? status;
-  int? equipment_id;
+  Equipment? equipment;
 
   String formattedInformDate() {
     if (informdate != null) {
@@ -28,7 +30,7 @@ class InformRepair {
     this.informdetails,
     this.informtype,
     this.status,
-    this.equipment_id,
+    this.equipment,
   });
 
   factory InformRepair.fromJsonToInformRepair(Map<String, dynamic> json) {
@@ -47,13 +49,26 @@ class InformRepair {
     }
 
     return InformRepair(
-      informrepair_id: int.parse(json["informrepair_id"].toString()),
-      defectiveequipment: json["defectiveequipment"],
-      informdetails: json["informdetails"],
-      informtype: json["informtype"],
-      status: json["status"],
-      informdate: informdate,
-      equipment_id: int.parse(json["equipment_id"].toString()),
-    );
+        informrepair_id: int.parse(json["informrepair_id"].toString()),
+        defectiveequipment: json["defectiveequipment"],
+        informdetails: json["informdetails"],
+        informtype: json["informtype"],
+        status: json["status"],
+        informdate: informdate,
+        equipment: json["equipment"] == null
+            ? null
+            : Equipment.fromJsonToEquipment(json["equipment"]));
+  }
+
+  Map<String, dynamic> fromInformRepairToJson() {
+    return <String, dynamic>{
+      'informrepair_id': informrepair_id,
+      'defectiveequipment': defectiveequipment,
+      'informdetails': informdetails,
+      'informtype': informtype,
+      'status': status,
+      'informdate': informdate,
+      'equipment': equipment?.equipment_id
+    };
   }
 }

@@ -4,9 +4,10 @@ import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:intl/intl.dart';
 
 import '../../../Model/Report_Model.dart';
-import '../../../Model/informrepair_model.dart';
+
 import '../../../controller/informrepair_controller.dart';
 import '../../../controller/listinform_controller.dart';
+import '../../../model/informrepair_model.dart';
 
 class ListCompleted extends StatefulWidget {
   const ListCompleted({super.key});

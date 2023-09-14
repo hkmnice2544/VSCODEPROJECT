@@ -4,9 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:path/path.dart' as path;
-
-import '../../Model/informrepair_model.dart';
 import '../../controller/informrepair_controller.dart';
+import '../../model/informrepair_model.dart';
 import 'Detail.dart';
 
 class Addinform extends StatefulWidget {
