@@ -1,31 +1,23 @@
 import 'package:flutter/material.dart';
 
-
 class Building {
-  int? building_id;
-  String? buildingname;
-
+  int? buildingId;
+  String? buildingName;
 
   Building({
-    this.building_id,
-    this.buildingname,
-
+    this.buildingId,
+    this.buildingName,
   });
 
-  factory Building.fromJsonToBuilding(Map<String, dynamic> json) => Building( //แปลงjson เป็น object
-    building_id: json["building_id"],
-    buildingname: json["buildingname"],
+  factory Building.fromJsonToBuilding(Map<String, dynamic> json) => Building(
+        buildingId: json["building_id"] as int?,
+        buildingName: json["buildingName"],
+      );
 
-  );
-
-  get length => null;
-
-  Map<String, dynamic> fromBuildingToJson() { //แปลง object เป็น  json
-    return <String, dynamic> {
-      'building_id' : building_id,
-      'buildingname' : buildingname,
-
+  Map<String, dynamic> fromBuildingToJson() {
+    return <String, dynamic>{
+      'building_id': buildingId,
+      'buildingName': buildingName,
     };
   }
-
 }
