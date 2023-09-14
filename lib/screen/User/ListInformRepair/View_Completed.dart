@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import '../../../Model/Report_Model.dart';
 import '../../../controller/listinform_controller.dart';
 import '../../../controller/report_controller.dart';
+import '../../../model/Report_Model.dart';
 import '../../Home.dart';
 import '../../Login.dart';
 import 'InformCompleted.dart';
@@ -135,7 +135,7 @@ class _ViewResultState extends State<ViewCompleted> {
           child: Column(children: [
             Center(
               child: Text(
-                "รายละเอียด",
+                "รายละเอียดผลการซ่อม",
                 style: TextStyle(
                   color: Color.fromARGB(255, 7, 94, 53),
                   fontSize: 40,
@@ -153,7 +153,7 @@ class _ViewResultState extends State<ViewCompleted> {
               children: [
                 Expanded(
                   child: Text(
-                    "เลขที่รายงานผล  :",
+                    "เลขที่แจ้งซ่อม  :",
                     style: TextStyle(
                       color: Colors.black,
                       fontSize: 20,
@@ -163,7 +163,7 @@ class _ViewResultState extends State<ViewCompleted> {
                 ),
                 Expanded(
                   child: Text(
-                    "${reportRepair?.report_id}",
+                    "${reportRepair?.informRepair?.informrepair_id}",
                     style: TextStyle(
                       color: Colors.black,
                       fontSize: 20,
@@ -271,7 +271,7 @@ class _ViewResultState extends State<ViewCompleted> {
                 ),
                 Expanded(
                   child: Text(
-                    "${reportRepair?.status}",
+                    "",
                     style: TextStyle(
                       color: Colors.black,
                       fontSize: 20,

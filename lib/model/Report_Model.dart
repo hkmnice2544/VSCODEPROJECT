@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutterr/model/informrepair_model.dart';
 
 class ReportRepair {
   int? report_id;
@@ -7,7 +8,7 @@ class ReportRepair {
   DateTime? reportdate;
   DateTime? enddate;
   String? details;
-  String? status;
+  InformRepair? informRepair;
 
   ReportRepair({
     required this.report_id,
@@ -16,19 +17,19 @@ class ReportRepair {
     this.reportdate,
     this.enddate,
     this.details,
-    this.status,
+    this.informRepair,
   });
 
   factory ReportRepair.fromJsonToReportRepair(Map<String, dynamic> json) =>
       ReportRepair(
-        report_id: int.parse(json["report_id"].toString()),
-        repairer: json["repairer"],
-        reportdate: json["reportdate"],
-        enddate: json["enddate"],
-        details: json["details"],
-        status: json["status"],
-        // informdate: DateTime.parse(json["informdate"].toString()),
-      );
+          report_id: int.parse(json["report_id"].toString()),
+          repairer: json["repairer"],
+          reportdate: json["reportdate"],
+          enddate: json["enddate"],
+          details: json["details"],
+          informRepair: json["informRepair"] == null
+              ? null
+              : InformRepair.fromJsonToInformRepair(json["informRepair"]));
 
   Map<String, dynamic> fromReportRepairToJson() {
     return <String, dynamic>{
@@ -37,7 +38,7 @@ class ReportRepair {
       'reportdate': reportdate,
       'enddate': enddate,
       'details': details,
-      'status': status,
+      'informRepair': informRepair?.informrepair_id
     };
   }
 }
