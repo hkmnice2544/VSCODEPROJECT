@@ -177,6 +177,30 @@ class _ViewResultState extends State<ViewCompleted> {
               children: [
                 Expanded(
                   child: Text(
+                    "วันที่แจ้งซ่อม  :",
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+                Expanded(
+                  child: Text(
+                    "${reportRepair?.informRepair?.informdate}",
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            Row(
+              children: [
+                Expanded(
+                  child: Text(
                     "เสร็จสิ้นวันที่  :",
                     style: TextStyle(
                       color: Colors.black,
@@ -187,7 +211,31 @@ class _ViewResultState extends State<ViewCompleted> {
                 ),
                 Expanded(
                   child: Text(
-                    "$formattedDate",
+                    "${reportRepair?.enddate}",
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            Row(
+              children: [
+                Expanded(
+                  child: Text(
+                    "รายละเอียด",
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+                Expanded(
+                  child: Text(
+                    "${reportRepair?.details}",
                     style: TextStyle(
                       color: Colors.black,
                       fontSize: 20,
@@ -223,42 +271,6 @@ class _ViewResultState extends State<ViewCompleted> {
             ),
             Row(
               children: [
-                Text(
-                  "รายละเอียด",
-                  style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ],
-            ),
-            Row(
-              children: [
-                Text(
-                  "${reportRepair?.details}",
-                  style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ],
-            ),
-            Row(
-              children: [
-                Text(
-                  "",
-                  style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ],
-            ),
-            Row(
-              children: [
                 Expanded(
                   child: Text(
                     "สถานะ   :",
@@ -271,7 +283,7 @@ class _ViewResultState extends State<ViewCompleted> {
                 ),
                 Expanded(
                   child: Text(
-                    "",
+                    "${reportRepair?.informRepair?.status}",
                     style: TextStyle(
                       color: Colors.black,
                       fontSize: 20,

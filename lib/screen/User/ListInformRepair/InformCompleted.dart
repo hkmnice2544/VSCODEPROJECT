@@ -20,8 +20,6 @@ class InformCompleted extends StatefulWidget {
 class _MyWidgetState extends State<InformCompleted> {
   List<ReportRepair>? reportRepair;
   bool? isDataLoaded = false;
-  String formattedDate = '';
-  DateTime informdate = DateTime.now();
 
   final ReportController reportController = ReportController();
 
@@ -38,8 +36,6 @@ class _MyWidgetState extends State<InformCompleted> {
   void initState() {
     super.initState();
     listAllReportRepair();
-    DateTime now = DateTime.now();
-    formattedDate = DateFormat('dd-MM-yyyy').format(now);
   }
 
   @override
