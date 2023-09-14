@@ -2,26 +2,24 @@ import 'dart:convert';
 
 import 'package:http/http.dart' as http;
 
-import '../Model/Report_Model.dart';
 import '../Model/Review_Model.dart';
 import '../constant/constant_value.dart';
+import '../model/Report_Model.dart';
 
 class ReportController {
   ReportRepair? reportRepair;
 
-  Future addReport(String repairer, String details, String status) async {
+  Future addReport(String repairer, String details) async {
     Map data = {
       // "informdate" : informdate,
       "repairer": repairer,
       "details": details,
-      "status": status
     };
 
     var body = json.encode(data);
     var url = Uri.parse('$baseURL/reportrepairs/add');
 
     http.Response response = await http.post(url, headers: headers, body: body);
-    //print(response.statusCode);
 
     var jsonResponse = jsonDecode(response.body);
     print(jsonResponse);

@@ -33,7 +33,6 @@ class ListinformController {
     ReportRepair reportrepair =
         ReportRepair.fromJsonToReportRepair(jsonResponse['result']);
     print("Controller report_id : ${reportrepair.report_id}");
-    print("Controller status: ${reportrepair.status}");
     return reportrepair;
   }
 }

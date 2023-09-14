@@ -3,10 +3,10 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:intl/intl.dart';
 
-import '../../../Model/Report_Model.dart';
 import '../../../controller/informrepair_controller.dart';
 import '../../../controller/listinform_controller.dart';
 import '../../../controller/report_controller.dart';
+import '../../../model/Report_Model.dart';
 import 'Review.dart';
 import 'View_Completed.dart';
 
@@ -58,7 +58,8 @@ class _MyWidgetState extends State<InformCompleted> {
                     itemCount: reportRepair?.length,
                     scrollDirection: Axis.vertical,
                     itemBuilder: (context, index) {
-                      if (reportRepair?[index].status == "กำลังดำเนินการ") {
+                      if (reportRepair?[index].informRepair?.status ==
+                          "กำลังดำเนินการ") {
                         return Container(); // สร้าง Container ว่างเปล่าเพื่อซ่อนรายการที่มี status เป็น "กำลังดำเนินการ"
                       } else {
                         return Card(
@@ -95,6 +96,22 @@ class _MyWidgetState extends State<InformCompleted> {
                                 Row(children: [
                                   Expanded(
                                     child: Text(
+                                      "เลขที่แจ้งซ่อม",
+                                      style: const TextStyle(
+                                          fontFamily: 'Itim', fontSize: 20),
+                                    ),
+                                  ),
+                                  Expanded(
+                                    child: Text(
+                                      "${reportRepair?[index].informRepair?.informrepair_id}",
+                                      style: const TextStyle(
+                                          fontFamily: 'Itim', fontSize: 20),
+                                    ),
+                                  ),
+                                ]),
+                                Row(children: [
+                                  Expanded(
+                                    child: Text(
                                       "เสร็จสิ้นวันที่ ",
                                       style: const TextStyle(
                                           fontFamily: 'Itim', fontSize: 20),
@@ -102,7 +119,7 @@ class _MyWidgetState extends State<InformCompleted> {
                                   ),
                                   Expanded(
                                     child: Text(
-                                      "${reportRepair?[index].repairer}",
+                                      "${reportRepair?[index].enddate}",
                                       style: const TextStyle(
                                           fontFamily: 'Itim', fontSize: 20),
                                     ),
@@ -118,7 +135,7 @@ class _MyWidgetState extends State<InformCompleted> {
                                   ),
                                   Expanded(
                                     child: Text(
-                                      "${reportRepair?[index].status}",
+                                      "${reportRepair?[index].informRepair?.status}",
                                       style: const TextStyle(
                                           fontFamily: 'Itim', fontSize: 20),
                                     ),

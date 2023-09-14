@@ -466,7 +466,6 @@ class _ReportInformState extends State<ReportInform> {
                 var response = await reportController.addReport(
                   _dropdownrepairer.toString(),
                   detailsTextController.text, // แปลง _rating เป็น String
-                  _dropdownstatus.toString(),
                 );
                 Navigator.push(
                   context,
