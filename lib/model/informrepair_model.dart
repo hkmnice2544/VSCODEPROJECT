@@ -2,24 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 class InformRepair {
-  late int informrerair_id;
-  late String buildngname;
-  late String floor;
-  late String position;
-  late String tap;
-  late bool toiletbowl;
-  late bool bidet;
-  late bool urinal;
-  late bool sink;
-  late bool lightbulb;
-  late bool other;
-
   int? informrepair_id;
   DateTime? informdate;
   String? defectiveequipment;
   String? informdetails;
   String? informtype;
   String? status;
+  int? equipment_id;
 
   String formattedInformDate() {
     if (informdate != null) {
@@ -39,6 +28,7 @@ class InformRepair {
     this.informdetails,
     this.informtype,
     this.status,
+    this.equipment_id,
   });
 
   factory InformRepair.fromJsonToInformRepair(Map<String, dynamic> json) {
@@ -63,6 +53,7 @@ class InformRepair {
       informtype: json["informtype"],
       status: json["status"],
       informdate: informdate,
+      equipment_id: int.parse(json["equipment_id"].toString()),
     );
   }
 }

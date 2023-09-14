@@ -213,7 +213,7 @@ class _ViewNewInformState extends State<ViewNewInform> {
                 ),
                 Expanded(
                   child: Text(
-                    "${informRepair?.informtype}",
+                    "${informRepair?.informrepair_id}",
                     style: TextStyle(
                       color: Colors.black,
                       fontSize: 20,
