@@ -220,7 +220,95 @@ class _ViewResultState extends State<View_NewItem> {
                 ),
                 Expanded(
                   child: Text(
-                    "${informRepair?.informtype}",
+                    informRepair?.equipment?.rooms != null
+                        ? informRepair!.equipment!.rooms!
+                            .map((room) => room.roomname!)
+                            .join(', ')
+                        : 'N/A',
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            Row(
+              children: [
+                Expanded(
+                  child: Text(
+                    "อาคาร   :",
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+                Expanded(
+                  child: Text(
+                    informRepair?.equipment?.rooms != null
+                        ? informRepair!.equipment!.rooms!
+                            .map((room) => room.building?.buildingname ?? 'N/A')
+                            .join(', ')
+                        : 'N/A',
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            Row(
+              children: [
+                Expanded(
+                  child: Text(
+                    "ชั้น   :",
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+                Expanded(
+                  child: Text(
+                    informRepair?.equipment?.rooms != null
+                        ? informRepair!.equipment!.rooms!
+                            .map((room) => room.floor ?? 'N/A')
+                            .join(', ')
+                        : 'N/A',
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            Row(
+              children: [
+                Expanded(
+                  child: Text(
+                    "ตำแหน่ง   :",
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+                Expanded(
+                  child: Text(
+                    informRepair?.equipment?.rooms != null
+                        ? informRepair!.equipment!.rooms!
+                            .map((room) => room.position ?? 'N/A')
+                            .join(', ')
+                        : 'N/A',
                     style: TextStyle(
                       color: Colors.black,
                       fontSize: 20,
@@ -257,7 +345,7 @@ class _ViewResultState extends State<View_NewItem> {
             Row(
               children: [
                 Text(
-                  "${informRepair?.defectiveequipment}",
+                  "${informRepair?.equipment?.equipmentname}",
                   style: TextStyle(
                     color: Colors.black,
                     fontSize: 20,
