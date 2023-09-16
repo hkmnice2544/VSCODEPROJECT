@@ -12,7 +12,7 @@ import '../../../controller/review_controller.dart';
 import '../../../model/Review_Model.dart';
 import '../../Home.dart';
 import '../../Login.dart';
-import 'InformCompleted.dart';
+import 'List_InformCompleted.dart';
 import 'ListInformRepair.dart';
 import 'Rating.dart';
 

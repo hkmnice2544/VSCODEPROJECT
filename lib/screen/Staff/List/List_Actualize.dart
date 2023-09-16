@@ -7,6 +7,7 @@ import '../../../Model/Report_Model.dart';
 import '../../../controller/informrepair_controller.dart';
 import '../../../controller/listinform_controller.dart';
 import '../../../model/informrepair_model.dart';
+import 'View_Actualize.dart';
 
 class ListActualize extends StatefulWidget {
   const ListActualize({super.key});
@@ -130,13 +131,13 @@ class _MyWidgetState extends State<ListActualize> {
                             onTap: () {
                               WidgetsBinding.instance!
                                   .addPostFrameCallback((_) {
-                                // Navigator.pushReplacement(
-                                //   context,
-                                //   MaterialPageRoute(
-                                //       builder: (_) => ViewCompleted(
-                                //           report_id:
-                                //               reportRepair?[index].report_id)),
-                                // );
+                                Navigator.pushReplacement(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (_) => ViewActualize(
+                                          informrepair_id: informrepairs?[index]
+                                              .informrepair_id)),
+                                );
                               });
                             },
                           ),

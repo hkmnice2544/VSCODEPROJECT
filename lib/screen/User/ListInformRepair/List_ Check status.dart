@@ -1,28 +1,21 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:intl/intl.dart';
-
-import '../../../Model/Report_Model.dart';
-
 import '../../../controller/informrepair_controller.dart';
-import '../../../controller/listinform_controller.dart';
 import '../../../model/informrepair_model.dart';
-import 'View_Completed.dart';
+import '../../Home.dart';
+import '../../Login.dart';
+import 'View_NewItem.dart';
 
-class ListCompleted extends StatefulWidget {
-  const ListCompleted({super.key});
+class listCheckStatus extends StatefulWidget {
+  const listCheckStatus({super.key});
 
   @override
-  State<ListCompleted> createState() => _MyWidgetState();
+  State<listCheckStatus> createState() => _listlistCheckStatusState();
 }
 
-class _MyWidgetState extends State<ListCompleted> {
+class _listlistCheckStatusState extends State<listCheckStatus> {
   List<InformRepair>? informrepairs;
-  InformRepair? informRepairs;
   bool? isDataLoaded = false;
-  String formattedDate = '';
-  DateTime informdate = DateTime.now();
 
   final InformRepairController informController = InformRepairController();
 
@@ -38,8 +31,6 @@ class _MyWidgetState extends State<ListCompleted> {
   void initState() {
     super.initState();
     fetchlistAllInformRepairs();
-    DateTime now = DateTime.now();
-    formattedDate = DateFormat('dd-MM-yyyy').format(now);
   }
 
   @override
@@ -58,7 +49,7 @@ class _MyWidgetState extends State<ListCompleted> {
                     itemCount: informrepairs?.length,
                     scrollDirection: Axis.vertical,
                     itemBuilder: (context, index) {
-                      if (informrepairs?[index].status == "กำลังดำเนินการ" ||
+                      if (informrepairs?[index].status == "เสร็จสิ้น" ||
                           informrepairs?[index].status ==
                               "ยังไม่ได้ดำเนินการ") {
                         return Container(); // สร้าง Container ว่างเปล่าเพื่อซ่อนรายการที่มี status เป็น "กำลังดำเนินการ"
@@ -81,60 +72,62 @@ class _MyWidgetState extends State<ListCompleted> {
                                 Row(children: [
                                   Expanded(
                                     child: Text(
-                                      "เลขที่รายงานผล",
+                                      "เลขที่แจ้งซ่อม",
                                       style: const TextStyle(
-                                          fontFamily: 'Itim', fontSize: 20),
+                                          fontFamily: 'Itim', fontSize: 22),
                                     ),
                                   ),
                                   Expanded(
                                     child: Text(
                                       "${informrepairs?[index].informrepair_id}",
                                       style: const TextStyle(
-                                          fontFamily: 'Itim', fontSize: 20),
+                                          fontFamily: 'Itim', fontSize: 22),
                                     ),
                                   ),
                                 ]),
                                 Row(children: [
                                   Expanded(
                                     child: Text(
-                                      "เสร็จสิ้นวันที่ ",
+                                      "วันที่แจ้งซ่อม",
                                       style: const TextStyle(
-                                          fontFamily: 'Itim', fontSize: 20),
+                                          fontFamily: 'Itim', fontSize: 22),
                                     ),
                                   ),
                                   Expanded(
                                     child: Text(
                                       "${informrepairs?[index].informdate}",
                                       style: const TextStyle(
-                                          fontFamily: 'Itim', fontSize: 20),
+                                          fontFamily: 'Itim', fontSize: 22),
                                     ),
                                   ),
                                 ]),
                                 Row(children: [
                                   Expanded(
                                     child: Text(
-                                      "สถานะ",
+                                      "สถานะ ",
                                       style: const TextStyle(
-                                          fontFamily: 'Itim', fontSize: 20),
+                                          fontFamily: 'Itim', fontSize: 22),
                                     ),
                                   ),
                                   Expanded(
                                     child: Text(
                                       "${informrepairs?[index].status}",
                                       style: const TextStyle(
-                                          fontFamily: 'Itim', fontSize: 20),
+                                          fontFamily: 'Itim', fontSize: 22),
                                     ),
                                   ),
                                 ]),
                               ],
                             ),
+                            trailing:
+                                const Icon(Icons.zoom_in, color: Colors.red),
                             onTap: () {
                               WidgetsBinding.instance!
                                   .addPostFrameCallback((_) {
                                 Navigator.pushReplacement(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (_) => ViewCompleted(
+                                      builder: (_) => View_NewItem(
                                           informrepair_id: informrepairs?[index]
                                               .informrepair_id)),
                                 );

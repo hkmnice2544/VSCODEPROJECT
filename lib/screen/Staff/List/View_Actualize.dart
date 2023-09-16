@@ -1,37 +1,39 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import '../../../controller/listinform_controller.dart';
-import '../../../controller/report_controller.dart';
-import '../../../model/Report_Model.dart';
+
+import '../../../controller/informrepair_controller.dart';
+import '../../../model/informrepair_model.dart';
 import '../../Home.dart';
 import '../../Login.dart';
-import 'List_InformCompleted.dart';
-import 'List_NewItem.dart';
-import 'ListInformRepair.dart';
+import '../../User/ListInformRepair/ListInformRepair.dart';
+import 'ListManage.dart';
+import 'List_NewInform.dart';
 
-class ViewCompleted extends StatefulWidget {
-  final int? report_id;
-  const ViewCompleted({
+class ViewActualize extends StatefulWidget {
+  final int? informrepair_id;
+  const ViewActualize({
     super.key,
-    this.report_id,
+    this.informrepair_id,
+    int? report_id,
   });
 
   @override
-  State<ViewCompleted> createState() => _ViewResultState();
+  State<ViewActualize> createState() => _ViewViewActualizeState();
 }
 
-class _ViewResultState extends State<ViewCompleted> {
-  final ReportController reportController = ReportController();
+class _ViewViewActualizeState extends State<ViewActualize> {
+  final InformRepairController informRepairController =
+      InformRepairController();
 
-  ReportRepair? reportRepair;
+  InformRepair? informRepair = null;
 
   bool? isDataLoaded = false;
   String formattedDate = '';
   DateTime informdate = DateTime.now();
 
-  void getInform(int report_id) async {
-    reportRepair = await reportController.getReportRepair(report_id);
-    print("getInform : ${reportRepair?.report_id}");
+  void getInform(int informrepair_id) async {
+    informRepair = await informRepairController.getInform(informrepair_id);
+    print("getInform : ${informRepair?.informrepair_id}");
     setState(() {
       isDataLoaded = true;
     });
@@ -40,8 +42,8 @@ class _ViewResultState extends State<ViewCompleted> {
   @override
   void initState() {
     super.initState();
-    if (widget.report_id != null) {
-      getInform(widget.report_id!);
+    if (widget.informrepair_id != null) {
+      getInform(widget.informrepair_id!);
     }
     DateTime now = DateTime.now();
     formattedDate = DateFormat('dd-MM-yyyy').format(now);
@@ -69,7 +71,6 @@ class _ViewResultState extends State<ViewCompleted> {
           },
         ),
       ),
-      backgroundColor: Colors.white,
       bottomNavigationBar: BottomAppBar(
         color: Color.fromARGB(255, 245, 59, 59),
         height: 50,
@@ -125,6 +126,7 @@ class _ViewResultState extends State<ViewCompleted> {
               )
             ]),
       ),
+      backgroundColor: Colors.white,
       body:
 
           // isDataLoaded == false?
@@ -135,7 +137,7 @@ class _ViewResultState extends State<ViewCompleted> {
           child: Column(children: [
             Center(
               child: Text(
-                "รายละเอียดผลการซ่อม",
+                "รายละเอียด",
                 style: TextStyle(
                   color: Color.fromARGB(255, 7, 94, 53),
                   fontSize: 40,
@@ -163,7 +165,7 @@ class _ViewResultState extends State<ViewCompleted> {
                 ),
                 Expanded(
                   child: Text(
-                    "${reportRepair?.informRepair?.informrepair_id}",
+                    "${informRepair?.informrepair_id}",
                     style: TextStyle(
                       color: Colors.black,
                       fontSize: 20,
@@ -187,7 +189,7 @@ class _ViewResultState extends State<ViewCompleted> {
                 ),
                 Expanded(
                   child: Text(
-                    "${reportRepair?.informRepair?.informdate}",
+                    "${informRepair?.informdate}",
                     style: TextStyle(
                       color: Colors.black,
                       fontSize: 20,
@@ -201,7 +203,7 @@ class _ViewResultState extends State<ViewCompleted> {
               children: [
                 Expanded(
                   child: Text(
-                    "เสร็จสิ้นวันที่  :",
+                    "ประเภทห้องน้ำ   :",
                     style: TextStyle(
                       color: Colors.black,
                       fontSize: 20,
@@ -211,7 +213,11 @@ class _ViewResultState extends State<ViewCompleted> {
                 ),
                 Expanded(
                   child: Text(
-                    "${reportRepair?.enddate}",
+                    informRepair?.equipment?.rooms != null
+                        ? informRepair!.equipment!.rooms!
+                            .map((room) => room.roomname!)
+                            .join(', ')
+                        : 'N/A',
                     style: TextStyle(
                       color: Colors.black,
                       fontSize: 20,
@@ -225,7 +231,7 @@ class _ViewResultState extends State<ViewCompleted> {
               children: [
                 Expanded(
                   child: Text(
-                    "รายละเอียด",
+                    "อาคาร   :",
                     style: TextStyle(
                       color: Colors.black,
                       fontSize: 20,
@@ -235,7 +241,11 @@ class _ViewResultState extends State<ViewCompleted> {
                 ),
                 Expanded(
                   child: Text(
-                    "${reportRepair?.details}",
+                    informRepair?.equipment?.rooms != null
+                        ? informRepair!.equipment!.rooms!
+                            .map((room) => room.building?.buildingname ?? 'N/A')
+                            .join(', ')
+                        : 'N/A',
                     style: TextStyle(
                       color: Colors.black,
                       fontSize: 20,
@@ -249,7 +259,7 @@ class _ViewResultState extends State<ViewCompleted> {
               children: [
                 Expanded(
                   child: Text(
-                    "ผู้ซ่อม   :",
+                    "ชั้น   :",
                     style: TextStyle(
                       color: Colors.black,
                       fontSize: 20,
@@ -259,7 +269,11 @@ class _ViewResultState extends State<ViewCompleted> {
                 ),
                 Expanded(
                   child: Text(
-                    "${reportRepair?.repairer}",
+                    informRepair?.equipment?.rooms != null
+                        ? informRepair!.equipment!.rooms!
+                            .map((room) => room.floor ?? 'N/A')
+                            .join(', ')
+                        : 'N/A',
                     style: TextStyle(
                       color: Colors.black,
                       fontSize: 20,
@@ -273,7 +287,7 @@ class _ViewResultState extends State<ViewCompleted> {
               children: [
                 Expanded(
                   child: Text(
-                    "สถานะ   :",
+                    "ตำแหน่ง   :",
                     style: TextStyle(
                       color: Colors.black,
                       fontSize: 20,
@@ -283,7 +297,11 @@ class _ViewResultState extends State<ViewCompleted> {
                 ),
                 Expanded(
                   child: Text(
-                    "${reportRepair?.informRepair?.status}",
+                    informRepair?.equipment?.rooms != null
+                        ? informRepair!.equipment!.rooms!
+                            .map((room) => room.position ?? 'N/A')
+                            .join(', ')
+                        : 'N/A',
                     style: TextStyle(
                       color: Colors.black,
                       fontSize: 20,
@@ -293,42 +311,98 @@ class _ViewResultState extends State<ViewCompleted> {
                 ),
               ],
             ),
-            Padding(
-              padding: const EdgeInsets.fromLTRB(0, 20, 0, 0),
-              child: Row(
-                children: [
-                  Expanded(
-                    child: ElevatedButton(
-                      onPressed: () {
-                        Navigator.push(context, MaterialPageRoute(
-                          builder: (context) {
-                            return ListInformRepair();
-                          },
-                        ));
-                      },
-                      style: ElevatedButton.styleFrom(
-                        primary: Color.fromARGB(255, 234, 112, 5),
-                        textStyle: TextStyle(
-                            color: Color.fromARGB(255, 255, 255, 255)),
-                        padding:
-                            EdgeInsets.symmetric(horizontal: 40, vertical: 20),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                      ),
-                      child: Text(
-                        'ย้อนกลับ',
-                        style: TextStyle(
-                            color: Color.fromARGB(255, 255, 255, 255)),
-                      ),
+            Row(
+              children: [
+                Text(
+                  "อุปกรณ์ชำรุด",
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ],
+            ),
+            Row(
+              children: [
+                Text(
+                  "-----------------------------------",
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ],
+            ),
+            Row(
+              children: [
+                Text(
+                  "${informRepair?.equipment?.equipmentname}",
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ],
+            ),
+            Row(
+              children: [
+                Expanded(
+                  child: Text(
+                    "รายละเอียด   :",
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
                     ),
                   ),
-                ],
-              ),
+                ),
+                Expanded(
+                  child: Text(
+                    "${informRepair?.informdetails}",
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+              ],
             ),
           ]),
         ),
       ),
+      floatingActionButton: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Container(
+            width: 120, // Set the width of the button here
+            child: FloatingActionButton.extended(
+              label: Text(
+                "ย้อนกลับ",
+                style: TextStyle(color: Colors.white),
+              ),
+              onPressed: () async {
+                // var response = await reviewController.addReview(
+                //   reviewer,
+                //   _rating != null ? _rating.toString() : "", // แปลง _rating เป็น String
+                //   textEditingController.text,
+                // );
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) {
+                    return ListManage();
+                  }),
+                );
+              },
+            ),
+          ),
+          SizedBox(width: 10), // ระยะห่างระหว่างปุ่ม
+        ],
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     ));
   }
 }
