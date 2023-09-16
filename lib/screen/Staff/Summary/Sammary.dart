@@ -10,9 +10,11 @@ import 'package:intl/intl.dart';
 import '../../../model/informrepair_model.dart';
 import '../../Home.dart';
 import '../../Login.dart';
+import 'package:table_calendar/table_calendar.dart';
 
 class Sammary extends StatefulWidget {
   const Sammary({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -57,6 +59,9 @@ class Sammary extends StatefulWidget {
 }
 
 class Form extends State<Sammary> {
+  CalendarFormat _calendarFormat = CalendarFormat.month;
+  DateTime _focusedDay = DateTime.now();
+  DateTime? _selectedDay;
   //dropdown----------------------------------
   Form() {
     _selectedStatus = null;
@@ -134,6 +139,7 @@ class Form extends State<Sammary> {
   String? buildingname;
   Building? building;
   DateTime Date = DateTime.now();
+  DateTime? _selectedDate;
 
   final InformRepairController informrepairController =
       InformRepairController();
@@ -312,45 +318,72 @@ class Form extends State<Sammary> {
               ),
             ],
           ),
-          Row(
-            children: [
-              Expanded(
-                child: Padding(
-                  padding: EdgeInsets.fromLTRB(0.0, 0, 0, 0), //
-                  child: Text(
-                    "ปี :",
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-              ),
-              Expanded(
-                child: DropdownButton(
-                  isExpanded: true,
-                  value: _selectedYear,
-                  items: _YaerList.map((e) => DropdownMenuItem(
-                        child: Text(e),
-                        value: e,
-                      )).toList(),
-                  onChanged: (val) {
-                    setState(() {
-                      _selectedYear = val as String?;
-                      _selectedTomon =
-                          null; // รีเซ็ตค่า _selectedTomon เป็น null เมื่อเลือกเปลี่ยน _selectedYear
-                    });
-                  },
-                  icon: const Icon(
-                    Icons.arrow_drop_down_circle,
-                    color: Colors.red,
-                  ),
-                  dropdownColor: Colors.white,
-                ),
-              ),
-            ],
-          ),
+          Text(
+  _selectedDate != null
+      ? "วันที่ที่เลือก: ${DateFormat('dd/MM/yyyy').format(_selectedDate!)}"
+      : "เลือกวันที่",
+  style: TextStyle(
+    color: Color.fromARGB(255, 7, 94, 53),
+    fontSize: 22,
+    fontWeight: FontWeight.bold,
+  ),
+),
+ElevatedButton(
+  onPressed: () {
+    showDatePicker(
+      context: context,
+      initialDate: _selectedDate ?? DateTime.now(),
+      firstDate: DateTime(2023, 1, 1), // กำหนดวันแรกของปีที่คุณต้องการ
+      lastDate: DateTime(2023, 12, 31), // กำหนดวันสุดท้ายของปีที่คุณต้องการ
+    ).then((pickedDate) {
+      if (pickedDate != null) {
+        setState(() {
+          _selectedDate = pickedDate;
+        });
+      }
+    });
+  },
+  child: Text("เลือกวันที่"),
+),
+          // Row(
+          //   children: [
+          //     Expanded(
+          //       child: Padding(
+          //         padding: EdgeInsets.fromLTRB(0.0, 0, 0, 0), //
+          //         child: Text(
+          //           "ปี :",
+          //           style: TextStyle(
+          //             color: Colors.black,
+          //             fontSize: 20,
+          //             fontWeight: FontWeight.bold,
+          //           ),
+          //         ),
+          //       ),
+          //     ),
+          //     Expanded(
+          //       child: DropdownButton(
+          //         isExpanded: true,
+          //         value: _selectedYear,
+          //         items: _YaerList.map((e) => DropdownMenuItem(
+          //               child: Text(e),
+          //               value: e,
+          //             )).toList(),
+          //         onChanged: (val) {
+          //           setState(() {
+          //             _selectedYear = val as String?;
+          //             _selectedTomon =
+          //                 null; // รีเซ็ตค่า _selectedTomon เป็น null เมื่อเลือกเปลี่ยน _selectedYear
+          //           });
+          //         },
+          //         icon: const Icon(
+          //           Icons.arrow_drop_down_circle,
+          //           color: Colors.red,
+          //         ),
+          //         dropdownColor: Colors.white,
+          //       ),
+          //     ),
+          //   ],
+          // ),
           Row(
             children: [
               Expanded(
@@ -562,5 +595,3 @@ class Form extends State<Sammary> {
         ]));
   }
 }
-
-class $ {}
