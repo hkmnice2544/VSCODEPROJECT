@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutterr/screen/Home.dart';
+import 'package:flutterr/screen/HomeStaff.dart';
 import 'package:flutterr/screen/Long/Detail.dart';
 import 'package:flutterr/screen/Long/Homeee.dart';
 import 'package:flutterr/screen/Staff/List/ListManage.dart';
@@ -19,7 +20,7 @@ class MainApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: ListManage(),
+      home: HomeStaff(),
       theme: ThemeData(
         primarySwatch: Colors.orange,
       ),
