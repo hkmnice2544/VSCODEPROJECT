@@ -9,16 +9,14 @@ import '../model/Report_Model.dart';
 class ReportController {
   ReportRepair? reportRepair;
 
-  Future addReport(
-    String repairer,
-    String details,
-    int informrepair_id,
-  ) async {
+  Future addReport(String repairer, String details, int informrepair_id,
+      String status) async {
     Map data = {
       // "informdate" : informdate,
       "repairer": repairer,
       "details": details,
       "informrepair_id": informrepair_id,
+      "status": status,
     };
 
     var body = json.encode(data);
@@ -30,6 +28,31 @@ class ReportController {
     var jsonResponse = jsonDecode(response.body);
     print(jsonResponse);
     // print("addInformRepair: ${informRepair!.informdate}");
+  }
+
+  Future updateReport(
+    int report_id,
+    String repairer,
+    String details,
+    int informrepair_id,
+    String status,
+  ) async {
+    Map data = {
+      "report_id": report_id,
+      "repairer": repairer,
+      "details": details,
+      "informrepair_id": informrepair_id,
+      "status": status,
+    };
+
+    var body = json.encode(data);
+    var url = Uri.parse('$baseURL/reportrepairs/update');
+
+    http.Response response = await http.put(url, headers: headers, body: body);
+    //print(response.statusCode);
+
+    var jsonResponse = jsonDecode(response.body);
+    print(jsonResponse);
   }
 
   Future getReportRepair(int report_id) async {

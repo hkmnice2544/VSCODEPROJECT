@@ -466,9 +466,11 @@ class _ReportInformState extends State<ReportInform> {
                 var response = await reportController.addReport(
                     _dropdownrepairer.toString(),
                     detailsTextController.text,
-                    informRepair!.informrepair_id as int
+                    informRepair!.informrepair_id as int,
+                    _dropdownstatus.toString()
                     // แปลง _rating เป็น String
                     );
+
                 Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) {
