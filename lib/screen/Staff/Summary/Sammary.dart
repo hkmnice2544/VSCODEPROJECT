@@ -28,17 +28,12 @@ class Form extends State<Sammary> {
   String? _selectedThisMon;
   String? _selectedTomon;
   final _statusList = ["ยังไม่ได้ดำเนินการ", "กำลังดำเนินการ", "เสร็จสิ้น"];
-  final _yearList = ["2023", "2022", "2021"];
-  final _thisMonList = [
-    "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"
-  ];
-  final _toMonList = [
-    "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"
-  ];
+
   String formattedDate = '';
   DateTime informdate = DateTime.now();
-  final InformRepairController informRepairController = InformRepairController();
-  TextEditingController defectiveEquipmentTextController = TextEditingController();
+
+  TextEditingController defectiveEquipmentTextController =
+      TextEditingController();
   TextEditingController informTypeTextController = TextEditingController();
   final InformRepairController informController = InformRepairController();
   Color backgroundColor = Colors.white;
@@ -93,8 +88,10 @@ class Form extends State<Sammary> {
 
   void fetchInformRepairs() async {
     informRepairs = await informRepairController.listAllInformRepairs();
-    print("getInform ปัจจุบัน : ${informRepairs?[informRepairs!.length - 1].informrepair_id}");
-    print("getInform +1 : ${(informRepairs?[informRepairs!.length - 1]?.informrepair_id ?? 0) + 1}");
+    print(
+        "getInform ปัจจุบัน : ${informRepairs?[informRepairs!.length - 1].informrepair_id}");
+    print(
+        "getInform +1 : ${(informRepairs?[informRepairs!.length - 1]?.informrepair_id ?? 0) + 1}");
     print("getDate 1 : ${informRepairs?[0].informdate}");
     setState(() {
       isDataLoaded = true;
@@ -252,6 +249,12 @@ class Form extends State<Sammary> {
                   onChanged: (val) {
                     setState(() {
                       _selectedStatus = val as String?;
+                      if (_selectedStatus != null) {
+                        informRepairs = informRepairs!
+                            .where((informRepair) =>
+                                informRepair.status == _selectedStatus)
+                            .toList();
+                      }
                     });
                   },
                   icon: const Icon(
@@ -377,8 +380,8 @@ class Form extends State<Sammary> {
                                   Expanded(
                                     child: Text(
                                       informRepair.informdate != null
-                                          ? DateFormat('dd/MM/yyyy').format(
-                                              informRepair.informdate!)
+                                          ? DateFormat('dd/MM/yyyy')
+                                              .format(informRepair.informdate!)
                                           : "N/A",
                                       style: const TextStyle(
                                         fontFamily: 'Itim',
@@ -401,7 +404,7 @@ class Form extends State<Sammary> {
                                   ),
                                   Expanded(
                                     child: Text(
-                                      informRepair.status,
+                                      informRepair.status as String,
                                       style: const TextStyle(
                                         fontFamily: 'Itim',
                                         fontSize: 22,
@@ -413,8 +416,7 @@ class Form extends State<Sammary> {
                             ],
                           ),
                           onTap: () {
-                            WidgetsBinding.instance!
-                                .addPostFrameCallback((_) {
+                            WidgetsBinding.instance!.addPostFrameCallback((_) {
                               // Navigate to the detail page or perform other actions.
                             });
                           },
