@@ -6,9 +6,9 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:intl/intl.dart';
 
-import '../../../Model/Report_Model.dart';
 import '../../../controller/report_controller.dart';
 import '../../../controller/review_controller.dart';
+import '../../../model/Report_Model.dart';
 import '../../../model/Review_Model.dart';
 import '../../Home.dart';
 import '../../Login.dart';
@@ -223,7 +223,7 @@ class _MyWidgetState extends State<Review> {
                     ),
                     Expanded(
                       child: Text(
-                        "${reportRepair?.report_id}",
+                        "${reportRepair?.informRepair?.informrepair_id}",
                         style: TextStyle(
                           color: Colors.black,
                           fontSize: 20,

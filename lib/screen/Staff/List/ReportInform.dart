@@ -464,9 +464,11 @@ class _ReportInformState extends State<ReportInform> {
               ),
               onPressed: () async {
                 var response = await reportController.addReport(
-                  _dropdownrepairer.toString(),
-                  detailsTextController.text, // แปลง _rating เป็น String
-                );
+                    _dropdownrepairer.toString(),
+                    detailsTextController.text,
+                    informRepair!.informrepair_id as int
+                    // แปลง _rating เป็น String
+                    );
                 Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) {

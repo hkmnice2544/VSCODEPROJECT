@@ -9,17 +9,23 @@ import '../model/Report_Model.dart';
 class ReportController {
   ReportRepair? reportRepair;
 
-  Future addReport(String repairer, String details) async {
+  Future addReport(
+    String repairer,
+    String details,
+    int informrepair_id,
+  ) async {
     Map data = {
       // "informdate" : informdate,
       "repairer": repairer,
       "details": details,
+      "informrepair_id": informrepair_id,
     };
 
     var body = json.encode(data);
     var url = Uri.parse('$baseURL/reportrepairs/add');
 
     http.Response response = await http.post(url, headers: headers, body: body);
+    //print(response.statusCode);
 
     var jsonResponse = jsonDecode(response.body);
     print(jsonResponse);

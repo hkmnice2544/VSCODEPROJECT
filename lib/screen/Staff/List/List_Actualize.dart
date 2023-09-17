@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
+import 'package:flutterr/screen/Staff/List/ReportInform.dart';
 import 'package:intl/intl.dart';
 
-import '../../../Model/Report_Model.dart';
 import '../../../controller/informrepair_controller.dart';
 import '../../../controller/listinform_controller.dart';
 import '../../../model/informrepair_model.dart';
@@ -147,6 +147,18 @@ class _MyWidgetState extends State<ListActualize> {
                                   ),
                                 ]),
                               ],
+                            ),
+                            trailing: ElevatedButton(
+                              onPressed: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (_) => ReportInform(
+                                          informrepair_id: informrepairs?[index]
+                                              .informrepair_id),
+                                    ));
+                              },
+                              child: Text('รายงานผล'),
                             ),
                             onTap: () {
                               WidgetsBinding.instance!
