@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutterr/screen/Home.dart';
 
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -16,6 +17,57 @@ class _LoginState extends State<Login> {
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   bool isObscure = true;
+  Future<void> _loginUser(BuildContext context) async {
+    // เพิ่มตัวแปร context ที่รับเข้ามา
+    final username = _usernameController.text;
+    final password = _passwordController.text;
+
+    var url = Uri.parse(
+        '$baseURL/loginController/login'); // แทน URL ที่เป็นเว็บ API ของคุณ
+    var headers = {
+      'Content-Type': 'application/json; charset=UTF-8',
+    };
+    var data = {
+      'username': username,
+      'password': password,
+    };
+    var response = await http.post(
+      url,
+      headers: headers,
+      body: jsonEncode(data),
+    );
+
+    if (response.statusCode == 200) {
+      // การเข้าสู่ระบบสำเร็จ
+      // ทำการนำทางไปยังหน้าอื่นตามที่คุณต้องการ
+      Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+            builder: (context) =>
+                Home(), // YourNextPage คือหน้าที่คุณต้องการไปหลังจากเข้าสู่ระบบสำเร็จ
+          ));
+    } else {
+      print("Error");
+      print(response.statusCode);
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text('เข้าสู่ระบบล้มเหลว'),
+            content: Text('กรุณาตรวจสอบชื่อผู้ใช้และรหัสผ่านของคุณ'),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: Text('ตกลง'),
+              ),
+            ],
+          );
+        },
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -84,50 +136,12 @@ class _LoginState extends State<Login> {
                 ),
                 SizedBox(height: 16.0),
                 ElevatedButton(
-                  onPressed: () {
-                    // ดึงค่า Username และ Password จาก TextField
-                    String enteredUsername = _usernameController.text;
-                    String enteredPassword = _passwordController.text;
-
-                    // ตรวจสอบ Username และ Password ว่าตรงกับข้อมูลในระบบหรือไม่
-                    if (enteredUsername == 'mju6304106339' &&
-                        enteredPassword == 'MJU@21092001') {
-                      // ถ้าตรงกันให้นำผู้ใช้ไปยังหน้าหลักของแอป
-                      // Navigator.pushReplacement(
-                      //   context,
-                      //   MaterialPageRoute(builder: (context) => Home()),
-                      // );
-                    } else if (enteredUsername == 'staff01' &&
-                        enteredPassword == 'staff01') {
-                      // กรณีรหัสผู้ใช้และรหัสผ่านตรงกับเงื่อนไขใหม่
-                      // นำผู้ใช้ไปยังหน้าอื่นที่คุณต้องการ
-                      // Navigator.pushReplacement(
-                      //   context,
-                      //   MaterialPageRoute(builder: (context) => HomeStaff()),
-                      // );
-                    } else {
-                      showDialog(
-                        context: context,
-                        builder: (BuildContext context) {
-                          return AlertDialog(
-                            title: Text('เข้าสู่ระบบล้มเหลว'),
-                            content:
-                                Text('กรุณาตรวจสอบชื่อผู้ใช้และรหัสผ่านของคุณ'),
-                            actions: [
-                              TextButton(
-                                onPressed: () {
-                                  Navigator.of(context).pop();
-                                },
-                                child: Text('ตกลง'),
-                              ),
-                            ],
-                          );
-                        },
-                      );
-                    }
+                  onPressed: () async {
+                    await _loginUser(
+                        context); // ใช้ await เพื่อรอการเรียก _loginUser สิ้นสุด
                   },
                   child: Text('Login'),
-                ),
+                )
               ],
             ),
           ),

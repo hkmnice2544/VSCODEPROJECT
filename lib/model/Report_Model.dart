@@ -37,18 +37,18 @@ class ReportRepair {
   }
 
   factory ReportRepair.fromJsonToReportRepair(Map<String, dynamic> json) {
-    final enddateString = json["reviewdate"] as String?;
+    final enddateString = json["enddate"] as String?;
     DateTime? enddate;
 
     if (enddateString != null) {
       final inputFormat = DateFormat("yyyy-MM-dd'T'HH:mm:ss");
       final DateTime dateTime = inputFormat.parse(enddateString);
 
-      // ปรับเวลาเป็นโซนเวลาไทย (ICT - Indochina Time)
+      // กำหนดโซนเวลาไทย (ICT - Indochina Time)
       final thailandOffset = Duration(hours: 7);
       final thailandDateTime = dateTime.add(thailandOffset);
 
-      enddate = thailandDateTime; // กำหนดค่าให้กับ informdate
+      enddate = thailandDateTime; // กำหนดค่าให้กับ enddate
     }
 
     final report_id = json["report_id"] != null

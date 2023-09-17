@@ -281,7 +281,7 @@ class Form extends State<Summary> {
           Text(
             _selectedYear != null
                 ? "รายงานประจำปี $_selectedYear"
-                : "รายงานประจำปี....",
+                : "รายงานประจำปี",
             style: TextStyle(
               color: Color.fromARGB(255, 7, 94, 53),
               fontSize: 22,

@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutterr/screen/Home.dart';
 import 'package:flutterr/screen/HomeStaff.dart';
+import 'package:flutterr/screen/Login.dart';
 import 'package:flutterr/screen/Long/Detail.dart';
 import 'package:flutterr/screen/Long/Homeee.dart';
+import 'package:flutterr/screen/Long/Login.dart';
 import 'package:flutterr/screen/Staff/List/ListManage.dart';
 import 'package:flutterr/screen/User/ListInformRepair/ListInformRepair.dart';
 import 'package:intl/date_symbol_data_local.dart';
@@ -20,7 +22,7 @@ class MainApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: HomeStaff(),
+      home: Login(),
       theme: ThemeData(
         primarySwatch: Colors.orange,
       ),
