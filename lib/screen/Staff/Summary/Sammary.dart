@@ -68,7 +68,31 @@ class Form extends State<Sammary> {
       setState(() {
         _startDate = pickedStartDate;
       });
+      _updateFilteredInformRepairs();
     }
+  }
+
+  void _updateFilteredInformRepairs() {
+    setState(() {
+      if (_selectedStatus != null || _startDate != null || _endDate != null) {
+        filteredInformRepairs = informRepairs!.where((informRepair) {
+          bool statusCondition =
+              _selectedStatus == null || informRepair.status == _selectedStatus;
+          bool startDateCondition = _startDate == null ||
+              informRepair.informdate!.isAfter(_startDate!);
+          bool endDateCondition =
+              _endDate == null || informRepair.informdate!.isBefore(_endDate!);
+
+          return statusCondition && startDateCondition && endDateCondition;
+        }).toList();
+      } else {
+        // ถ้าไม่มีการเลือกสถานะหรือวันที่ ให้ใช้ข้อมูลทั้งหมด
+        filteredInformRepairs = informRepairs!;
+      }
+    });
+
+    // พิมพ์ค่าที่ได้ที่ console เพื่อตรวจสอบว่าการกรองถูกต้อง
+    print("Filtered Inform Repairs: $filteredInformRepairs");
   }
 
   Future<void> _selectEndDate(BuildContext context) async {
@@ -83,6 +107,7 @@ class Form extends State<Sammary> {
       setState(() {
         _endDate = pickedEndDate;
       });
+      _updateFilteredInformRepairs();
     }
   }
 
@@ -249,13 +274,8 @@ class Form extends State<Sammary> {
                   onChanged: (val) {
                     setState(() {
                       _selectedStatus = val as String?;
-                      if (_selectedStatus != null) {
-                        informRepairs = informRepairs!
-                            .where((informRepair) =>
-                                informRepair.status == _selectedStatus)
-                            .toList();
-                      }
                     });
+                    _updateFilteredInformRepairs(); // เรียกให้คลิกสถานะแล้วกรองข้อมูล
                   },
                   icon: const Icon(
                     Icons.arrow_drop_down_circle,
@@ -324,10 +344,14 @@ class Form extends State<Sammary> {
             child: isDataLoaded == false
                 ? CircularProgressIndicator()
                 : ListView.builder(
-                    itemCount: filteredInformRepairs.length,
+                    itemCount: _selectedStatus != null
+                        ? filteredInformRepairs.length
+                        : (informRepairs?.length ?? 0),
                     scrollDirection: Axis.vertical,
                     itemBuilder: (context, index) {
-                      final informRepair = filteredInformRepairs[index];
+                      final informRepair = _selectedStatus != null
+                          ? filteredInformRepairs[index]
+                          : informRepairs![index];
                       return Card(
                         elevation: 5,
                         shape: RoundedRectangleBorder(
