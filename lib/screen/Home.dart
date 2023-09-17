@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
+import 'package:flutterr/screen/Login.dart';
 
 import 'User/ListInformRepair/ListInformRepair.dart';
 
@@ -160,11 +161,11 @@ class Home extends StatelessWidget {
                   icon: Icon(Icons.logout),
                   color: Color.fromARGB(255, 255, 255, 255),
                   onPressed: () {
-                    // Navigator.push(context, MaterialPageRoute(
-                    //   builder: (context) {
-                    //     return Login();
-                    //   },
-                    // ));
+                    Navigator.push(context, MaterialPageRoute(
+                      builder: (context) {
+                        return Login();
+                      },
+                    ));
                   }),
               Text(
                 "       ออกจากระบบ",

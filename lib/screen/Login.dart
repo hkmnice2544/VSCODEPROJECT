@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutterr/screen/Home.dart';
+import 'package:flutterr/screen/HomeStaff.dart';
 
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -39,13 +40,26 @@ class _LoginState extends State<Login> {
 
     if (response.statusCode == 200) {
       // การเข้าสู่ระบบสำเร็จ
-      // ทำการนำทางไปยังหน้าอื่นตามที่คุณต้องการ
-      Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(
-            builder: (context) =>
-                Home(), // YourNextPage คือหน้าที่คุณต้องการไปหลังจากเข้าสู่ระบบสำเร็จ
-          ));
+      // ดึงข้อมูลผู้ใช้งานจาก response (JSON) และแปลงเป็น Map
+      final userData = json.decode(response.body);
+      final userType = userData['usertype'];
+
+      // ตรวจสอบประเภทผู้ใช้งานและนำทางไปยังหน้าที่เหมาะสม
+      if (userType == 'นักศึกษา') {
+        Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+              builder: (context) => Home(), // หน้า A
+            ));
+      } else if (userType == 'หัวหน้างานแผนกห้องน้ำ') {
+        Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+              builder: (context) => HomeStaff(), // หน้า B
+            ));
+      } else {
+        print("ประเภทผู้ใช้ไม่ถูกต้อง");
+      }
     } else {
       print("Error");
       print(response.statusCode);
