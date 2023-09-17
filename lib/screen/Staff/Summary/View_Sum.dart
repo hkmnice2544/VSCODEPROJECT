@@ -11,21 +11,20 @@ import '../../../model/informrepair_model.dart';
 import '../../Home.dart';
 import '../../Login.dart';
 
-class View_Summary extends StatefulWidget {
+class View_Sum extends StatefulWidget {
   final int? informrepair_id;
-  const View_Summary({
+  const View_Sum({
     super.key,
     this.informrepair_id,
   });
 
   @override
-  State<View_Summary> createState() => _View_SummaryState();
+  State<View_Sum> createState() => _ViewResultState();
 }
 
-class _View_SummaryState extends State<View_Summary> {
+class _ViewResultState extends State<View_Sum> {
   final InformRepairController informController = InformRepairController();
   final ReportController reportController = ReportController();
-
   InformRepair? informRepair;
   List<InformRepair>? informrepairs;
   ReportRepair? reportRepair;
@@ -51,10 +50,21 @@ class _View_SummaryState extends State<View_Summary> {
     });
   }
 
+  void getInform(int informrepair_id) async {
+    informRepair = await informController.getInform(informrepair_id);
+    print("getInform : ${informRepair?.informrepair_id}");
+    setState(() {
+      isDataLoaded = true;
+    });
+  }
+
   @override
   void initState() {
     super.initState();
     fetchlistAllInformRepairs();
+    if (widget.informrepair_id != null) {
+      getInform(widget.informrepair_id!);
+    }
     if (widget.informrepair_id != null) {
       getReportRepair(widget.informrepair_id!);
     }
@@ -384,7 +394,7 @@ class _View_SummaryState extends State<View_Summary> {
                 ),
                 Expanded(
                   child: Text(
-                    "${reportRepair?.reportdate}",
+                    "${reportRepair?.repairer}",
                     style: TextStyle(
                       color: Colors.black,
                       fontSize: 20,
@@ -400,7 +410,7 @@ class _View_SummaryState extends State<View_Summary> {
                   "อุปกรณ์ชำรุด",
                   style: TextStyle(
                     color: Colors.black,
-                    fontSize: 25,
+                    fontSize: 20,
                     fontWeight: FontWeight.bold,
                   ),
                 ),

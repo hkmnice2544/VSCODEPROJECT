@@ -1,4 +1,5 @@
 import 'dart:typed_data';
+import 'package:flutterr/screen/Staff/Summary/View_Sum.dart';
 import 'package:flutterr/screen/Staff/Summary/View_Summary.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:flutter/material.dart';
@@ -130,12 +131,6 @@ class Form extends State<Summary> {
       });
       _updateFilteredInformRepairs();
     }
-  }
-
-  void _clearStatus() {
-    setState(() {
-      _selectedStatus = null;
-    });
   }
 
   void fetchInformRepairs() async {
@@ -351,7 +346,6 @@ class Form extends State<Summary> {
               Expanded(
                 child: ElevatedButton(
                   onPressed: () {
-                    _clearStatus();
                     _selectStartDate(context);
                   },
                   child: Text(
@@ -381,7 +375,6 @@ class Form extends State<Summary> {
               Expanded(
                 child: ElevatedButton(
                   onPressed: () {
-                    _clearStatus();
                     _selectEndDate(context);
                   },
                   child: Text(
@@ -497,7 +490,7 @@ class Form extends State<Summary> {
                               Navigator.pushReplacement(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (_) => View_Summary(
+                                    builder: (_) => View_Sum(
                                         informrepair_id: informRepairs?[index]
                                             .informrepair_id)),
                               );
