@@ -32,6 +32,16 @@ class NewInform extends State<listNewInform> {
     print({informrepairs?[0].informrepair_id});
     print("ID : ${informrepairs?[informrepairs!.length - 1].informrepair_id}");
     // print(informRepairs?.defectiveequipment);
+    informrepairs?.sort((a, b) {
+      if (a.informdate == null && b.informdate == null) {
+        return 0;
+      } else if (a.informdate == null) {
+        return 1;
+      } else if (b.informdate == null) {
+        return -1;
+      }
+      return b.informdate!.compareTo(a.informdate!);
+    });
     setState(() {
       isDataLoaded = true;
     });
@@ -41,6 +51,16 @@ class NewInform extends State<listNewInform> {
   void initState() {
     super.initState();
     fetchInformRepairs();
+    informrepairs?.sort((a, b) {
+      if (a.informdate == null && b.informdate == null) {
+        return 0;
+      } else if (a.informdate == null) {
+        return 1;
+      } else if (b.informdate == null) {
+        return -1;
+      }
+      return b.informdate!.compareTo(a.informdate!);
+    });
     // formattedInformDate = DateFormat('dd-MM-yyyy')
     //     .format(informrepairs?[index].informdate); // ใช้ this.formattedInformDate
   }

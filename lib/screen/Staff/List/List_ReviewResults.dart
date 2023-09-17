@@ -27,6 +27,16 @@ class _listAllInformRepairsState extends State<listReviewResult> {
     print({reviews?[0].review_id});
     // print("ID : ${reviews?[informrepairs!.length - 1].informrepair_id}");
     // print(informRepairs?.defectiveequipment);
+    reviews?.sort((a, b) {
+      if (a.reviewdate == null && b.reviewdate == null) {
+        return 0;
+      } else if (a.reviewdate == null) {
+        return 1;
+      } else if (b.reviewdate == null) {
+        return -1;
+      }
+      return b.reviewdate!.compareTo(a.reviewdate!);
+    });
     setState(() {
       isDataLoaded = true;
     });
@@ -38,6 +48,16 @@ class _listAllInformRepairsState extends State<listReviewResult> {
     fetchReviews();
     DateTime now = DateTime.now();
     formattedDate = DateFormat('dd-MM-yyyy').format(now);
+    reviews?.sort((a, b) {
+      if (a.reviewdate == null && b.reviewdate == null) {
+        return 0;
+      } else if (a.reviewdate == null) {
+        return 1;
+      } else if (b.reviewdate == null) {
+        return -1;
+      }
+      return b.reviewdate!.compareTo(a.reviewdate!);
+    });
   }
 
   @override

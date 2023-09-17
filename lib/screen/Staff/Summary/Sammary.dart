@@ -1,4 +1,5 @@
 import 'dart:typed_data';
+import 'package:flutterr/screen/Staff/Summary/View_Summary.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -10,14 +11,14 @@ import '../../Home.dart';
 import '../../Login.dart';
 import 'package:table_calendar/table_calendar.dart';
 
-class Sammary extends StatefulWidget {
-  const Sammary({super.key});
+class Summary extends StatefulWidget {
+  const Summary({super.key});
 
   @override
   Form createState() => Form();
 }
 
-class Form extends State<Sammary> {
+class Form extends State<Summary> {
   CalendarFormat _calendarFormat = CalendarFormat.month;
   DateTime _focusedDay = DateTime.now();
   DateTime? _selectedDay;
@@ -493,7 +494,13 @@ class Form extends State<Sammary> {
                           ),
                           onTap: () {
                             WidgetsBinding.instance!.addPostFrameCallback((_) {
-                              // Navigate to the detail page or perform other actions.
+                              Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (_) => View_Summary(
+                                        informrepair_id: informRepairs?[index]
+                                            .informrepair_id)),
+                              );
                             });
                           },
                         ),
