@@ -56,6 +56,40 @@ class Form extends State<Sammary> {
   final InformRepairController informRepairController =
       InformRepairController();
 
+  void _updateFilteredInformRepairs() {
+    setState(() {
+      filteredInformRepairs = informRepairs!.where((informRepair) {
+        bool statusCondition =
+            _selectedStatus == null || _selectedStatus == informRepair.status;
+
+        // แปลงวันที่เริ่มต้นให้อยู่ในรูปแบบเวลาเริ่มต้นของวันที่
+        DateTime startDateStartOfDay = _startDate == null
+            ? DateTime(0)
+            : DateTime(
+                _startDate!.year,
+                _startDate!.month,
+                _startDate!.day,
+              );
+
+        // แปลงวันที่สิ้นสุดให้อยู่ในรูปแบบเวลาสิ้นสุดของวันที่
+        DateTime endDateEndOfDay = _endDate == null
+            ? DateTime.now().add(Duration(days: 1))
+            : DateTime(
+                _endDate!.year,
+                _endDate!.month,
+                _endDate!.day,
+              ).add(Duration(days: 1));
+
+        // ตรวจสอบว่าวันที่ใน informRepair อยู่ในช่วงของวันที่เริ่มต้นและสิ้นสุดหรือไม่
+        bool dateRangeCondition =
+            informRepair.informdate!.isAfter(startDateStartOfDay) &&
+                informRepair.informdate!.isBefore(endDateEndOfDay);
+
+        return statusCondition && dateRangeCondition;
+      }).toList();
+    });
+  }
+
   Future<void> _selectStartDate(BuildContext context) async {
     final pickedStartDate = await showDatePicker(
       context: context,
@@ -70,29 +104,6 @@ class Form extends State<Sammary> {
       });
       _updateFilteredInformRepairs();
     }
-  }
-
-  void _updateFilteredInformRepairs() {
-    setState(() {
-      if (_selectedStatus != null || _startDate != null || _endDate != null) {
-        filteredInformRepairs = informRepairs!.where((informRepair) {
-          bool statusCondition =
-              _selectedStatus == null || informRepair.status == _selectedStatus;
-          bool startDateCondition = _startDate == null ||
-              informRepair.informdate!.isAfter(_startDate!);
-          bool endDateCondition =
-              _endDate == null || informRepair.informdate!.isBefore(_endDate!);
-
-          return statusCondition && startDateCondition && endDateCondition;
-        }).toList();
-      } else {
-        // ถ้าไม่มีการเลือกสถานะหรือวันที่ ให้ใช้ข้อมูลทั้งหมด
-        filteredInformRepairs = informRepairs!;
-      }
-    });
-
-    // พิมพ์ค่าที่ได้ที่ console เพื่อตรวจสอบว่าการกรองถูกต้อง
-    print("Filtered Inform Repairs: $filteredInformRepairs");
   }
 
   Future<void> _selectEndDate(BuildContext context) async {
