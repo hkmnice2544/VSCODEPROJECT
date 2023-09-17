@@ -27,6 +27,16 @@ class _MyWidgetState extends State<InformCompleted> {
     reportRepair = await reportController.listAllReportRepairs();
     print({reportRepair?[0].report_id});
     // print(informRepairs?.defectiveequipment);
+    reportRepair?.sort((a, b) {
+      if (a.reportdate == null && b.reportdate == null) {
+        return 0;
+      } else if (a.reportdate == null) {
+        return 1;
+      } else if (b.reportdate == null) {
+        return -1;
+      }
+      return b.reportdate!.compareTo(a.reportdate!);
+    });
     setState(() {
       isDataLoaded = true;
     });
@@ -36,6 +46,16 @@ class _MyWidgetState extends State<InformCompleted> {
   void initState() {
     super.initState();
     listAllReportRepair();
+    reportRepair?.sort((a, b) {
+      if (a.reportdate == null && b.reportdate == null) {
+        return 0;
+      } else if (a.reportdate == null) {
+        return 1;
+      } else if (b.reportdate == null) {
+        return -1;
+      }
+      return b.reportdate!.compareTo(a.reportdate!);
+    });
   }
 
   @override

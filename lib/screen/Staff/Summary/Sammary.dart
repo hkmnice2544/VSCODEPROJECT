@@ -59,33 +59,32 @@ class Form extends State<Sammary> {
   void _updateFilteredInformRepairs() {
     setState(() {
       filteredInformRepairs = informRepairs!.where((informRepair) {
+        // ตรวจสอบสถานะ (ถ้าเลือกสถานะเท่านั้น)
         bool statusCondition =
             _selectedStatus == null || _selectedStatus == informRepair.status;
 
-        // แปลงวันที่เริ่มต้นให้อยู่ในรูปแบบเวลาเริ่มต้นของวันที่
-        DateTime startDateStartOfDay = _startDate == null
-            ? DateTime(0)
-            : DateTime(
-                _startDate!.year,
-                _startDate!.month,
-                _startDate!.day,
-              );
+        // ตรวจสอบว่าวันที่เริ่มต้นและสิ้นสุดอยู่ในช่วงของวันที่ใน informRepair
+        bool dateCondition = true;
 
-        // แปลงวันที่สิ้นสุดให้อยู่ในรูปแบบเวลาสิ้นสุดของวันที่
-        DateTime endDateEndOfDay = _endDate == null
-            ? DateTime.now().add(Duration(days: 1))
-            : DateTime(
-                _endDate!.year,
-                _endDate!.month,
-                _endDate!.day,
-              ).add(Duration(days: 1));
+        if (_startDate != null && _endDate != null) {
+          DateTime startDateStartOfDay = DateTime(
+            _startDate!.year,
+            _startDate!.month,
+            _startDate!.day,
+          );
 
-        // ตรวจสอบว่าวันที่ใน informRepair อยู่ในช่วงของวันที่เริ่มต้นและสิ้นสุดหรือไม่
-        bool dateRangeCondition =
-            informRepair.informdate!.isAfter(startDateStartOfDay) &&
-                informRepair.informdate!.isBefore(endDateEndOfDay);
+          DateTime endDateEndOfDay = DateTime(
+            _endDate!.year,
+            _endDate!.month,
+            _endDate!.day,
+          ).add(Duration(days: 1));
 
-        return statusCondition && dateRangeCondition;
+          dateCondition =
+              informRepair.informdate!.isAfter(startDateStartOfDay) &&
+                  informRepair.informdate!.isBefore(endDateEndOfDay);
+        }
+
+        return statusCondition && dateCondition;
       }).toList();
     });
   }
@@ -99,6 +98,11 @@ class Form extends State<Sammary> {
     );
 
     if (pickedStartDate != null) {
+      // ตั้งค่า _startDate เป็น null ก่อนเพื่อป้องกันความผิดพลาด
+      setState(() {
+        _startDate = null;
+      });
+
       setState(() {
         _startDate = pickedStartDate;
       });
@@ -115,11 +119,22 @@ class Form extends State<Sammary> {
     );
 
     if (pickedEndDate != null) {
+      // ตั้งค่า _endDate เป็น null ก่อนเพื่อป้องกันความผิดพลาด
+      setState(() {
+        _endDate = null;
+      });
+
       setState(() {
         _endDate = pickedEndDate;
       });
       _updateFilteredInformRepairs();
     }
+  }
+
+  void _clearStatus() {
+    setState(() {
+      _selectedStatus = null;
+    });
   }
 
   void fetchInformRepairs() async {
@@ -129,6 +144,16 @@ class Form extends State<Sammary> {
     print(
         "getInform +1 : ${(informRepairs?[informRepairs!.length - 1]?.informrepair_id ?? 0) + 1}");
     print("getDate 1 : ${informRepairs?[0].informdate}");
+    informRepairs?.sort((a, b) {
+      if (a.informdate == null && b.informdate == null) {
+        return 0;
+      } else if (a.informdate == null) {
+        return 1;
+      } else if (b.informdate == null) {
+        return -1;
+      }
+      return b.informdate!.compareTo(a.informdate!);
+    });
     setState(() {
       isDataLoaded = true;
     });
@@ -155,6 +180,16 @@ class Form extends State<Sammary> {
     print("getDate : ${informRepairs?[0].informdate}");
     DateTime date = DateTime.now(); // รูปแบบข้อความจากฐานข้อมูล
     // DateTime parsedDate = inputFormat.parse(informRepair!.informdate);
+    informRepairs?.sort((a, b) {
+      if (a.informdate == null && b.informdate == null) {
+        return 0;
+      } else if (a.informdate == null) {
+        return 1;
+      } else if (b.informdate == null) {
+        return -1;
+      }
+      return b.informdate!.compareTo(a.informdate!);
+    });
   }
 
   @override
@@ -314,7 +349,10 @@ class Form extends State<Sammary> {
               ),
               Expanded(
                 child: ElevatedButton(
-                  onPressed: () => _selectStartDate(context),
+                  onPressed: () {
+                    _clearStatus();
+                    _selectStartDate(context);
+                  },
                   child: Text(
                     _startDate != null
                         ? "${_startDate!.day}/${_startDate!.month}/${_startDate!.year}"
@@ -341,7 +379,10 @@ class Form extends State<Sammary> {
               ),
               Expanded(
                 child: ElevatedButton(
-                  onPressed: () => _selectEndDate(context),
+                  onPressed: () {
+                    _clearStatus();
+                    _selectEndDate(context);
+                  },
                   child: Text(
                     _endDate != null
                         ? "${_endDate!.day}/${_endDate!.month}/${_endDate!.year}"
