@@ -192,10 +192,9 @@ class _MyWidgetState extends State<Addinform> {
                         "status": "ยังไม่ได้ดำเนินการ",
                         "equipment_id": idDetail["id"],
                       };
-                      newInformData.add(informData);
                     });
 
-                    await informController.addInformRepair(newInformData);
+                    // await informController.addInformRepair(newInformData);
 
                     // หลังจากเรียกใช้ addInformRepair และเพิ่มข้อมูลรายงานเรียบร้อยแล้ว
                     // คุณสามารถเพิ่มรูปภาพโดยเรียกใช้ addPicturesToDatabase ดังนี้

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:flutterr/screen/Login.dart';
+import 'package:flutterr/screen/User/InformRepairToilet/InformRepairForm.dart';
 
 import 'User/ListInformRepair/ListInformRepair.dart';
 
@@ -205,12 +206,12 @@ class Home extends StatelessWidget {
                       color: Color.fromRGBO(255, 255, 255, 1),
                       padding: EdgeInsets.only(left: 325, top: 85, right: 20),
                       onPressed: () {
-                        // Navigator.push(
-                        //   context,
-                        //   MaterialPageRoute(builder: (context) {
-                        //     return InformRepairForm();
-                        //   }),
-                        // );
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) {
+                            return InformRepairForm();
+                          }),
+                        );
                       },
                     ),
                   ),

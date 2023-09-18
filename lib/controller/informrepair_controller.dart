@@ -13,7 +13,9 @@ class InformRepairController {
 
   get body => null;
   // Building? building;
-  Future<void> addInformRepair(List<Map<String, dynamic>> data) async {
+
+  Future<void> addInformRepair(
+      List<Map<String, dynamic>> data, String isChecked) async {
     // ทำการเพิ่มข้อมูล JSON objects ใน List ตามที่คุณรับมา
     informRepairsList.addAll(data);
 
