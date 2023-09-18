@@ -163,7 +163,7 @@ class _MyWidgetState extends State<Addinform> {
             ),
             ElevatedButton(
                 onPressed: () async {
-                  // ดึงค่า ID และรายละเอียดจาก TextField
+                  // ดึงค่า ID และรายละเอียดจาก TextField ของคุณ
                   String id1 = idController1.text;
                   String detail1 = detailController1.text;
                   String id2 = idController2.text;
@@ -184,17 +184,8 @@ class _MyWidgetState extends State<Addinform> {
                   }
 
                   if (idDetailsList.isNotEmpty) {
-                    // สร้างข้อมูล JSON จากรายการ ID และรายละเอียด
-                    List<Map<String, dynamic>> newInformData = [];
-                    idDetailsList.forEach((idDetail) {
-                      Map<String, dynamic> informData = {
-                        "informdetails": idDetail["detail"],
-                        "status": "ยังไม่ได้ดำเนินการ",
-                        "equipment_id": idDetail["id"],
-                      };
-                    });
-
-                    // await informController.addInformRepair(newInformData);
+                    // เรียกใช้ฟังก์ชันส่งข้อมูลไปยัง API
+                    // await informController.addInformRepair(idDetailsList, '');
 
                     // หลังจากเรียกใช้ addInformRepair และเพิ่มข้อมูลรายงานเรียบร้อยแล้ว
                     // คุณสามารถเพิ่มรูปภาพโดยเรียกใช้ addPicturesToDatabase ดังนี้

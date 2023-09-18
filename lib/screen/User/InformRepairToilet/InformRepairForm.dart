@@ -5,7 +5,9 @@ import 'package:flutterr/constant/constant_value.dart';
 import 'package:flutterr/model/Room_Model.dart';
 import 'package:flutterr/screen/Home.dart';
 import 'package:flutterr/screen/Login.dart';
+import 'package:flutterr/screen/Staff/List/ListManage.dart';
 import 'package:flutterr/screen/User/InformRepairToilet/ResultInformRepair.dart';
+import 'package:flutterr/screen/User/ListInformRepair/List_NewItem.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:flutter/material.dart';
 
@@ -72,34 +74,32 @@ class Form extends State<InformRepairForm> {
   final InformRepairController informController = InformRepairController();
 
 //dropdown----------------------------------
-  Form() {
-    //dropdown
-    _dropdowninformtype = rooms?[0].roomname; //ประเภทห้องน้ำ
-    _dropdownbuildngname = buildings?[0].buildingname; //ประเภทอาคาร
-    _dropdownfloor = _floorList[0]; //ชั้น
-    _dropdownposition = _positionList[0]; //ตำแหน่ง
-  }
-
-  String? _dropdowninformtype; //ประเภทห้องน้ำ
-  String? _dropdownbuildngname = ""; //ประเภทอาคาร
-  String? _dropdownfloor = ""; //ชั้น
-  String? _dropdownposition = ""; //ตำแหน่ง
-
-  final _floorList = ["1", "2", "3", "4"]; //ชั้น
-  final _positionList = ["ข้างลิฟท์", "ข้างบันได"]; //ตำแหน่ง
 
 //CheckBox----------------------------------
-  bool? _tapCheckBox = false; //ก๊อกน้ำ
-  bool? _toiletbowlCheckBox = false; //โถชักโครก
-  bool? _bidetCheckBox = false; //สายชำระ
-  bool? _urinalCheckBox = false; //โถฉี่ชาย
-  bool? _sinkCheckBox = false; //อ่างล้างมือ
-  bool? _lightbulbCheckBox = false; //หลอดไฟ
-  bool? _otherCheckBox = false; //อื่นๆ
+  // bool? _tapCheckBox = false; //ก๊อกน้ำ
+  // bool? _toiletbowlCheckBox = false; //โถชักโครก
+  // bool? _bidetCheckBox = false; //สายชำระ
+  // bool? _urinalCheckBox = false; //โถฉี่ชาย
+  // bool? _sinkCheckBox = false; //อ่างล้างมือ
+  // bool? _lightbulbCheckBox = false; //หลอดไฟ
+  // bool? _otherCheckBox = false; //อื่นๆ
+
+  TextEditingController detailController1 = TextEditingController();
+  TextEditingController detailController2 = TextEditingController();
+  TextEditingController detailController3 = TextEditingController();
+  TextEditingController idController1 = TextEditingController();
+  TextEditingController idController2 = TextEditingController();
+  TextEditingController idController3 = TextEditingController();
+  TextEditingController imageController1 = TextEditingController();
+
+  int equip_id = 1002;
+  int user_id = 1001;
 
   Color backgroundColor = Colors.white;
-  TextEditingController textEditingController = TextEditingController();
-  String isChecked = '';
+  TextEditingController _tapCheckBoxController = TextEditingController();
+  TextEditingController _toiletbowlBoxController = TextEditingController();
+  String _tapCheckBox = '';
+  String _toiletbowlCheckBox = '';
   List<InformRepair>? informrepairs;
   bool? isDataLoaded = false;
   InformRepair? informRepairs;
@@ -561,11 +561,12 @@ class Form extends State<InformRepairForm> {
                 Row(
                   children: [
                     Checkbox(
-                      value: isChecked == 'ก๊อกน้ำ',
+                      value: _tapCheckBox == 'ก๊อกน้ำ',
                       onChanged: (bool? value) {
                         setState(() {
-                          isChecked = value != null && value ? 'ก๊อกน้ำ' : '';
-                          print(isChecked);
+                          _tapCheckBox =
+                              value != null && value ? 'ก๊อกน้ำ' : '';
+                          print(_tapCheckBox);
                         });
                       },
                     ),
@@ -573,49 +574,114 @@ class Form extends State<InformRepairForm> {
                     Text('ก๊อกน้ำ'),
                   ],
                 ),
+                if (_tapCheckBox.isNotEmpty) ...[
+                  TextField(
+                    controller: _tapCheckBoxController,
+                    decoration: InputDecoration(
+                      labelText: 'รายละเอียด',
+                    ),
+                    onChanged: (value) {
+                      if (_tapCheckBox == "") {
+                        _tapCheckBoxController.clear(); // ล้างค่าใน TextField
+                      }
+                    },
+                  ),
+                ],
+                Row(
+                  children: [
+                    Checkbox(
+                      value: _toiletbowlCheckBox == 'โถชักโครก',
+                      onChanged: (bool? value) {
+                        setState(() {
+                          _toiletbowlCheckBox =
+                              value != null && value ? 'โถชักโครก' : '';
+                          print(_toiletbowlCheckBox);
+                        });
+                      },
+                    ),
+                    Icon(Icons.add_circle),
+                    Text('โถชักโครก'),
+                  ],
+                ),
+                if (_toiletbowlCheckBox.isNotEmpty) ...[
+                  TextField(
+                    controller: _toiletbowlBoxController,
+                    decoration: InputDecoration(
+                      labelText: 'รายละเอียด',
+                    ),
+                    onChanged: (value) {
+                      if (_tapCheckBox == "") {
+                        _toiletbowlBoxController.clear(); // ล้างค่าใน TextField
+                      }
+                    },
+                  ),
+                ],
+                TextField(
+                  controller: idController1,
+                  decoration: InputDecoration(
+                    labelText: 'informdetails',
+                  ),
+                  onChanged: (value) {},
+                ),
+                TextField(
+                  controller: detailController1,
+                  decoration: InputDecoration(
+                    labelText: 'status',
+                  ),
+                  onChanged: (value) {},
+                ),
+                TextField(
+                  controller: idController2,
+                  decoration: InputDecoration(
+                    labelText: 'equipment_id',
+                  ),
+                  onChanged: (value) {},
+                ),
+                TextField(
+                  controller: detailController2,
+                  decoration: InputDecoration(
+                    labelText: 'user_id',
+                  ),
+                  onChanged: (value) {},
+                ),
 
                 Row(// Button Click
                     children: [
                   Expanded(
                     child: ElevatedButton(
                         onPressed: () async {
-                          // InformRepair informRepairs = InformRepair();
-                          // informRepairs.informtype = _dropdowninformtype!;
-                          // informRepairs.tap = isChecked;
-                          // informRepairs.informdetails = textEditingController;
+                          String detail1 = idController1.text;
+                          int e = 1002;
+                          int u = 1001;
 
-                          // var response = await informRepairController.addInformRepair(_dropdowninformtype?? "",isChecked,textEditingController.text);
-                          Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
-                                builder: (_) => MyResult(
-                                    informrepair_id: (informrepairs?[
-                                                    informrepairs!.length - 1]
-                                                ?.informrepair_id ??
-                                            0) +
-                                        1)),
-                          );
-                          print("object");
+                          // สร้างรายการ ID และรายละเอียดที่มีค่าไม่เป็นว่าง
+                          List<Map<String, String>> idDetailsList = [];
+                          if (detail1.isNotEmpty) {
+                            idDetailsList.add({
+                              "informdetails": detail1,
+                              "status": "ยังไม่ได้ดำเนินการ",
+                              "equipment_id": e.toString(),
+                              "user_id": u.toString()
+                            });
+                          }
 
-                          // InformRepair informRepair = InformRepair();
-                          // informRepair.informtype = _dropdowninformtype!;
-                          // informRepair.buildngname = _dropdownbuildngname!;
-                          // informRepair.floor = _dropdownfloor!;
-                          // informRepair.position = _dropdownposition!;
-                          // informRepair.tap = _tapCheckBox!;
-                          // informRepair.toiletbowl = _toiletbowlCheckBox!;
-                          // informRepair.bidet = _bidetCheckBox!;
-                          // informRepair.urinal = _urinalCheckBox!;
-                          // informRepair.sink = _sinkCheckBox!;
-                          // informRepair.lightbulb = _lightbulbCheckBox!;
-                          // informRepair.other = _otherCheckBox!;
+                          if (idDetailsList.isNotEmpty) {
+                            // เรียกใช้ addInformRepair ด้วยข้อมูลที่เตรียมไว้
+                            var response = await informController
+                                .addInformRepair(idDetailsList);
 
-                          // informrepairDetails.informtype = _dropdowninformtype!;
-                          // Navigator.push(context,MaterialPageRoute(builder: (context){
-                          //   return MyResult(informRepair: informRepair,);
-                          // }));
-
-                          // Navigator.pushNamed(context, '/one');
+                            // หลังจากส่งข้อมูลไปยังเซิร์ฟเวอร์เรียบร้อยแล้ว
+                            // คุณสามารถนำผู้ใช้ไปยังหน้า ListManage หรือทำอย่างอื่นตามที่ต้องการ
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) {
+                                return ListManage();
+                              }),
+                            );
+                          } else {
+                            // ไม่มีข้อมูลที่ถูกส่งไปยังเซิร์ฟเวอร์
+                            // คุณอาจต้องจัดการกรณีนี้ตามที่คุณต้องการ
+                          }
                         },
                         style: ElevatedButton.styleFrom(
                           primary: Color.fromARGB(
@@ -640,9 +706,6 @@ class Form extends State<InformRepairForm> {
                   Expanded(
                     child: ElevatedButton(
                         onPressed: () async {
-                          // var response = await informController.addInformRepair(todoHeaderTextController.text);
-
-                          // informrepairDetails.informtype = _dropdowninformtype!;
                           Navigator.push(context,
                               MaterialPageRoute(builder: (context) {
                             return Home();

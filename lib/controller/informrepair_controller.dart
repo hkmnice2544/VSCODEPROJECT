@@ -16,31 +16,22 @@ class InformRepairController {
   Building? building;
   Room? room;
 
-  Future<void> addInformRepair(
-      List<Map<String, dynamic>> data, String isChecked) async {
-    // ทำการเพิ่มข้อมูล JSON objects ใน List ตามที่คุณรับมา
-    informRepairsList.addAll(data);
-
-    // หลังจากเพิ่มข้อมูลใน List แล้วคุณสามารถทำส่วนอื่น ๆ ที่ต้องการดังนั้น
-    // เช่น ส่งข้อมูลไปยังเซิร์ฟเวอร์หรือทำการอัปเดต UI ในแอปพลิเคชันของคุณ
-    // ตามความต้องการ
-
-    // เรียกใช้ฟังก์ชันส่งข้อมูลไปยังเซิร์ฟเวอร์ (ตามความต้องการ)
-    await sendDataToServer(data);
-  }
-
-  Future<void> sendDataToServer(List<Map<String, dynamic>> data) async {
-    var body = json.encode(data);
+  Future<void> addInformRepair(List<Map<String, String>> data) async {
     var url = Uri.parse('$baseURL/informrepairs/add');
+    var headers = {"Content-Type": "application/json"};
 
-    http.Response response = await http.post(url, headers: headers, body: body);
-    if (response.statusCode == 200) {
-      var jsonResponse = jsonDecode(response.body);
-      print(jsonResponse);
-      // คุณอาจจะต้องดำเนินการเพิ่มเติมหรือแสดงผลลัพธ์ตามที่คุณต้องการ
-    } else {
-      // จัดการข้อผิดพลาดในการส่งข้อมูลไปยังเซิร์ฟเวอร์
-      print("เกิดข้อผิดพลาดในการส่งข้อมูล: ${response.statusCode}");
+    try {
+      http.Response response =
+          await http.post(url, headers: headers, body: jsonEncode(data));
+
+      if (response.statusCode == 200) {
+        var jsonResponse = jsonDecode(response.body);
+        print(jsonResponse);
+      } else {
+        print("เกิดข้อผิดพลาดในการส่งข้อมูล: ${response.statusCode}");
+      }
+    } catch (e) {
+      print("เกิดข้อผิดพลาด: $e");
     }
   }
 
@@ -151,24 +142,25 @@ class InformRepairController {
     return list;
   }
 
-  Future<List<Room>> listAllRoomNames() async {
+  Future<List<Room>> listAllRooms() async {
     var url = Uri.parse(baseURL + '/rooms/listAllDistinctRoomNames');
 
     try {
-      final response = await http.post(url, headers: headers);
+      http.Response response = await http.post(url, headers: headers);
+      print(response.body);
 
-      if (response.statusCode == 200) {
-        final List<dynamic> jsonList =
-            json.decode(utf8.decode(response.bodyBytes));
-        final List<Room> rooms = jsonList.map((jsonData) {
-          return Room.fromJsonToRoom(jsonData); // แปลง JSON เป็น Room object
-        }).toList();
-        return rooms;
-      } else {
-        // ถ้าเซิร์ฟเวอร์ตอบกลับไม่สำเร็จ
-        print('Failed to load room data. Status code: ${response.statusCode}');
-        return [];
+      List<Room> list = [];
+
+      final utf8body = utf8.decode(response.bodyBytes);
+      final jsonList = json.decode(utf8body) as List<dynamic>;
+
+      for (final jsonData in jsonList) {
+        final room =
+            Room.fromJsonToRoom(jsonData); // แปลง JSON เป็น Room object
+        list.add(room);
       }
+
+      return list;
     } catch (e) {
       // ในกรณีที่เกิดข้อผิดพลาด
       print('Error fetching room data: $e');
