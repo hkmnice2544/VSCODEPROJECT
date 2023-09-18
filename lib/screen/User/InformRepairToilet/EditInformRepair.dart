@@ -530,7 +530,7 @@ class Form extends State<EditInformRepairs> {
                           Navigator.pushReplacement(
                             context,
                             MaterialPageRoute(
-                                builder: (_) => MyResult(
+                                builder: (_) => ResultInformRepair(
                                     informrepair_id:
                                         (informRepair?.informrepair_id))),
                           );
@@ -584,7 +584,7 @@ class Form extends State<EditInformRepairs> {
                           Navigator.pushReplacement(
                             context,
                             MaterialPageRoute(
-                                builder: (_) => MyResult(
+                                builder: (_) => ResultInformRepair(
                                     informrepair_id:
                                         (informRepair?.informrepair_id))),
                           );

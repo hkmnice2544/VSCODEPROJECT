@@ -9,9 +9,9 @@ import 'package:intl/intl.dart';
 import '../../../controller/informrepair_controller.dart';
 import '../../../model/informrepair_model.dart';
 
-class MyResult extends StatefulWidget {
+class ResultInformRepair extends StatefulWidget {
   final int? informrepair_id;
-  const MyResult({
+  const ResultInformRepair({
     super.key,
     this.informrepair_id,
   });
@@ -21,10 +21,10 @@ class MyResult extends StatefulWidget {
 // InformRepair informRepairs;
 
   @override
-  State<MyResult> createState() => _MyResultState();
+  State<ResultInformRepair> createState() => _MyResultState();
 }
 
-class _MyResultState extends State<MyResult> {
+class _MyResultState extends State<ResultInformRepair> {
   bool isChecked = false;
 
   String formattedDate = '';
@@ -227,7 +227,11 @@ class _MyResultState extends State<MyResult> {
                 ),
                 Expanded(
                   child: Text(
-                    "${informRepair?.informtype}",
+                    informRepair?.equipment?.rooms != null
+                        ? informRepair!.equipment!.rooms!
+                            .map((room) => room.roomname!)
+                            .join(', ')
+                        : 'N/A',
                     style: TextStyle(
                       color: Colors.black,
                       fontSize: 20,
@@ -237,49 +241,90 @@ class _MyResultState extends State<MyResult> {
                 ),
               ],
             ),
-            //     Row(
-            //       children: [
-            //         Expanded(
-            //       child: Text
-            //         ("อาคาร   :",
-            //         style: TextStyle(color: Colors.black,fontSize: 20,fontWeight: FontWeight.bold,),
-            //         ),),
-            //         Expanded(
-            //       child: Text
-            //         (informRepair.buildngname,
-            //         style: TextStyle(color: Colors.black,fontSize: 20,fontWeight: FontWeight.bold,),
-            //         ),),
-            //       ],
-            //     ),
-            //     Row(
-            //       children: [
-            //         Expanded(
-            //       child: Text
-            //         ("ชั้น   :",
-            //         style: TextStyle(color: Colors.black,fontSize: 20,fontWeight: FontWeight.bold,),
-            //         ),),
-            //         Expanded(
-            //       child: Text
-            //         (informRepair.floor,
-            //         style: TextStyle(color: Colors.black,fontSize: 20,fontWeight: FontWeight.bold,),
-            //         ),),
-            //       ],
-            //     ),
-            //     Row(
-            //       children: [
-            //         Expanded(
-            //       child: Text
-            //         ("ตำแหน่ง   :",
-            //         style: TextStyle(color: Colors.black,fontSize: 20,fontWeight: FontWeight.bold,),
-            //         ),),
-            //         Expanded(
-            //       child: Text
-            //         (informRepair.position,
-            //         style: TextStyle(color: Colors.black,fontSize: 20,fontWeight: FontWeight.bold,),
-            //         ),),
-
-            //       ],
-            //     ),
+            Row(
+              children: [
+                Expanded(
+                  child: Text(
+                    "อาคาร   :",
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+                Expanded(
+                  child: Text(
+                    informRepair?.equipment?.rooms != null
+                        ? informRepair!.equipment!.rooms!
+                            .map((room) => room.building?.buildingname ?? 'N/A')
+                            .join(', ')
+                        : 'N/A',
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            Row(
+              children: [
+                Expanded(
+                  child: Text(
+                    "ชั้น   :",
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+                Expanded(
+                  child: Text(
+                    informRepair?.equipment?.rooms != null
+                        ? informRepair!.equipment!.rooms!
+                            .map((room) => room.floor ?? 'N/A')
+                            .join(', ')
+                        : 'N/A',
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            Row(
+              children: [
+                Expanded(
+                  child: Text(
+                    "ตำแหน่ง   :",
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+                Expanded(
+                  child: Text(
+                    informRepair?.equipment?.rooms != null
+                        ? informRepair!.equipment!.rooms!
+                            .map((room) => room.position ?? 'N/A')
+                            .join(', ')
+                        : 'N/A',
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+              ],
+            ),
             Row(
               children: [
                 Text(

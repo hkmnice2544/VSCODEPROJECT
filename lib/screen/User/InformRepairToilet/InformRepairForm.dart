@@ -664,11 +664,15 @@ class Form extends State<InformRepairForm> {
 
                             // หลังจากส่งข้อมูลไปยังเซิร์ฟเวอร์เรียบร้อยแล้ว
                             // คุณสามารถนำผู้ใช้ไปยังหน้า ListManage หรือทำอย่างอื่นตามที่ต้องการ
-                            Navigator.push(
+                            Navigator.pushReplacement(
                               context,
-                              MaterialPageRoute(builder: (context) {
-                                return ListManage();
-                              }),
+                              MaterialPageRoute(
+                                  builder: (_) => ResultInformRepair(
+                                      informrepair_id: (informrepairs?[
+                                                      informrepairs!.length - 1]
+                                                  ?.informrepair_id ??
+                                              0) +
+                                          1)),
                             );
                           }
                         },
