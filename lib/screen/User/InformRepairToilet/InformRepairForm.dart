@@ -99,8 +99,6 @@ class Form extends State<InformRepairForm> {
 
   Color backgroundColor = Colors.white;
   TextEditingController textEditingController = TextEditingController();
-  List<Uint8List> imageBytesList = [];
-  List<String> imageNames = [];
   String isChecked = '';
   List<InformRepair>? informrepairs;
   bool? isDataLoaded = false;
@@ -109,11 +107,12 @@ class Form extends State<InformRepairForm> {
   List<Building>? buildings;
   String? buildingname;
   String? roomname;
+  String? roomfloor;
   Building? building;
   List<Room>? rooms;
   Room? room;
-  DateTime Date = DateTime.now();
   List<String> roomNames = [];
+  List<String> roomfloors = [];
   Future<void> fetchRoomNames() async {
     var url = Uri.parse(baseURL + '/rooms/listAllDistinctRoomNames');
     final response = await http.post(url, headers: headers);
@@ -122,6 +121,20 @@ class Form extends State<InformRepairForm> {
       final data = json.decode(response.body);
       setState(() {
         roomNames = List<String>.from(data);
+      });
+    } else {
+      throw Exception('Failed to load room names');
+    }
+  }
+
+  Future<void> fetchRoomfloors() async {
+    var url = Uri.parse(baseURL + '/rooms/listAllDistinctRoomfloor');
+    final response = await http.post(url, headers: headers);
+
+    if (response.statusCode == 200) {
+      final data = json.decode(response.body);
+      setState(() {
+        roomfloors = List<String>.from(data);
       });
     } else {
       throw Exception('Failed to load room names');
@@ -162,7 +175,9 @@ class Form extends State<InformRepairForm> {
     fetchInformRepairs();
     listAllBuildings();
     fetchRoomNames();
-
+    fetchRoomfloors();
+    DateTime now = DateTime.now();
+    formattedDate = DateFormat('dd-MM-yyyy').format(now);
     // fetchListBuilding();
     main();
   }
@@ -322,7 +337,7 @@ class Form extends State<InformRepairForm> {
                     ),
                     Expanded(
                       child: Text(
-                        '$formattedDate',
+                        "$formattedDate",
                         style: TextStyle(
                           color: Colors.black,
                           fontSize: 20,
@@ -339,7 +354,7 @@ class Form extends State<InformRepairForm> {
                     Expanded(child: Icon(Icons.featured_play_list_outlined)),
                     Expanded(
                       child: Text(
-                        "ประเภทห้องน้ำ  :${roomNames.isNotEmpty ? roomNames[0] : ''}",
+                        "ประเภทห้องน้ำ  :",
                         style: TextStyle(
                           color: Colors.black,
                           fontSize: 20,
@@ -438,19 +453,24 @@ class Form extends State<InformRepairForm> {
                       ),
                     ),
                     Expanded(
-                      child: // DropdownButton  ชั้น-------------------------------------
-                          DropdownButton(
+                      child: DropdownButton<String>(
                         isExpanded: true,
-                        value: _dropdownfloor,
-                        items: _floorList
-                            .map((e) => DropdownMenuItem(
-                                  child: Text(e),
-                                  value: e,
-                                ))
-                            .toList(),
+                        value:
+                            roomfloor != null && roomfloors.contains(roomfloor)
+                                ? roomfloor
+                                : roomfloors.isNotEmpty
+                                    ? roomfloors[0]
+                                    : null,
+                        items: roomfloors.map((String roomfloor) {
+                          return DropdownMenuItem<String>(
+                            child: Text(roomfloor),
+                            value: roomfloor,
+                          );
+                        }).toList(),
                         onChanged: (val) {
                           setState(() {
-                            _dropdownfloor = val as String;
+                            roomfloor = val;
+                            print("Controller: $roomfloor");
                           });
                         },
                         icon: const Icon(
