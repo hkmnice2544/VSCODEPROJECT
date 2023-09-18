@@ -5,10 +5,10 @@ import 'package:flutterr/screen/Login.dart';
 import 'package:flutterr/screen/User/InformRepairToilet/ResultInformRepair.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:flutter/material.dart';
-import '../../../Model/Building_Model.dart';
+
 import '../../../controller/informrepair_controller.dart';
 import 'package:intl/intl.dart';
-
+import '../../../model/Building_Model.dart';
 import '../../../model/informrepair_model.dart';
 
 class InformRepairForm extends StatefulWidget {
@@ -71,7 +71,7 @@ class Form extends State<InformRepairForm> {
   Form() {
     //dropdown
     _dropdowninformtype = _informtypeList[0]; //ประเภทห้องน้ำ
-    _dropdownbuildngname = _buildngnameList[0]; //ประเภทอาคาร
+    _dropdownbuildngname = buildings?[0].buildingname; //ประเภทอาคาร
     _dropdownfloor = _floorList[0]; //ชั้น
     _dropdownposition = _positionList[0]; //ตำแหน่ง
   }
@@ -128,28 +128,40 @@ class Form extends State<InformRepairForm> {
     });
   }
 
-  void main() {
-    initializeDateFormatting('th_TH', null).then((_) {});
-  }
-
-  // void fetchListBuilding () async {
-  //   buildings = await informrepairController.listAllBuilding();
-  //   setState(() {
-  //     isDataLoaded = true;
-  //   });
-  // }
-  void getInform_id(int informrepair_id) async {
-    informRepair = await informrepairController.getInform(informrepair_id);
-    print("getInform : ${informRepair?.informrepair_id}");
+  void listAllBuildings() async {
+    buildings =
+        (await informrepairController.listAllBuildings()).cast<Building>();
+    print({buildings?[0].building_id});
     setState(() {
       isDataLoaded = true;
     });
+  }
+
+  void getbuilding(int building_id) async {
+    building = await informController.getbuilding(building_id);
+    print("getbuilding : ${building?.building_id}");
+    setState(() {
+      isDataLoaded = true;
+    });
+  }
+
+  void main() {
+    initializeDateFormatting('th_TH', null).then((_) {});
   }
 
   @override
   void initState() {
     super.initState();
     fetchInformRepairs();
+    listAllBuildings();
+    if ((informrepairs?[informrepairs!.length - 1].informrepair_id ?? 0) + 1 !=
+        null) {
+      getbuilding(
+          (informrepairs?[informrepairs!.length - 1].informrepair_id ?? 0) + 1);
+    }
+    print(
+        "${(informrepairs?[informrepairs!.length - 1].informrepair_id ?? 0) + 1}");
+
     // fetchListBuilding();
     main();
     DateTime Date = DateTime.now();
@@ -329,7 +341,7 @@ class Form extends State<InformRepairForm> {
                     Expanded(child: Icon(Icons.featured_play_list_outlined)),
                     Expanded(
                       child: Text(
-                        "ประเภทห้องน้ำ  :",
+                        "ประเภทห้องน้ำ  :${building?.buildingname}",
                         style: TextStyle(
                           color: Colors.black,
                           fontSize: 20,
@@ -367,7 +379,7 @@ class Form extends State<InformRepairForm> {
                     Expanded(child: Icon(Icons.business)),
                     Expanded(
                       child: Text(
-                        "อาคาร  :",
+                        "อาคาร  :${buildings?[0].buildingname}",
                         style: TextStyle(
                           color: Colors.black,
                           fontSize: 20,

@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:flutterr/model/Building_Model.dart';
 import 'package:image_picker/image_picker.dart';
 import '../constant/constant_value.dart';
 import 'package:http/http.dart' as http;
@@ -12,7 +13,7 @@ class InformRepairController {
   final ImagePicker _imagePicker = ImagePicker();
 
   get body => null;
-  // Building? building;
+  Building? building;
 
   Future<void> addInformRepair(
       List<Map<String, dynamic>> data, String isChecked) async {
@@ -117,40 +118,37 @@ class InformRepairController {
     print(jsonResponse);
   }
 
-// Future getbuilding (int building_id) async {
-//     var url = Uri.parse('$baseURL/informrepair/get/$building_id');
+  Future getbuilding(int building_id) async {
+    var url = Uri.parse('$baseURL/buildings/getbuildings/$building_id');
 
-//     http.Response response = await http.get(
-//       url
-//     );
+    http.Response response = await http.get(url);
 
-//     print(response.body);
+    print(response.body);
 
-//     var jsonResponse = jsonDecode(response.body);
-//     Building building = Building.fromJsonToBuilding(jsonResponse['result']);
-//     print("getbuilding : ${building.building_id}");
-//     return building;
-//   }
+    var jsonResponse = jsonDecode(response.body);
+    Building building = Building.fromJsonToBuilding(jsonResponse['result']);
+    print("getbuilding : ${building.building_id}");
+    return building;
+  }
 
-//   Future listAllBuilding () async {
+  Future<List> listAllBuildings() async {
+    var url = Uri.parse(baseURL + '/buildings/list');
 
-//     var url = Uri.parse('$baseURL/building/list');
+    http.Response response = await http.post(url, headers: headers);
+    print(response.body);
 
-//     http.Response response = await http.post(
-//       url,
-//       headers: headers,
-//       body: null
-//     );
+    List<Building> list = [];
 
-//     print(response.body);
+    final utf8body = utf8.decode(response.bodyBytes);
+    final jsonList = json.decode(utf8body) as List<dynamic>;
 
-//     List? list;
+    for (final jsonData in jsonList) {
+      final building = Building.fromJsonToBuilding(jsonData);
+      list.add(building);
+    }
 
-//     Map<String, dynamic> mapResponse = json.decode(response.body);
-//     list = mapResponse['result'];
-//     print("listAllBuilding : ${building?.building_id}");
-//     return list!.map((e) => Building.fromJsonToBuilding(e)).toList();
-//   }
+    return list;
+  }
 
   Future<void> addPicturesToDatabase(
       List<String> pictureUrls, int informRepairId) async {
