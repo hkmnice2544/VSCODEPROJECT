@@ -115,6 +115,7 @@ class Form extends State<InformRepairForm> {
   List<String> roomNames = [];
   List<String> roomfloors = [];
   List<String> roompositions = [];
+
   Future<void> fetchRoomNames() async {
     var url = Uri.parse(baseURL + '/rooms/listAllDistinctRoomNames');
     final response = await http.post(url, headers: headers);
@@ -616,41 +617,27 @@ class Form extends State<InformRepairForm> {
                     },
                   ),
                 ],
-                TextField(
-                  controller: idController1,
-                  decoration: InputDecoration(
-                    labelText: 'informdetails',
-                  ),
-                  onChanged: (value) {},
-                ),
-                TextField(
-                  controller: detailController1,
-                  decoration: InputDecoration(
-                    labelText: 'status',
-                  ),
-                  onChanged: (value) {},
-                ),
-                TextField(
-                  controller: idController2,
-                  decoration: InputDecoration(
-                    labelText: 'equipment_id',
-                  ),
-                  onChanged: (value) {},
-                ),
-                TextField(
-                  controller: detailController2,
-                  decoration: InputDecoration(
-                    labelText: 'user_id',
-                  ),
-                  onChanged: (value) {},
-                ),
 
                 Row(// Button Click
                     children: [
                   Expanded(
                     child: ElevatedButton(
                         onPressed: () async {
-                          String detail1 = idController1.text;
+                          String equipmentId =
+                              ""; // ค่าเริ่มต้นของ Equipment_ID
+
+                          // เช็คเงื่อนไขเลือกห้องน้ำชาย, อาคาร 60 ปี แม่โจ้, ชั้น 1, และตำแหน่งข้างบันได
+                          if (roomname == "ห้องน้ำชาย" &&
+                              buildingname == "อาคาร 60 ปี แม่โจ้" &&
+                              roomfloor == "1" &&
+                              roomposition == "ข้างบันได" &&
+                              _tapCheckBox == 'ก๊อกน้ำ') {
+                            equipmentId = "1002";
+                          }
+
+                          print(equipmentId);
+
+                          String detail1 = _tapCheckBoxController.text;
                           int e = 1002;
                           int u = 1001;
 
@@ -660,7 +647,7 @@ class Form extends State<InformRepairForm> {
                             idDetailsList.add({
                               "informdetails": detail1,
                               "status": "ยังไม่ได้ดำเนินการ",
-                              "equipment_id": e.toString(),
+                              "equipment_id": equipmentId,
                               "user_id": u.toString()
                             });
                           }
