@@ -108,11 +108,13 @@ class Form extends State<InformRepairForm> {
   String? buildingname;
   String? roomname;
   String? roomfloor;
+  String? roomposition;
   Building? building;
   List<Room>? rooms;
   Room? room;
   List<String> roomNames = [];
   List<String> roomfloors = [];
+  List<String> roompositions = [];
   Future<void> fetchRoomNames() async {
     var url = Uri.parse(baseURL + '/rooms/listAllDistinctRoomNames');
     final response = await http.post(url, headers: headers);
@@ -135,6 +137,20 @@ class Form extends State<InformRepairForm> {
       final data = json.decode(response.body);
       setState(() {
         roomfloors = List<String>.from(data);
+      });
+    } else {
+      throw Exception('Failed to load room names');
+    }
+  }
+
+  Future<void> fetchRoompositions() async {
+    var url = Uri.parse(baseURL + '/rooms/listAllDistinctRoomposition');
+    final response = await http.post(url, headers: headers);
+
+    if (response.statusCode == 200) {
+      final data = json.decode(response.body);
+      setState(() {
+        roompositions = List<String>.from(data);
       });
     } else {
       throw Exception('Failed to load room names');
@@ -176,6 +192,7 @@ class Form extends State<InformRepairForm> {
     listAllBuildings();
     fetchRoomNames();
     fetchRoomfloors();
+    fetchRoompositions();
     DateTime now = DateTime.now();
     formattedDate = DateFormat('dd-MM-yyyy').format(now);
     // fetchListBuilding();
@@ -496,19 +513,24 @@ class Form extends State<InformRepairForm> {
                       ),
                     ),
                     Expanded(
-                      child: // DropdownButton  ตำแหน่ง-------------------------------------
-                          DropdownButton(
+                      child: DropdownButton<String>(
                         isExpanded: true,
-                        value: _dropdownposition,
-                        items: _positionList
-                            .map((e) => DropdownMenuItem(
-                                  child: Text(e),
-                                  value: e,
-                                ))
-                            .toList(),
+                        value: roomposition != null &&
+                                roompositions.contains(roomposition)
+                            ? roomposition
+                            : roompositions.isNotEmpty
+                                ? roompositions[0]
+                                : null,
+                        items: roompositions.map((String roomposition) {
+                          return DropdownMenuItem<String>(
+                            child: Text(roomposition),
+                            value: roomposition,
+                          );
+                        }).toList(),
                         onChanged: (val) {
                           setState(() {
-                            _dropdownposition = val as String;
+                            roomposition = val;
+                            print("Controller: $roomposition");
                           });
                         },
                         icon: const Icon(
