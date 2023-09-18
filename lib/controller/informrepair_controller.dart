@@ -1,10 +1,10 @@
 import 'dart:convert';
 
 import 'package:flutterr/model/Building_Model.dart';
+import 'package:flutterr/model/Room_Model.dart';
 import 'package:image_picker/image_picker.dart';
 import '../constant/constant_value.dart';
 import 'package:http/http.dart' as http;
-
 import '../model/informrepair_model.dart';
 
 class InformRepairController {
@@ -14,6 +14,7 @@ class InformRepairController {
 
   get body => null;
   Building? building;
+  Room? room;
 
   Future<void> addInformRepair(
       List<Map<String, dynamic>> data, String isChecked) async {
@@ -148,6 +149,31 @@ class InformRepairController {
     }
 
     return list;
+  }
+
+  Future<List<Room>> listAllRoomNames() async {
+    var url = Uri.parse(baseURL + '/rooms/listAllDistinctRoomNames');
+
+    try {
+      final response = await http.post(url, headers: headers);
+
+      if (response.statusCode == 200) {
+        final List<dynamic> jsonList =
+            json.decode(utf8.decode(response.bodyBytes));
+        final List<Room> rooms = jsonList.map((jsonData) {
+          return Room.fromJsonToRoom(jsonData); // แปลง JSON เป็น Room object
+        }).toList();
+        return rooms;
+      } else {
+        // ถ้าเซิร์ฟเวอร์ตอบกลับไม่สำเร็จ
+        print('Failed to load room data. Status code: ${response.statusCode}');
+        return [];
+      }
+    } catch (e) {
+      // ในกรณีที่เกิดข้อผิดพลาด
+      print('Error fetching room data: $e');
+      return []; // หรือสามารถจัดการข้อผิดพลาดอื่น ๆ ตามที่คุณต้องการได้ในส่วน catch
+    }
   }
 
   Future<void> addPicturesToDatabase(

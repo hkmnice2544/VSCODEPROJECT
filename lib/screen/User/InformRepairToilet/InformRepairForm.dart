@@ -1,5 +1,8 @@
+import 'dart:convert';
 import 'dart:math';
 import 'dart:typed_data';
+import 'package:flutterr/constant/constant_value.dart';
+import 'package:flutterr/model/Room_Model.dart';
 import 'package:flutterr/screen/Home.dart';
 import 'package:flutterr/screen/Login.dart';
 import 'package:flutterr/screen/User/InformRepairToilet/ResultInformRepair.dart';
@@ -10,6 +13,7 @@ import '../../../controller/informrepair_controller.dart';
 import 'package:intl/intl.dart';
 import '../../../model/Building_Model.dart';
 import '../../../model/informrepair_model.dart';
+import 'package:http/http.dart' as http;
 
 class InformRepairForm extends StatefulWidget {
   const InformRepairForm({super.key});
@@ -70,7 +74,7 @@ class Form extends State<InformRepairForm> {
 //dropdown----------------------------------
   Form() {
     //dropdown
-    _dropdowninformtype = _informtypeList[0]; //ประเภทห้องน้ำ
+    _dropdowninformtype = rooms?[0].roomname; //ประเภทห้องน้ำ
     _dropdownbuildngname = buildings?[0].buildingname; //ประเภทอาคาร
     _dropdownfloor = _floorList[0]; //ชั้น
     _dropdownposition = _positionList[0]; //ตำแหน่ง
@@ -81,12 +85,6 @@ class Form extends State<InformRepairForm> {
   String? _dropdownfloor = ""; //ชั้น
   String? _dropdownposition = ""; //ตำแหน่ง
 
-  final _informtypeList = ["ห้องน้ำชาย", "ห้องน้ำหญิง"]; //ประเภทห้องน้ำ
-  final _buildngnameList = [
-    "อาคาร 60 ปี แม่โจ้",
-    "อาคารจุฬาภรณ์",
-    "อาคารเสาวรัจ"
-  ]; //ประเภทอาคาร
   final _floorList = ["1", "2", "3", "4"]; //ชั้น
   final _positionList = ["ข้างลิฟท์", "ข้างบันได"]; //ตำแหน่ง
 
@@ -110,8 +108,25 @@ class Form extends State<InformRepairForm> {
   InformRepair? informRepair;
   List<Building>? buildings;
   String? buildingname;
+  String? roomname;
   Building? building;
+  List<Room>? rooms;
+  Room? room;
   DateTime Date = DateTime.now();
+  List<String> roomNames = [];
+  Future<void> fetchRoomNames() async {
+    var url = Uri.parse(baseURL + '/rooms/listAllDistinctRoomNames');
+    final response = await http.post(url, headers: headers);
+
+    if (response.statusCode == 200) {
+      final data = json.decode(response.body);
+      setState(() {
+        roomNames = List<String>.from(data);
+      });
+    } else {
+      throw Exception('Failed to load room names');
+    }
+  }
 
   final InformRepairController informrepairController =
       InformRepairController();
@@ -131,15 +146,7 @@ class Form extends State<InformRepairForm> {
   void listAllBuildings() async {
     buildings =
         (await informrepairController.listAllBuildings()).cast<Building>();
-    print({buildings?[0].building_id});
-    setState(() {
-      isDataLoaded = true;
-    });
-  }
-
-  void getbuilding(int building_id) async {
-    building = await informController.getbuilding(building_id);
-    print("getbuilding : ${building?.building_id}");
+    print("listAllBuildings : ${buildings?[0].building_id}");
     setState(() {
       isDataLoaded = true;
     });
@@ -154,19 +161,10 @@ class Form extends State<InformRepairForm> {
     super.initState();
     fetchInformRepairs();
     listAllBuildings();
-    if ((informrepairs?[informrepairs!.length - 1].informrepair_id ?? 0) + 1 !=
-        null) {
-      getbuilding(
-          (informrepairs?[informrepairs!.length - 1].informrepair_id ?? 0) + 1);
-    }
-    print(
-        "${(informrepairs?[informrepairs!.length - 1].informrepair_id ?? 0) + 1}");
+    fetchRoomNames();
 
     // fetchListBuilding();
     main();
-    DateTime Date = DateTime.now();
-    formattedDate = DateFormat("yyyy-MM-dd").format(Date);
-    print("formattedDate : ${formattedDate}");
   }
 
   @override
@@ -341,7 +339,7 @@ class Form extends State<InformRepairForm> {
                     Expanded(child: Icon(Icons.featured_play_list_outlined)),
                     Expanded(
                       child: Text(
-                        "ประเภทห้องน้ำ  :${building?.buildingname}",
+                        "ประเภทห้องน้ำ  :${roomNames.isNotEmpty ? roomNames[0] : ''}",
                         style: TextStyle(
                           color: Colors.black,
                           fontSize: 20,
@@ -350,19 +348,23 @@ class Form extends State<InformRepairForm> {
                       ),
                     ),
                     Expanded(
-                      child: // DropdownButton ประเภทห้องน้ำ-------------------------------------
-                          DropdownButton(
+                      child: DropdownButton<String>(
                         isExpanded: true,
-                        value: _dropdowninformtype,
-                        items: _informtypeList
-                            .map((e) => DropdownMenuItem(
-                                  child: Text(e),
-                                  value: e,
-                                ))
-                            .toList(),
+                        value: roomname != null && roomNames.contains(roomname)
+                            ? roomname
+                            : roomNames.isNotEmpty
+                                ? roomNames[0]
+                                : null,
+                        items: roomNames.map((String roomname) {
+                          return DropdownMenuItem<String>(
+                            child: Text(roomname),
+                            value: roomname,
+                          );
+                        }).toList(),
                         onChanged: (val) {
                           setState(() {
-                            _dropdowninformtype = val as String;
+                            roomname = val;
+                            print("Controller: $roomname");
                           });
                         },
                         icon: const Icon(
@@ -374,12 +376,13 @@ class Form extends State<InformRepairForm> {
                     ),
                   ],
                 ),
+
                 Row(
                   children: [
                     Expanded(child: Icon(Icons.business)),
                     Expanded(
                       child: Text(
-                        "อาคาร  :${buildings?[0].buildingname}",
+                        "อาคาร  :",
                         style: TextStyle(
                           color: Colors.black,
                           fontSize: 20,

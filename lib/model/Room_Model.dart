@@ -19,16 +19,21 @@ class Room {
     this.building, // เพิ่มพารามิเตอร์เพื่อรับข้อมูล Building ที่เกี่ยวข้อง
   });
 
-  factory Room.fromJsonToRoom(Map<String, dynamic> json) => Room(
-        room_id: json["room_id"] as int?,
+  factory Room.fromJsonToRoom(Map<String, dynamic> json) {
+    final room_id = json["room_id"] != null
+        ? int.tryParse(json["room_id"].toString())
+        : null;
+
+    return Room(
+        room_id: room_id,
         roomtype: json["roomtype"],
         roomname: json["roomname"],
         floor: json["floor"],
         position: json["position"],
-        building: json["building"] != null
-            ? Building.fromJsonToBuilding(json["building"])
-            : null, // แปลงข้อมูล Building จาก JSON
-      );
+        building: json["building"] == null
+            ? null
+            : Building.fromJsonToBuilding(json["building"]));
+  }
 
   Map<String, dynamic> fromRoomToJson() {
     return <String, dynamic>{
@@ -37,9 +42,7 @@ class Room {
       'roomname': roomname,
       'floor': floor,
       'position': position,
-      'building': building != null
-          ? building!.fromBuildingToJson()
-          : null, // แปลงข้อมูล Building เป็น JSON
+      'building': building?.building_id,
     };
   }
 }
