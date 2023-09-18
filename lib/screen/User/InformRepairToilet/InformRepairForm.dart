@@ -611,7 +611,7 @@ class Form extends State<InformRepairForm> {
                       labelText: 'รายละเอียด',
                     ),
                     onChanged: (value) {
-                      if (_tapCheckBox == "") {
+                      if (_toiletbowlCheckBox == "") {
                         _toiletbowlBoxController.clear(); // ล้างค่าใน TextField
                       }
                     },
@@ -623,35 +623,40 @@ class Form extends State<InformRepairForm> {
                   Expanded(
                     child: ElevatedButton(
                         onPressed: () async {
-                          String equipmentId =
-                              ""; // ค่าเริ่มต้นของ Equipment_ID
-
-                          // เช็คเงื่อนไขเลือกห้องน้ำชาย, อาคาร 60 ปี แม่โจ้, ชั้น 1, และตำแหน่งข้างบันได
-                          if (roomname == "ห้องน้ำชาย" &&
-                              buildingname == "อาคาร 60 ปี แม่โจ้" &&
-                              roomfloor == "1" &&
-                              roomposition == "ข้างบันได" &&
-                              _tapCheckBox == 'ก๊อกน้ำ') {
-                            equipmentId = "1002";
-                          }
-
-                          print(equipmentId);
-
-                          String detail1 = _tapCheckBoxController.text;
-                          int e = 1002;
-                          int u = 1001;
+                          int u = 1001; // User ID
 
                           // สร้างรายการ ID และรายละเอียดที่มีค่าไม่เป็นว่าง
                           List<Map<String, String>> idDetailsList = [];
-                          if (detail1.isNotEmpty) {
+
+                          if (_tapCheckBox == 'ก๊อกน้ำ' &&
+                              roomname == "ห้องน้ำชาย" &&
+                              buildingname == "อาคาร 60 ปี แม่โจ้" &&
+                              roomfloor == "1" &&
+                              roomposition == "ข้างบันได") {
+                            // ให้เพิ่มรายการสำหรับอุปกรณ์ก๊อกน้ำ
+                            String detail1 = _tapCheckBoxController.text;
                             idDetailsList.add({
                               "informdetails": detail1,
                               "status": "ยังไม่ได้ดำเนินการ",
-                              "equipment_id": equipmentId,
-                              "user_id": u.toString()
+                              "equipment_id": "1002",
+                              "user_id": u.toString(),
                             });
                           }
 
+                          if (_toiletbowlCheckBox == 'โถชักโครก' &&
+                              roomname == "ห้องน้ำชาย" &&
+                              buildingname == "อาคาร 60 ปี แม่โจ้" &&
+                              roomfloor == "1" &&
+                              roomposition == "ข้างบันได") {
+                            // ให้เพิ่มรายการสำหรับอุปกรณ์โถชักโครก
+                            String detail2 = _toiletbowlBoxController.text;
+                            idDetailsList.add({
+                              "informdetails": detail2,
+                              "status": "ยังไม่ได้ดำเนินการ",
+                              "equipment_id": "1001",
+                              "user_id": u.toString(),
+                            });
+                          }
                           if (idDetailsList.isNotEmpty) {
                             // เรียกใช้ addInformRepair ด้วยข้อมูลที่เตรียมไว้
                             var response = await informController
@@ -665,9 +670,6 @@ class Form extends State<InformRepairForm> {
                                 return ListManage();
                               }),
                             );
-                          } else {
-                            // ไม่มีข้อมูลที่ถูกส่งไปยังเซิร์ฟเวอร์
-                            // คุณอาจต้องจัดการกรณีนี้ตามที่คุณต้องการ
                           }
                         },
                         style: ElevatedButton.styleFrom(
