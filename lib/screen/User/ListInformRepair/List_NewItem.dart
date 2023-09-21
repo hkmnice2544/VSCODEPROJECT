@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutterr/controller/informrepair_controller.dart';
 import 'package:intl/intl.dart';
-import '../../../controller/informrepair_controller.dart';
 import '../../../model/informrepair_model.dart';
 import '../../Home.dart';
 import '../../Login.dart';
@@ -22,6 +22,7 @@ class _listAllInformRepairsState extends State<listAllInformRepairs> {
   void fetchlistAllInformRepairs() async {
     informrepairs = await informController.listAllInformRepairs();
     print({informrepairs?[0].informrepair_id});
+    print({informrepairs});
     informrepairs?.sort((a, b) {
       if (a.informdate == null && b.informdate == null) {
         return 0;
@@ -40,7 +41,8 @@ class _listAllInformRepairsState extends State<listAllInformRepairs> {
   @override
   void initState() {
     super.initState();
-    fetchlistAllInformRepairs();
+    fetchlistAllInformRepairs(); // เรียกใช้งานเมื่อหน้าจอถูกสร้างขึ้นครั้งแรก
+    print({informrepairs});
     informrepairs?.sort((a, b) {
       if (a.informdate == null && b.informdate == null) {
         return 0;
@@ -62,7 +64,8 @@ class _listAllInformRepairsState extends State<listAllInformRepairs> {
               FloatingActionButtonLocation.centerDocked,
           body: isDataLoaded == false
               ? CircularProgressIndicator()
-              : //ถ้ามีค่าว่างให้ขึ้นตัวหมุนๆ
+              :
+              //ถ้ามีค่าว่างให้ขึ้นตัวหมุนๆ
               Container(
                   padding: EdgeInsets.all(10.0),
                   child: ListView.builder(

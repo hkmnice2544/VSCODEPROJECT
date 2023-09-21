@@ -52,6 +52,8 @@ class InformRepairController {
           final informRepair = InformRepair.fromJsonToInformRepair(jsonData);
           list.add(informRepair);
         }
+        var jsonResponse = jsonDecode(response.body);
+        print(jsonResponse);
 
         return list;
       } else {
