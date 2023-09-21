@@ -7,8 +7,9 @@ import 'package:flutterr/screen/User/InformRepairToilet/InformRepairForm.dart';
 import 'User/ListInformRepair/ListInformRepair.dart';
 
 class Home extends StatelessWidget {
-  const Home({super.key});
+  final String username; // สร้างตัวแปรเพื่อเก็บชื่อผู้ใช้
 
+  Home({required this.username}); // รับค่า username ผ่าน constructor
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -64,7 +65,7 @@ class Home extends StatelessWidget {
                     color: Colors.red,
                   ),
                   title: Text(
-                    'MJU630xxxxxxx',
+                    username,
                     style: TextStyle(fontSize: 20),
                   )),
               ListTile(

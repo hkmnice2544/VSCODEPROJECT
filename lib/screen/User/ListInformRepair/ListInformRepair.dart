@@ -72,11 +72,12 @@ class ListInformRepair extends StatelessWidget {
                         icon: Icon(Icons.home),
                         color: Color.fromARGB(255, 255, 255, 255),
                         onPressed: () {
-                          Navigator.push(context, MaterialPageRoute(
-                            builder: (context) {
-                              return Home();
-                            },
-                          ));
+                          Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) =>
+                                    Home(username: 'ชื่อผู้ใช้'), // หน้า A
+                              ));
                         }),
                   ),
                   Expanded(

@@ -93,7 +93,8 @@ class _ViewResultState extends State<View_NewItem> {
                     onPressed: () {
                       Navigator.push(context, MaterialPageRoute(
                         builder: (context) {
-                          return Home();
+                          var username;
+                          return Home(username: 'ชื่อผู้ใช้');
                         },
                       ));
                     }),

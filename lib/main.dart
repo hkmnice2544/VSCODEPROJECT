@@ -22,7 +22,7 @@ class MainApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: Home(),
+      home: Home(username: 'ชื่อผู้ใช้'),
       theme: ThemeData(
         primarySwatch: Colors.orange,
       ),

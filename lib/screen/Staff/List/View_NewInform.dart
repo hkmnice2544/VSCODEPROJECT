@@ -86,7 +86,7 @@ class _ViewNewInformState extends State<ViewNewInform> {
                     onPressed: () {
                       Navigator.push(context, MaterialPageRoute(
                         builder: (context) {
-                          return Home();
+                          return Home(username: 'ชื่อผู้ใช้');
                         },
                       ));
                     }),

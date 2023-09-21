@@ -216,7 +216,7 @@ class Form extends State<Summary> {
                 onPressed: () {
                   Navigator.push(context, MaterialPageRoute(
                     builder: (context) {
-                      return Home();
+                      return Home(username: 'ชื่อผู้ใช้');
                     },
                   ));
                 },

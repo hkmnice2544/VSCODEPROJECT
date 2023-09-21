@@ -145,7 +145,7 @@ class _MyWidgetState extends State<Review> {
                 onPressed: () {
                   Navigator.push(context, MaterialPageRoute(
                     builder: (context) {
-                      return Home();
+                      return Home(username: 'ชื่อผู้ใช้');
                     },
                   ));
                 },
@@ -438,7 +438,7 @@ class _MyWidgetState extends State<Review> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) {
-                    return Home();
+                    return Home(username: 'ชื่อผู้ใช้');
                   }),
                 );
               },

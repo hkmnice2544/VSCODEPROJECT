@@ -50,7 +50,7 @@ class _LoginState extends State<Login> {
         Navigator.pushReplacement(
             context,
             MaterialPageRoute(
-              builder: (context) => Home(), // หน้า A
+              builder: (context) => Home(username: username), // หน้า A
             ));
       } else if (userType == 'หัวหน้างานแผนกห้องน้ำ') {
         Navigator.pushReplacement(

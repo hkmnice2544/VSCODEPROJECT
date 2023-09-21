@@ -106,7 +106,7 @@ class _MyResultState extends State<ResultInformRepair> {
                     onPressed: () {
                       Navigator.push(context, MaterialPageRoute(
                         builder: (context) {
-                          return Home();
+                          return Home(username: 'ชื่อผู้ใช้');
                         },
                       ));
                     }),
@@ -566,7 +566,7 @@ class _MyResultState extends State<ResultInformRepair> {
                                         informRepair?.informrepair_id);
                                 Navigator.push(context,
                                     MaterialPageRoute(builder: (context) {
-                                  return Home();
+                                  return Home(username: 'ชื่อผู้ใช้');
                                 }));
                               },
                             ),

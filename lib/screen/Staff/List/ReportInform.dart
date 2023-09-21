@@ -158,7 +158,7 @@ class _ReportInformState extends State<ReportInform> {
                     onPressed: () {
                       Navigator.push(context, MaterialPageRoute(
                         builder: (context) {
-                          return Home();
+                          return Home(username: 'ชื่อผู้ใช้');
                         },
                       ));
                     }),
