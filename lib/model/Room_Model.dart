@@ -45,4 +45,15 @@ class Room {
       'building': building?.building_id,
     };
   }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'room_id': room_id,
+      'roomtype': roomtype,
+      'roomname': roomname,
+      'floor': floor,
+      'position': position,
+      'building': building?.toJson(), // เรียกใช้ toJson ของคลาส Building
+    };
+  }
 }

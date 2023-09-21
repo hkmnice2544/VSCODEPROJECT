@@ -1,74 +1,77 @@
-import 'package:flutter/material.dart';
+import 'dart:ui';
+
+import 'package:flutterr/model/%E0%B9%8AUser_Model.dart';
 import 'package:intl/intl.dart';
 
 import 'Equipment_Model.dart';
+import 'Room_Model.dart';
 
 class InformRepair {
   int? informrepair_id;
   DateTime? informdate;
-  String? defectiveequipment;
   String? informdetails;
-  String? informtype;
   String? status;
-  Equipment? equipment;
+  User? user;
+  List<Room>? rooms;
+  List<Equipment>? equipment;
 
   String formattedInformDate() {
     if (informdate != null) {
       final thailandLocale = const Locale('th', 'TH');
       final outputFormat =
-          DateFormat('dd-MM-yyyy HH:mm', thailandLocale as String?);
+          DateFormat('dd-MM-yyyy HH:mm', thailandLocale.toString());
       return outputFormat.format(informdate!);
     } else {
-      return 'N/A'; // หรือข้อความที่คุณต้องการให้แสดงถ้าไม่มีวันที่
+      return 'N/A';
     }
   }
 
   InformRepair({
     required this.informrepair_id,
     this.informdate,
-    this.defectiveequipment,
     this.informdetails,
-    this.informtype,
     this.status,
+    this.user,
+    this.rooms,
     this.equipment,
   });
 
   factory InformRepair.fromJsonToInformRepair(Map<String, dynamic> json) {
-    final informdateString = json["informdate"] as String?;
-    DateTime? informdate;
+    final userJson = json['user'] as Map<String, dynamic>;
+    final roomJsonList = json['rooms'] as List<dynamic>;
+    final equipmentJsonList = json['equipment'] as List<dynamic>;
 
-    if (informdateString != null) {
-      final inputFormat = DateFormat("yyyy-MM-dd'T'HH:mm:ss");
-      final DateTime dateTime = inputFormat.parse(informdateString);
+    final user = User.fromJsonToUser(userJson);
+    final rooms =
+        roomJsonList.map((roomJson) => Room.fromJsonToRoom(roomJson)).toList();
+    final equipment = equipmentJsonList
+        .map((equipmentJson) => Equipment.fromJsonToEquipment(equipmentJson))
+        .toList();
 
-      // ปรับเวลาเป็นโซนเวลาไทย (ICT - Indochina Time)
-      final thailandOffset = Duration(hours: 7);
-      final thailandDateTime = dateTime.add(thailandOffset);
+    final informRepair = InformRepair(
+      informrepair_id: json['informrepair_id'] as int,
+      informdate: json['informdate'] != null
+          ? DateTime.parse(json['informdate'] as String)
+          : null,
+      informdetails: json['informdetails'] as String,
+      status: json['status'] as String,
+      user: user,
+      rooms: rooms,
+      equipment: equipment,
+    );
 
-      informdate = thailandDateTime; // กำหนดค่าให้กับ informdate
-    }
-
-    return InformRepair(
-        informrepair_id: int.parse(json["informrepair_id"].toString()),
-        defectiveequipment: json["defectiveequipment"],
-        informdetails: json["informdetails"],
-        informtype: json["informtype"],
-        status: json["status"],
-        informdate: informdate,
-        equipment: json["equipment"] == null
-            ? null
-            : Equipment.fromJsonToEquipment(json["equipment"]));
+    return informRepair;
   }
 
   Map<String, dynamic> fromInformRepairToJson() {
     return <String, dynamic>{
       'informrepair_id': informrepair_id,
-      'defectiveequipment': defectiveequipment,
+      'informdate': informdate?.toIso8601String(),
       'informdetails': informdetails,
-      'informtype': informtype,
       'status': status,
-      'informdate': informdate,
-      'equipment': equipment?.equipment_id
+      'user': user?.toJson(),
+      'rooms': rooms?.map((room) => room.toJson()).toList(),
+      'equipment': equipment?.map((equipment) => equipment.toJson()).toList(),
     };
   }
 }
