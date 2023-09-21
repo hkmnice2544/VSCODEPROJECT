@@ -133,31 +133,31 @@ class Form extends State<EditInformRepairs> {
     });
   }
 
-  void fetchgetListInform(int informrepair_id) async {
-    informRepair = await informrepairController.getInform(informrepair_id);
-    textEditingController.text = informRepair?.informdetails ?? '';
-    _dropdowninformtype = informRepair?.informtype ?? '';
-    print("textEditingControllerrr:${textEditingController.text}");
-    print("id : ${informrepair_id}");
-    print("informdetails : ${informRepair!.informdetails}");
-    print("textEditingController:${textEditingController.text}");
+  // void fetchgetListInform(int informrepair_id) async {
+  //   informRepair = await informrepairController.getInform(informrepair_id);
+  //   textEditingController.text = informRepair?.informdetails ?? '';
+  //   _dropdowninformtype = informRepair?.informtype ?? '';
+  //   print("textEditingControllerrr:${textEditingController.text}");
+  //   print("id : ${informrepair_id}");
+  //   print("informdetails : ${informRepair!.informdetails}");
+  //   print("textEditingController:${textEditingController.text}");
 
-    setState(() {
-      isDataLoaded = true;
-    });
-  }
+  //   setState(() {
+  //     isDataLoaded = true;
+  //   });
+  // }
 
   @override
   void initState() {
     super.initState();
     fetchInformRepairs();
     fetchInformRepair();
-    fetchgetListInform(widget.informrepair_id!);
+    // fetchgetListInform(widget.informrepair_id!);
     DateTime now = DateTime.now();
     formattedDate = DateFormat('dd-MM-yyyy').format(now);
-    if (informRepair != null) {
-      _dropdowninformtype = informRepair!.informtype!;
-    }
+    // if (informRepair != null) {
+    //   _dropdowninformtype = informRepair!.informtype!;
+    // }
   }
 
   @override

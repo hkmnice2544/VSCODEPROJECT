@@ -232,20 +232,20 @@ class _ViewResultState extends State<View_Sum> {
                     ),
                   ),
                 ),
-                Expanded(
-                  child: Text(
-                    informRepair?.equipment?.rooms != null
-                        ? informRepair!.equipment!.rooms!
-                            .map((room) => room.roomname!)
-                            .join(', ')
-                        : 'N/A',
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
+                // Expanded(
+                //   child: Text(
+                //     informRepair?.equipment?.rooms != null
+                //         ? informRepair!.equipment!.rooms!
+                //             .map((room) => room.roomname!)
+                //             .join(', ')
+                //         : 'N/A',
+                //     style: TextStyle(
+                //       color: Colors.black,
+                //       fontSize: 20,
+                //       fontWeight: FontWeight.bold,
+                //     ),
+                //   ),
+                // ),
               ],
             ),
             Row(
@@ -260,20 +260,20 @@ class _ViewResultState extends State<View_Sum> {
                     ),
                   ),
                 ),
-                Expanded(
-                  child: Text(
-                    informRepair?.equipment?.rooms != null
-                        ? informRepair!.equipment!.rooms!
-                            .map((room) => room.building?.buildingname ?? 'N/A')
-                            .join(', ')
-                        : 'N/A',
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
+                // Expanded(
+                //   child: Text(
+                //     informRepair?.equipment?.rooms != null
+                //         ? informRepair!.equipment!.rooms!
+                //             .map((room) => room.building?.buildingname ?? 'N/A')
+                //             .join(', ')
+                //         : 'N/A',
+                //     style: TextStyle(
+                //       color: Colors.black,
+                //       fontSize: 20,
+                //       fontWeight: FontWeight.bold,
+                //     ),
+                //   ),
+                // ),
               ],
             ),
             Row(
@@ -288,20 +288,20 @@ class _ViewResultState extends State<View_Sum> {
                     ),
                   ),
                 ),
-                Expanded(
-                  child: Text(
-                    informRepair?.equipment?.rooms != null
-                        ? informRepair!.equipment!.rooms!
-                            .map((room) => room.floor ?? 'N/A')
-                            .join(', ')
-                        : 'N/A',
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
+                // Expanded(
+                //   child: Text(
+                //     informRepair?.equipment?.rooms != null
+                //         ? informRepair!.equipment!.rooms!
+                //             .map((room) => room.floor ?? 'N/A')
+                //             .join(', ')
+                //         : 'N/A',
+                //     style: TextStyle(
+                //       color: Colors.black,
+                //       fontSize: 20,
+                //       fontWeight: FontWeight.bold,
+                //     ),
+                //   ),
+                // ),
               ],
             ),
             Row(
@@ -316,20 +316,20 @@ class _ViewResultState extends State<View_Sum> {
                     ),
                   ),
                 ),
-                Expanded(
-                  child: Text(
-                    informRepair?.equipment?.rooms != null
-                        ? informRepair!.equipment!.rooms!
-                            .map((room) => room.position ?? 'N/A')
-                            .join(', ')
-                        : 'N/A',
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
+                // Expanded(
+                //   child: Text(
+                //     informRepair?.equipment?.rooms != null
+                //         ? informRepair!.equipment!.rooms!
+                //             .map((room) => room.position ?? 'N/A')
+                //             .join(', ')
+                //         : 'N/A',
+                //     style: TextStyle(
+                //       color: Colors.black,
+                //       fontSize: 20,
+                //       fontWeight: FontWeight.bold,
+                //     ),
+                //   ),
+                // ),
               ],
             ),
             Row(
@@ -428,18 +428,18 @@ class _ViewResultState extends State<View_Sum> {
                 ),
               ],
             ),
-            Row(
-              children: [
-                Text(
-                  "${informRepair?.equipment?.equipmentname}",
-                  style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ],
-            ),
+            // Row(
+            //   children: [
+            //     Text(
+            //       "${informRepair?.equipment?.equipmentname}",
+            //       style: TextStyle(
+            //         color: Colors.black,
+            //         fontSize: 20,
+            //         fontWeight: FontWeight.bold,
+            //       ),
+            //     ),
+            //   ],
+            // ),
             Row(
               children: [
                 Expanded(

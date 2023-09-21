@@ -49,30 +49,30 @@ class _MyResultState extends State<ResultInformRepair> {
     });
   }
 
-  void fetchInformRepair() async {
-    informrepairs = await informrepairController.listAllInformRepairs();
-    print({informrepairs?[0].informrepair_id});
-    print("informtype : ${informRepair!.informtype}");
+  // void fetchInformRepair() async {
+  //   informrepairs = await informrepairController.listAllInformRepairs();
+  //   print({informrepairs?[0].informrepair_id});
+  //   print("informtype : ${informRepair!.informtype}");
 
-    // print(informRepairs?.defectiveequipment);
-    setState(() {
-      isDataLoaded = true;
-    });
-  }
+  //   // print(informRepairs?.defectiveequipment);
+  //   setState(() {
+  //     isDataLoaded = true;
+  //   });
+  // }
 
-  void fetchgetListInform(int informrepair_id) async {
-    informRepair = await informrepairController.getInform(informrepair_id);
-    print("fetchgetListInform : ${informRepair!.informtype}");
-    setState(() {
-      isDataLoaded = true;
-    });
-  }
+  // void fetchgetListInform(int informrepair_id) async {
+  //   informRepair = await informrepairController.getInform(informrepair_id);
+  //   print("fetchgetListInform : ${informRepair!.informtype}");
+  //   setState(() {
+  //     isDataLoaded = true;
+  //   });
+  // }
 
   @override
   void initState() {
     super.initState();
     fetchInformRepairs();
-    fetchgetListInform(widget.informrepair_id!);
+    // fetchgetListInform(widget.informrepair_id!);
     DateTime now = DateTime.now();
     formattedDate = DateFormat('dd-MM-yyyy').format(now);
   }
@@ -225,20 +225,20 @@ class _MyResultState extends State<ResultInformRepair> {
                     ),
                   ),
                 ),
-                Expanded(
-                  child: Text(
-                    informRepair?.equipment?.rooms != null
-                        ? informRepair!.equipment!.rooms!
-                            .map((room) => room.roomname!)
-                            .join(', ')
-                        : 'N/A',
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
+                // Expanded(
+                //   child: Text(
+                //     informRepair?.equipment?.rooms != null
+                //         ? informRepair!.equipment!.rooms!
+                //             .map((room) => room.roomname!)
+                //             .join(', ')
+                //         : 'N/A',
+                //     style: TextStyle(
+                //       color: Colors.black,
+                //       fontSize: 20,
+                //       fontWeight: FontWeight.bold,
+                //     ),
+                //   ),
+                // ),
               ],
             ),
             Row(
@@ -253,20 +253,20 @@ class _MyResultState extends State<ResultInformRepair> {
                     ),
                   ),
                 ),
-                Expanded(
-                  child: Text(
-                    informRepair?.equipment?.rooms != null
-                        ? informRepair!.equipment!.rooms!
-                            .map((room) => room.building?.buildingname ?? 'N/A')
-                            .join(', ')
-                        : 'N/A',
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
+                // Expanded(
+                //   child: Text(
+                //     informRepair?.equipment?.rooms != null
+                //         ? informRepair!.equipment!.rooms!
+                //             .map((room) => room.building?.buildingname ?? 'N/A')
+                //             .join(', ')
+                //         : 'N/A',
+                //     style: TextStyle(
+                //       color: Colors.black,
+                //       fontSize: 20,
+                //       fontWeight: FontWeight.bold,
+                //     ),
+                //   ),
+                // ),
               ],
             ),
             Row(
@@ -281,20 +281,20 @@ class _MyResultState extends State<ResultInformRepair> {
                     ),
                   ),
                 ),
-                Expanded(
-                  child: Text(
-                    informRepair?.equipment?.rooms != null
-                        ? informRepair!.equipment!.rooms!
-                            .map((room) => room.floor ?? 'N/A')
-                            .join(', ')
-                        : 'N/A',
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
+                // Expanded(
+                //   child: Text(
+                //     informRepair?.equipment?.rooms != null
+                //         ? informRepair!.equipment!.rooms!
+                //             .map((room) => room.floor ?? 'N/A')
+                //             .join(', ')
+                //         : 'N/A',
+                //     style: TextStyle(
+                //       color: Colors.black,
+                //       fontSize: 20,
+                //       fontWeight: FontWeight.bold,
+                //     ),
+                //   ),
+                // ),
               ],
             ),
             Row(
@@ -309,20 +309,20 @@ class _MyResultState extends State<ResultInformRepair> {
                     ),
                   ),
                 ),
-                Expanded(
-                  child: Text(
-                    informRepair?.equipment?.rooms != null
-                        ? informRepair!.equipment!.rooms!
-                            .map((room) => room.position ?? 'N/A')
-                            .join(', ')
-                        : 'N/A',
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
+                // Expanded(
+                //   child: Text(
+                //     informRepair?.equipment?.rooms != null
+                //         ? informRepair!.equipment!.rooms!
+                //             .map((room) => room.position ?? 'N/A')
+                //             .join(', ')
+                //         : 'N/A',
+                //     style: TextStyle(
+                //       color: Colors.black,
+                //       fontSize: 20,
+                //       fontWeight: FontWeight.bold,
+                //     ),
+                //   ),
+                // ),
               ],
             ),
             Row(
@@ -349,18 +349,18 @@ class _MyResultState extends State<ResultInformRepair> {
                 ),
               ],
             ),
-            Row(
-              children: [
-                Text(
-                  "${informRepair?.defectiveequipment}",
-                  style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ],
-            ),
+            // Row(
+            //   children: [
+            //     Text(
+            //       "${informRepair?.defectiveequipment}",
+            //       style: TextStyle(
+            //         color: Colors.black,
+            //         fontSize: 20,
+            //         fontWeight: FontWeight.bold,
+            //       ),
+            //     ),
+            //   ],
+            // ),
             Row(
               children: [
                 Expanded(
