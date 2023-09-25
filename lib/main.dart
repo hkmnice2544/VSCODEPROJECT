@@ -8,7 +8,9 @@ import 'package:flutterr/screen/Long/Login.dart';
 import 'package:flutterr/screen/Staff/List/ListManage.dart';
 import 'package:flutterr/screen/User/ListInformRepair/ListInformRepair.dart';
 import 'package:intl/date_symbol_data_local.dart';
+import 'package:flutter/services.dart';
 
+late String storedUsername;
 void main() async {
   String locale = 'th_TH'; // ตัวอย่างเป็น locale ไทย
   await initializeDateFormatting(locale);
@@ -21,8 +23,9 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
     return MaterialApp(
-      home: Home(username: 'ชื่อผู้ใช้'),
+      home: Login(),
       theme: ThemeData(
         primarySwatch: Colors.orange,
       ),

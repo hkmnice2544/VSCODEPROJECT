@@ -8,7 +8,9 @@ import 'Staff/Summary/Sammary.dart';
 import 'User/ListInformRepair/ListInformRepair.dart';
 
 class HomeStaff extends StatelessWidget {
-  const HomeStaff({super.key});
+  final String username; // สร้างตัวแปรเพื่อเก็บชื่อผู้ใช้
+
+  HomeStaff({required this.username}); // รับค่า username ผ่าน constructor
 
   @override
   Widget build(BuildContext context) {

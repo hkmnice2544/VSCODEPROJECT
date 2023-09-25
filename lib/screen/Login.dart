@@ -6,6 +6,7 @@ import 'package:flutterr/screen/HomeStaff.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:image_picker/image_picker.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../Model/informrepair_model.dart';
 import '../constant/constant_value.dart';
@@ -47,16 +48,20 @@ class _LoginState extends State<Login> {
 
       // ตรวจสอบประเภทผู้ใช้งานและนำทางไปยังหน้าที่เหมาะสม
       if (userType == 'นักศึกษา') {
+        saveUsername(
+            username); // เมื่อเข้าสู่ระบบสำเร็จ บันทึก username ใน SharedPreferences
         Navigator.pushReplacement(
             context,
             MaterialPageRoute(
-              builder: (context) => Home(username: username), // หน้า A
+              builder: (context) => Home(username: username),
             ));
       } else if (userType == 'หัวหน้างานแผนกห้องน้ำ') {
+        saveUsername(
+            username); // เมื่อเข้าสู่ระบบสำเร็จ บันทึก username ใน SharedPreferences
         Navigator.pushReplacement(
             context,
             MaterialPageRoute(
-              builder: (context) => HomeStaff(), // หน้า B
+              builder: (context) => HomeStaff(username: username),
             ));
       } else {
         print("ประเภทผู้ใช้ไม่ถูกต้อง");
@@ -82,6 +87,11 @@ class _LoginState extends State<Login> {
         },
       );
     }
+  }
+
+  void saveUsername(String username) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString('username', username);
   }
 
   @override

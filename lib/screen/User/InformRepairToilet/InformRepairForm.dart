@@ -18,7 +18,8 @@ import '../../../model/informrepair_model.dart';
 import 'package:http/http.dart' as http;
 
 class InformRepairForm extends StatefulWidget {
-  const InformRepairForm({super.key});
+  final String username;
+  InformRepairForm({required this.username});
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -628,8 +629,7 @@ class Form extends State<InformRepairForm> {
                           // สร้างรายการ ID และรายละเอียดที่มีค่าไม่เป็นว่าง
                           List<Map<String, String>> idDetailsList = [];
 
-                          if (_tapCheckBox == 'ก๊อกน้ำ' &&
-                              roomname == "ห้องน้ำชาย" &&
+                          if (roomname == "ห้องน้ำชาย" &&
                               buildingname == "อาคาร 60 ปี แม่โจ้" &&
                               roomfloor == "1" &&
                               roomposition == "ข้างบันได") {
@@ -638,7 +638,7 @@ class Form extends State<InformRepairForm> {
                             idDetailsList.add({
                               "informdetails": detail1,
                               "status": "ยังไม่ได้ดำเนินการ",
-                              "equipment_id": "1002",
+                              "equipment_id": "1001",
                               "user_id": u.toString(),
                             });
                           }
@@ -701,7 +701,7 @@ class Form extends State<InformRepairForm> {
                         onPressed: () async {
                           Navigator.push(context,
                               MaterialPageRoute(builder: (context) {
-                            return Home(username: 'ชื่อผู้ใช้');
+                            return Home(username: widget.username);
                           }));
 
                           // Navigator.pushNamed(context, '/one');
