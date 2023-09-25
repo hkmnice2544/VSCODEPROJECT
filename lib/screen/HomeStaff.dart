@@ -1,19 +1,63 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'Login.dart';
 import 'Staff/List/ListManage.dart';
 import 'Staff/Summary/Sammary.dart';
 import 'User/ListInformRepair/ListInformRepair.dart';
 
-class HomeStaff extends StatelessWidget {
+class HomeStaff extends StatefulWidget {
   final String username; // สร้างตัวแปรเพื่อเก็บชื่อผู้ใช้
 
-  HomeStaff({required this.username}); // รับค่า username ผ่าน constructor
+  HomeStaff({required this.username});
+  @override
+  State<HomeStaff> createState() => _HomeStaffState();
+}
+
+class _HomeStaffState extends State<HomeStaff> {
+  late String storedUsername;
+  bool isUsernameLoaded = false;
+
+  @override
+  void initState() {
+    super.initState();
+    if (!isUsernameLoaded) {
+      loadUsername(); // เรียกเมธอด loadUsername ที่จะโหลดข้อมูล username จาก SharedPreferences ใน initState
+    } // เรียกเมธอด loadUsername ที่จะโหลดข้อมูล username จาก SharedPreferences ใน initState
+  }
+
+  Future<void> loadUsername() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    storedUsername = prefs.getString('username') ?? '';
+    isUsernameLoaded = true;
+    setState(() {});
+  }
+
+  void clearUsername() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.remove('username'); // ลบข้อมูล username จาก SharedPreferences
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(
+        builder: (context) {
+          return Login();
+        },
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
+    if (!isUsernameLoaded) {
+      // ถ้าข้อมูล username ยังไม่ถูกโหลด ให้แสดง Placeholder หรือ Loading Screen
+      return Scaffold(
+        body: Center(
+          child: CircularProgressIndicator(),
+        ),
+      );
+    }
     return Scaffold(
         drawer: Drawer(
           child: Container(
@@ -192,153 +236,165 @@ class HomeStaff extends StatelessWidget {
                 ),
               ]),
         ),
-        body: SingleChildScrollView(
-          child: Stack(children: <Widget>[
-            const Padding(
-              padding: EdgeInsets.only(left: 45, top: 10, right: 0),
-              child: Text(
-                "กรุณาเลือกรายการ",
-                style: TextStyle(
-                  color: Color.fromARGB(255, 7, 94, 53),
-                  fontSize: 40,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ),
-            Container(
-              padding: EdgeInsets.only(left: 20, top: 80, right: 20),
-              child: Stack(
-                children: [
-                  Image.asset(
-                    'images/inform_Home.png',
-                    fit: BoxFit.cover,
-                  ),
-                  Positioned(
-                    child: IconButton(
-                      icon: Icon(Icons.chevron_right_sharp),
-                      color: Color.fromRGBO(255, 255, 255, 1),
-                      padding: EdgeInsets.only(left: 325, top: 85, right: 20),
-                      onPressed: () {
-                        // Navigator.push(
-                        //   context,
-                        //   MaterialPageRoute(builder: (context) {
-                        //     return InformRepairForm();
-                        //   }),
-                        // );
-                      },
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            Container(
-              padding: EdgeInsets.only(left: 20, top: 270, right: 20),
-              child: Stack(
-                children: [
-                  Image.asset(
-                    'images/informroom_Home.png',
-                    fit: BoxFit.cover,
-                  ),
-                  Positioned(
-                    child: IconButton(
-                      icon: Icon(Icons.chevron_right_sharp),
-                      color: Color.fromRGBO(255, 255, 255, 1),
-                      padding: EdgeInsets.only(left: 330, top: 85, right: 20),
-                      onPressed: () {
-                        // Navigator.push(
-                        //   context,
-                        //   MaterialPageRoute(builder: (context) {
-                        //     return InformClassrooms();
-                        //   }),
-                        // );
-                      },
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            Container(
-              padding: EdgeInsets.only(left: 20, top: 460, right: 20),
-              child: Stack(
-                children: [
-                  Image.asset(
-                    'images/List_Home.png',
-                    fit: BoxFit.cover,
-                  ),
-                  Positioned(
-                    child: IconButton(
-                      icon: Icon(Icons.chevron_right_sharp),
-                      color: Color.fromRGBO(255, 255, 255, 1),
-                      padding: EdgeInsets.only(left: 330, top: 85, right: 20),
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) {
-                            return ListInformRepair();
-                          }),
-                        );
-                      },
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            Container(
-              padding:
-                  EdgeInsets.only(left: 25, top: 670, right: 20, bottom: 20),
-              child: Stack(
-                children: [
-                  Image.asset(
-                    'images/List_Manage.png',
-                    fit: BoxFit.cover,
-                  ),
-                  Positioned(
-                    child: IconButton(
-                      icon: Icon(Icons.chevron_right_sharp),
-                      color: Color.fromRGBO(255, 255, 255, 1),
-                      padding: EdgeInsets.only(left: 327, top: 75, right: 20),
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) {
-                            return ListManage();
-                          }),
-                        );
-                      },
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            Container(
-              padding:
-                  EdgeInsets.only(left: 25, top: 870, right: 20, bottom: 20),
-              child: Stack(
-                children: [
-                  Image.asset(
-                    'images/List_Summary.png',
-                    fit: BoxFit.cover,
-                  ),
-                  Positioned(
-                    child: IconButton(
-                      icon: Icon(Icons.chevron_right_sharp),
-                      color: Color.fromRGBO(255, 255, 255, 1),
-                      padding: EdgeInsets.only(left: 327, top: 65, right: 20),
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) {
-                            return Summary();
-                          }),
-                        );
-                      },
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ]),
-        ));
+        body: isUsernameLoaded
+            ? SingleChildScrollView(
+                child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text('Welcome, ${widget.username}'),
+                      const Padding(
+                        padding: EdgeInsets.only(left: 45, top: 10, right: 0),
+                        child: Text(
+                          "กรุณาเลือกรายการ",
+                          style: TextStyle(
+                            color: Color.fromARGB(255, 7, 94, 53),
+                            fontSize: 40,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                      Container(
+                        padding: EdgeInsets.only(left: 20, top: 80, right: 20),
+                        child: Stack(
+                          children: [
+                            Image.asset(
+                              'images/inform_Home.png',
+                              fit: BoxFit.cover,
+                            ),
+                            Positioned(
+                              child: IconButton(
+                                icon: Icon(Icons.chevron_right_sharp),
+                                color: Color.fromRGBO(255, 255, 255, 1),
+                                padding: EdgeInsets.only(
+                                    left: 325, top: 85, right: 20),
+                                onPressed: () {
+                                  // Navigator.push(
+                                  //   context,
+                                  //   MaterialPageRoute(builder: (context) {
+                                  //     return InformRepairForm();
+                                  //   }),
+                                  // );
+                                },
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Container(
+                        padding: EdgeInsets.only(left: 20, top: 270, right: 20),
+                        child: Stack(
+                          children: [
+                            Image.asset(
+                              'images/informroom_Home.png',
+                              fit: BoxFit.cover,
+                            ),
+                            Positioned(
+                              child: IconButton(
+                                icon: Icon(Icons.chevron_right_sharp),
+                                color: Color.fromRGBO(255, 255, 255, 1),
+                                padding: EdgeInsets.only(
+                                    left: 330, top: 85, right: 20),
+                                onPressed: () {
+                                  // Navigator.push(
+                                  //   context,
+                                  //   MaterialPageRoute(builder: (context) {
+                                  //     return InformClassrooms();
+                                  //   }),
+                                  // );
+                                },
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Container(
+                        padding: EdgeInsets.only(left: 20, top: 460, right: 20),
+                        child: Stack(
+                          children: [
+                            Image.asset(
+                              'images/List_Home.png',
+                              fit: BoxFit.cover,
+                            ),
+                            Positioned(
+                              child: IconButton(
+                                icon: Icon(Icons.chevron_right_sharp),
+                                color: Color.fromRGBO(255, 255, 255, 1),
+                                padding: EdgeInsets.only(
+                                    left: 330, top: 85, right: 20),
+                                onPressed: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(builder: (context) {
+                                      return ListInformRepair();
+                                    }),
+                                  );
+                                },
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Container(
+                        padding: EdgeInsets.only(
+                            left: 25, top: 670, right: 20, bottom: 20),
+                        child: Stack(
+                          children: [
+                            Image.asset(
+                              'images/List_Manage.png',
+                              fit: BoxFit.cover,
+                            ),
+                            Positioned(
+                              child: IconButton(
+                                icon: Icon(Icons.chevron_right_sharp),
+                                color: Color.fromRGBO(255, 255, 255, 1),
+                                padding: EdgeInsets.only(
+                                    left: 327, top: 75, right: 20),
+                                onPressed: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(builder: (context) {
+                                      return ListManage();
+                                    }),
+                                  );
+                                },
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Container(
+                        padding: EdgeInsets.only(
+                            left: 25, top: 870, right: 20, bottom: 20),
+                        child: Stack(
+                          children: [
+                            Image.asset(
+                              'images/List_Summary.png',
+                              fit: BoxFit.cover,
+                            ),
+                            Positioned(
+                              child: IconButton(
+                                icon: Icon(Icons.chevron_right_sharp),
+                                color: Color.fromRGBO(255, 255, 255, 1),
+                                padding: EdgeInsets.only(
+                                    left: 327, top: 65, right: 20),
+                                onPressed: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(builder: (context) {
+                                      return Summary();
+                                    }),
+                                  );
+                                },
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ]),
+              )
+            : Center(
+                child: CircularProgressIndicator(),
+              ));
   }
 }
 

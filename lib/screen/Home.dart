@@ -232,6 +232,17 @@ class _HomeState extends State<Home> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text('Welcome, ${widget.username}'),
+                    const Padding(
+                      padding: EdgeInsets.only(left: 45, top: 10, right: 0),
+                      child: Text(
+                        "กรุณาเลือกรายการ",
+                        style: TextStyle(
+                          color: Color.fromARGB(255, 7, 94, 53),
+                          fontSize: 40,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
                     Container(
                       padding: EdgeInsets.only(left: 20, top: 5, right: 20),
                       child: Stack(
