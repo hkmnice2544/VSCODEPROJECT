@@ -454,7 +454,7 @@ class _ViewResultState extends State<View_Sum> {
                 ),
                 Expanded(
                   child: Text(
-                    "${informRepair?.informdetails}",
+                    "informRepair?.informdetails",
                     style: TextStyle(
                       color: Colors.black,
                       fontSize: 20,

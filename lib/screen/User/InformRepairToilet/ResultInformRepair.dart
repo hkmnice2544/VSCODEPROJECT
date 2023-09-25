@@ -375,7 +375,7 @@ class _MyResultState extends State<ResultInformRepair> {
                 ),
                 Expanded(
                   child: Text(
-                    "${informRepair?.informdetails}",
+                    "informRepair?.informdetails",
                     style: TextStyle(
                       color: Colors.black,
                       fontSize: 20,

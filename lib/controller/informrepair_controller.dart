@@ -35,35 +35,35 @@ class InformRepairController {
   //   }
   // }
 
-  // Future<List<InformRepair>> listAllInformRepairs() async {
-  //   try {
-  //     var url = Uri.parse(baseURL + '/informrepairs/list');
+  Future<List<InformRepair>> listAllInformRepairs() async {
+    try {
+      var url = Uri.parse(baseURL + '/informrepairs/list');
 
-  //     http.Response response = await http.post(url, headers: headers);
-  //     print(response.body);
+      http.Response response = await http.post(url, headers: headers);
+      print(response.body);
 
-  //     if (response.statusCode == 200) {
-  //       final utf8body = utf8.decode(response.bodyBytes);
-  //       final jsonList = json.decode(utf8body) as List<dynamic>;
+      if (response.statusCode == 200) {
+        final utf8body = utf8.decode(response.bodyBytes);
+        final jsonList = json.decode(utf8body) as List<dynamic>;
 
-  //       List<InformRepair> list = [];
+        List<InformRepair> list = [];
 
-  //       for (final jsonData in jsonList) {
-  //         final informRepair = InformRepair.fromJsonToInformRepair(jsonData);
-  //         list.add(informRepair);
-  //       }
-  //       var jsonResponse = jsonDecode(response.body);
-  //       print(jsonResponse);
+        for (final jsonData in jsonList) {
+          final informRepair = InformRepair.fromJsonToInformRepair(jsonData);
+          list.add(informRepair);
+        }
+        var jsonResponse = jsonDecode(response.body);
+        print(jsonResponse);
 
-  //       return list;
-  //     } else {
-  //       throw Exception('Failed to load inform repairs');
-  //     }
-  //   } catch (e) {
-  //     print('Error: $e');
-  //     throw Exception('Failed to load inform repairs');
-  //   }
-  // }
+        return list;
+      } else {
+        throw Exception('Failed to load inform repairs');
+      }
+    } catch (e) {
+      print('Error: $e');
+      throw Exception('Failed to load inform repairs');
+    }
+  }
 
   // Future updateInformRepair(String informdetails, String status,
   //     String equipment_id, String informrepair_id) async {

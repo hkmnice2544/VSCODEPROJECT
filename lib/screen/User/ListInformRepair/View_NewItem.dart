@@ -221,13 +221,14 @@ class _ViewResultState extends State<View_NewItem> {
                 ),
                 Expanded(
                   child: Text(
-                    informRepair?.rooms != null
-                        ? informRepair!.rooms!
-                            .map((room) =>
-                                room.roomname ??
-                                'N/A') // ดึงประเภทห้องน้ำจากอ็อบเจกต์ Room
-                            .join(', ')
-                        : 'N/A',
+                    // informRepair?.rooms != null
+                    //     ? informRepair!.rooms!
+                    //         .map((room) =>
+                    //             room.roomname ??
+                    //             'N/A') // ดึงประเภทห้องน้ำจากอ็อบเจกต์ Room
+                    //         .join(', ')
+                    //     : 'N/A',
+                    "",
                     style: TextStyle(
                       color: Colors.black,
                       fontSize: 20,
@@ -251,13 +252,14 @@ class _ViewResultState extends State<View_NewItem> {
                 ),
                 Expanded(
                   child: Text(
-                    informRepair?.rooms != null
-                        ? informRepair!.rooms!
-                            .map((room) =>
-                                room.building?.buildingname ??
-                                'N/A') // ดึงข้อมูลอาคารจากอ็อบเจกต์ Room
-                            .join(', ')
-                        : 'N/A',
+                    // informRepair?.rooms != null
+                    //     ? informRepair!.rooms!
+                    //         .map((room) =>
+                    //             room.building?.buildingname ??
+                    //             'N/A') // ดึงข้อมูลอาคารจากอ็อบเจกต์ Room
+                    //         .join(', ')
+                    //     : 'N/A',
+                    "",
                     style: TextStyle(
                       color: Colors.black,
                       fontSize: 20,
@@ -281,13 +283,14 @@ class _ViewResultState extends State<View_NewItem> {
                 ),
                 Expanded(
                   child: Text(
-                    informRepair?.rooms != null
-                        ? informRepair!.rooms!
-                            .map((room) =>
-                                room.floor ??
-                                'N/A') // ดึงประเภทห้องน้ำจากอ็อบเจกต์ Room
-                            .join(', ')
-                        : 'N/A',
+                    // informRepair?.rooms != null
+                    //     ? informRepair!.rooms!
+                    //         .map((room) =>
+                    //             room.floor ??
+                    //             'N/A') // ดึงประเภทห้องน้ำจากอ็อบเจกต์ Room
+                    //         .join(', ')
+                    //     : 'N/A',
+                    "",
                     style: TextStyle(
                       color: Colors.black,
                       fontSize: 20,
@@ -311,13 +314,14 @@ class _ViewResultState extends State<View_NewItem> {
                 ),
                 Expanded(
                   child: Text(
-                    informRepair?.rooms != null
-                        ? informRepair!.rooms!
-                            .map((room) =>
-                                room.position ??
-                                'N/A') // ดึงประเภทห้องน้ำจากอ็อบเจกต์ Room
-                            .join(', ')
-                        : 'N/A',
+                    // informRepair?.rooms != null
+                    //     ? informRepair!.rooms!
+                    //         .map((room) =>
+                    //             room.position ??
+                    //             'N/A') // ดึงประเภทห้องน้ำจากอ็อบเจกต์ Room
+                    //         .join(', ')
+                    //     : 'N/A',
+                    "",
                     style: TextStyle(
                       color: Colors.black,
                       fontSize: 20,
@@ -354,13 +358,14 @@ class _ViewResultState extends State<View_NewItem> {
             Row(
               children: [
                 Text(
-                  informRepair?.equipment != null
-                      ? informRepair!.equipment!
-                          .map((equipment) =>
-                              equipment.equipmentname ??
-                              'N/A') // ดึงประเภทห้องน้ำจากอ็อบเจกต์ Room
-                          .join(', ')
-                      : 'N/A',
+                  // informRepair?.equipment != null
+                  //     ? informRepair!.equipment!
+                  //         .map((equipment) =>
+                  //             equipment.equipmentname ??
+                  //             'N/A') // ดึงประเภทห้องน้ำจากอ็อบเจกต์ Room
+                  //         .join(', ')
+                  //     : 'N/A',
+                  "",
                   style: TextStyle(
                     color: Colors.black,
                     fontSize: 20,
@@ -383,7 +388,7 @@ class _ViewResultState extends State<View_NewItem> {
                 ),
                 Expanded(
                   child: Text(
-                    "${informRepair?.informdetails}",
+                    "informRepair?.informdetails",
                     style: TextStyle(
                       color: Colors.black,
                       fontSize: 20,

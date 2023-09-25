@@ -361,7 +361,7 @@ class _ViewViewActualizeState extends State<ViewActualize> {
                 ),
                 Expanded(
                   child: Text(
-                    "${informRepair?.informdetails}",
+                    "informRepair?.informdetails",
                     style: TextStyle(
                       color: Colors.black,
                       fontSize: 20,

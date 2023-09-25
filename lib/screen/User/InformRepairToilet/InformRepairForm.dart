@@ -116,6 +116,7 @@ class Form extends State<InformRepairForm> {
   List<String> roomNames = [];
   List<String> roomfloors = [];
   List<String> roompositions = [];
+  late final String username;
 
   Future<void> fetchRoomNames() async {
     var url = Uri.parse(baseURL + '/rooms/listAllDistinctRoomNames');
@@ -162,17 +163,17 @@ class Form extends State<InformRepairForm> {
   final InformRepairController informrepairController =
       InformRepairController();
 
-  // void fetchInformRepairs() async {
-  //   informrepairs = await informrepairController.listAllInformRepairs();
-  //   print({informrepairs?[0].informrepair_id});
-  //   print(
-  //       "getInform ปัจจุบัน : ${informrepairs?[informrepairs!.length - 1].informrepair_id}");
-  //   print(
-  //       "getInform +1 : ${(informrepairs?[informrepairs!.length - 1]?.informrepair_id ?? 0) + 1}");
-  //   setState(() {
-  //     isDataLoaded = true;
-  //   });
-  // }
+  void fetchInformRepairs() async {
+    informrepairs = await informrepairController.listAllInformRepairs();
+    print({informrepairs?[0].informrepair_id});
+    print(
+        "getInform ปัจจุบัน : ${informrepairs?[informrepairs!.length - 1].informrepair_id}");
+    print(
+        "getInform +1 : ${(informrepairs?[informrepairs!.length - 1]?.informrepair_id ?? 0) + 1}");
+    setState(() {
+      isDataLoaded = true;
+    });
+  }
 
   // void listAllBuildings() async {
   //   buildings =
@@ -190,7 +191,7 @@ class Form extends State<InformRepairForm> {
   @override
   void initState() {
     super.initState();
-    // fetchInformRepairs();
+    fetchInformRepairs();
     // listAllBuildings();
     fetchRoomNames();
     fetchRoomfloors();
@@ -231,7 +232,7 @@ class Form extends State<InformRepairForm> {
                       onPressed: () {
                         Navigator.push(context, MaterialPageRoute(
                           builder: (context) {
-                            return Home(username: 'ชื่อผู้ใช้');
+                            return Home(username: widget.username);
                           },
                         ));
                       }),
