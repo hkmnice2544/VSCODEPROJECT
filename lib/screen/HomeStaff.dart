@@ -253,141 +253,179 @@ class _HomeStaffState extends State<HomeStaff> {
                           ),
                         ),
                       ),
-                      Container(
-                        padding: EdgeInsets.only(left: 20, top: 80, right: 20),
-                        child: Stack(
-                          children: [
-                            Image.asset(
-                              'images/inform_Home.png',
-                              fit: BoxFit.cover,
-                            ),
-                            Positioned(
-                              child: IconButton(
-                                icon: Icon(Icons.chevron_right_sharp),
-                                color: Color.fromRGBO(255, 255, 255, 1),
-                                padding: EdgeInsets.only(
-                                    left: 325, top: 85, right: 20),
-                                onPressed: () {
-                                  // Navigator.push(
-                                  //   context,
-                                  //   MaterialPageRoute(builder: (context) {
-                                  //     return InformRepairForm();
-                                  //   }),
-                                  // );
-                                },
+                      Center(
+                        child: Container(
+                          child: Stack(
+                            children: [
+                              Image.asset(
+                                'images/inform_Home.png',
+                                width: 500, // กำหนดความกว้าง
+                                height: 250, // กำหนดความสูง
+                                fit: BoxFit.cover,
                               ),
-                            ),
-                          ],
+                              Positioned(
+                                child: IconButton(
+                                  icon: Icon(
+                                    Icons.chevron_right_sharp,
+                                    size: 40,
+                                    color: Color.fromRGBO(255, 255, 255,
+                                        1), // ปรับขนาดของไอคอนตามที่คุณต้องการ
+                                  ),
+                                  padding: EdgeInsets.only(
+                                      left: 435, top: 105, right: 20),
+                                  onPressed: () {
+                                    // Navigator.push(
+                                    //   context,
+                                    //   MaterialPageRoute(builder: (context) {
+                                    //     return InformRepairForm();
+                                    //   }),
+                                    // );
+                                  },
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
                       ),
-                      Container(
-                        padding: EdgeInsets.only(left: 20, top: 270, right: 20),
-                        child: Stack(
-                          children: [
-                            Image.asset(
-                              'images/informroom_Home.png',
-                              fit: BoxFit.cover,
-                            ),
-                            Positioned(
-                              child: IconButton(
-                                icon: Icon(Icons.chevron_right_sharp),
-                                color: Color.fromRGBO(255, 255, 255, 1),
-                                padding: EdgeInsets.only(
-                                    left: 330, top: 85, right: 20),
-                                onPressed: () {
-                                  // Navigator.push(
-                                  //   context,
-                                  //   MaterialPageRoute(builder: (context) {
-                                  //     return InformClassrooms();
-                                  //   }),
-                                  // );
-                                },
+                      Center(
+                        child: Container(
+                          padding: EdgeInsets.only(left: 0, top: 0, right: 0),
+                          child: Stack(
+                            children: [
+                              Image.asset(
+                                'images/informroom_Home.png',
+                                width: 500, // กำหนดความกว้าง
+                                height: 250, // กำหนดความสูง
+                                fit: BoxFit.cover,
                               ),
-                            ),
-                          ],
+                              Positioned(
+                                child: IconButton(
+                                  icon: Icon(
+                                    Icons.chevron_right_sharp,
+                                    size: 40,
+                                    color: Color.fromRGBO(255, 255, 255,
+                                        1), // ปรับขนาดของไอคอนตามที่คุณต้องการ
+                                  ),
+                                  padding: EdgeInsets.only(
+                                      left: 435, top: 105, right: 20),
+                                  onPressed: () {
+                                    // Navigator.push(
+                                    //   context,
+                                    //   MaterialPageRoute(builder: (context) {
+                                    //     return InformClassrooms();
+                                    //   }),
+                                    // );
+                                  },
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
                       ),
-                      Container(
-                        padding: EdgeInsets.only(left: 20, top: 460, right: 20),
-                        child: Stack(
-                          children: [
-                            Image.asset(
-                              'images/List_Home.png',
-                              fit: BoxFit.cover,
-                            ),
-                            Positioned(
-                              child: IconButton(
-                                icon: Icon(Icons.chevron_right_sharp),
-                                color: Color.fromRGBO(255, 255, 255, 1),
-                                padding: EdgeInsets.only(
-                                    left: 330, top: 85, right: 20),
-                                onPressed: () {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(builder: (context) {
-                                      return ListInformRepair();
-                                    }),
-                                  );
-                                },
+                      Center(
+                        child: Container(
+                          padding: EdgeInsets.only(left: 0, top: 0, right: 0),
+                          child: Stack(
+                            children: [
+                              Image.asset(
+                                'images/List_Home.png',
+                                width: 500, // กำหนดความกว้าง
+                                height: 250, // กำหนดความสูง
+                                fit: BoxFit.cover,
                               ),
-                            ),
-                          ],
+                              Positioned(
+                                child: IconButton(
+                                  icon: Icon(
+                                    Icons.chevron_right_sharp,
+                                    size: 40,
+                                    color: Color.fromRGBO(255, 255, 255,
+                                        1), // ปรับขนาดของไอคอนตามที่คุณต้องการ
+                                  ),
+                                  padding: EdgeInsets.only(
+                                      left: 435, top: 110, right: 20),
+                                  onPressed: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(builder: (context) {
+                                        return ListInformRepair();
+                                      }),
+                                    );
+                                  },
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
                       ),
-                      Container(
-                        padding: EdgeInsets.only(
-                            left: 25, top: 670, right: 20, bottom: 20),
-                        child: Stack(
-                          children: [
-                            Image.asset(
-                              'images/List_Manage.png',
-                              fit: BoxFit.cover,
-                            ),
-                            Positioned(
-                              child: IconButton(
-                                icon: Icon(Icons.chevron_right_sharp),
-                                color: Color.fromRGBO(255, 255, 255, 1),
-                                padding: EdgeInsets.only(
-                                    left: 327, top: 75, right: 20),
-                                onPressed: () {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(builder: (context) {
-                                      return ListManage();
-                                    }),
-                                  );
-                                },
+                      Center(
+                        child: Container(
+                          padding: EdgeInsets.only(
+                              left: 0, top: 0, right: 0, bottom: 0),
+                          child: Stack(
+                            children: [
+                              Image.asset(
+                                'images/List_Manage.png',
+                                width: 520, // กำหนดความกว้าง
+                                height: 250, // กำหนดความสูง
+                                fit: BoxFit.cover,
                               ),
-                            ),
-                          ],
+                              Positioned(
+                                child: IconButton(
+                                  icon: Icon(
+                                    Icons.chevron_right_sharp,
+                                    size: 40,
+                                    color: Color.fromRGBO(255, 255, 255,
+                                        1), // ปรับขนาดของไอคอนตามที่คุณต้องการ
+                                  ),
+                                  padding: EdgeInsets.only(
+                                      left: 465, top: 105, right: 20),
+                                  onPressed: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(builder: (context) {
+                                        return ListManage();
+                                      }),
+                                    );
+                                  },
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
                       ),
-                      Container(
-                        padding: EdgeInsets.only(
-                            left: 25, top: 870, right: 20, bottom: 20),
-                        child: Stack(
-                          children: [
-                            Image.asset(
-                              'images/List_Summary.png',
-                              fit: BoxFit.cover,
-                            ),
-                            Positioned(
-                              child: IconButton(
-                                icon: Icon(Icons.chevron_right_sharp),
-                                color: Color.fromRGBO(255, 255, 255, 1),
-                                padding: EdgeInsets.only(
-                                    left: 327, top: 65, right: 20),
-                                onPressed: () {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(builder: (context) {
-                                      return Summary();
-                                    }),
-                                  );
-                                },
+                      Center(
+                        child: Container(
+                          padding: EdgeInsets.only(
+                              left: 0, top: 0, right: 0, bottom: 0),
+                          child: Stack(
+                            children: [
+                              Image.asset(
+                                'images/List_Summary.png',
+                                width: 550, // กำหนดความกว้าง
+                                height: 250, // กำหนดความสูง
                               ),
-                            ),
-                          ],
+                              Positioned(
+                                child: IconButton(
+                                  icon: Icon(
+                                    Icons.chevron_right_sharp,
+                                    size: 40,
+                                    color: Color.fromRGBO(255, 255, 255,
+                                        1), // ปรับขนาดของไอคอนตามที่คุณต้องการ
+                                  ),
+                                  padding: EdgeInsets.only(
+                                      left: 490, top: 100, right: 20),
+                                  onPressed: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(builder: (context) {
+                                        return Summary();
+                                      }),
+                                    );
+                                  },
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                     ]),
