@@ -175,14 +175,14 @@ class Form extends State<InformRepairForm> {
     });
   }
 
-  // void listAllBuildings() async {
-  //   buildings =
-  //       (await informrepairController.listAllBuildings()).cast<Building>();
-  //   print("listAllBuildings : ${buildings?[0].building_id}");
-  //   setState(() {
-  //     isDataLoaded = true;
-  //   });
-  // }
+  void listAllBuildings() async {
+    buildings =
+        (await informrepairController.listAllBuildings()).cast<Building>();
+    print("listAllBuildings : ${buildings?[0].building_id}");
+    setState(() {
+      isDataLoaded = true;
+    });
+  }
 
   void main() {
     initializeDateFormatting('th_TH', null).then((_) {});
@@ -192,7 +192,7 @@ class Form extends State<InformRepairForm> {
   void initState() {
     super.initState();
     fetchInformRepairs();
-    // listAllBuildings();
+    listAllBuildings();
     fetchRoomNames();
     fetchRoomfloors();
     fetchRoompositions();

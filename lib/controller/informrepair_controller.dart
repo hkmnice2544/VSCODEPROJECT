@@ -134,24 +134,24 @@ class InformRepairController {
   //   return building;
   // }
 
-  // Future<List> listAllBuildings() async {
-  //   var url = Uri.parse(baseURL + '/buildings/list');
+  Future<List> listAllBuildings() async {
+    var url = Uri.parse(baseURL + '/buildings/list');
 
-  //   http.Response response = await http.post(url, headers: headers);
-  //   print(response.body);
+    http.Response response = await http.post(url, headers: headers);
+    print(response.body);
 
-  //   List<Building> list = [];
+    List<Building> list = [];
 
-  //   final utf8body = utf8.decode(response.bodyBytes);
-  //   final jsonList = json.decode(utf8body) as List<dynamic>;
+    final utf8body = utf8.decode(response.bodyBytes);
+    final jsonList = json.decode(utf8body) as List<dynamic>;
 
-  //   for (final jsonData in jsonList) {
-  //     final building = Building.fromJsonToBuilding(jsonData);
-  //     list.add(building);
-  //   }
+    for (final jsonData in jsonList) {
+      final building = Building.fromJsonToBuilding(jsonData);
+      list.add(building);
+    }
 
-  //   return list;
-  // }
+    return list;
+  }
 
   // Future<List<Room>> listAllRooms() async {
   //   var url = Uri.parse(baseURL + '/rooms/listAllDistinctRoomNames');
