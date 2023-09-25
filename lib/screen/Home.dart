@@ -224,7 +224,7 @@ class _HomeState extends State<Home> {
               // mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
                 Padding(
-                  padding: EdgeInsets.only(left: 255, top: 14, right: 16.0),
+                  padding: EdgeInsets.only(left: 440, top: 14, right: 16.0),
                 ),
                 IconButton(
                     icon: Icon(Icons.logout),
@@ -236,14 +236,25 @@ class _HomeState extends State<Home> {
                         },
                       ));
                     }),
-                Text(
-                  "       ออกจากระบบ",
-                  style: TextStyle(
-                    color: Color.fromARGB(255, 255, 255, 255),
-                    fontSize: 12,
-                    fontWeight: FontWeight.w100,
+                GestureDetector(
+                  onTap: () {
+                    // นำทางไปยังหน้าอื่นที่คุณต้องการ
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) {
+                        return Login();
+                      }),
+                    );
+                  },
+                  child: Text(
+                    "ออกจากระบบ",
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 12,
+                      fontWeight: FontWeight.w100,
+                    ),
                   ),
-                ),
+                )
               ]),
         ),
         body: isUsernameLoaded
