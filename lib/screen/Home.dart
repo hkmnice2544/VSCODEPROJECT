@@ -60,16 +60,16 @@ class _HomeState extends State<Home> {
     }
     // หลังจากโหลดข้อมูล username เสร็จแล้วให้แสดงหน้า Home ตามปกติ
     return Scaffold(
-        drawer: Drawer(
+        endDrawer: Drawer(
           child: Container(
             color: Color.fromARGB(255, 255, 255, 255),
             child: ListView(
               children: [
                 DrawerHeader(
-                  child: Icon(
-                    Icons.supervised_user_circle,
-                    size: 150,
-                    color: Colors.red,
+                  child: Image.asset(
+                    'images/User.png',
+                    width: 80,
+                    height: 80,
                   ),
                 ),
                 Text(
@@ -129,37 +129,57 @@ class _HomeState extends State<Home> {
           ),
         ),
         appBar: AppBar(
-          title: Text('หัสยา ขาวใหม่'),
-          leading: IconButton(
-            icon: Image.asset(
-              'images/MJU_LOGO.png',
-              width: 300,
-              height: 300,
+          title: Text(''), // ลบ title ทิ้ง
+          leading: Padding(
+            padding: EdgeInsets.only(left: 30, top: 0, right: 0),
+            child: IconButton(
+              icon: Transform.scale(
+                scale: 7.0,
+                child: Image.asset(
+                  'images/MJU_LOGO.png',
+                  width: 50,
+                  height: 50,
+                ),
+              ),
+              onPressed: () {
+                // กระบวนการที่ต้องการเมื่อคลิกรูปภาพ
+              },
             ),
-            // เพิ่มขนาดของรูปภาพด้วย iconSize
-            onPressed: () {
-              // กระบวนการที่ต้องการเมื่อคลิกรูปภาพ
-            },
           ),
-
+          iconTheme: IconThemeData(
+            size: 35,
+          ),
           flexibleSpace: Image.asset('images/Top2.png', fit: BoxFit.cover),
           toolbarHeight: 135,
           automaticallyImplyLeading: false,
+          elevation: 0.0,
           actions: [
-            // Text(
-            //     'John Doe', // ใส่ชื่อที่ต้องการใน Text widget
-            //     style: TextStyle(
-            //       fontSize: 16,
-            //       fontWeight: FontWeight.bold,
-            //     ),
-            //   ),
-
+            Padding(
+              padding: EdgeInsets.only(left: 0, top: 55, right: 15),
+              child: Text(
+                'หัสยา ขาวใหม่',
+                style: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                  color: Color.fromARGB(255, 0, 0, 0),
+                ),
+              ),
+            ),
+            Padding(
+              padding: EdgeInsets.only(left: 0, top: 0, right: 10),
+              child: Image.asset(
+                'images/profile-user.png',
+                width: 30,
+                height: 30,
+              ),
+            ),
             Builder(builder: (context) {
               return IconButton(
                 onPressed: () {
-                  Scaffold.of(context).openDrawer();
+                  Scaffold.of(context).openEndDrawer(); // เปิด Drawer ด้านซ้าย
                 },
                 icon: const Icon(Icons.menu),
+                color: Color.fromARGB(255, 0, 0, 0),
               );
             }),
           ],
@@ -231,13 +251,13 @@ class _HomeState extends State<Home> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text('Welcome, ${widget.username}'),
+                    // Text('Welcome, ${widget.username}'),
                     const Padding(
                       padding: EdgeInsets.only(left: 45, top: 10, right: 0),
                       child: Text(
                         "กรุณาเลือกรายการ",
                         style: TextStyle(
-                          color: Color.fromARGB(255, 7, 94, 53),
+                          color: Color.fromRGBO(7, 94, 53, 1),
                           fontSize: 40,
                           fontWeight: FontWeight.bold,
                         ),
