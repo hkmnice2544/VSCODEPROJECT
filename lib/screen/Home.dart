@@ -227,7 +227,7 @@ class _HomeState extends State<Home> {
               ]),
         ),
         body: isUsernameLoaded
-            ? Center(
+            ? SingleChildScrollView(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -241,11 +241,15 @@ class _HomeState extends State<Home> {
                             fit: BoxFit.cover,
                           ),
                           Positioned(
-                            left: 325, // ปรับตำแหน่งแนวนอนตามความเหมาะสม
-                            top: 85, // ปรับตำแหน่งแนวตั้งตามความเหมาะสม
+                            left: 480, // ปรับตำแหน่งแนวนอนตามความเหมาะสม
+                            top: 115, // ปรับตำแหน่งแนวตั้งตามความเหมาะสม
                             child: IconButton(
-                              icon: Icon(Icons.chevron_right_sharp),
-                              color: Color.fromRGBO(255, 255, 255, 1),
+                              icon: Icon(
+                                Icons.chevron_right_sharp,
+                                size: 40,
+                                color: Color.fromRGBO(255, 255, 255,
+                                    1), // ปรับขนาดของไอคอนตามที่คุณต้องการ
+                              ),
                               onPressed: () {
                                 Navigator.push(
                                   context,
@@ -269,10 +273,15 @@ class _HomeState extends State<Home> {
                             fit: BoxFit.cover,
                           ),
                           Positioned(
-                            left: 325, // ปรับตำแหน่งแนวนอนตามความเหมาะสม
-                            top: 85, // ปรับตำแหน่งแนวตั้งตามความเหมาะสม
+                            left: 480, // ปรับตำแหน่งแนวนอนตามความเหมาะสม
+                            top: 115, // ปรับตำแหน่งแนวตั้งตามความเหมาะสม
                             child: IconButton(
-                              icon: Icon(Icons.chevron_right_sharp),
+                              icon: Icon(
+                                Icons.chevron_right_sharp,
+                                size: 40,
+                                color: Color.fromRGBO(255, 255, 255,
+                                    1), // ปรับขนาดของไอคอนตามที่คุณต้องการ
+                              ),
                               color: Color.fromRGBO(255, 255, 255, 1),
                               onPressed: () {
                                 // Navigator.push(
@@ -288,7 +297,7 @@ class _HomeState extends State<Home> {
                       ),
                     ),
                     Container(
-                      padding: EdgeInsets.only(left: 20, top: 460, right: 20),
+                      padding: EdgeInsets.only(left: 20, top: 0, right: 20),
                       child: Stack(
                         children: [
                           Image.asset(
@@ -296,11 +305,15 @@ class _HomeState extends State<Home> {
                             fit: BoxFit.cover,
                           ),
                           Positioned(
-                            left: 325, // ปรับตำแหน่งแนวนอนตามความเหมาะสม
-                            top: 85, // ปรับตำแหน่งแนวตั้งตามความเหมาะสม
+                            left: 485, // ปรับตำแหน่งแนวนอนตามความเหมาะสม
+                            top: 120, // ปรับตำแหน่งแนวตั้งตามความเหมาะสม
                             child: IconButton(
-                              icon: Icon(Icons.chevron_right_sharp),
-                              color: Color.fromRGBO(255, 255, 255, 1),
+                              icon: Icon(
+                                Icons.chevron_right_sharp,
+                                size: 40,
+                                color: Color.fromRGBO(255, 255, 255,
+                                    1), // ปรับขนาดของไอคอนตามที่คุณต้องการ
+                              ),
                               onPressed: () {
                                 Navigator.push(
                                   context,

@@ -175,7 +175,7 @@ class _LoginState extends State<Login> {
                   ),
                   Positioned(
                     left: 150,
-                    top: 24,
+                    top: 20,
                     child: SizedBox(
                       width: 800,
                       height: 50,
