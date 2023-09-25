@@ -243,102 +243,117 @@ class _HomeState extends State<Home> {
                         ),
                       ),
                     ),
-                    Container(
-                      padding: EdgeInsets.only(left: 20, top: 5, right: 20),
-                      child: Stack(
-                        children: [
-                          Image.asset(
-                            'images/inform_Home.png',
-                            fit: BoxFit.cover,
-                          ),
-                          Positioned(
-                            left: 480, // ปรับตำแหน่งแนวนอนตามความเหมาะสม
-                            top: 115, // ปรับตำแหน่งแนวตั้งตามความเหมาะสม
-                            child: IconButton(
-                              icon: Icon(
-                                Icons.chevron_right_sharp,
-                                size: 40,
-                                color: Color.fromRGBO(255, 255, 255,
-                                    1), // ปรับขนาดของไอคอนตามที่คุณต้องการ
-                              ),
-                              onPressed: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(builder: (context) {
-                                    return InformRepairForm(
-                                        username: widget.username);
-                                  }),
-                                );
-                              },
+                    Center(
+                      child: Container(
+                        padding: EdgeInsets.only(
+                            left: 0, top: 0, right: 0, bottom: 0),
+                        child: Stack(
+                          children: [
+                            Image.asset(
+                              'images/inform_Home.png',
+                              width: 520, // กำหนดความกว้าง
+                              height: 250, // กำหนดความสูง
+                              fit: BoxFit.cover,
                             ),
-                          ),
-                        ],
+                            Positioned(
+                              child: IconButton(
+                                icon: Icon(
+                                  Icons.chevron_right_sharp,
+                                  size: 40,
+                                  color: Color.fromRGBO(255, 255, 255,
+                                      1), // ปรับขนาดของไอคอนตามที่คุณต้องการ
+                                ),
+                                padding: EdgeInsets.only(
+                                    left: 455, top: 105, right: 20),
+                                onPressed: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(builder: (context) {
+                                      return InformRepairForm(
+                                          username: widget.username);
+                                    }),
+                                  );
+                                },
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
-                    Container(
-                      padding: EdgeInsets.only(left: 20, top: 0, right: 20),
-                      child: Stack(
-                        children: [
-                          Image.asset(
-                            'images/informroom_Home.png',
-                            fit: BoxFit.cover,
-                          ),
-                          Positioned(
-                            left: 480, // ปรับตำแหน่งแนวนอนตามความเหมาะสม
-                            top: 115, // ปรับตำแหน่งแนวตั้งตามความเหมาะสม
-                            child: IconButton(
-                              icon: Icon(
-                                Icons.chevron_right_sharp,
-                                size: 40,
-                                color: Color.fromRGBO(255, 255, 255,
-                                    1), // ปรับขนาดของไอคอนตามที่คุณต้องการ
-                              ),
-                              color: Color.fromRGBO(255, 255, 255, 1),
-                              onPressed: () {
-                                // Navigator.push(
-                                //   context,
-                                //   MaterialPageRoute(builder: (context) {
-                                //     return InformRepairForm();
-                                //   }),
-                                // );
-                              },
+                    Center(
+                      child: Container(
+                        padding: EdgeInsets.only(
+                            left: 0, top: 0, right: 0, bottom: 0),
+                        child: Stack(
+                          children: [
+                            Image.asset(
+                              'images/informroom_Home.png',
+                              width: 520, // กำหนดความกว้าง
+                              height: 250, // กำหนดความสูง
+                              fit: BoxFit.cover,
                             ),
-                          ),
-                        ],
+                            Positioned(
+                              child: IconButton(
+                                icon: Icon(
+                                  Icons.chevron_right_sharp,
+                                  size: 40,
+                                  color: Color.fromRGBO(255, 255, 255,
+                                      1), // ปรับขนาดของไอคอนตามที่คุณต้องการ
+                                ),
+                                padding: EdgeInsets.only(
+                                    left: 455, top: 105, right: 20),
+                                onPressed: () {
+                                  // Navigator.push(
+                                  //   context,
+                                  //   // MaterialPageRoute(builder: (context) {
+                                  //   //   return InformRepairForm(
+                                  //   //       username: widget.username);
+                                  //   // }),
+                                  // );
+                                },
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
-                    Container(
-                      padding: EdgeInsets.only(left: 20, top: 0, right: 20),
-                      child: Stack(
-                        children: [
-                          Image.asset(
-                            'images/List_Home.png',
-                            fit: BoxFit.cover,
-                          ),
-                          Positioned(
-                            left: 485, // ปรับตำแหน่งแนวนอนตามความเหมาะสม
-                            top: 120, // ปรับตำแหน่งแนวตั้งตามความเหมาะสม
-                            child: IconButton(
-                              icon: Icon(
-                                Icons.chevron_right_sharp,
-                                size: 40,
-                                color: Color.fromRGBO(255, 255, 255,
-                                    1), // ปรับขนาดของไอคอนตามที่คุณต้องการ
-                              ),
-                              onPressed: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(builder: (context) {
-                                    var username;
-                                    return ListInformRepair();
-                                  }),
-                                );
-                              },
+                    Center(
+                      child: Container(
+                        padding: EdgeInsets.only(
+                            left: 0, top: 0, right: 0, bottom: 0),
+                        child: Stack(
+                          children: [
+                            Image.asset(
+                              'images/List_Home.png',
+                              width: 520, // กำหนดความกว้าง
+                              height: 250, // กำหนดความสูง
+                              fit: BoxFit.cover,
                             ),
-                          ),
-                        ],
+                            Positioned(
+                              child: IconButton(
+                                icon: Icon(
+                                  Icons.chevron_right_sharp,
+                                  size: 40,
+                                  color: Color.fromRGBO(255, 255, 255,
+                                      1), // ปรับขนาดของไอคอนตามที่คุณต้องการ
+                                ),
+                                padding: EdgeInsets.only(
+                                    left: 455, top: 105, right: 20),
+                                onPressed: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(builder: (context) {
+                                      var username;
+                                      return ListInformRepair();
+                                    }),
+                                  );
+                                },
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
-                    )
+                    ),
                   ],
                 ),
               )
