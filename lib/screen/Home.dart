@@ -224,7 +224,7 @@ class _HomeState extends State<Home> {
               // mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
                 Padding(
-                  padding: EdgeInsets.only(left: 440, top: 14, right: 16.0),
+                  padding: EdgeInsets.only(left: 420, top: 14, right: 16.0),
                 ),
                 IconButton(
                     icon: Icon(Icons.logout),

@@ -59,16 +59,16 @@ class _HomeStaffState extends State<HomeStaff> {
       );
     }
     return Scaffold(
-        drawer: Drawer(
+        endDrawer: Drawer(
           child: Container(
             color: Color.fromARGB(255, 255, 255, 255),
             child: ListView(
               children: [
                 DrawerHeader(
-                  child: Icon(
-                    Icons.supervised_user_circle,
-                    size: 150,
-                    color: Colors.red,
+                  child: Image.asset(
+                    'images/Staff.png',
+                    width: 30,
+                    height: 30,
                   ),
                 ),
                 Text(
@@ -128,51 +128,83 @@ class _HomeStaffState extends State<HomeStaff> {
           ),
         ),
         appBar: AppBar(
-          title: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Text(
-                'มัลลิกา แซ่ลิ้ม',
-                style: TextStyle(fontSize: 16),
+          title: Text(''), // ลบ title ทิ้ง
+          leading: Padding(
+            padding: EdgeInsets.only(left: 30, top: 0, right: 0),
+            child: IconButton(
+              icon: Transform.scale(
+                scale: 7.0,
+                child: Image.asset(
+                  'images/MJU_LOGO.png',
+                  width: 50,
+                  height: 50,
+                ),
               ),
-              Text(
-                'ตำแหน่ง : ผู้รับผิดชอบแผนกห้องน้ำ',
-                style: TextStyle(fontSize: 10),
-              ),
-            ],
-          ),
-          leading: IconButton(
-            icon: Image.asset(
-              'images/MJU_LOGO.png',
-              width: 300,
-              height: 300,
+              onPressed: () {
+                // กระบวนการที่ต้องการเมื่อคลิกรูปภาพ
+              },
             ),
-            onPressed: () {
-              // กระบวนการที่ต้องการเมื่อคลิกรูปภาพ
-            },
           ),
-
+          iconTheme: IconThemeData(
+            size: 35,
+          ),
           flexibleSpace: Image.asset('images/Top2.png', fit: BoxFit.cover),
           toolbarHeight: 135,
           automaticallyImplyLeading: false,
+          elevation: 0.0,
           actions: [
-            // Text(
-            //     'John Doe', // ใส่ชื่อที่ต้องการใน Text widget
-            //     style: TextStyle(
-            //       fontSize: 16,
-            //       fontWeight: FontWeight.bold,
-            //     ),
-            //   ),
-
+            Padding(
+              padding: EdgeInsets.only(left: 0, top: 45, right: 10),
+              child: Align(
+                alignment: Alignment.topRight,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    Text(
+                      'มัลลิกา แซ่ลิ้ม',
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                        color: Color.fromARGB(255, 0, 0, 0),
+                      ),
+                    ),
+                    Text(
+                      'ตำแหน่ง : ผู้รับผิดชอบแผนกห้องน้ำ',
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                        color: Color.fromARGB(255, 0, 0, 0),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            Padding(
+              padding: EdgeInsets.only(left: 0, top: 0, right: 10),
+              child: Image.asset(
+                'images/profile-user.png',
+                width: 30,
+                height: 30,
+              ),
+            ),
             Builder(builder: (context) {
               return IconButton(
                 onPressed: () {
-                  Scaffold.of(context).openDrawer();
+                  Scaffold.of(context).openEndDrawer(); // เปิด Drawer ด้านซ้าย
                 },
                 icon: const Icon(Icons.menu),
+                color: Color.fromARGB(255, 0, 0, 0),
               );
             }),
           ],
+          // Text(
+          //     'John Doe', // ใส่ชื่อที่ต้องการใน Text widget
+          //     style: TextStyle(
+          //       fontSize: 16,
+          //       fontWeight: FontWeight.bold,
+          //     ),
+          //   ),
 
           // leading: Container(
           // // padding: EdgeInsets.only(left: 10, top: 2, right: 120.0),
@@ -214,7 +246,7 @@ class _HomeStaffState extends State<HomeStaff> {
               // mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
                 Padding(
-                  padding: EdgeInsets.only(left: 255, top: 14, right: 16.0),
+                  padding: EdgeInsets.only(left: 420, top: 14, right: 16.0),
                 ),
                 IconButton(
                     icon: Icon(Icons.logout),
@@ -226,14 +258,25 @@ class _HomeStaffState extends State<HomeStaff> {
                         },
                       ));
                     }),
-                Text(
-                  "       ออกจากระบบ",
-                  style: TextStyle(
-                    color: Color.fromARGB(255, 255, 255, 255),
-                    fontSize: 12,
-                    fontWeight: FontWeight.w100,
+                GestureDetector(
+                  onTap: () {
+                    // นำทางไปยังหน้าอื่นที่คุณต้องการ
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) {
+                        return Login();
+                      }),
+                    );
+                  },
+                  child: Text(
+                    "ออกจากระบบ",
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 12,
+                      fontWeight: FontWeight.w100,
+                    ),
                   ),
-                ),
+                )
               ]),
         ),
         body: isUsernameLoaded
@@ -241,7 +284,7 @@ class _HomeStaffState extends State<HomeStaff> {
                 child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text('Welcome, ${widget.username}'),
+                      // Text('Welcome, ${widget.username}'),
                       const Padding(
                         padding: EdgeInsets.only(left: 45, top: 10, right: 0),
                         child: Text(
