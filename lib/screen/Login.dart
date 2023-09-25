@@ -108,68 +108,204 @@ class _LoginState extends State<Login> {
               ),
             ),
           ),
-          Container(
-            padding: EdgeInsets.only(left: 140, top: 14, right: 16.0),
-            width: 300,
-            child: Image.asset(
-              'images/MJU_LOGO.png',
-              fit: BoxFit.cover,
-            ),
-          ),
-          const Padding(
-            padding: EdgeInsets.only(left: 125, top: 160, right: 16.0),
-            child: Text(
-              "เข้าสู่ระบบ",
-              style: TextStyle(
-                color: Color.fromARGB(255, 7, 94, 53),
-                fontSize: 45,
-                fontWeight: FontWeight.bold,
+          Padding(
+            padding: EdgeInsets.only(left: 200, top: 70, right: 16.0),
+            child: Container(
+              width: 200,
+              child: Image.asset(
+                'images/MJU_LOGO.png',
+                fit: BoxFit.cover,
               ),
             ),
           ),
-          Container(
-            padding: EdgeInsets.all(10.0),
-            alignment: Alignment.center,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                TextFormField(
-                  controller: _usernameController,
-                  decoration: InputDecoration(
-                    labelText: 'Username',
-                  ),
-                ),
-                SizedBox(height: 16.0),
-                TextFormField(
-                  controller: _passwordController,
-                  decoration: InputDecoration(
-                    labelText: 'Password',
-                    suffixIcon: IconButton(
-                      icon: Icon(
-                        isObscure ? Icons.visibility : Icons.visibility_off,
-                        color: Colors.grey,
+          Padding(
+            padding: EdgeInsets.only(left: 50, top: 300, right: 0),
+            child: Container(
+              width: 1100,
+              height: 1000,
+              child: Stack(
+                children: [
+                  Positioned(
+                    left: 5,
+                    top: 5,
+                    child: Container(
+                      width: 510,
+                      height: 510,
+                      decoration: ShapeDecoration(
+                        color: Color(0xFFEB6727),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(26),
+                        ),
+                        shadows: [
+                          BoxShadow(
+                            color: Color(0x3F000000),
+                            blurRadius: 4,
+                            offset: Offset(0, 4),
+                            spreadRadius: 0,
+                          ),
+                          BoxShadow(
+                            color: Color(0x3F000000),
+                            blurRadius: 4,
+                            offset: Offset(0, 4),
+                            spreadRadius: 0,
+                          )
+                        ],
                       ),
-                      onPressed: () {
-                        setState(() {
-                          isObscure = !isObscure;
-                        });
-                      },
                     ),
                   ),
-                  obscureText: isObscure,
-                ),
-                SizedBox(height: 16.0),
-                ElevatedButton(
-                  onPressed: () async {
-                    await _loginUser(
-                        context); // ใช้ await เพื่อรอการเรียก _loginUser สิ้นสุด
-                  },
-                  child: Text('Login'),
-                )
-              ],
+                  Positioned(
+                    left: 5,
+                    top: 0,
+                    child: Container(
+                      width: 500,
+                      height: 500,
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(26),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.grey.withOpacity(0.5), // สีของเงา
+                            spreadRadius: 5, // รัศมีการกระจายของเงา
+                            blurRadius: 7, // ความคมชัดของเงา
+                            offset: Offset(0, 3), // ตำแหน่งเงา
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  Positioned(
+                    left: 150,
+                    top: 24,
+                    child: SizedBox(
+                      width: 800,
+                      height: 50,
+                      child: Text(
+                        "เข้าสู่ระบบ",
+                        style: TextStyle(
+                          color: Color.fromARGB(255, 7, 94, 53),
+                          fontSize: 45,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                  ),
+                  Positioned(
+                    left: 28,
+                    top: 90,
+                    child: Container(
+                      width: 450,
+                      height: 4,
+                      decoration: BoxDecoration(color: Color(0xFFEB6727)),
+                    ),
+                  ),
+                  Positioned(
+                    left: 20,
+                    top: 140,
+                    child: Container(
+                      width: 450,
+                      height: 60,
+                      decoration: BoxDecoration(
+                        color: Colors.white.withOpacity(0.2),
+                        borderRadius: BorderRadius.circular(31.50),
+                        border: Border.all(width: 1, color: Color(0xFFEB6727)),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.white.withOpacity(0.2),
+                            blurRadius: 4,
+                            offset: Offset(0, 4),
+                            spreadRadius: 0,
+                          ),
+                        ],
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                        child: TextFormField(
+                          controller: _usernameController,
+                          decoration: InputDecoration(
+                            labelText: 'Username',
+                            border: InputBorder.none,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  Positioned(
+                    left: 20,
+                    top: 240,
+                    child: Container(
+                      width: 450,
+                      height: 60,
+                      decoration: BoxDecoration(
+                        color: Colors.white.withOpacity(0.2),
+                        borderRadius: BorderRadius.circular(31.50),
+                        border: Border.all(width: 1, color: Color(0xFFEB6727)),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.white.withOpacity(0.2),
+                            blurRadius: 4,
+                            offset: Offset(0, 4),
+                            spreadRadius: 0,
+                          ),
+                        ],
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                        child: TextFormField(
+                          controller: _passwordController,
+                          decoration: InputDecoration(
+                            labelText: 'Password',
+                            suffixIcon: IconButton(
+                              icon: Icon(
+                                isObscure
+                                    ? Icons.visibility
+                                    : Icons.visibility_off,
+                                color: Colors.grey,
+                              ),
+                              onPressed: () {
+                                setState(() {
+                                  isObscure = !isObscure;
+                                });
+                              },
+                            ),
+                            border: InputBorder.none,
+                          ),
+                          obscureText: isObscure,
+                        ),
+                      ),
+                    ),
+                  ),
+                  Positioned(
+                    left: 20,
+                    top: 340,
+                    child: ElevatedButton(
+                        onPressed: () async {
+                          await _loginUser(
+                              context); // ใช้ await เพื่อรอการเรียก _loginUser สิ้นสุด
+                        },
+                        style: ElevatedButton.styleFrom(
+                          primary: Color.fromARGB(
+                              255, 238, 104, 2), // สีพื้นหลังของปุ่ม
+                          textStyle: TextStyle(
+                              color: Color.fromARGB(
+                                  255, 255, 255, 255)), // สีข้อความภายในปุ่ม
+                          padding: EdgeInsets.symmetric(
+                              horizontal: 200,
+                              vertical: 20), // การจัดพื้นที่รอบข้างปุ่ม
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(
+                                60), // กำหนดรูปร่างของปุ่ม (ในที่นี้เป็นรูปแบบมน)
+                          ),
+                        ),
+                        child: Text(
+                          'เข้าสู่ระบบ',
+                          style: TextStyle(
+                              color: Color.fromARGB(255, 255, 255, 255)),
+                        )),
+                  ),
+                ],
+              ),
             ),
-          ),
+          )
         ],
       ),
     );
