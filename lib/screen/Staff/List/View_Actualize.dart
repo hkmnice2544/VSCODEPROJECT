@@ -31,20 +31,20 @@ class _ViewViewActualizeState extends State<ViewActualize> {
   String formattedDate = '';
   DateTime informdate = DateTime.now();
 
-  void getInform(int informrepair_id) async {
-    informRepair = await informRepairController.getInform(informrepair_id);
-    print("getInform : ${informRepair?.informrepair_id}");
-    setState(() {
-      isDataLoaded = true;
-    });
-  }
+  // void getInform(int informrepair_id) async {
+  //   informRepair = await informRepairController.getInform(informrepair_id);
+  //   print("getInform : ${informRepair?.informrepair_id}");
+  //   setState(() {
+  //     isDataLoaded = true;
+  //   });
+  // }
 
   @override
   void initState() {
     super.initState();
-    if (widget.informrepair_id != null) {
-      getInform(widget.informrepair_id!);
-    }
+    // if (widget.informrepair_id != null) {
+    //   getInform(widget.informrepair_id!);
+    // }
     DateTime now = DateTime.now();
     formattedDate = DateFormat('dd-MM-yyyy').format(now);
   }

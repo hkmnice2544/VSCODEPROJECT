@@ -133,34 +133,34 @@ class Form extends State<Summary> {
     }
   }
 
-  void fetchInformRepairs() async {
-    informRepairs = await informRepairController.listAllInformRepairs();
-    print(
-        "getInform ปัจจุบัน : ${informRepairs?[informRepairs!.length - 1].informrepair_id}");
-    print(
-        "getInform +1 : ${(informRepairs?[informRepairs!.length - 1]?.informrepair_id ?? 0) + 1}");
-    print("getDate 1 : ${informRepairs?[0].informdate}");
-    informRepairs?.sort((a, b) {
-      if (a.informdate == null && b.informdate == null) {
-        return 0;
-      } else if (a.informdate == null) {
-        return 1;
-      } else if (b.informdate == null) {
-        return -1;
-      }
-      return b.informdate!.compareTo(a.informdate!);
-    });
-    setState(() {
-      isDataLoaded = true;
-    });
-  }
+  // void fetchInformRepairs() async {
+  //   informRepairs = await informRepairController.listAllInformRepairs();
+  //   print(
+  //       "getInform ปัจจุบัน : ${informRepairs?[informRepairs!.length - 1].informrepair_id}");
+  //   print(
+  //       "getInform +1 : ${(informRepairs?[informRepairs!.length - 1]?.informrepair_id ?? 0) + 1}");
+  //   print("getDate 1 : ${informRepairs?[0].informdate}");
+  //   informRepairs?.sort((a, b) {
+  //     if (a.informdate == null && b.informdate == null) {
+  //       return 0;
+  //     } else if (a.informdate == null) {
+  //       return 1;
+  //     } else if (b.informdate == null) {
+  //       return -1;
+  //     }
+  //     return b.informdate!.compareTo(a.informdate!);
+  //   });
+  //   setState(() {
+  //     isDataLoaded = true;
+  //   });
+  // }
 
   void main() {
     initializeDateFormatting('th_TH', null).then((_) {});
   }
 
   void getInformId(int informRepairId) async {
-    informRepair = await informRepairController.getInform(informRepairId);
+    // informRepair = await informRepairController.getInform(informRepairId);
     print("getInform : ${informRepair?.informrepair_id}");
     print("getDate : ${informRepair?.informdate}");
     setState(() {
@@ -171,7 +171,7 @@ class Form extends State<Summary> {
   @override
   void initState() {
     super.initState();
-    fetchInformRepairs();
+    // fetchInformRepairs();
     main();
     print("getDate : ${informRepairs?[0].informdate}");
     DateTime date = DateTime.now(); // รูปแบบข้อความจากฐานข้อมูล

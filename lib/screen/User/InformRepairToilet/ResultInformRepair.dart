@@ -40,14 +40,14 @@ class _MyResultState extends State<ResultInformRepair> {
   InformRepair? informRepair;
   int? informrepair_id;
 
-  void fetchInformRepairs() async {
-    informRepairs =
-        await informrepairController.deleteInformRepair(informrepair_id);
-    print(informrepairs?[informrepairs!.length - 1].informrepair_id);
-    setState(() {
-      isDataLoaded = true;
-    });
-  }
+  // void fetchInformRepairs() async {
+  //   informRepairs =
+  //       await informrepairController.deleteInformRepair(informrepair_id);
+  //   print(informrepairs?[informrepairs!.length - 1].informrepair_id);
+  //   setState(() {
+  //     isDataLoaded = true;
+  //   });
+  // }
 
   // void fetchInformRepair() async {
   //   informrepairs = await informrepairController.listAllInformRepairs();
@@ -71,7 +71,7 @@ class _MyResultState extends State<ResultInformRepair> {
   @override
   void initState() {
     super.initState();
-    fetchInformRepairs();
+    // fetchInformRepairs();
     // fetchgetListInform(widget.informrepair_id!);
     DateTime now = DateTime.now();
     formattedDate = DateFormat('dd-MM-yyyy').format(now);
@@ -561,13 +561,13 @@ class _MyResultState extends State<ResultInformRepair> {
                             TextButton(
                               child: Text('OK'),
                               onPressed: () async {
-                                var response = await informrepairController
-                                    .deleteInformRepair(
-                                        informRepair?.informrepair_id);
-                                Navigator.push(context,
-                                    MaterialPageRoute(builder: (context) {
-                                  return Home(username: 'ชื่อผู้ใช้');
-                                }));
+                                // var response = await informrepairController
+                                //     .deleteInformRepair(
+                                //         informRepair?.informrepair_id);
+                                // Navigator.push(context,
+                                //     MaterialPageRoute(builder: (context) {
+                                //   return Home(username: 'ชื่อผู้ใช้');
+                                // }));
                               },
                             ),
                           ],

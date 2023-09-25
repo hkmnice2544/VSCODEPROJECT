@@ -27,30 +27,30 @@ class _MyWidgetState extends State<Updateinform> {
 
   InformRepair? informRepair;
 
-  void fetchgetInform(int informrepair_id) async {
-    informRepair = await informController.getInform(informrepair_id);
-    detailsController.text = informRepair?.informdetails ?? '';
-    statusController.text = informRepair?.status ?? '';
-    print("fetchgetInform : ${informRepair?.informrepair_id}");
-    setState(() {
-      isDataLoaded = true;
-    });
-  }
+  // void fetchgetInform(int informrepair_id) async {
+  //   informRepair = await informController.getInform(informrepair_id);
+  //   detailsController.text = informRepair?.informdetails ?? '';
+  //   statusController.text = informRepair?.status ?? '';
+  //   print("fetchgetInform : ${informRepair?.informrepair_id}");
+  //   setState(() {
+  //     isDataLoaded = true;
+  //   });
+  // }
 
-  void fetchUpdateInformRepair() async {
-    informrepairs = await informController.updateInformRepair(
-        "informdetails", "status", "equipment_id", "informrepair_id");
-    print({informrepairs?[0].informrepair_id});
-    setState(() {
-      isDataLoaded = true;
-    });
-  }
+  // void fetchUpdateInformRepair() async {
+  //   informrepairs = await informController.updateInformRepair(
+  //       "informdetails", "status", "equipment_id", "informrepair_id");
+  //   print({informrepairs?[0].informrepair_id});
+  //   setState(() {
+  //     isDataLoaded = true;
+  //   });
+  // }
 
   @override
   void initState() {
     super.initState();
-    fetchUpdateInformRepair();
-    fetchgetInform(widget.informrepair_id!);
+    // fetchUpdateInformRepair();
+    // fetchgetInform(widget.informrepair_id!);
     print("getinformrepair_id : ${widget.informrepair_id!}");
   }
 
@@ -105,16 +105,16 @@ class _MyWidgetState extends State<Updateinform> {
               Text("${widget.informrepair_id}"),
               ElevatedButton(
                   onPressed: () async {
-                    var response = await informController.updateInformRepair(
-                        detailsController.text,
-                        statusController.text,
-                        eq_idController.text,
-                        informrepair_idController.text);
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) {
-                      return Details();
-                    }));
-                    print("object");
+                    // var response = await informController.updateInformRepair(
+                    //     detailsController.text,
+                    //     statusController.text,
+                    //     eq_idController.text,
+                    //     informrepair_idController.text);
+                    // Navigator.push(context,
+                    //     MaterialPageRoute(builder: (context) {
+                    //   return Details();
+                    // }));
+                    // print("object");
                   },
                   style: ElevatedButton.styleFrom(
                     primary:
@@ -136,13 +136,13 @@ class _MyWidgetState extends State<Updateinform> {
                   )),
               ElevatedButton(
                   onPressed: () async {
-                    var response = await informController
-                        .deleteInformRepair(informRepair?.informrepair_id);
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) {
-                      return Details();
-                    }));
-                    print("object");
+                    // var response = await informController
+                    //     .deleteInformRepair(informRepair?.informrepair_id);
+                    // Navigator.push(context,
+                    //     MaterialPageRoute(builder: (context) {
+                    //   return Details();
+                    // }));
+                    // print("object");
                   },
                   style: ElevatedButton.styleFrom(
                     primary:

@@ -35,13 +35,13 @@ class _View_SummaryState extends State<View_Summary> {
   String formattedDate = '';
   DateTime informdate = DateTime.now();
 
-  void fetchlistAllInformRepairs() async {
-    informrepairs = await informController.listAllInformRepairs();
-    print({informrepairs?[0].informrepair_id});
-    setState(() {
-      isDataLoaded = true;
-    });
-  }
+  // void fetchlistAllInformRepairs() async {
+  //   informrepairs = await informController.listAllInformRepairs();
+  //   print({informrepairs?[0].informrepair_id});
+  //   setState(() {
+  //     isDataLoaded = true;
+  //   });
+  // }
 
   void getReportRepair(int report_id) async {
     reportRepair = await reportController.getReportRepair(report_id);
@@ -54,7 +54,7 @@ class _View_SummaryState extends State<View_Summary> {
   @override
   void initState() {
     super.initState();
-    fetchlistAllInformRepairs();
+    // fetchlistAllInformRepairs();
     if (widget.informrepair_id != null) {
       getReportRepair(widget.informrepair_id!);
     }

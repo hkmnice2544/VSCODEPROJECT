@@ -115,17 +115,17 @@ class Form extends State<EditInformRepairs> {
   bool? _lightbulbCheckBox = false; //หลอดไฟ
   bool? _otherCheckBox = false; //อื่นๆ
 
-  void fetchInformRepairs() async {
-    informrepairs = await informrepairController.updateInformRepair(
-        "informrepair_id", "informtype", "defectiveequipment", "informdetails");
-    print({informrepairs?[0].informrepair_id});
-    setState(() {
-      isDataLoaded = true;
-    });
-  }
+  // void fetchInformRepairs() async {
+  //   informrepairs = await informrepairController.updateInformRepair(
+  //       "informrepair_id", "informtype", "defectiveequipment", "informdetails");
+  //   print({informrepairs?[0].informrepair_id});
+  //   setState(() {
+  //     isDataLoaded = true;
+  //   });
+  // }
 
   void fetchInformRepair() async {
-    informrepairs = await informrepairController.listAllInformRepairs();
+    // informrepairs = await informrepairController.listAllInformRepairs();
     print({informrepairs?[0].informrepair_id});
     // print(informRepairs?.defectiveequipment);
     setState(() {
@@ -150,7 +150,7 @@ class Form extends State<EditInformRepairs> {
   @override
   void initState() {
     super.initState();
-    fetchInformRepairs();
+    // fetchInformRepairs();
     fetchInformRepair();
     // fetchgetListInform(widget.informrepair_id!);
     DateTime now = DateTime.now();
@@ -519,21 +519,21 @@ class Form extends State<EditInformRepairs> {
                   Expanded(
                     child: ElevatedButton(
                         onPressed: () async {
-                          //   InformRepair informRepairs = InformRepair();
-                          var response =
-                              await informRepairController.updateInformRepair(
-                            informRepair!.informrepair_id as String,
-                            _dropdowninformtype ?? "",
-                            isChecked,
-                            textEditingController.text,
-                          );
-                          Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
-                                builder: (_) => ResultInformRepair(
-                                    informrepair_id:
-                                        (informRepair?.informrepair_id))),
-                          );
+                          // //   InformRepair informRepairs = InformRepair();
+                          // var response =
+                          //     await informRepairController.updateInformRepair(
+                          //   informRepair!.informrepair_id as String,
+                          //   _dropdowninformtype ?? "",
+                          //   isChecked,
+                          //   textEditingController.text,
+                          // );
+                          // Navigator.pushReplacement(
+                          //   context,
+                          //   MaterialPageRoute(
+                          //       builder: (_) => ResultInformRepair(
+                          //           informrepair_id:
+                          //               (informRepair?.informrepair_id))),
+                          // );
 
                           // InformRepair informRepair = InformRepair();
                           // informRepair.informtype = _dropdowninformtype!;

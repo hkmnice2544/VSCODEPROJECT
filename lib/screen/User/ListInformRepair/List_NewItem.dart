@@ -19,29 +19,29 @@ class _listAllInformRepairsState extends State<listAllInformRepairs> {
 
   final InformRepairController informController = InformRepairController();
 
-  void fetchlistAllInformRepairs() async {
-    informrepairs = await informController.listAllInformRepairs();
-    print({informrepairs?[0].informrepair_id});
-    print({informrepairs});
-    informrepairs?.sort((a, b) {
-      if (a.informdate == null && b.informdate == null) {
-        return 0;
-      } else if (a.informdate == null) {
-        return 1;
-      } else if (b.informdate == null) {
-        return -1;
-      }
-      return b.informdate!.compareTo(a.informdate!);
-    });
-    setState(() {
-      isDataLoaded = true;
-    });
-  }
+  // void fetchlistAllInformRepairs() async {
+  //   informrepairs = await informController.listAllInformRepairs();
+  //   print({informrepairs?[0].informrepair_id});
+  //   print({informrepairs});
+  //   informrepairs?.sort((a, b) {
+  //     if (a.informdate == null && b.informdate == null) {
+  //       return 0;
+  //     } else if (a.informdate == null) {
+  //       return 1;
+  //     } else if (b.informdate == null) {
+  //       return -1;
+  //     }
+  //     return b.informdate!.compareTo(a.informdate!);
+  //   });
+  //   setState(() {
+  //     isDataLoaded = true;
+  //   });
+  // }
 
   @override
   void initState() {
     super.initState();
-    fetchlistAllInformRepairs(); // เรียกใช้งานเมื่อหน้าจอถูกสร้างขึ้นครั้งแรก
+    // fetchlistAllInformRepairs(); // เรียกใช้งานเมื่อหน้าจอถูกสร้างขึ้นครั้งแรก
     print({informrepairs});
     informrepairs?.sort((a, b) {
       if (a.informdate == null && b.informdate == null) {

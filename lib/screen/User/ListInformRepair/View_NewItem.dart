@@ -31,29 +31,29 @@ class _ViewResultState extends State<View_NewItem> {
   String formattedDate = '';
   DateTime informdate = DateTime.now();
 
-  void fetchlistAllInformRepairs() async {
-    informrepairs = await informController.listAllInformRepairs();
-    print({informrepairs?[0].informrepair_id});
-    setState(() {
-      isDataLoaded = true;
-    });
-  }
+  // void fetchlistAllInformRepairs() async {
+  //   informrepairs = await informController.listAllInformRepairs();
+  //   print({informrepairs?[0].informrepair_id});
+  //   setState(() {
+  //     isDataLoaded = true;
+  //   });
+  // }
 
-  void getInform(int informrepair_id) async {
-    informRepair = await informController.getInform(informrepair_id);
-    print("getInform : ${informRepair?.informrepair_id}");
-    setState(() {
-      isDataLoaded = true;
-    });
-  }
+  // void getInform(int informrepair_id) async {
+  //   informRepair = await informController.getInform(informrepair_id);
+  //   print("getInform : ${informRepair?.informrepair_id}");
+  //   setState(() {
+  //     isDataLoaded = true;
+  //   });
+  // }
 
   @override
   void initState() {
     super.initState();
-    fetchlistAllInformRepairs();
-    if (widget.informrepair_id != null) {
-      getInform(widget.informrepair_id!);
-    }
+    // fetchlistAllInformRepairs();
+    // if (widget.informrepair_id != null) {
+    //   getInform(widget.informrepair_id!);
+    // }
   }
 
   @override

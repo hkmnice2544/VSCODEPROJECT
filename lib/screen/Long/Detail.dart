@@ -20,18 +20,18 @@ class _MyWidgetState extends State<Details> {
   InformRepair? informRepairs;
   List<InformRepair>? informrepairs;
 
-  void fetchlistAllInformRepairs() async {
-    informrepairs = await informController.listAllInformRepairs();
-    print({informrepairs?[0].informrepair_id});
-    setState(() {
-      isDataLoaded = true;
-    });
-  }
+  // void fetchlistAllInformRepairs() async {
+  //   informrepairs = await informController.listAllInformRepairs();
+  //   print({informrepairs?[0].informrepair_id});
+  //   setState(() {
+  //     isDataLoaded = true;
+  //   });
+  // }
 
   @override
   void initState() {
     super.initState();
-    fetchlistAllInformRepairs();
+    // fetchlistAllInformRepairs();
   }
 
   @override

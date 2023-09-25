@@ -19,28 +19,28 @@ class _listlistCheckStatusState extends State<listCheckStatus> {
 
   final InformRepairController informController = InformRepairController();
 
-  void fetchlistAllInformRepairs() async {
-    informrepairs = await informController.listAllInformRepairs();
-    print({informrepairs?[0].informrepair_id});
-    informrepairs?.sort((a, b) {
-      if (a.informdate == null && b.informdate == null) {
-        return 0;
-      } else if (a.informdate == null) {
-        return 1;
-      } else if (b.informdate == null) {
-        return -1;
-      }
-      return b.informdate!.compareTo(a.informdate!);
-    });
-    setState(() {
-      isDataLoaded = true;
-    });
-  }
+  // void fetchlistAllInformRepairs() async {
+  //   informrepairs = await informController.listAllInformRepairs();
+  //   print({informrepairs?[0].informrepair_id});
+  //   informrepairs?.sort((a, b) {
+  //     if (a.informdate == null && b.informdate == null) {
+  //       return 0;
+  //     } else if (a.informdate == null) {
+  //       return 1;
+  //     } else if (b.informdate == null) {
+  //       return -1;
+  //     }
+  //     return b.informdate!.compareTo(a.informdate!);
+  //   });
+  //   setState(() {
+  //     isDataLoaded = true;
+  //   });
+  // }
 
   @override
   void initState() {
     super.initState();
-    fetchlistAllInformRepairs();
+    // fetchlistAllInformRepairs();
     informrepairs?.sort((a, b) {
       if (a.informdate == null && b.informdate == null) {
         return 0;

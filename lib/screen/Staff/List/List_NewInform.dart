@@ -27,30 +27,30 @@ class NewInform extends State<listNewInform> {
   final InformRepairController informrepairController =
       InformRepairController();
 
-  void fetchInformRepairs() async {
-    informrepairs = await informrepairController.listAllInformRepairs();
-    print({informrepairs?[0].informrepair_id});
-    print("ID : ${informrepairs?[informrepairs!.length - 1].informrepair_id}");
-    // print(informRepairs?.defectiveequipment);
-    informrepairs?.sort((a, b) {
-      if (a.informdate == null && b.informdate == null) {
-        return 0;
-      } else if (a.informdate == null) {
-        return 1;
-      } else if (b.informdate == null) {
-        return -1;
-      }
-      return b.informdate!.compareTo(a.informdate!);
-    });
-    setState(() {
-      isDataLoaded = true;
-    });
-  }
+  // void fetchInformRepairs() async {
+  //   informrepairs = await informrepairController.listAllInformRepairs();
+  //   print({informrepairs?[0].informrepair_id});
+  //   print("ID : ${informrepairs?[informrepairs!.length - 1].informrepair_id}");
+  //   // print(informRepairs?.defectiveequipment);
+  //   informrepairs?.sort((a, b) {
+  //     if (a.informdate == null && b.informdate == null) {
+  //       return 0;
+  //     } else if (a.informdate == null) {
+  //       return 1;
+  //     } else if (b.informdate == null) {
+  //       return -1;
+  //     }
+  //     return b.informdate!.compareTo(a.informdate!);
+  //   });
+  //   setState(() {
+  //     isDataLoaded = true;
+  //   });
+  // }
 
   @override
   void initState() {
     super.initState();
-    fetchInformRepairs();
+    // fetchInformRepairs();
     informrepairs?.sort((a, b) {
       if (a.informdate == null && b.informdate == null) {
         return 0;

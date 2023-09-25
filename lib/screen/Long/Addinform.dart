@@ -32,17 +32,17 @@ class _MyWidgetState extends State<Addinform> {
   String? pickedFileName; // เพิ่มตัวแปรเพื่อเก็บชื่อของไฟล์ที่เลือก
   List<InformRepair>? informrepairs;
 
-  void fetchInformRepairs() async {
-    informrepairs = await informController.listAllInformRepairs();
-    print({informrepairs?[0].informrepair_id});
-    print(
-        "getInform ปัจจุบัน : ${informrepairs?[informrepairs!.length - 1].informrepair_id}");
-  }
+  // void fetchInformRepairs() async {
+  //   informrepairs = await informController.listAllInformRepairs();
+  //   print({informrepairs?[0].informrepair_id});
+  //   print(
+  //       "getInform ปัจจุบัน : ${informrepairs?[informrepairs!.length - 1].informrepair_id}");
+  // }
 
   @override
   void initState() {
     super.initState();
-    fetchInformRepairs();
+    // fetchInformRepairs();
     imageUrls = []; // กำหนดรายการ URL รูปภาพเริ่มต้นเป็นว่าง
     pickedFile = null; // กำหนด pickedFile เป็น null เมื่อ initState
     pickedFileName = null; // กำหนด pickedFileName เป็น null เมื่อ initState
@@ -161,71 +161,71 @@ class _MyWidgetState extends State<Addinform> {
               ),
               onChanged: (value) {},
             ),
-            ElevatedButton(
-                onPressed: () async {
-                  // ดึงค่า ID และรายละเอียดจาก TextField ของคุณ
-                  String id1 = idController1.text;
-                  String detail1 = detailController1.text;
-                  String id2 = idController2.text;
-                  String detail2 = detailController2.text;
-                  String id3 = idController3.text;
-                  String detail3 = detailController3.text;
+            // ElevatedButton(
+            //     // onPressed: () async {
+            //     //   // ดึงค่า ID และรายละเอียดจาก TextField ของคุณ
+            //     //   String id1 = idController1.text;
+            //     //   String detail1 = detailController1.text;
+            //     //   String id2 = idController2.text;
+            //     //   String detail2 = detailController2.text;
+            //     //   String id3 = idController3.text;
+            //     //   String detail3 = detailController3.text;
 
-                  // สร้างรายการ ID และรายละเอียดที่มีค่าไม่เป็นว่าง
-                  List<Map<String, dynamic>> idDetailsList = [];
-                  if (id1.isNotEmpty && detail1.isNotEmpty) {
-                    idDetailsList.add({"id": id1, "detail": detail1});
-                  }
-                  if (id2.isNotEmpty && detail2.isNotEmpty) {
-                    idDetailsList.add({"id": id2, "detail": detail2});
-                  }
-                  if (id3.isNotEmpty && detail3.isNotEmpty) {
-                    idDetailsList.add({"id": id3, "detail": detail3});
-                  }
+            //     //   // สร้างรายการ ID และรายละเอียดที่มีค่าไม่เป็นว่าง
+            //     //   List<Map<String, dynamic>> idDetailsList = [];
+            //     //   if (id1.isNotEmpty && detail1.isNotEmpty) {
+            //     //     idDetailsList.add({"id": id1, "detail": detail1});
+            //     //   }
+            //     //   if (id2.isNotEmpty && detail2.isNotEmpty) {
+            //     //     idDetailsList.add({"id": id2, "detail": detail2});
+            //     //   }
+            //     //   if (id3.isNotEmpty && detail3.isNotEmpty) {
+            //     //     idDetailsList.add({"id": id3, "detail": detail3});
+            //     //   }
 
-                  if (idDetailsList.isNotEmpty) {
-                    // เรียกใช้ฟังก์ชันส่งข้อมูลไปยัง API
-                    // await informController.addInformRepair(idDetailsList, '');
+            //     //   if (idDetailsList.isNotEmpty) {
+            //     //     // เรียกใช้ฟังก์ชันส่งข้อมูลไปยัง API
+            //     //     // await informController.addInformRepair(idDetailsList, '');
 
-                    // หลังจากเรียกใช้ addInformRepair และเพิ่มข้อมูลรายงานเรียบร้อยแล้ว
-                    // คุณสามารถเพิ่มรูปภาพโดยเรียกใช้ addPicturesToDatabase ดังนี้
+            //     //     // หลังจากเรียกใช้ addInformRepair และเพิ่มข้อมูลรายงานเรียบร้อยแล้ว
+            //     //     // คุณสามารถเพิ่มรูปภาพโดยเรียกใช้ addPicturesToDatabase ดังนี้
 
-                    List<String> pictureUrls = ['$pickedFileName'];
+            //     //     List<String> pictureUrls = ['$pickedFileName'];
 
-                    // รายการ URL ของรูปภาพที่คุณต้องการเพิ่ม
-                    int? informRepairId =
-                        (informrepairs?[informrepairs!.length - 1]
-                                    ?.informrepair_id ??
-                                0) +
-                            1; // ตั้งค่า ID ของ InformRepair ที่เกี่ยวข้อง
+            //     //     // รายการ URL ของรูปภาพที่คุณต้องการเพิ่ม
+            //     //     int? informRepairId =
+            //     //         (informrepairs?[informrepairs!.length - 1]
+            //     //                     ?.informrepair_id ??
+            //     //                 0) +
+            //     //             1; // ตั้งค่า ID ของ InformRepair ที่เกี่ยวข้อง
 
-                    await informController.addPicturesToDatabase(
-                        pictureUrls, informRepairId!);
+            //     //     await informController.addPicturesToDatabase(
+            //     //         pictureUrls, informRepairId!);
 
-                    // หลังจากเพิ่มข้อมูลเสร็จสิ้น คุณสามารถทำอย่างอื่นตามที่ต้องการ เช่น นำผู้ใช้ไปยังหน้า Details
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) {
-                      return Details();
-                    }));
-                  } else {}
-                },
-                style: ElevatedButton.styleFrom(
-                  primary:
-                      Color.fromARGB(255, 234, 112, 5), // สีพื้นหลังของปุ่ม
-                  textStyle: TextStyle(
-                      color: Color.fromARGB(
-                          255, 255, 255, 255)), // สีข้อความภายในปุ่ม
-                  padding: EdgeInsets.symmetric(
-                      horizontal: 40, vertical: 20), // การจัดพื้นที่รอบข้างปุ่ม
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(
-                        10), // กำหนดรูปร่างของปุ่ม (ในที่นี้เป็นรูปแบบมน)
-                  ),
-                ),
-                child: Text(
-                  'ยืนยัน',
-                  style: TextStyle(color: Color.fromARGB(255, 255, 255, 255)),
-                )),
+            //     //     // หลังจากเพิ่มข้อมูลเสร็จสิ้น คุณสามารถทำอย่างอื่นตามที่ต้องการ เช่น นำผู้ใช้ไปยังหน้า Details
+            //     //     Navigator.push(context,
+            //     //         MaterialPageRoute(builder: (context) {
+            //     //       return Details();
+            //     //     }));
+            //     //   } else {}
+            //     // },
+            //     style: ElevatedButton.styleFrom(
+            //       primary:
+            //           Color.fromARGB(255, 234, 112, 5), // สีพื้นหลังของปุ่ม
+            //       textStyle: TextStyle(
+            //           color: Color.fromARGB(
+            //               255, 255, 255, 255)), // สีข้อความภายในปุ่ม
+            //       padding: EdgeInsets.symmetric(
+            //           horizontal: 40, vertical: 20), // การจัดพื้นที่รอบข้างปุ่ม
+            //       shape: RoundedRectangleBorder(
+            //         borderRadius: BorderRadius.circular(
+            //             10), // กำหนดรูปร่างของปุ่ม (ในที่นี้เป็นรูปแบบมน)
+            //       ),
+            //     ),
+            //     child: Text(
+            //       'ยืนยัน',
+            //       style: TextStyle(color: Color.fromARGB(255, 255, 255, 255)),
+            //     )),
           ],
         ),
       )),

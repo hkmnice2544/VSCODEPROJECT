@@ -162,26 +162,26 @@ class Form extends State<InformRepairForm> {
   final InformRepairController informrepairController =
       InformRepairController();
 
-  void fetchInformRepairs() async {
-    informrepairs = await informrepairController.listAllInformRepairs();
-    print({informrepairs?[0].informrepair_id});
-    print(
-        "getInform ปัจจุบัน : ${informrepairs?[informrepairs!.length - 1].informrepair_id}");
-    print(
-        "getInform +1 : ${(informrepairs?[informrepairs!.length - 1]?.informrepair_id ?? 0) + 1}");
-    setState(() {
-      isDataLoaded = true;
-    });
-  }
+  // void fetchInformRepairs() async {
+  //   informrepairs = await informrepairController.listAllInformRepairs();
+  //   print({informrepairs?[0].informrepair_id});
+  //   print(
+  //       "getInform ปัจจุบัน : ${informrepairs?[informrepairs!.length - 1].informrepair_id}");
+  //   print(
+  //       "getInform +1 : ${(informrepairs?[informrepairs!.length - 1]?.informrepair_id ?? 0) + 1}");
+  //   setState(() {
+  //     isDataLoaded = true;
+  //   });
+  // }
 
-  void listAllBuildings() async {
-    buildings =
-        (await informrepairController.listAllBuildings()).cast<Building>();
-    print("listAllBuildings : ${buildings?[0].building_id}");
-    setState(() {
-      isDataLoaded = true;
-    });
-  }
+  // void listAllBuildings() async {
+  //   buildings =
+  //       (await informrepairController.listAllBuildings()).cast<Building>();
+  //   print("listAllBuildings : ${buildings?[0].building_id}");
+  //   setState(() {
+  //     isDataLoaded = true;
+  //   });
+  // }
 
   void main() {
     initializeDateFormatting('th_TH', null).then((_) {});
@@ -190,8 +190,8 @@ class Form extends State<InformRepairForm> {
   @override
   void initState() {
     super.initState();
-    fetchInformRepairs();
-    listAllBuildings();
+    // fetchInformRepairs();
+    // listAllBuildings();
     fetchRoomNames();
     fetchRoomfloors();
     fetchRoompositions();
@@ -624,57 +624,57 @@ class Form extends State<InformRepairForm> {
                   Expanded(
                     child: ElevatedButton(
                         onPressed: () async {
-                          int u = 1001; // User ID
+                          // int u = 1001; // User ID
 
-                          // สร้างรายการ ID และรายละเอียดที่มีค่าไม่เป็นว่าง
-                          List<Map<String, String>> idDetailsList = [];
+                          // // สร้างรายการ ID และรายละเอียดที่มีค่าไม่เป็นว่าง
+                          // List<Map<String, String>> idDetailsList = [];
 
-                          if (roomname == "ห้องน้ำชาย" &&
-                              buildingname == "อาคาร 60 ปี แม่โจ้" &&
-                              roomfloor == "1" &&
-                              roomposition == "ข้างบันได") {
-                            // ให้เพิ่มรายการสำหรับอุปกรณ์ก๊อกน้ำ
-                            String detail1 = _tapCheckBoxController.text;
-                            idDetailsList.add({
-                              "informdetails": detail1,
-                              "status": "ยังไม่ได้ดำเนินการ",
-                              "equipment_id": "1001",
-                              "user_id": u.toString(),
-                            });
-                          }
+                          // if (roomname == "ห้องน้ำชาย" &&
+                          //     buildingname == "อาคาร 60 ปี แม่โจ้" &&
+                          //     roomfloor == "1" &&
+                          //     roomposition == "ข้างบันได") {
+                          //   // ให้เพิ่มรายการสำหรับอุปกรณ์ก๊อกน้ำ
+                          //   String detail1 = _tapCheckBoxController.text;
+                          //   idDetailsList.add({
+                          //     "informdetails": detail1,
+                          //     "status": "ยังไม่ได้ดำเนินการ",
+                          //     "equipment_id": "1001",
+                          //     "user_id": u.toString(),
+                          //   });
+                          // }
 
-                          if (_toiletbowlCheckBox == 'โถชักโครก' &&
-                              roomname == "ห้องน้ำชาย" &&
-                              buildingname == "อาคาร 60 ปี แม่โจ้" &&
-                              roomfloor == "1" &&
-                              roomposition == "ข้างบันได") {
-                            // ให้เพิ่มรายการสำหรับอุปกรณ์โถชักโครก
-                            String detail2 = _toiletbowlBoxController.text;
-                            idDetailsList.add({
-                              "informdetails": detail2,
-                              "status": "ยังไม่ได้ดำเนินการ",
-                              "equipment_id": "1001",
-                              "user_id": u.toString(),
-                            });
-                          }
-                          if (idDetailsList.isNotEmpty) {
-                            // เรียกใช้ addInformRepair ด้วยข้อมูลที่เตรียมไว้
-                            var response = await informController
-                                .addInformRepair(idDetailsList);
+                          // if (_toiletbowlCheckBox == 'โถชักโครก' &&
+                          //     roomname == "ห้องน้ำชาย" &&
+                          //     buildingname == "อาคาร 60 ปี แม่โจ้" &&
+                          //     roomfloor == "1" &&
+                          //     roomposition == "ข้างบันได") {
+                          //   // ให้เพิ่มรายการสำหรับอุปกรณ์โถชักโครก
+                          //   String detail2 = _toiletbowlBoxController.text;
+                          //   idDetailsList.add({
+                          //     "informdetails": detail2,
+                          //     "status": "ยังไม่ได้ดำเนินการ",
+                          //     "equipment_id": "1001",
+                          //     "user_id": u.toString(),
+                          //   });
+                          // }
+                          // if (idDetailsList.isNotEmpty) {
+                          //   // เรียกใช้ addInformRepair ด้วยข้อมูลที่เตรียมไว้
+                          //   var response = await informController
+                          //       .addInformRepair(idDetailsList);
 
-                            // หลังจากส่งข้อมูลไปยังเซิร์ฟเวอร์เรียบร้อยแล้ว
-                            // คุณสามารถนำผู้ใช้ไปยังหน้า ListManage หรือทำอย่างอื่นตามที่ต้องการ
-                            Navigator.pushReplacement(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (_) => ResultInformRepair(
-                                      informrepair_id: (informrepairs?[
-                                                      informrepairs!.length - 1]
-                                                  ?.informrepair_id ??
-                                              0) +
-                                          1)),
-                            );
-                          }
+                          //   // หลังจากส่งข้อมูลไปยังเซิร์ฟเวอร์เรียบร้อยแล้ว
+                          //   // คุณสามารถนำผู้ใช้ไปยังหน้า ListManage หรือทำอย่างอื่นตามที่ต้องการ
+                          //   Navigator.pushReplacement(
+                          //     context,
+                          //     MaterialPageRoute(
+                          //         builder: (_) => ResultInformRepair(
+                          //             informrepair_id: (informrepairs?[
+                          //                             informrepairs!.length - 1]
+                          //                         ?.informrepair_id ??
+                          //                     0) +
+                          //                 1)),
+                          //   );
+                          // }
                         },
                         style: ElevatedButton.styleFrom(
                           primary: Color.fromARGB(

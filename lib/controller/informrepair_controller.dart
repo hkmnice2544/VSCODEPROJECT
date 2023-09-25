@@ -16,199 +16,199 @@ class InformRepairController {
   Building? building;
   Room? room;
 
-  Future<void> addInformRepair(List<Map<String, String>> data) async {
-    var url = Uri.parse('$baseURL/informrepairs/add');
-    var headers = {"Content-Type": "application/json"};
+  // Future<void> addInformRepair(List<Map<String, String>> data) async {
+  //   var url = Uri.parse('$baseURL/informrepairs/add');
+  //   var headers = {"Content-Type": "application/json"};
 
-    try {
-      http.Response response =
-          await http.post(url, headers: headers, body: jsonEncode(data));
+  //   try {
+  //     http.Response response =
+  //         await http.post(url, headers: headers, body: jsonEncode(data));
 
-      if (response.statusCode == 200) {
-        var jsonResponse = jsonDecode(response.body);
-        print(jsonResponse);
-      } else {
-        print("เกิดข้อผิดพลาดในการส่งข้อมูล: ${response.statusCode}");
-      }
-    } catch (e) {
-      print("เกิดข้อผิดพลาด: $e");
-    }
-  }
+  //     if (response.statusCode == 200) {
+  //       var jsonResponse = jsonDecode(response.body);
+  //       print(jsonResponse);
+  //     } else {
+  //       print("เกิดข้อผิดพลาดในการส่งข้อมูล: ${response.statusCode}");
+  //     }
+  //   } catch (e) {
+  //     print("เกิดข้อผิดพลาด: $e");
+  //   }
+  // }
 
-  Future<List<InformRepair>> listAllInformRepairs() async {
-    try {
-      var url = Uri.parse(baseURL + '/informrepairs/list');
+  // Future<List<InformRepair>> listAllInformRepairs() async {
+  //   try {
+  //     var url = Uri.parse(baseURL + '/informrepairs/list');
 
-      http.Response response = await http.post(url, headers: headers);
-      print(response.body);
+  //     http.Response response = await http.post(url, headers: headers);
+  //     print(response.body);
 
-      if (response.statusCode == 200) {
-        final utf8body = utf8.decode(response.bodyBytes);
-        final jsonList = json.decode(utf8body) as List<dynamic>;
+  //     if (response.statusCode == 200) {
+  //       final utf8body = utf8.decode(response.bodyBytes);
+  //       final jsonList = json.decode(utf8body) as List<dynamic>;
 
-        List<InformRepair> list = [];
+  //       List<InformRepair> list = [];
 
-        for (final jsonData in jsonList) {
-          final informRepair = InformRepair.fromJsonToInformRepair(jsonData);
-          list.add(informRepair);
-        }
-        var jsonResponse = jsonDecode(response.body);
-        print(jsonResponse);
+  //       for (final jsonData in jsonList) {
+  //         final informRepair = InformRepair.fromJsonToInformRepair(jsonData);
+  //         list.add(informRepair);
+  //       }
+  //       var jsonResponse = jsonDecode(response.body);
+  //       print(jsonResponse);
 
-        return list;
-      } else {
-        throw Exception('Failed to load inform repairs');
-      }
-    } catch (e) {
-      print('Error: $e');
-      throw Exception('Failed to load inform repairs');
-    }
-  }
+  //       return list;
+  //     } else {
+  //       throw Exception('Failed to load inform repairs');
+  //     }
+  //   } catch (e) {
+  //     print('Error: $e');
+  //     throw Exception('Failed to load inform repairs');
+  //   }
+  // }
 
-  Future updateInformRepair(String informdetails, String status,
-      String equipment_id, String informrepair_id) async {
-    Map data = {
-      "informdetails": informdetails,
-      "status": status,
-      "equipment_id": equipment_id,
-      "informrepair_id": informrepair_id,
-    };
+  // Future updateInformRepair(String informdetails, String status,
+  //     String equipment_id, String informrepair_id) async {
+  //   Map data = {
+  //     "informdetails": informdetails,
+  //     "status": status,
+  //     "equipment_id": equipment_id,
+  //     "informrepair_id": informrepair_id,
+  //   };
 
-    var body = json.encode(data);
-    var url = Uri.parse('$baseURL/informrepairs/update');
+  //   var body = json.encode(data);
+  //   var url = Uri.parse('$baseURL/informrepairs/update');
 
-    http.Response response = await http.post(url, headers: headers, body: body);
+  //   http.Response response = await http.post(url, headers: headers, body: body);
 
-    var jsonResponse = jsonDecode(response.body);
-    print(jsonResponse);
-  }
+  //   var jsonResponse = jsonDecode(response.body);
+  //   print(jsonResponse);
+  // }
 
-  Future getInform(int informrepair_id) async {
-    var url =
-        Uri.parse(baseURL + '/informrepairs/getInformRepair/$informrepair_id');
+  // Future getInform(int informrepair_id) async {
+  //   var url =
+  //       Uri.parse(baseURL + '/informrepairs/getInformRepair/$informrepair_id');
 
-    http.Response response = await http.post(url, headers: headers, body: null);
-    print("ข้อมูลที่ได้คือ : " + response.body);
+  //   http.Response response = await http.post(url, headers: headers, body: null);
+  //   print("ข้อมูลที่ได้คือ : " + response.body);
 
-    Map<String, dynamic> jsonMap = json.decode(response.body);
-    InformRepair? informRepair = InformRepair.fromJsonToInformRepair(jsonMap);
-    return informRepair;
-  }
+  //   Map<String, dynamic> jsonMap = json.decode(response.body);
+  //   InformRepair? informRepair = InformRepair.fromJsonToInformRepair(jsonMap);
+  //   return informRepair;
+  // }
 
-  Future deleteInformRepair(int? informrepair_id) async {
-    if (informrepair_id == null) {
-      // กรณีค่า informrepair_id เป็น null
-      print('informrepair_id is null');
-      return;
-    }
+  // Future deleteInformRepair(int? informrepair_id) async {
+  //   if (informrepair_id == null) {
+  //     // กรณีค่า informrepair_id เป็น null
+  //     print('informrepair_id is null');
+  //     return;
+  //   }
 
-    var url =
-        Uri.parse('$baseURL/informrepairs/deleteInformRepair/$informrepair_id');
+  //   var url =
+  //       Uri.parse('$baseURL/informrepairs/deleteInformRepair/$informrepair_id');
 
-    // Create the request body
-    Map<String, int> data = {
-      "informrepair_id": informrepair_id,
-    };
-    var body = json.encode(data);
+  //   // Create the request body
+  //   Map<String, int> data = {
+  //     "informrepair_id": informrepair_id,
+  //   };
+  //   var body = json.encode(data);
 
-    http.Response response = await http.post(
-      url,
-      headers: headers,
-      body: body,
-    );
+  //   http.Response response = await http.post(
+  //     url,
+  //     headers: headers,
+  //     body: body,
+  //   );
 
-    var jsonResponse = jsonDecode(response.body);
-    print(jsonResponse);
-  }
+  //   var jsonResponse = jsonDecode(response.body);
+  //   print(jsonResponse);
+  // }
 
-  Future getbuilding(int building_id) async {
-    var url = Uri.parse('$baseURL/buildings/getbuildings/$building_id');
+  // Future getbuilding(int building_id) async {
+  //   var url = Uri.parse('$baseURL/buildings/getbuildings/$building_id');
 
-    http.Response response = await http.get(url);
+  //   http.Response response = await http.get(url);
 
-    print(response.body);
+  //   print(response.body);
 
-    var jsonResponse = jsonDecode(response.body);
-    Building building = Building.fromJsonToBuilding(jsonResponse['result']);
-    print("getbuilding : ${building.building_id}");
-    return building;
-  }
+  //   var jsonResponse = jsonDecode(response.body);
+  //   Building building = Building.fromJsonToBuilding(jsonResponse['result']);
+  //   print("getbuilding : ${building.building_id}");
+  //   return building;
+  // }
 
-  Future<List> listAllBuildings() async {
-    var url = Uri.parse(baseURL + '/buildings/list');
+  // Future<List> listAllBuildings() async {
+  //   var url = Uri.parse(baseURL + '/buildings/list');
 
-    http.Response response = await http.post(url, headers: headers);
-    print(response.body);
+  //   http.Response response = await http.post(url, headers: headers);
+  //   print(response.body);
 
-    List<Building> list = [];
+  //   List<Building> list = [];
 
-    final utf8body = utf8.decode(response.bodyBytes);
-    final jsonList = json.decode(utf8body) as List<dynamic>;
+  //   final utf8body = utf8.decode(response.bodyBytes);
+  //   final jsonList = json.decode(utf8body) as List<dynamic>;
 
-    for (final jsonData in jsonList) {
-      final building = Building.fromJsonToBuilding(jsonData);
-      list.add(building);
-    }
+  //   for (final jsonData in jsonList) {
+  //     final building = Building.fromJsonToBuilding(jsonData);
+  //     list.add(building);
+  //   }
 
-    return list;
-  }
+  //   return list;
+  // }
 
-  Future<List<Room>> listAllRooms() async {
-    var url = Uri.parse(baseURL + '/rooms/listAllDistinctRoomNames');
+  // Future<List<Room>> listAllRooms() async {
+  //   var url = Uri.parse(baseURL + '/rooms/listAllDistinctRoomNames');
 
-    try {
-      http.Response response = await http.post(url, headers: headers);
-      print(response.body);
+  //   try {
+  //     http.Response response = await http.post(url, headers: headers);
+  //     print(response.body);
 
-      List<Room> list = [];
+  //     List<Room> list = [];
 
-      final utf8body = utf8.decode(response.bodyBytes);
-      final jsonList = json.decode(utf8body) as List<dynamic>;
+  //     final utf8body = utf8.decode(response.bodyBytes);
+  //     final jsonList = json.decode(utf8body) as List<dynamic>;
 
-      for (final jsonData in jsonList) {
-        final room =
-            Room.fromJsonToRoom(jsonData); // แปลง JSON เป็น Room object
-        list.add(room);
-      }
+  //     for (final jsonData in jsonList) {
+  //       final room =
+  //           Room.fromJsonToRoom(jsonData); // แปลง JSON เป็น Room object
+  //       list.add(room);
+  //     }
 
-      return list;
-    } catch (e) {
-      // ในกรณีที่เกิดข้อผิดพลาด
-      print('Error fetching room data: $e');
-      return []; // หรือสามารถจัดการข้อผิดพลาดอื่น ๆ ตามที่คุณต้องการได้ในส่วน catch
-    }
-  }
+  //     return list;
+  //   } catch (e) {
+  //     // ในกรณีที่เกิดข้อผิดพลาด
+  //     print('Error fetching room data: $e');
+  //     return []; // หรือสามารถจัดการข้อผิดพลาดอื่น ๆ ตามที่คุณต้องการได้ในส่วน catch
+  //   }
+  // }
 
-  Future<void> addPicturesToDatabase(
-      List<String> pictureUrls, int informRepairId) async {
-    final String apiUrl = '$baseURL/inform_pictures/add'; // baseURL ของคุณ
+  // Future<void> addPicturesToDatabase(
+  //     List<String> pictureUrls, int informRepairId) async {
+  //   final String apiUrl = '$baseURL/inform_pictures/add'; // baseURL ของคุณ
 
-    final Map<String, dynamic> data = {
-      "pictureUrls": pictureUrls,
-      "informRepairId": informRepairId,
-    };
+  //   final Map<String, dynamic> data = {
+  //     "pictureUrls": pictureUrls,
+  //     "informRepairId": informRepairId,
+  //   };
 
-    final String jsonData = jsonEncode(data);
+  //   final String jsonData = jsonEncode(data);
 
-    try {
-      final http.Response response = await http.post(
-        Uri.parse(apiUrl),
-        headers: <String, String>{
-          'Content-Type': 'application/json; charset=UTF-8',
-        },
-        body: jsonData,
-      );
+  //   try {
+  //     final http.Response response = await http.post(
+  //       Uri.parse(apiUrl),
+  //       headers: <String, String>{
+  //         'Content-Type': 'application/json; charset=UTF-8',
+  //       },
+  //       body: jsonData,
+  //     );
 
-      if (response.statusCode == 200) {
-        var jsonResponse = jsonDecode(response.body);
-        print(jsonResponse);
-        // คุณอาจต้องดำเนินการเพิ่มเติมหรือแสดงผลลัพธ์ตามที่คุณต้องการ
-      } else {
-        // จัดการข้อผิดพลาดในการส่งข้อมูลไปยังเซิร์ฟเวอร์
-        print("เกิดข้อผิดพลาดในการส่งข้อมูล: ${response.statusCode}");
-      }
-    } catch (error) {
-      print("เกิดข้อผิดพลาดในการส่งข้อมูล: $error");
-    }
+  //     if (response.statusCode == 200) {
+  //       var jsonResponse = jsonDecode(response.body);
+  //       print(jsonResponse);
+  //       // คุณอาจต้องดำเนินการเพิ่มเติมหรือแสดงผลลัพธ์ตามที่คุณต้องการ
+  //     } else {
+  //       // จัดการข้อผิดพลาดในการส่งข้อมูลไปยังเซิร์ฟเวอร์
+  //       print("เกิดข้อผิดพลาดในการส่งข้อมูล: ${response.statusCode}");
+  //     }
+  //   } catch (error) {
+  //     print("เกิดข้อผิดพลาดในการส่งข้อมูล: $error");
+  //   }
   }
 }

@@ -55,20 +55,20 @@ class _ReportInformState extends State<ReportInform> {
   final _repairerList = ["นายอนุวัฒน์ คำเมืองลือ", "นายรชานนท์ พรหมมา"];
   final _statusList = ["กำลังดำเนินการ", "เสร็จสิ้น"];
 
-  void getInform(int informrepair_id) async {
-    informRepair = await informRepairController.getInform(informrepair_id);
-    print("getInform : ${informRepair?.informrepair_id}");
-    setState(() {
-      isDataLoaded = true;
-    });
-  }
+  // void getInform(int informrepair_id) async {
+  //   informRepair = await informRepairController.getInform(informrepair_id);
+  //   print("getInform : ${informRepair?.informrepair_id}");
+  //   setState(() {
+  //     isDataLoaded = true;
+  //   });
+  // }
 
   @override
   void initState() {
     super.initState();
-    if (widget.informrepair_id != null) {
-      getInform(widget.informrepair_id!);
-    }
+    // if (widget.informrepair_id != null) {
+    //   getInform(widget.informrepair_id!);
+    // }
     DateTime now = DateTime.now();
     formattedDate = DateFormat('yyyy-MM-dd' ' HH:mm:ss.000').format(now);
   }
