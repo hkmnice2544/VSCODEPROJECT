@@ -1,18 +1,13 @@
-import 'dart:math';
 import 'dart:typed_data';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:intl/intl.dart';
-
 import '../../../controller/report_controller.dart';
 import '../../../controller/review_controller.dart';
 import '../../../model/Report_Model.dart';
 import '../../../model/Review_Model.dart';
 import '../../Home.dart';
 import '../../Login.dart';
-import 'List_InformCompleted.dart';
 import 'ListInformRepair.dart';
 import 'Rating.dart';
 

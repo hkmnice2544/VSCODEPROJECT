@@ -1,12 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import '../../../controller/listinform_controller.dart';
 import '../../../controller/report_controller.dart';
 import '../../../model/Report_Model.dart';
 import '../../Home.dart';
 import '../../Login.dart';
-import 'List_InformCompleted.dart';
-import 'List_NewItem.dart';
 import 'ListInformRepair.dart';
 
 class ViewCompleted extends StatefulWidget {

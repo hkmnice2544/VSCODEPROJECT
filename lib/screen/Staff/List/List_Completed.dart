@@ -1,12 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:intl/intl.dart';
-
-import '../../../Model/Report_Model.dart';
-
 import '../../../controller/informrepair_controller.dart';
-import '../../../controller/listinform_controller.dart';
 import '../../../model/informrepair_model.dart';
 import 'View_Completed.dart';
 

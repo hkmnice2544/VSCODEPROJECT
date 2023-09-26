@@ -1,6 +1,5 @@
 import 'dart:typed_data';
 import 'package:flutterr/screen/Staff/Summary/View_Sum.dart';
-import 'package:flutterr/screen/Staff/Summary/View_Summary.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';

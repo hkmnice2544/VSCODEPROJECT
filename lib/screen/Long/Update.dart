@@ -3,8 +3,6 @@ import 'package:flutter/material.dart';
 import '../../Model/informrepair_model.dart';
 import '../../controller/informrepair_controller.dart';
 
-import 'Detail.dart';
-
 class Updateinform extends StatefulWidget {
   final int? informrepair_id;
   const Updateinform({

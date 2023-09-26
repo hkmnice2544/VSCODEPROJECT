@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:flutterr/screen/Login.dart';
 import 'package:flutterr/screen/User/InformRepairToilet/InformRepairForm.dart';
 import 'package:shared_preferences/shared_preferences.dart';

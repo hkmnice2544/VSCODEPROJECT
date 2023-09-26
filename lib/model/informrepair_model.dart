@@ -3,9 +3,6 @@ import 'dart:ui';
 import 'package:flutterr/model/%E0%B9%8AUser_Model.dart';
 import 'package:intl/intl.dart';
 
-import 'Equipment_Model.dart';
-import 'Room_Model.dart';
-
 class InformRepair {
   int? informrepair_id;
   DateTime? informdate;

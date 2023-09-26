@@ -16,24 +16,24 @@ class InformRepairController {
   Building? building;
   Room? room;
 
-  // Future<void> addInformRepair(List<Map<String, String>> data) async {
-  //   var url = Uri.parse('$baseURL/informrepairs/add');
-  //   var headers = {"Content-Type": "application/json"};
+  Future<void> addInformRepair(List<Map<String, String>> data) async {
+    var url = Uri.parse('$baseURL/informrepairs/addInformRepair');
+    var headers = {"Content-Type": "application/json"};
 
-  //   try {
-  //     http.Response response =
-  //         await http.post(url, headers: headers, body: jsonEncode(data));
+    try {
+      http.Response response =
+          await http.post(url, headers: headers, body: jsonEncode(data));
 
-  //     if (response.statusCode == 200) {
-  //       var jsonResponse = jsonDecode(response.body);
-  //       print(jsonResponse);
-  //     } else {
-  //       print("เกิดข้อผิดพลาดในการส่งข้อมูล: ${response.statusCode}");
-  //     }
-  //   } catch (e) {
-  //     print("เกิดข้อผิดพลาด: $e");
-  //   }
-  // }
+      if (response.statusCode == 200) {
+        var jsonResponse = jsonDecode(response.body);
+        print(jsonResponse);
+      } else {
+        print("เกิดข้อผิดพลาดในการส่งข้อมูล: ${response.statusCode}");
+      }
+    } catch (e) {
+      print("เกิดข้อผิดพลาด: $e");
+    }
+  }
 
   Future<List<InformRepair>> listAllInformRepairs() async {
     try {

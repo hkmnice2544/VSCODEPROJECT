@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import '../../controller/informrepair_controller.dart';
 import '../../model/informrepair_model.dart';
 import 'Update.dart';
-import 'View_Details.dart';
 
 class Details extends StatefulWidget {
   const Details({super.key});

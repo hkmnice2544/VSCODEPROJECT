@@ -1,16 +1,10 @@
 import 'dart:convert';
-import 'dart:math';
-import 'dart:typed_data';
 import 'package:flutterr/constant/constant_value.dart';
 import 'package:flutterr/model/Room_Model.dart';
 import 'package:flutterr/screen/Home.dart';
 import 'package:flutterr/screen/Login.dart';
-import 'package:flutterr/screen/Staff/List/ListManage.dart';
-import 'package:flutterr/screen/User/InformRepairToilet/ResultInformRepair.dart';
-import 'package:flutterr/screen/User/ListInformRepair/List_NewItem.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:flutter/material.dart';
-
 import '../../../controller/informrepair_controller.dart';
 import 'package:intl/intl.dart';
 import '../../../model/Building_Model.dart';
@@ -340,41 +334,44 @@ class Form extends State<InformRepairForm> {
                 //     icon: const Icon(Icons.account_circle),
                 //   ),
 
-                Row(
-                  children: [
-                    Expanded(
-                      child: Padding(
-                        padding: EdgeInsets.fromLTRB(10.0, 10, 10.0, 10), //
-                        child: Icon(Icons.list),
+                Padding(
+                  padding: EdgeInsets.only(left: 0, top: 25, right: 0),
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: Padding(
+                          padding: EdgeInsets.fromLTRB(10.0, 10, 10.0, 10), //
+                          child: Icon(Icons.list),
+                        ),
                       ),
-                    ),
-                    Expanded(
-                      child: Padding(
-                        padding: EdgeInsets.fromLTRB(0.0, 0, 5.0, 0), //
-                        child: Text(
-                          "เลขที่แจ้งซ่อม :",
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
+                      Expanded(
+                        child: Padding(
+                          padding: EdgeInsets.only(left: 00, top: 0, right: 0),
+                          child: Text(
+                            "เลขที่แจ้งซ่อม :",
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                    Expanded(
-                      child: Padding(
-                        padding: EdgeInsets.fromLTRB(0.0, 0, 5.0, 0), //
-                        child: Text(
-                          "${(informrepairs?[informrepairs!.length - 1]?.informrepair_id ?? 0) + 1}",
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
+                      Expanded(
+                        child: Padding(
+                          padding: EdgeInsets.fromLTRB(0.0, 0, 5.0, 0), //
+                          child: Text(
+                            "${(informrepairs?[informrepairs!.length - 1]?.informrepair_id ?? 0) + 1}",
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
                 Row(
                   children: [

@@ -7,7 +7,6 @@ import '../../Home.dart';
 import '../../Login.dart';
 import '../../User/ListInformRepair/ListInformRepair.dart';
 import 'ListManage.dart';
-import 'List_NewInform.dart';
 
 class ViewActualize extends StatefulWidget {
   final int? informrepair_id;

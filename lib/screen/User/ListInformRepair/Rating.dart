@@ -1,12 +1,10 @@
-
-
 import 'package:flutter/material.dart';
 
 class Rating extends StatefulWidget {
   late final int maximumRating;
   late final Function(int) onRatingSelected;
 
-  Rating (this.onRatingSelected,[this.maximumRating = 5]);
+  Rating(this.onRatingSelected, [this.maximumRating = 5]);
 
   @override
   _Rating createState() => _Rating();
@@ -15,21 +13,23 @@ class Rating extends StatefulWidget {
 class _Rating extends State<Rating> {
   int _currentRating = 0;
 
-  Widget _buildRatingStar(int index){
-
-    if (index<_currentRating){
-      return Icon(Icons.star,color: Colors.orange,);
-    }else{
+  Widget _buildRatingStar(int index) {
+    if (index < _currentRating) {
+      return Icon(
+        Icons.star,
+        color: Colors.orange,
+      );
+    } else {
       return Icon(Icons.star_border_outlined);
     }
     return Icon(Icons.star_border_outlined);
   }
-  
-  Widget _buildBody(){
+
+  Widget _buildBody() {
     final stars = List<Widget>.generate(this.widget.maximumRating, (index) {
       return GestureDetector(
         child: _buildRatingStar(index),
-        onTap: (){
+        onTap: () {
           setState(() {
             _currentRating = index + 1;
             print(_currentRating);
@@ -38,14 +38,17 @@ class _Rating extends State<Rating> {
         },
       );
     });
-     return Row(
+    return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Row(
           children: stars,
         ),
         TextButton(
-          child: Text("Clear",style: TextStyle(color: Colors.blue),),
+          child: Text(
+            "Clear",
+            style: TextStyle(color: Colors.blue),
+          ),
           onPressed: () {
             setState(() {
               _currentRating = 0;
@@ -53,7 +56,6 @@ class _Rating extends State<Rating> {
             this.widget.onRatingSelected(_currentRating);
             // Add your onPressed action here (if needed)
           },
-          
         ),
       ],
     );

@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutterr/screen/User/ListInformRepair/List_%20Check%20status.dart';
-
 import '../../../Model/informrepair_model.dart';
-import '../../../controller/informrepair_controller.dart';
 import '../../Home.dart';
 import '../../Login.dart';
 import 'List_InformCompleted.dart';

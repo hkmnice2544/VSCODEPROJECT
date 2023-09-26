@@ -1,14 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutterr/model/%E0%B9%8AUser_Model.dart';
 import 'package:flutterr/screen/Home.dart';
 import 'package:flutterr/screen/HomeStaff.dart';
-
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-import 'package:image_picker/image_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
-import '../Model/informrepair_model.dart';
 import '../constant/constant_value.dart';
 
 class Login extends StatefulWidget {
