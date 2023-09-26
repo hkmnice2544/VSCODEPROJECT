@@ -218,38 +218,56 @@ class Form extends State<InformRepairForm> {
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
         bottomNavigationBar: BottomAppBar(
-          color: Color.fromARGB(255, 245, 59, 59),
-          height: 50,
-          shape: CircularNotchedRectangle(), // รูปร่างของแถบ
+            color: Color.fromARGB(255, 245, 59, 59),
+            height: 50,
+            shape: CircularNotchedRectangle(), // รูปร่างของแถบ
 
-          child: Row(
+            child: Row(
               // mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
-                Expanded(
+                Padding(
+                  padding: EdgeInsets.only(left: 20, top: 0, right: 0),
                   child: IconButton(
-                      icon: Icon(Icons.home),
-                      color: Color.fromARGB(255, 255, 255, 255),
-                      onPressed: () {
-                        Navigator.push(context, MaterialPageRoute(
-                          builder: (context) {
-                            return Home(username: widget.username);
-                          },
-                        ));
-                      }),
+                    icon: Icon(Icons.home),
+                    color: Color.fromARGB(255, 255, 255, 255),
+                    onPressed: () {
+                      Navigator.push(context, MaterialPageRoute(
+                        builder: (context) {
+                          return Home(username: widget.username);
+                        },
+                      ));
+                    },
+                  ),
                 ),
                 Expanded(
-                  child: Text(
-                    "หน้าแรก",
-                    style: TextStyle(
-                      color: Color.fromARGB(255, 255, 255, 255),
-                      fontSize: 12,
-                      fontWeight: FontWeight.w100,
+                  child: GestureDetector(
+                    onTap: () {
+                      // นำทางไปยังหน้าอื่นที่คุณต้องการ
+                      Navigator.push(context, MaterialPageRoute(
+                        builder: (context) {
+                          return Home(username: widget.username);
+                        },
+                      ));
+                    },
+                    child: Padding(
+                      padding: EdgeInsets.only(left: 0, top: 0, right: 50),
+                      child: Text(
+                        "หน้าแรก",
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 12,
+                          fontWeight: FontWeight.w100,
+                        ),
+                      ),
                     ),
                   ),
                 ),
-                Expanded(child: Text("                           ")),
                 Expanded(
-                  child: IconButton(
+                    child: Text(" ")), // เพิ่มระยะห่างของข้อความได้ตามต้องการ
+                Expanded(
+                  child: Padding(
+                    padding: EdgeInsets.only(left: 120, top: 0, right: 0),
+                    child: IconButton(
                       icon: Icon(Icons.logout),
                       color: Color.fromARGB(255, 255, 255, 255),
                       onPressed: () {
@@ -258,20 +276,36 @@ class Form extends State<InformRepairForm> {
                             return Login();
                           },
                         ));
-                      }),
+                      },
+                    ),
+                  ),
                 ),
                 Expanded(
-                  child: Text(
-                    "ออกจากระบบ",
-                    style: TextStyle(
-                      color: Color.fromARGB(255, 255, 255, 255),
-                      fontSize: 12,
-                      fontWeight: FontWeight.w100,
+                  child: GestureDetector(
+                    onTap: () {
+                      // นำทางไปยังหน้าอื่นที่คุณต้องการ
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) {
+                          return Login();
+                        }),
+                      );
+                    },
+                    child: Padding(
+                      padding: EdgeInsets.only(left: 30, top: 0, right: 0),
+                      child: Text(
+                        "ออกจากระบบ",
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 12,
+                          fontWeight: FontWeight.w100,
+                        ),
+                      ),
                     ),
                   ),
                 )
-              ]),
-        ),
+              ],
+            )),
         body: SingleChildScrollView(
           child: Container(
             padding: EdgeInsets.all(16.0),
