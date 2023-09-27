@@ -468,7 +468,7 @@ class _MyResultState extends State<ResultInformRepair> {
                                   Navigator.of(context).pop();
                                   Navigator.push(context, MaterialPageRoute(
                                     builder: (context) {
-                                      return listAllInformRepairs();
+                                      return listNewItem();
                                     },
                                   ));
                                 }),

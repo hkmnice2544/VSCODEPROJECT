@@ -1,41 +1,28 @@
 import 'dart:convert';
 import 'package:flutterr/constant/constant_value.dart';
-import 'package:flutterr/model/InformRepiarDetails_Model.dart';
+import 'package:flutterr/model/InformRepiarDetailsList_Model.dart';
 import 'package:http/http.dart' as http;
 
 class InformRepairDetailsController {
-  InformRepairDetails? informRepairDetails;
+  InformRepairDetailsList? informRepairDetails;
+  Future<List<InformRepairDetailsList>> fetchData() async {
+    final response =
+        await http.post(Uri.parse((baseURL + '/informrepairdetails/allList')));
 
-  Future<List<InformRepairDetails>> listAll() async {
-    var url = Uri.parse(baseURL + '/informrepairdetails/allList');
+    if (response.statusCode == 200) {
+      final List<dynamic> jsonData = json.decode(response.body);
+      List<InformRepairDetailsList> result = [];
 
-    http.Response response = await http.post(url, headers: headers);
-    print(response.body);
-
-    List<InformRepairDetails> list = [];
-
-    final utf8body = utf8.decode(response.bodyBytes);
-    final jsonData = json.decode(utf8body);
-
-    if (jsonData is List<dynamic>) {
       for (final dynamic data in jsonData) {
-        if (data is Map<String, dynamic>) {
-          final informRepairDetails =
-              InformRepairDetails.fromJsonToInformRepairDetails(data);
-          if (informRepairDetails != null) {
-            // ตรวจสอบว่าไม่เป็นค่า null
-            list.add(informRepairDetails);
-          }
-        } else {
-          // ข้อมูลไม่ใช่ Map<String, dynamic> หรือเป็น null
-          // ให้ทำการจัดการตามที่เหมาะสม
+        if (data != null && data is Map<String, dynamic>) {
+          final details = InformRepairDetailsList.fromJson(data);
+          result.add(details);
         }
       }
-    } else {
-      // jsonData ไม่ใช่ List<dynamic> หรือเป็น null
-      // ให้ทำการจัดการตามที่เหมาะสม
-    }
 
-    return list;
+      return result;
+    } else {
+      throw Exception('Failed to load data');
+    }
   }
 }

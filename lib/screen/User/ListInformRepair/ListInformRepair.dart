@@ -114,7 +114,7 @@ class ListInformRepair extends StatelessWidget {
                 ]),
           ),
           body: TabBarView(children: [
-            listAllInformRepairs(),
+            listNewItem(),
             listCheckStatus(),
             InformCompleted(),
           ]),
