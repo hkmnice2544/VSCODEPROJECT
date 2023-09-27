@@ -21,6 +21,7 @@ class _listAllInformRepairsState extends State<listNewItem> {
 
   void listAllInformRepairDetails() async {
     informRepairDetailsList = await informRepairDetailsController.fetchData();
+    print(informRepairDetailsList);
     setState(() {
       isDataLoaded = true;
     });

@@ -230,13 +230,6 @@ class _ViewResultState extends State<View_NewItem> {
                 ),
                 Expanded(
                   child: Text(
-                    // informRepair?.rooms != null
-                    //     ? informRepair!.rooms!
-                    //         .map((room) =>
-                    //             room.roomname ??
-                    //             'N/A') // ดึงประเภทห้องน้ำจากอ็อบเจกต์ Room
-                    //         .join(', ')
-                    //     : 'N/A',
                     "",
                     style: TextStyle(
                       color: Colors.black,
