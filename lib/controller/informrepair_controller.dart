@@ -83,17 +83,17 @@ class InformRepairController {
   //   print(jsonResponse);
   // }
 
-  // Future getInform(int informrepair_id) async {
-  //   var url =
-  //       Uri.parse(baseURL + '/informrepairs/getInformRepair/$informrepair_id');
+  Future getInform(int informrepair_id) async {
+    var url =
+        Uri.parse(baseURL + '/informrepairs/getInformRepair/$informrepair_id');
 
-  //   http.Response response = await http.post(url, headers: headers, body: null);
-  //   print("ข้อมูลที่ได้คือ : " + response.body);
+    http.Response response = await http.post(url, headers: headers, body: null);
+    print("ข้อมูลที่ได้คือ : " + response.body);
 
-  //   Map<String, dynamic> jsonMap = json.decode(response.body);
-  //   InformRepair? informRepair = InformRepair.fromJsonToInformRepair(jsonMap);
-  //   return informRepair;
-  // }
+    Map<String, dynamic> jsonMap = json.decode(response.body);
+    InformRepair? informRepair = InformRepair.fromJsonToInformRepair(jsonMap);
+    return informRepair;
+  }
 
   // Future deleteInformRepair(int? informrepair_id) async {
   //   if (informrepair_id == null) {

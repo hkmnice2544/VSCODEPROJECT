@@ -19,7 +19,7 @@ class Equipment {
             : null, // แปลง List ของห้องจาก JSON
       );
 
-  Map<String, dynamic> fromEquipmentToJson() {
+  Map<String, dynamic> fromEquipmentToJson(json) {
     return <String, dynamic>{
       'equipment_id': equipment_id,
       'equipmentname': equipmentname,

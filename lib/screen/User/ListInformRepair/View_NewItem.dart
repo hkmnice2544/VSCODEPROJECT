@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutterr/controller/informrepairdetails_controller.dart';
+import 'package:flutterr/model/InformRepairDetails_Model.dart';
 import '../../../controller/informrepair_controller.dart';
 import '../../../model/informrepair_model.dart';
 import '../../Home.dart';
@@ -18,13 +20,25 @@ class View_NewItem extends StatefulWidget {
 
 class _ViewResultState extends State<View_NewItem> {
   final InformRepairController informController = InformRepairController();
+  final InformRepairDetailsController informRepairDetailsController =
+      InformRepairDetailsController();
 
   InformRepair? informRepair;
   List<InformRepair>? informrepairs;
+  List<InformRepairDetails>? informRepairDetails;
 
   bool? isDataLoaded = false;
   String formattedDate = '';
   DateTime informdate = DateTime.now();
+
+  void fetchlistAllInformRepairDetails() async {
+    informRepairDetails =
+        await informRepairDetailsController.getAllInformRepairDetails();
+    print({informRepairDetails?[0].informdetails_id});
+    setState(() {
+      isDataLoaded = true;
+    });
+  }
 
   // void fetchlistAllInformRepairs() async {
   //   informrepairs = await informController.listAllInformRepairs();
@@ -34,21 +48,21 @@ class _ViewResultState extends State<View_NewItem> {
   //   });
   // }
 
-  // void getInform(int informrepair_id) async {
-  //   informRepair = await informController.getInform(informrepair_id);
-  //   print("getInform : ${informRepair?.informrepair_id}");
-  //   setState(() {
-  //     isDataLoaded = true;
-  //   });
-  // }
+  void getInform(int informrepair_id) async {
+    informRepair = await informController.getInform(informrepair_id);
+    print("getInform : ${informRepair?.informrepair_id}");
+    setState(() {
+      isDataLoaded = true;
+    });
+  }
 
   @override
   void initState() {
     super.initState();
-    // fetchlistAllInformRepairs();
-    // if (widget.informrepair_id != null) {
-    //   getInform(widget.informrepair_id!);
-    // }
+    fetchlistAllInformRepairDetails();
+    if (widget.informrepair_id != null) {
+      getInform(widget.informrepair_id!);
+    }
   }
 
   @override
@@ -168,7 +182,7 @@ class _ViewResultState extends State<View_NewItem> {
                 ),
                 Expanded(
                   child: Text(
-                    "${informRepair?.informrepair_id}",
+                    "${widget.informrepair_id}",
                     style: TextStyle(
                       color: Colors.black,
                       fontSize: 20,
@@ -192,7 +206,7 @@ class _ViewResultState extends State<View_NewItem> {
                 ),
                 Expanded(
                   child: Text(
-                    "${informRepair?.informdate}",
+                    "${informRepair?.informdate ?? 'N/A'}",
                     style: TextStyle(
                       color: Colors.black,
                       fontSize: 20,

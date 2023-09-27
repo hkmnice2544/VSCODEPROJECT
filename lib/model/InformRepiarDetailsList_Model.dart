@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 class InformRepairDetailsList {
   final int totalAmount;
   final int informrepair_id;
