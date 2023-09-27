@@ -17,12 +17,23 @@ class InformRepairDetailsController {
     final utf8body = utf8.decode(response.bodyBytes);
     final jsonData = json.decode(utf8body);
 
-    // ดำเนินการแปลงข้อมูลเฉพาะเมื่อสถานะถูกต้อง
-    final jsonList = jsonData as List<dynamic>;
-    for (final jsonData in jsonList) {
-      final informRepairDetails =
-          InformRepairDetails.fromJsonToInformRepairDetails(jsonData);
-      list.add(informRepairDetails);
+    if (jsonData is List<dynamic>) {
+      for (final dynamic data in jsonData) {
+        if (data is Map<String, dynamic>) {
+          final informRepairDetails =
+              InformRepairDetails.fromJsonToInformRepairDetails(data);
+          if (informRepairDetails != null) {
+            // ตรวจสอบว่าไม่เป็นค่า null
+            list.add(informRepairDetails);
+          }
+        } else {
+          // ข้อมูลไม่ใช่ Map<String, dynamic> หรือเป็น null
+          // ให้ทำการจัดการตามที่เหมาะสม
+        }
+      }
+    } else {
+      // jsonData ไม่ใช่ List<dynamic> หรือเป็น null
+      // ให้ทำการจัดการตามที่เหมาะสม
     }
 
     return list;

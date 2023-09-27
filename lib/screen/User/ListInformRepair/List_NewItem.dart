@@ -39,19 +39,36 @@ class _listAllInformRepairsState extends State<listAllInformRepairs> {
   //     isDataLoaded = true;
   //   });
   // }
-  void listAllinformRepairDetails() async {
-    // เรียกใช้งานฟังก์ชันดึงข้อมูลจาก controller
-    informrepairsdetails = (await informRepairDetailsController.listAll())
-        .cast<InformRepairDetails>();
-    setState(() {
-      isDataLoaded = true;
-    });
+
+  Future<void> loadInformRepairDetails() async {
+    try {
+      // เรียกใช้งานฟังก์ชัน listAll() จากคลาส InformRepairDetailsController
+      final controller = InformRepairDetailsController();
+      final detailsList = await controller.listAll();
+
+      setState(() {
+        informrepairsdetails = detailsList;
+        isDataLoaded = true;
+      });
+    } catch (e) {
+      // จัดการข้อผิดพลาดที่อาจเกิดขึ้นในกรณีที่ไม่สามารถโหลดข้อมูลได้
+      print('Error loading inform repair details: $e');
+    }
   }
+
+  // void listAllinformRepairDetails() async {
+  //   // เรียกใช้งานฟังก์ชันดึงข้อมูลจาก controller
+  //   informrepairsdetails = (await informRepairDetailsController.listAll())
+  //       .cast<InformRepairDetails>();
+  //   setState(() {
+  //     isDataLoaded = true;
+  //   });
+  // }
 
   @override
   void initState() {
     super.initState();
-    listAllinformRepairDetails();
+    loadInformRepairDetails();
     informrepairs?.sort((a, b) {
       if (a.informdate == null && b.informdate == null) {
         return 0;
@@ -66,127 +83,37 @@ class _listAllInformRepairsState extends State<listAllInformRepairs> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        backgroundColor: Colors.white,
-        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-        body: isDataLoaded == false
-            ? CircularProgressIndicator()
-            : Container(
-                padding: EdgeInsets.all(10.0),
-                child: ListView.builder(
-                  itemCount: informrepairsdetails?.length,
-                  scrollDirection: Axis.vertical,
-                  itemBuilder: (context, index) {
-                    // ดึงข้อมูลแต่ละกลุ่ม
-                    Map<String, dynamic>? group =
-                        informrepairsdetails?[index] as Map<String, dynamic>?;
-
-                    // ดึงข้อมูลแจ้งซ่อม
-                    Map<String, dynamic>? informRepair = group?['informRepair'];
-
-                    // ดึงข้อมูลอุปกรณ์ของแจ้งซ่อม
-                    List<Map<String, dynamic>>? roomEquipment =
-                        group?['roomEquipment'];
-
-                    // ตรวจสอบสถานะและแสดงผลเฉพาะรายการที่ไม่ใช่ "เสร็จสิ้น" หรือ "กำลังดำเนินการ"
-                    if (informRepair?['status'] != "เสร็จสิ้น" &&
-                        informRepair?['status'] != "กำลังดำเนินการ") {
-                      return Card(
-                        elevation: 5,
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10)),
-                        child: ListTile(
-                          leading: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Icon(Icons.account_circle, color: Colors.red)
-                            ],
-                          ),
-                          title: Column(
-                            mainAxisSize: MainAxisSize.max,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Row(
-                                children: [
-                                  Expanded(
-                                    child: Text(
-                                      "เลขที่แจ้งซ่อม",
-                                      style: const TextStyle(
-                                          fontFamily: 'Itim', fontSize: 22),
-                                    ),
-                                  ),
-                                  Expanded(
-                                    child: Text(
-                                      "${informRepair?['informrepair_id']}",
-                                      style: const TextStyle(
-                                          fontFamily: 'Itim', fontSize: 22),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              Row(
-                                children: [
-                                  Expanded(
-                                    child: Text(
-                                      "วันที่แจ้งซ่อม",
-                                      style: const TextStyle(
-                                          fontFamily: 'Itim', fontSize: 22),
-                                    ),
-                                  ),
-                                  Expanded(
-                                    child: Text(
-                                      "${informRepair?['informdate']}",
-                                      style: const TextStyle(
-                                          fontFamily: 'Itim', fontSize: 22),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              Row(
-                                children: [
-                                  Expanded(
-                                    child: Text(
-                                      "สถานะ ",
-                                      style: const TextStyle(
-                                          fontFamily: 'Itim', fontSize: 22),
-                                    ),
-                                  ),
-                                  Expanded(
-                                    child: Text(
-                                      "${informRepair?['status']}",
-                                      style: const TextStyle(
-                                          fontFamily: 'Itim', fontSize: 22),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ],
-                          ),
-                          trailing:
-                              const Icon(Icons.zoom_in, color: Colors.red),
-                          onTap: () {
-                            WidgetsBinding.instance!.addPostFrameCallback((_) {
-                              Navigator.pushReplacement(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (_) => View_NewItem(
-                                    informrepair_id:
-                                        informRepair?['informrepair_id'],
-                                  ),
-                                ),
-                              );
-                            });
-                          },
-                        ),
-                      );
-                    } else {
-                      return Container(); // สร้าง Container ว่างเปล่าเพื่อซ่อนรายการที่มี status เป็น "กำลังดำเนินการ"
-                    }
-                  },
-                ),
-              ),
-      ),
+    return FutureBuilder<List<InformRepairDetails>>(
+      future: informRepairDetailsController.listAll(),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          // ถ้ายังไม่ได้รับข้อมูล
+          return CircularProgressIndicator();
+        } else if (snapshot.hasError) {
+          // ถ้ามีข้อผิดพลาด
+          return Text('Error: ${snapshot.error}');
+        } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+          // ถ้าไม่มีข้อมูลหรือข้อมูลเป็นรายการว่าง
+          return Text('No Data');
+        } else {
+          // ถ้าได้รับข้อมูลสำเร็จ
+          final informRepairDetailsList = snapshot.data!;
+          return ListView.builder(
+            itemCount: informRepairDetailsList.length,
+            itemBuilder: (context, index) {
+              final informRepairDetails = informRepairDetailsList[index];
+              // นำข้อมูลมาแสดงใน ListTile หรือ Widget ตามที่คุณต้องการ
+              return ListTile(
+                title: Text(
+                    'InformRepair ID: ${informRepairDetails.informdetails_Id}'),
+                subtitle: Text(
+                    'Status: ${informRepairDetails.informRepair?.status ?? 'N/A'}'),
+                // แสดงข้อมูลเพิ่มเติมได้ตามต้องการ
+              );
+            },
+          );
+        }
+      },
     );
   }
 }
