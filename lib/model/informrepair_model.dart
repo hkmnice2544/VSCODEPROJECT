@@ -34,12 +34,12 @@ class InformRepair {
     final user = User.fromJsonToUser(userJson);
 
     final informRepair = InformRepair(
-      informrepair_id: json['informrepair_id'] as int,
-      informdate: json['informdate'] != null
-          ? DateTime.parse(json['informdate'] as String)
-          : null,
-      user: user,
-    );
+        informrepair_id: json['informrepair_id'] as int,
+        informdate: json['informdate'] != null
+            ? DateTime.parse(json['informdate'] as String)
+            : null,
+        user: user,
+        status: json['status']);
 
     return informRepair;
   }

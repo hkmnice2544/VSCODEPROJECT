@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutterr/constant/constant_value.dart';
+import 'package:flutterr/controller/informrepair_controller.dart';
 import 'package:flutterr/controller/informrepairdetails_controller.dart';
 import 'package:flutterr/model/InformRepiarDetailsList_Model.dart';
+import 'package:flutterr/model/informrepair_model.dart';
 import 'package:flutterr/screen/User/ListInformRepair/View_NewItem.dart';
 import 'package:http/http.dart' as http;
 
@@ -14,10 +16,13 @@ class listNewItem extends StatefulWidget {
 
 class _listAllInformRepairsState extends State<listNewItem> {
   List<InformRepairDetailsList>? informRepairDetailsList;
+  List<InformRepair>? informRepairList;
   bool isDataLoaded = false;
 
   final InformRepairDetailsController informRepairDetailsController =
       InformRepairDetailsController();
+
+  InformRepairController informRepairController = InformRepairController();
 
   void listAllInformRepairDetails() async {
     informRepairDetailsList = await informRepairDetailsController.fetchData();
@@ -27,10 +32,23 @@ class _listAllInformRepairsState extends State<listNewItem> {
     });
   }
 
+  List<String>? amounts = [];
+  void listAllInformRepair() async {
+    informRepairList = await informRepairController.listAllInformRepairs();
+    for (int i = 0; i < informRepairList!.length; i++) {
+      amounts!.add(await informRepairController
+          .findSumamountById(informRepairList![i].informrepair_id ?? 0));
+    }
+    print("------------${informRepairList![0].informrepair_id}-------------");
+    setState(() {
+      isDataLoaded = true;
+    });
+  }
+
   @override
   void initState() {
     super.initState();
-    listAllInformRepairDetails();
+    listAllInformRepair();
   }
 
   @override
@@ -43,7 +61,7 @@ class _listAllInformRepairsState extends State<listNewItem> {
             : Container(
                 padding: EdgeInsets.all(10.0),
                 child: ListView.builder(
-                  itemCount: informRepairDetailsList?.length,
+                  itemCount: informRepairList?.length,
                   itemBuilder: (context, index) {
                     return Card(
                       elevation: 5,
@@ -70,7 +88,7 @@ class _listAllInformRepairsState extends State<listNewItem> {
                               ),
                               Expanded(
                                 child: Text(
-                                  " ${informRepairDetailsList?[index].informrepair_id}",
+                                  " ${informRepairList?[index].informrepair_id}",
                                   style: const TextStyle(
                                       fontFamily: 'Itim', fontSize: 20),
                                 ),
@@ -86,7 +104,7 @@ class _listAllInformRepairsState extends State<listNewItem> {
                               ),
                               Expanded(
                                 child: Text(
-                                  "${informRepairDetailsList?[index].informDate.toString()}",
+                                  "${informRepairList?[index].informdate.toString()}",
                                   style: const TextStyle(
                                       fontFamily: 'Itim', fontSize: 20),
                                 ),
@@ -102,7 +120,7 @@ class _listAllInformRepairsState extends State<listNewItem> {
                               ),
                               Expanded(
                                 child: Text(
-                                  "${informRepairDetailsList?[index].totalAmount.toString()}",
+                                  "${amounts![index]}",
                                   style: const TextStyle(
                                       fontFamily: 'Itim', fontSize: 20),
                                 ),
@@ -118,7 +136,7 @@ class _listAllInformRepairsState extends State<listNewItem> {
                               ),
                               Expanded(
                                 child: Text(
-                                  "${informRepairDetailsList?[index].status}",
+                                  "${informRepairList?[index].status}",
                                   style: const TextStyle(
                                       fontFamily: 'Itim', fontSize: 20),
                                 ),
@@ -128,14 +146,14 @@ class _listAllInformRepairsState extends State<listNewItem> {
                         ),
                         onTap: () {
                           WidgetsBinding.instance!.addPostFrameCallback((_) {
-                            Navigator.pushReplacement(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (_) => View_NewItem(
-                                      informrepair_id:
-                                          informRepairDetailsList?[index]
-                                              .informrepair_id)),
-                            );
+                            // Navigator.pushReplacement(
+                            //   context,
+                            //   MaterialPageRoute(
+                            //       builder: (_) => View_NewItem(
+                            //           informRepairDetails:
+                            //               informRepairDetailsList?[index]
+                            //                   .informRepairDetails)),
+                            // );
                           });
                         },
                       ),

@@ -139,16 +139,16 @@ class _listlistCheckStatusState extends State<listCheckStatus> {
                             trailing:
                                 const Icon(Icons.zoom_in, color: Colors.red),
                             onTap: () {
-                              WidgetsBinding.instance!
-                                  .addPostFrameCallback((_) {
-                                Navigator.pushReplacement(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (_) => View_NewItem(
-                                          informrepair_id: informrepairs?[index]
-                                              .informrepair_id)),
-                                );
-                              });
+                              // WidgetsBinding.instance!
+                              //     .addPostFrameCallback((_) {
+                              //   Navigator.pushReplacement(
+                              //     context,
+                              //     MaterialPageRoute(
+                              //         builder: (_) => View_NewItem(
+                              //             informrepair_id: informrepairs?[index]
+                              //                 .informrepair_id)),
+                              //   );
+                              // });
                             },
                           ),
                         );
