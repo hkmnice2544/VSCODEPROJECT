@@ -255,30 +255,7 @@ class _ReportInformState extends State<ReportInform> {
                 ),
               ],
             ),
-            Row(
-              children: [
-                Expanded(
-                  child: Text(
-                    "เลขที่รายละเอียด  :",
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-                Expanded(
-                  child: Text(
-                    "${informRepairDetail?.informdetails_id}",
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-              ],
-            ),
+
             Row(
               children: [
                 Expanded(

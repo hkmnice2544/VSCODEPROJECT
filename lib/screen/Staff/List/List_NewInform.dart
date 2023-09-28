@@ -154,22 +154,6 @@ class NewInform extends State<listNewInform> {
                               Row(children: [
                                 Expanded(
                                   child: Text(
-                                    "เลขที่รายละเอียด",
-                                    style: const TextStyle(
-                                        fontFamily: 'Itim', fontSize: 22),
-                                  ),
-                                ),
-                                Expanded(
-                                  child: Text(
-                                    "${informRepairDetails?[index].informdetails_id}",
-                                    style: const TextStyle(
-                                        fontFamily: 'Itim', fontSize: 22),
-                                  ),
-                                ),
-                              ]),
-                              Row(children: [
-                                Expanded(
-                                  child: Text(
                                     "วันที่แจ้งซ่อม",
                                     style: const TextStyle(
                                         fontFamily: 'Itim', fontSize: 22),
