@@ -20,7 +20,7 @@ class View_NewItem extends StatefulWidget {
 
 class _ViewResultState extends State<View_NewItem> {
   final InformRepairController informController = InformRepairController();
-  final InformRepairDetailsController informRepairDetailsController =
+  InformRepairDetailsController informRepairDetailsController =
       InformRepairDetailsController();
 
   InformRepair? informRepair;
@@ -40,17 +40,32 @@ class _ViewResultState extends State<View_NewItem> {
     });
   }
 
-  // void fetchlistAllInformRepairs() async {
-  //   informrepairs = await informController.listAllInformRepairs();
-  //   print({informrepairs?[0].informrepair_id});
-  //   setState(() {
-  //     isDataLoaded = true;
-  //   });
-  // }
+  void getListInformRepairDetails() async {
+    informRepairDetails =
+        await informRepairDetailsController.getListInformRepairDetails();
+    print({informRepairDetails?[0].details});
+    setState(() {
+      isDataLoaded = true;
+    });
+  }
 
   void getInform(int informrepair_id) async {
     informRepair = await informController.getInform(informrepair_id);
     print("getInform : ${informRepair?.informrepair_id}");
+    setState(() {
+      isDataLoaded = true;
+    });
+  }
+
+  List<InformRepairDetails> informDetails = [];
+
+  Future getInformDetails(int informrepair_id) async {
+    List<InformRepairDetails> result = await informRepairDetailsController
+        .getInformDetailsById(informrepair_id);
+    for (int i = 0; i < result.length; i++) {
+      informDetails.add(result[i]);
+    }
+    print("------ส่ง ${informDetails[0].amount}--------");
     setState(() {
       isDataLoaded = true;
     });
@@ -63,6 +78,8 @@ class _ViewResultState extends State<View_NewItem> {
     if (widget.informrepair_id != null) {
       getInform(widget.informrepair_id!);
     }
+    getListInformRepairDetails();
+    getInformDetails(widget.informrepair_id!);
   }
 
   @override
@@ -182,7 +199,7 @@ class _ViewResultState extends State<View_NewItem> {
                 ),
                 Expanded(
                   child: Text(
-                    "${widget.informrepair_id}",
+                    "${informDetails[0].informRepair?.informrepair_id}",
                     style: TextStyle(
                       color: Colors.black,
                       fontSize: 20,
@@ -206,7 +223,7 @@ class _ViewResultState extends State<View_NewItem> {
                 ),
                 Expanded(
                   child: Text(
-                    "${informRepair?.informdate ?? 'N/A'}",
+                    "${informDetails[0].informRepair?.informdate}",
                     style: TextStyle(
                       color: Colors.black,
                       fontSize: 20,
@@ -230,7 +247,7 @@ class _ViewResultState extends State<View_NewItem> {
                 ),
                 Expanded(
                   child: Text(
-                    "",
+                    "${informDetails[0].roomEquipment?.room?.roomname}",
                     style: TextStyle(
                       color: Colors.black,
                       fontSize: 20,
@@ -261,7 +278,7 @@ class _ViewResultState extends State<View_NewItem> {
                     //             'N/A') // ดึงข้อมูลอาคารจากอ็อบเจกต์ Room
                     //         .join(', ')
                     //     : 'N/A',
-                    "",
+                    "${informDetails[0].roomEquipment?.room?.building?.buildingname}",
                     style: TextStyle(
                       color: Colors.black,
                       fontSize: 20,
@@ -292,7 +309,7 @@ class _ViewResultState extends State<View_NewItem> {
                     //             'N/A') // ดึงประเภทห้องน้ำจากอ็อบเจกต์ Room
                     //         .join(', ')
                     //     : 'N/A',
-                    "",
+                    "${informDetails[0].roomEquipment?.room?.floor}",
                     style: TextStyle(
                       color: Colors.black,
                       fontSize: 20,
@@ -323,7 +340,7 @@ class _ViewResultState extends State<View_NewItem> {
                     //             'N/A') // ดึงประเภทห้องน้ำจากอ็อบเจกต์ Room
                     //         .join(', ')
                     //     : 'N/A',
-                    "",
+                    "${informDetails[0].roomEquipment?.room?.position}",
                     style: TextStyle(
                       color: Colors.black,
                       fontSize: 20,

@@ -1,4 +1,5 @@
 import 'package:flutterr/model/Equipment_Model.dart';
+import 'package:flutterr/model/RoomEquipmentID_Model.dart';
 import 'package:flutterr/model/RoomEquipment_Model.dart';
 import 'package:flutterr/model/Room_Model.dart';
 import 'package:flutterr/model/informrepair_model.dart';
@@ -11,34 +12,24 @@ class InformRepairDetails {
   RoomEquipment? roomEquipment;
 
   InformRepairDetails(
-      {required this.informdetails_id,
-      amount,
-      details,
-      informRepair,
-      roomEquipment});
+      {this.informdetails_id,
+      this.amount,
+      this.details,
+      this.informRepair,
+      this.roomEquipment});
 
   factory InformRepairDetails.fromJsonToInformRepairDetails(
-      Map<String, dynamic> json) {
-    final informRepairJson = json['informRepair'] as Map<String, dynamic>;
-
-    final informRepair = InformRepair.fromJsonToInformRepair(informRepairJson);
-
-    final informdetails_id = json["informdetails_id"] != null
-        ? int.tryParse(json["informdetails_id"].toString())
-        : null;
-
-    return InformRepairDetails(
-      informdetails_id: informdetails_id,
-      amount: json["amount"],
-      details: json["details"],
-      informRepair: json["informRepair"] == null
-          ? null
-          : InformRepair.fromJsonToInformRepair(json["informRepair"]),
-      roomEquipment: json["roomEquipment"] == null
-          ? null
-          : RoomEquipment.fromJsonToRoomEquipment(json["roomEquipment"]),
-    );
-  }
+          Map<String, dynamic> json) =>
+      InformRepairDetails(
+          informdetails_id: json["informdetails_id"] as int?,
+          amount: json["amount"] as int?,
+          details: json["details"],
+          informRepair: json["informRepair"] == null
+              ? null
+              : InformRepair.fromJsonToInformRepair(json["informRepair"]),
+          roomEquipment: json["roomEquipment"] == null
+              ? null
+              : RoomEquipment.fromJsonToRoomEquipment(json["roomEquipment"]));
   Map<String, dynamic> fromInformRepairDetailsToJson() {
     return <String, dynamic>{
       'informdetails_id': informdetails_id,

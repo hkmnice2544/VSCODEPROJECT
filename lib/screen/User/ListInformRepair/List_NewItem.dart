@@ -136,14 +136,13 @@ class _listAllInformRepairsState extends State<listNewItem> {
                         ),
                         onTap: () {
                           WidgetsBinding.instance!.addPostFrameCallback((_) {
-                            // Navigator.pushReplacement(
-                            //   context,
-                            //   MaterialPageRoute(
-                            //       builder: (_) => View_NewItem(
-                            //           informRepairDetails:
-                            //               informRepairDetailsList?[index]
-                            //                   .informRepairDetails)),
-                            // );
+                            Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (_) => View_NewItem(
+                                      informrepair_id: informRepairList?[index]
+                                          .informrepair_id)),
+                            );
                           });
                         },
                       ),
