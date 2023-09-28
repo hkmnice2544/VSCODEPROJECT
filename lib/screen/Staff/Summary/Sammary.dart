@@ -1,4 +1,6 @@
 import 'dart:typed_data';
+import 'package:flutterr/controller/informrepairdetails_controller.dart';
+import 'package:flutterr/model/InformRepairDetails_Model.dart';
 import 'package:flutterr/screen/Staff/Summary/View_Sum.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:flutter/material.dart';
@@ -56,6 +58,10 @@ class Form extends State<Summary> {
 
   final InformRepairController informRepairController =
       InformRepairController();
+
+  InformRepairDetailsController informRepairDetailsController =
+      InformRepairDetailsController();
+  List<InformRepairDetails>? informRepairDetails;
 
   void _updateFilteredInformRepairs() {
     setState(() {
@@ -132,27 +138,29 @@ class Form extends State<Summary> {
     }
   }
 
-  // void fetchInformRepairs() async {
-  //   informRepairs = await informRepairController.listAllInformRepairs();
-  //   print(
-  //       "getInform ปัจจุบัน : ${informRepairs?[informRepairs!.length - 1].informrepair_id}");
-  //   print(
-  //       "getInform +1 : ${(informRepairs?[informRepairs!.length - 1]?.informrepair_id ?? 0) + 1}");
-  //   print("getDate 1 : ${informRepairs?[0].informdate}");
-  //   informRepairs?.sort((a, b) {
-  //     if (a.informdate == null && b.informdate == null) {
-  //       return 0;
-  //     } else if (a.informdate == null) {
-  //       return 1;
-  //     } else if (b.informdate == null) {
-  //       return -1;
-  //     }
-  //     return b.informdate!.compareTo(a.informdate!);
-  //   });
-  //   setState(() {
-  //     isDataLoaded = true;
-  //   });
-  // }
+  void listAllInformRepairDetails() async {
+    // เรียกใช้งาน listAllInformRepairDetails และรอข้อมูลเสร็จสมบูรณ์
+    informRepairDetails =
+        (await informRepairDetailsController.listAllInformRepairDetails())
+            .cast<InformRepairDetails>();
+
+    // หลังจากที่ข้อมูลถูกโหลดเสร็จแล้ว คุณสามารถทำตามที่คุณต้องการกับข้อมูลได้
+    informRepairs?.sort((a, b) {
+      if (a.informdate == null && b.informdate == null) {
+        return 0;
+      } else if (a.informdate == null) {
+        return 1;
+      } else if (b.informdate == null) {
+        return -1;
+      }
+      return b.informdate!.compareTo(a.informdate!);
+    });
+
+    // อัปเดตสถานะแสดงว่าข้อมูลถูกโหลดแล้ว
+    setState(() {
+      isDataLoaded = true;
+    });
+  }
 
   void main() {
     initializeDateFormatting('th_TH', null).then((_) {});

@@ -151,8 +151,9 @@ class _MyWidgetState extends State<ListActualize> {
                                     context,
                                     MaterialPageRoute(
                                       builder: (_) => ReportInform(
-                                          informrepair_id: informrepairs?[index]
-                                              .informrepair_id),
+                                          informdetails_id:
+                                              informrepairs?[index]
+                                                  .informrepair_id),
                                     ));
                               },
                               child: Text('รายงานผล'),

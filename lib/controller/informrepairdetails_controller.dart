@@ -74,4 +74,17 @@ class InformRepairDetailsController {
     print("----ได้----${list[0].informdetails_id}--------------");
     return list;
   }
+
+  Future getviewInformDetailsById(int informdetails_id) async {
+    var url = Uri.parse(baseURL +
+        '/informrepairdetails/getInformRepairDetails/$informdetails_id');
+
+    http.Response response = await http.post(url, headers: headers, body: null);
+    print("ข้อมูลที่ได้คือ : " + response.body);
+
+    Map<String, dynamic> jsonMap = json.decode(response.body);
+    InformRepairDetails? informRepair =
+        InformRepairDetails.fromJsonToInformRepairDetails(jsonMap);
+    return informRepair;
+  }
 }

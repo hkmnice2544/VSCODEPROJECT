@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutterr/controller/informrepairdetails_controller.dart';
+import 'package:flutterr/model/InformRepairDetails_Model.dart';
 import '../../../Model/Report_Model.dart';
 import '../../../controller/informrepair_controller.dart';
 import '../../../model/informrepair_model.dart';
@@ -24,26 +26,23 @@ class NewInform extends State<listNewInform> {
 
   final InformRepairController informrepairController =
       InformRepairController();
+  final InformRepairController informRepairController =
+      InformRepairController();
 
-  // void fetchInformRepairs() async {
-  //   informrepairs = await informrepairController.listAllInformRepairs();
-  //   print({informrepairs?[0].informrepair_id});
-  //   print("ID : ${informrepairs?[informrepairs!.length - 1].informrepair_id}");
-  //   // print(informRepairs?.defectiveequipment);
-  //   informrepairs?.sort((a, b) {
-  //     if (a.informdate == null && b.informdate == null) {
-  //       return 0;
-  //     } else if (a.informdate == null) {
-  //       return 1;
-  //     } else if (b.informdate == null) {
-  //       return -1;
-  //     }
-  //     return b.informdate!.compareTo(a.informdate!);
-  //   });
-  //   setState(() {
-  //     isDataLoaded = true;
-  //   });
-  // }
+  InformRepairDetailsController informRepairDetailsController =
+      InformRepairDetailsController();
+  List<InformRepairDetails>? informRepairDetails;
+
+  void listAllInformRepairDetails() async {
+    // เรียกใช้งาน listAllInformRepairDetails และรอข้อมูลเสร็จสมบูรณ์
+    informRepairDetails =
+        (await informRepairDetailsController.listAllInformRepairDetails())
+            .cast<InformRepairDetails>();
+    // อัปเดตสถานะแสดงว่าข้อมูลถูกโหลดแล้ว
+    setState(() {
+      isDataLoaded = true;
+    });
+  }
 
   List<String>? amounts = [];
   void listAllInformRepair() async {
@@ -62,6 +61,7 @@ class NewInform extends State<listNewInform> {
   void initState() {
     super.initState();
     listAllInformRepair();
+    listAllInformRepairDetails();
     informrepairs?.sort((a, b) {
       if (a.informdate == null && b.informdate == null) {
         return 0;
@@ -110,12 +110,14 @@ class NewInform extends State<listNewInform> {
               ),
               Expanded(
                 child: ListView.builder(
-                  itemCount:
-                      informRepairList?.length ?? informRepairList?.length,
+                  itemCount: informRepairDetails?.length ??
+                      informRepairDetails?.length,
                   scrollDirection: Axis.vertical,
                   itemBuilder: (context, index) {
-                    if (informRepairList?[index].status == "เสร็จสิ้น" ||
-                        informRepairList?[index].status == "กำลังดำเนินการ") {
+                    if (informRepairDetails?[index].informRepair?.status ==
+                            "เสร็จสิ้น" ||
+                        informRepairDetails?[index].informRepair?.status ==
+                            "กำลังดำเนินการ") {
                       return Container(); // สร้าง Container ว่างเปล่าเพื่อซ่อนรายการที่มี status เป็น "กำลังดำเนินการ"
                     } else {
                       return Card(
@@ -143,7 +145,23 @@ class NewInform extends State<listNewInform> {
                                 ),
                                 Expanded(
                                   child: Text(
-                                    "${informRepairList?[index].informrepair_id}",
+                                    "${informRepairDetails?[index].informRepair?.informrepair_id}",
+                                    style: const TextStyle(
+                                        fontFamily: 'Itim', fontSize: 22),
+                                  ),
+                                ),
+                              ]),
+                              Row(children: [
+                                Expanded(
+                                  child: Text(
+                                    "เลขที่รายละเอียด",
+                                    style: const TextStyle(
+                                        fontFamily: 'Itim', fontSize: 22),
+                                  ),
+                                ),
+                                Expanded(
+                                  child: Text(
+                                    "${informRepairDetails?[index].informdetails_id}",
                                     style: const TextStyle(
                                         fontFamily: 'Itim', fontSize: 22),
                                   ),
@@ -159,7 +177,23 @@ class NewInform extends State<listNewInform> {
                                 ),
                                 Expanded(
                                   child: Text(
-                                    "${informRepairList?[index].informdate}",
+                                    "${informRepairDetails?[index].informRepair?.informdate}",
+                                    style: const TextStyle(
+                                        fontFamily: 'Itim', fontSize: 22),
+                                  ),
+                                ),
+                              ]),
+                              Row(children: [
+                                Expanded(
+                                  child: Text(
+                                    "อุปกรณ์",
+                                    style: const TextStyle(
+                                        fontFamily: 'Itim', fontSize: 22),
+                                  ),
+                                ),
+                                Expanded(
+                                  child: Text(
+                                    "${informRepairDetails?[index].roomEquipment?.equipment?.equipmentname}",
                                     style: const TextStyle(
                                         fontFamily: 'Itim', fontSize: 22),
                                   ),
@@ -175,7 +209,7 @@ class NewInform extends State<listNewInform> {
                                 ),
                                 Expanded(
                                   child: Text(
-                                    "${informRepairList?[index].status}",
+                                    "${informRepairDetails?[index].informRepair?.status}",
                                     style: const TextStyle(
                                         fontFamily: 'Itim', fontSize: 22),
                                   ),
@@ -189,9 +223,9 @@ class NewInform extends State<listNewInform> {
                                   context,
                                   MaterialPageRoute(
                                     builder: (_) => ReportInform(
-                                        informrepair_id:
-                                            informRepairList?[index]
-                                                .informrepair_id),
+                                        informdetails_id:
+                                            informRepairDetails?[index]
+                                                .informdetails_id),
                                   ));
                             },
                             child: Text('รายงานผล'),
@@ -203,9 +237,9 @@ class NewInform extends State<listNewInform> {
                                 context,
                                 MaterialPageRoute(
                                     builder: (_) => ViewNewInform(
-                                        informrepair_id:
-                                            informRepairList?[index]
-                                                .informrepair_id)),
+                                        informdetails_id:
+                                            informRepairDetails?[index]
+                                                .informdetails_id)),
                               );
                             });
                           },

@@ -1,6 +1,8 @@
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
+import 'package:flutterr/controller/informrepairdetails_controller.dart';
+import 'package:flutterr/model/InformRepairDetails_Model.dart';
 import 'package:intl/intl.dart';
 
 import '../../../Model/Report_Model.dart';
@@ -13,10 +15,10 @@ import '../../User/ListInformRepair/ListInformRepair.dart';
 import 'ListManage.dart';
 
 class ReportInform extends StatefulWidget {
-  final int? informrepair_id;
+  final int? informdetails_id;
   const ReportInform({
     super.key,
-    this.informrepair_id,
+    this.informdetails_id,
     int? report_id,
   });
 
@@ -27,12 +29,15 @@ class ReportInform extends StatefulWidget {
 class _ReportInformState extends State<ReportInform> {
   final InformRepairController informRepairController =
       InformRepairController();
+  InformRepairDetailsController informRepairDetailsController =
+      InformRepairDetailsController();
 
   TextEditingController detailsTextController = TextEditingController();
   final ReportController reportController = ReportController();
 
   InformRepair? informRepair;
   List<ReportRepair>? reports;
+  InformRepairDetails? informRepairDetail;
 
   bool? isDataLoaded = false;
   String formattedDate = '';
@@ -54,9 +59,9 @@ class _ReportInformState extends State<ReportInform> {
   final _repairerList = ["นายอนุวัฒน์ คำเมืองลือ", "นายรชานนท์ พรหมมา"];
   final _statusList = ["กำลังดำเนินการ", "เสร็จสิ้น"];
 
-  void getInform(int informrepair_id) async {
-    informRepair = await informRepairController.getInform(informrepair_id);
-    print("getInform : ${informRepair?.informrepair_id}");
+  void getInformDetailsById(int informdetails_id) async {
+    informRepairDetail = await informRepairDetailsController
+        .getviewInformDetailsById(informdetails_id);
     setState(() {
       isDataLoaded = true;
     });
@@ -65,11 +70,13 @@ class _ReportInformState extends State<ReportInform> {
   @override
   void initState() {
     super.initState();
-    if (widget.informrepair_id != null) {
-      getInform(widget.informrepair_id!);
+    if (widget.informdetails_id != null) {
+      getInformDetailsById(widget.informdetails_id!);
     }
     DateTime now = DateTime.now();
     formattedDate = DateFormat('yyyy-MM-dd' ' HH:mm:ss.000').format(now);
+
+    print(widget.informdetails_id);
   }
 
   // void _pickImage() {
@@ -236,7 +243,31 @@ class _ReportInformState extends State<ReportInform> {
                 ),
                 Expanded(
                   child: Text(
-                    "${informRepair?.informrepair_id}",
+                    "${informRepairDetail?.informRepair?.informrepair_id}",
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            Row(
+              children: [
+                Expanded(
+                  child: Text(
+                    "เลขที่รายละเอียด  :",
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+                Expanded(
+                  child: Text(
+                    "${informRepairDetail?.informdetails_id}",
                     style: TextStyle(
                       color: Colors.black,
                       fontSize: 20,
@@ -260,7 +291,7 @@ class _ReportInformState extends State<ReportInform> {
                 ),
                 Expanded(
                   child: Text(
-                    "${informRepair?.informdate}",
+                    "${informRepairDetail?.informRepair?.informdate}",
                     style: TextStyle(
                       color: Colors.black,
                       fontSize: 20,
@@ -294,6 +325,7 @@ class _ReportInformState extends State<ReportInform> {
                 ),
               ],
             ),
+
             Row(
               children: [
                 Text(

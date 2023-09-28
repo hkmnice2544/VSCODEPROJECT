@@ -8,10 +8,10 @@ import '../../User/ListInformRepair/ListInformRepair.dart';
 import 'ListManage.dart';
 
 class ViewNewInform extends StatefulWidget {
-  final int? informrepair_id;
+  final int? informdetails_id;
   const ViewNewInform({
     super.key,
-    this.informrepair_id,
+    this.informdetails_id,
     int? report_id,
   });
 
