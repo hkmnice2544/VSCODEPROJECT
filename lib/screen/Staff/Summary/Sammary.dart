@@ -167,10 +167,23 @@ class Form extends State<Summary> {
     });
   }
 
+  List<String>? amounts = [];
+  void listAllInformRepair() async {
+    informRepairs = await informRepairController.listAllInformRepairs();
+    for (int i = 0; i < informRepairs!.length; i++) {
+      amounts!.add(await informRepairController
+          .findSumamountById(informRepairs![i].informrepair_id ?? 0));
+    }
+    print("------------${informRepairs![0].informrepair_id}-------------");
+    setState(() {
+      isDataLoaded = true;
+    });
+  }
+
   @override
   void initState() {
     super.initState();
-    // fetchInformRepairs();
+    listAllInformRepair();
     main();
     print("getDate : ${informRepairs?[0].informdate}");
     DateTime date = DateTime.now(); // รูปแบบข้อความจากฐานข้อมูล
