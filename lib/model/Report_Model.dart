@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutterr/model/informrepair_model.dart';
+import 'package:flutterr/model/InformRepairDetails_Model.dart';
+import 'package:flutterr/model/RoomEquipment_Model.dart';
 import 'package:intl/intl.dart';
 
 class ReportRepair {
@@ -9,17 +10,16 @@ class ReportRepair {
   DateTime? reportdate;
   DateTime? enddate;
   String? details;
-  InformRepair? informRepair;
+  InformRepairDetails? informRepairDetails;
 
-  ReportRepair({
-    required this.report_id,
-    // this.informdate,
-    this.repairer,
-    this.reportdate,
-    this.enddate,
-    this.details,
-    this.informRepair,
-  });
+  ReportRepair(
+      {required this.report_id,
+      // this.informdate,
+      this.repairer,
+      this.reportdate,
+      this.enddate,
+      this.details,
+      this.informRepairDetails});
 
   String formattedReviewDate(DateTime? enddate) {
     if (enddate != null) {
@@ -60,9 +60,10 @@ class ReportRepair {
         repairer: json["repairer"],
         details: json["details"],
         enddate: enddate,
-        informRepair: json["informRepair"] == null
+        informRepairDetails: json["informRepairDetails"] == null
             ? null
-            : InformRepair.fromJsonToInformRepair(json["informRepair"]));
+            : InformRepairDetails.fromJsonToInformRepairDetails(
+                json["informRepairDetails"]));
   }
 
   Map<String, dynamic> fromReportRepairToJson() {
@@ -71,7 +72,7 @@ class ReportRepair {
       'repairer': repairer,
       'details': details,
       'enddate': enddate,
-      'informRepair': informRepair?.informrepair_id,
+      'informRepairDetails': informRepairDetails,
     };
   }
 }

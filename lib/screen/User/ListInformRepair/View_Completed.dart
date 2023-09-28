@@ -160,7 +160,7 @@ class _ViewResultState extends State<ViewCompleted> {
                 ),
                 Expanded(
                   child: Text(
-                    "${reportRepair?.informRepair?.informrepair_id}",
+                    "${reportRepair?.informRepairDetails?.informRepair?.informrepair_id}",
                     style: TextStyle(
                       color: Colors.black,
                       fontSize: 20,
@@ -184,7 +184,7 @@ class _ViewResultState extends State<ViewCompleted> {
                 ),
                 Expanded(
                   child: Text(
-                    "${reportRepair?.informRepair?.informdate}",
+                    "${reportRepair?.informRepairDetails?.informRepair?.informdate}",
                     style: TextStyle(
                       color: Colors.black,
                       fontSize: 20,
@@ -280,7 +280,7 @@ class _ViewResultState extends State<ViewCompleted> {
                 ),
                 Expanded(
                   child: Text(
-                    "${reportRepair?.informRepair?.status}",
+                    "${reportRepair?.informRepairDetails?.informRepair?.status}",
                     style: TextStyle(
                       color: Colors.black,
                       fontSize: 20,

@@ -33,7 +33,7 @@ class ReportController {
     var url = Uri.parse(baseURL + '/reportrepairs/get/$report_id');
 
     http.Response response = await http.post(url, headers: headers, body: null);
-    print("ข้อมูลที่ได้คือ : " + response.body);
+    print("ข้อมูลที่ได้คือออ : " + response.body);
 
     Map<String, dynamic> jsonMap = json.decode(response.body);
     ReportRepair? reportRepair = ReportRepair.fromJsonToReportRepair(jsonMap);

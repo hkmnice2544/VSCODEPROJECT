@@ -189,8 +189,9 @@ class NewInform extends State<listNewInform> {
                                   context,
                                   MaterialPageRoute(
                                     builder: (_) => ReportInform(
-                                        informrepair_id: informrepairs?[index]
-                                            .informrepair_id),
+                                        informrepair_id:
+                                            informRepairList?[index]
+                                                .informrepair_id),
                                   ));
                             },
                             child: Text('รายงานผล'),
@@ -202,8 +203,9 @@ class NewInform extends State<listNewInform> {
                                 context,
                                 MaterialPageRoute(
                                     builder: (_) => ViewNewInform(
-                                        informrepair_id: informrepairs?[index]
-                                            .informrepair_id)),
+                                        informrepair_id:
+                                            informRepairList?[index]
+                                                .informrepair_id)),
                               );
                             });
                           },

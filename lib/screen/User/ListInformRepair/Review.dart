@@ -218,7 +218,7 @@ class _MyWidgetState extends State<Review> {
                     ),
                     Expanded(
                       child: Text(
-                        "${reportRepair?.informRepair?.informrepair_id}",
+                        "${reportRepair?.informRepairDetails?.informRepair?.informrepair_id}",
                         style: TextStyle(
                           color: Colors.black,
                           fontSize: 20,

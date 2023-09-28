@@ -69,7 +69,10 @@ class _MyWidgetState extends State<InformCompleted> {
                     itemCount: reportRepair?.length,
                     scrollDirection: Axis.vertical,
                     itemBuilder: (context, index) {
-                      if (reportRepair?[index].informRepair?.status ==
+                      if (reportRepair?[index]
+                              .informRepairDetails
+                              ?.informRepair
+                              ?.status ==
                           "กำลังดำเนินการ") {
                         return Container(); // สร้าง Container ว่างเปล่าเพื่อซ่อนรายการที่มี status เป็น "กำลังดำเนินการ"
                       } else {
@@ -114,7 +117,7 @@ class _MyWidgetState extends State<InformCompleted> {
                                   ),
                                   Expanded(
                                     child: Text(
-                                      "${reportRepair?[index].informRepair?.informrepair_id}",
+                                      "${reportRepair?[index].informRepairDetails?.informRepair?.informrepair_id}",
                                       style: const TextStyle(
                                           fontFamily: 'Itim', fontSize: 20),
                                     ),
@@ -146,7 +149,7 @@ class _MyWidgetState extends State<InformCompleted> {
                                   ),
                                   Expanded(
                                     child: Text(
-                                      "${reportRepair?[index].informRepair?.status}",
+                                      "${reportRepair?[index].informRepairDetails?.informRepair?.status}",
                                       style: const TextStyle(
                                           fontFamily: 'Itim', fontSize: 20),
                                     ),
