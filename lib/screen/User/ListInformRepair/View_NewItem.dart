@@ -65,7 +65,7 @@ class _ViewResultState extends State<View_NewItem> {
     for (int i = 0; i < result.length; i++) {
       informDetails.add(result[i]);
     }
-    print("------ส่ง ${informDetails[0].amount}--------");
+    // print("------ส่ง ${informDetails?[0].amount}--------");
     setState(() {
       isDataLoaded = true;
     });
@@ -199,7 +199,7 @@ class _ViewResultState extends State<View_NewItem> {
                 ),
                 Expanded(
                   child: Text(
-                    "${informDetails[0].informRepair?.informrepair_id}",
+                    "${informDetails != null && informDetails.isNotEmpty ? informDetails[0].informRepair?.informrepair_id ?? 'N/A' : 'N/A'}",
                     style: TextStyle(
                       color: Colors.black,
                       fontSize: 20,
@@ -223,7 +223,7 @@ class _ViewResultState extends State<View_NewItem> {
                 ),
                 Expanded(
                   child: Text(
-                    "${informDetails[0].informRepair?.informdate}",
+                    "${informDetails != null && informDetails.isNotEmpty ? informDetails[0].informRepair?.informdate ?? 'N/A' : 'N/A'}",
                     style: TextStyle(
                       color: Colors.black,
                       fontSize: 20,
@@ -247,7 +247,7 @@ class _ViewResultState extends State<View_NewItem> {
                 ),
                 Expanded(
                   child: Text(
-                    "${informDetails[0].roomEquipment?.room?.roomname}",
+                    "${informDetails != null && informDetails.isNotEmpty ? informDetails[0].roomEquipment?.room?.roomname ?? 'N/A' : 'N/A'}",
                     style: TextStyle(
                       color: Colors.black,
                       fontSize: 20,
@@ -278,7 +278,7 @@ class _ViewResultState extends State<View_NewItem> {
                     //             'N/A') // ดึงข้อมูลอาคารจากอ็อบเจกต์ Room
                     //         .join(', ')
                     //     : 'N/A',
-                    "${informDetails[0].roomEquipment?.room?.building?.buildingname}",
+                    "${informDetails != null && informDetails.isNotEmpty ? informDetails[0].roomEquipment?.room?.building?.buildingname ?? 'N/A' : 'N/A'}",
                     style: TextStyle(
                       color: Colors.black,
                       fontSize: 20,
@@ -309,7 +309,7 @@ class _ViewResultState extends State<View_NewItem> {
                     //             'N/A') // ดึงประเภทห้องน้ำจากอ็อบเจกต์ Room
                     //         .join(', ')
                     //     : 'N/A',
-                    "${informDetails[0].roomEquipment?.room?.floor}",
+                    "${informDetails != null && informDetails.isNotEmpty ? informDetails[0].roomEquipment?.room?.floor ?? 'N/A' : 'N/A'}",
                     style: TextStyle(
                       color: Colors.black,
                       fontSize: 20,
@@ -340,7 +340,7 @@ class _ViewResultState extends State<View_NewItem> {
                     //             'N/A') // ดึงประเภทห้องน้ำจากอ็อบเจกต์ Room
                     //         .join(', ')
                     //     : 'N/A',
-                    "${informDetails[0].roomEquipment?.room?.position}",
+                    "${informDetails != null && informDetails.isNotEmpty ? informDetails[0].roomEquipment?.room?.position ?? 'N/A' : 'N/A'}",
                     style: TextStyle(
                       color: Colors.black,
                       fontSize: 20,
