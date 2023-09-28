@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutterr/constant/constant_value.dart';
 import 'package:flutterr/controller/informrepair_controller.dart';
 import 'package:flutterr/controller/informrepairdetails_controller.dart';
-import 'package:flutterr/model/InformRepiarDetailsList_Model.dart';
 import 'package:flutterr/model/informrepair_model.dart';
 import 'package:flutterr/screen/User/ListInformRepair/View_NewItem.dart';
 import 'package:http/http.dart' as http;
@@ -15,7 +14,6 @@ class listNewItem extends StatefulWidget {
 }
 
 class _listAllInformRepairsState extends State<listNewItem> {
-  List<InformRepairDetailsList>? informRepairDetailsList;
   List<InformRepair>? informRepairList;
   bool isDataLoaded = false;
 
@@ -23,14 +21,6 @@ class _listAllInformRepairsState extends State<listNewItem> {
       InformRepairDetailsController();
 
   InformRepairController informRepairController = InformRepairController();
-
-  void listAllInformRepairDetails() async {
-    informRepairDetailsList = await informRepairDetailsController.fetchData();
-    print(informRepairDetailsList);
-    setState(() {
-      isDataLoaded = true;
-    });
-  }
 
   List<String>? amounts = [];
   void listAllInformRepair() async {
