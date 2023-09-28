@@ -110,14 +110,12 @@ class NewInform extends State<listNewInform> {
               ),
               Expanded(
                 child: ListView.builder(
-                  itemCount: informRepairDetails?.length ??
-                      informRepairDetails?.length,
+                  itemCount:
+                      informRepairList?.length ?? informRepairList?.length,
                   scrollDirection: Axis.vertical,
                   itemBuilder: (context, index) {
-                    if (informRepairDetails?[index].informRepair?.status ==
-                            "เสร็จสิ้น" ||
-                        informRepairDetails?[index].informRepair?.status ==
-                            "กำลังดำเนินการ") {
+                    if (informRepairList?[index].status == "เสร็จสิ้น" ||
+                        informRepairList?[index].status == "กำลังดำเนินการ") {
                       return Container(); // สร้าง Container ว่างเปล่าเพื่อซ่อนรายการที่มี status เป็น "กำลังดำเนินการ"
                     } else {
                       return Card(
@@ -145,7 +143,7 @@ class NewInform extends State<listNewInform> {
                                 ),
                                 Expanded(
                                   child: Text(
-                                    "${informRepairDetails?[index].informRepair?.informrepair_id}",
+                                    "${informRepairList?[index].informrepair_id}",
                                     style: const TextStyle(
                                         fontFamily: 'Itim', fontSize: 22),
                                   ),
@@ -161,23 +159,7 @@ class NewInform extends State<listNewInform> {
                                 ),
                                 Expanded(
                                   child: Text(
-                                    "${informRepairDetails?[index].informRepair?.informdate}",
-                                    style: const TextStyle(
-                                        fontFamily: 'Itim', fontSize: 22),
-                                  ),
-                                ),
-                              ]),
-                              Row(children: [
-                                Expanded(
-                                  child: Text(
-                                    "อุปกรณ์",
-                                    style: const TextStyle(
-                                        fontFamily: 'Itim', fontSize: 22),
-                                  ),
-                                ),
-                                Expanded(
-                                  child: Text(
-                                    "${informRepairDetails?[index].roomEquipment?.equipment?.equipmentname}",
+                                    "${informRepairList?[index].informdate}",
                                     style: const TextStyle(
                                         fontFamily: 'Itim', fontSize: 22),
                                   ),
@@ -193,7 +175,7 @@ class NewInform extends State<listNewInform> {
                                 ),
                                 Expanded(
                                   child: Text(
-                                    "${informRepairDetails?[index].informRepair?.status}",
+                                    "${informRepairList?[index].status}",
                                     style: const TextStyle(
                                         fontFamily: 'Itim', fontSize: 22),
                                   ),
