@@ -20,7 +20,7 @@ class NewInform extends State<listNewInform> {
   String formattedDate = '';
   String formattedInformDate = '';
   String searchQuery = '';
-  List<InformRepair>? searchResults;
+  List<InformRepair>? informRepairList;
 
   final InformRepairController informrepairController =
       InformRepairController();
@@ -45,10 +45,23 @@ class NewInform extends State<listNewInform> {
   //   });
   // }
 
+  List<String>? amounts = [];
+  void listAllInformRepair() async {
+    informRepairList = await informrepairController.listAllInformRepairs();
+    for (int i = 0; i < informRepairList!.length; i++) {
+      amounts!.add(await informrepairController
+          .findSumamountById(informRepairList![i].informrepair_id ?? 0));
+    }
+    print("------------${informRepairList![0].informrepair_id}-------------");
+    setState(() {
+      isDataLoaded = true;
+    });
+  }
+
   @override
   void initState() {
     super.initState();
-    // fetchInformRepairs();
+    listAllInformRepair();
     informrepairs?.sort((a, b) {
       if (a.informdate == null && b.informdate == null) {
         return 0;
@@ -83,13 +96,13 @@ class NewInform extends State<listNewInform> {
                     setState(() {
                       searchQuery = value;
                       if (searchQuery.isNotEmpty) {
-                        searchResults = informrepairs
+                        informRepairList = informrepairs
                             ?.where((informrepair) =>
                                 informrepair.informrepair_id.toString() ==
                                 searchQuery)
                             .toList();
                       } else {
-                        searchResults = null; // เมื่อค่าค้นหาเป็นว่าง
+                        informRepairList = null; // เมื่อค่าค้นหาเป็นว่าง
                       }
                     });
                   },
@@ -97,11 +110,12 @@ class NewInform extends State<listNewInform> {
               ),
               Expanded(
                 child: ListView.builder(
-                  itemCount: searchResults?.length ?? informrepairs?.length,
+                  itemCount:
+                      informRepairList?.length ?? informRepairList?.length,
                   scrollDirection: Axis.vertical,
                   itemBuilder: (context, index) {
-                    if (informrepairs?[index].status == "เสร็จสิ้น" ||
-                        informrepairs?[index].status == "กำลังดำเนินการ") {
+                    if (informRepairList?[index].status == "เสร็จสิ้น" ||
+                        informRepairList?[index].status == "กำลังดำเนินการ") {
                       return Container(); // สร้าง Container ว่างเปล่าเพื่อซ่อนรายการที่มี status เป็น "กำลังดำเนินการ"
                     } else {
                       return Card(
@@ -129,7 +143,7 @@ class NewInform extends State<listNewInform> {
                                 ),
                                 Expanded(
                                   child: Text(
-                                    "${informrepairs?[index].informrepair_id}",
+                                    "${informRepairList?[index].informrepair_id}",
                                     style: const TextStyle(
                                         fontFamily: 'Itim', fontSize: 22),
                                   ),
@@ -145,7 +159,7 @@ class NewInform extends State<listNewInform> {
                                 ),
                                 Expanded(
                                   child: Text(
-                                    "${informrepairs?[index].informdate}",
+                                    "${informRepairList?[index].informdate}",
                                     style: const TextStyle(
                                         fontFamily: 'Itim', fontSize: 22),
                                   ),
@@ -161,7 +175,7 @@ class NewInform extends State<listNewInform> {
                                 ),
                                 Expanded(
                                   child: Text(
-                                    "${informrepairs?[index].status}",
+                                    "${informRepairList?[index].status}",
                                     style: const TextStyle(
                                         fontFamily: 'Itim', fontSize: 22),
                                   ),

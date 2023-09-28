@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutterr/screen/Home.dart';
+import 'package:flutterr/screen/HomeStaff.dart';
 import 'package:flutterr/screen/Login.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:flutter/services.dart';
@@ -19,7 +20,7 @@ class MainApp extends StatelessWidget {
   Widget build(BuildContext context) {
     SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
     return MaterialApp(
-      home: Home(
+      home: HomeStaff(
         username: '',
       ),
       //  home: const MyHomePage(title: 'Flutter Demo Home Page'),
