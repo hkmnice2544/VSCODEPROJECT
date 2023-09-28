@@ -56,6 +56,8 @@ class _ReportInformState extends State<ReportInform> {
   String? _dropdownrepairer;
   String? _dropdownstatus;
 
+  String? statusroomEquipmentId;
+
   final _repairerList = ["นายอนุวัฒน์ คำเมืองลือ", "นายรชานนท์ พรหมมา"];
   final _statusList = ["กำลังดำเนินการ", "เสร็จสิ้น"];
 
@@ -406,6 +408,11 @@ class _ReportInformState extends State<ReportInform> {
                     onChanged: (val) {
                       setState(() {
                         _dropdownstatus = val as String;
+                        if (_dropdownstatus == "กำลังดำเนินการ") {
+                          statusroomEquipmentId = "กำลังซ่อม";
+                        } else if (_dropdownstatus == "เสร็จสิ้น") {
+                          statusroomEquipmentId = "ดี";
+                        }
                       });
                     },
                     icon: const Icon(
@@ -497,10 +504,9 @@ class _ReportInformState extends State<ReportInform> {
                 var response = await reportController.addReport(
                     _dropdownrepairer.toString(),
                     detailsTextController.text,
-                    informRepair!.informrepair_id as int,
-                    _dropdownstatus.toString()
-                    // แปลง _rating เป็น String
-                    );
+                    informRepairDetail!.informdetails_id as int,
+                    _dropdownstatus.toString(),
+                    statusroomEquipmentId.toString());
 
                 Navigator.push(
                   context,

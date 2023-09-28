@@ -8,25 +8,39 @@ import '../model/Report_Model.dart';
 class ReportController {
   ReportRepair? reportRepair;
 
-  Future addReport(String repairer, String details, int informrepair_id,
-      String status) async {
-    Map data = {
-      // "informdate" : informdate,
-      "repairer": repairer,
-      "details": details,
-      "informrepair_id": informrepair_id,
-      "status": status,
-    };
+  Future<void> addReport(String repairer, String details, int informdetails_id,
+      String statusinformRepair, String statusroomEquipmentId) async {
+    try {
+      Map<String, dynamic> data = {
+        "repairer": repairer,
+        "details": details,
+        "informdetails_id": informdetails_id,
+        "statusinformRepair": statusinformRepair,
+        "statusroomEquipmentId": statusroomEquipmentId,
+      };
 
-    var body = json.encode(data);
-    var url = Uri.parse('$baseURL/reportrepairs/add');
+      final response = await http.post(
+        Uri.parse('$baseURL/reportrepairs/add'),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: jsonEncode(data),
+      );
 
-    http.Response response = await http.post(url, headers: headers, body: body);
-    //print(response.statusCode);
-
-    var jsonResponse = jsonDecode(response.body);
-    print(jsonResponse);
-    // print("addInformRepair: ${informRepair!.informdate}");
+      if (response.statusCode == 200) {
+        // การสร้าง Reportrepair สำเร็จ
+        print('Reportrepair ถูกสร้างเรียบร้อย');
+        // คุณสามารถทำอะไรก็ตามที่คุณต้องการหลังจากสร้าง Reportrepair ได้ที่นี่
+      } else {
+        // เกิดข้อผิดพลาดในการสร้าง Reportrepair
+        print('เกิดข้อผิดพลาดในการสร้าง Reportrepair: ${response.statusCode}');
+        // คุณสามารถจัดการข้อผิดพลาดได้ตามต้องการ
+      }
+    } catch (error) {
+      // เกิดข้อผิดพลาดระหว่างการเรียก API
+      print('เกิดข้อผิดพลาดในการสร้าง Reportrepair: $error');
+      // คุณสามารถจัดการข้อผิดพลาดนี้ได้ตามต้องการ
+    }
   }
 
   Future getReportRepair(int report_id) async {
