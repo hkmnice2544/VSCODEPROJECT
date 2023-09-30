@@ -10,9 +10,11 @@ import 'ListManage.dart';
 
 class ViewActualize extends StatefulWidget {
   final int? informrepair_id;
+  final int? user;
   const ViewActualize({
     super.key,
     this.informrepair_id,
+    this.user,
     int? report_id,
   });
 
@@ -85,7 +87,7 @@ class _ViewViewActualizeState extends State<ViewActualize> {
                     onPressed: () {
                       Navigator.push(context, MaterialPageRoute(
                         builder: (context) {
-                          return Home(username: 'ชื่อผู้ใช้');
+                          return Home(user: widget.user);
                         },
                       ));
                     }),

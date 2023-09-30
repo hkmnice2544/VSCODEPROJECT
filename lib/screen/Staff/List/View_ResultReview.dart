@@ -8,10 +8,8 @@ import 'ListManage.dart';
 
 class ViewResultReview extends StatefulWidget {
   final int? review_id;
-  const ViewResultReview({
-    super.key,
-    this.review_id,
-  });
+  final int? user;
+  const ViewResultReview({super.key, this.review_id, this.user});
 
   @override
   State<ViewResultReview> createState() => _ViewResultState();
@@ -79,7 +77,7 @@ class _ViewResultState extends State<ViewResultReview> {
                     onPressed: () {
                       Navigator.push(context, MaterialPageRoute(
                         builder: (context) {
-                          return Home(username: 'ชื่อผู้ใช้');
+                          return Home(user: widget.user);
                         },
                       ));
                     }),

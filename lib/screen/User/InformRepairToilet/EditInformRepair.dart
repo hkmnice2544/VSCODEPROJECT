@@ -9,10 +9,8 @@ import '../../../model/informrepair_model.dart';
 
 class EditInformRepairs extends StatefulWidget {
   final int? informrepair_id;
-  const EditInformRepairs({
-    super.key,
-    this.informrepair_id,
-  });
+  final int? user;
+  const EditInformRepairs({super.key, this.informrepair_id, this.user});
 
   @override
   Widget build(BuildContext context) {
@@ -189,7 +187,7 @@ class Form extends State<EditInformRepairs> {
                       onPressed: () {
                         Navigator.push(context, MaterialPageRoute(
                           builder: (context) {
-                            return Home(username: 'ชื่อผู้ใช้');
+                            return Home(user: widget.user);
                           },
                         ));
                       }),

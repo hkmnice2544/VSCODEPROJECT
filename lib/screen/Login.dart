@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutterr/controller/login_controller.dart';
+import 'package:flutterr/model/User_Model.dart';
 import 'package:flutterr/screen/Home.dart';
 import 'package:flutterr/screen/HomeStaff.dart';
 import 'package:http/http.dart' as http;
@@ -15,6 +17,12 @@ class _LoginState extends State<Login> {
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   bool isObscure = true;
+  LoginController loginController = LoginController();
+  int? user = null;
+  User? users;
+  late String storedUsername;
+  bool isUsernameLoaded = false;
+  bool? isDataLoaded = false;
   Future<void> _loginUser(BuildContext context) async {
     // เพิ่มตัวแปร context ที่รับเข้ามา
     final username = _usernameController.text;
@@ -40,23 +48,25 @@ class _LoginState extends State<Login> {
       // ดึงข้อมูลผู้ใช้งานจาก response (JSON) และแปลงเป็น Map
       final userData = json.decode(response.body);
       final userType = userData['usertype'];
+      user = await loginController.getviewInformDetailsById(username);
+      users = await loginController.getLoginById(user!);
 
       // ตรวจสอบประเภทผู้ใช้งานและนำทางไปยังหน้าที่เหมาะสม
       if (userType == 'นักศึกษา') {
         saveUsername(
-            username); // เมื่อเข้าสู่ระบบสำเร็จ บันทึก username ใน SharedPreferences
+            user!); // เมื่อเข้าสู่ระบบสำเร็จ บันทึก username ใน SharedPreferences
         Navigator.pushReplacement(
             context,
             MaterialPageRoute(
-              builder: (context) => Home(username: username),
+              builder: (context) => Home(user: user),
             ));
       } else if (userType == 'หัวหน้างานแผนกห้องน้ำ') {
         saveUsername(
-            username); // เมื่อเข้าสู่ระบบสำเร็จ บันทึก username ใน SharedPreferences
+            user!); // เมื่อเข้าสู่ระบบสำเร็จ บันทึก username ใน SharedPreferences
         Navigator.pushReplacement(
             context,
             MaterialPageRoute(
-              builder: (context) => HomeStaff(username: username),
+              builder: (context) => HomeStaff(user: user),
             ));
       } else {
         print("ประเภทผู้ใช้ไม่ถูกต้อง");
@@ -84,9 +94,21 @@ class _LoginState extends State<Login> {
     }
   }
 
-  void saveUsername(String username) async {
+  void saveUsername(int user) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setString('username', username);
+    prefs.setInt('user', user);
+  }
+
+  void getviewInformDetailsById(String username) async {
+    if (user != null) {
+      user = await loginController.getviewInformDetailsById(username);
+      users = await loginController.getLoginById(user!);
+      print("getuser : ${user}");
+      print("getuserfirstname : ${users?.firstname}");
+      setState(() {
+        isDataLoaded = true;
+      });
+    }
   }
 
   @override
@@ -275,7 +297,9 @@ class _LoginState extends State<Login> {
                     child: ElevatedButton(
                         onPressed: () async {
                           await _loginUser(
-                              context); // ใช้ await เพื่อรอการเรียก _loginUser สิ้นสุด
+                              context); // รอให้การเข้าสู่ระบบสำเร็จ
+                          getviewInformDetailsById(_usernameController
+                              .text); // เมื่อเข้าสู่ระบบสำเร็จ ค่า username ถูกตรวจสอบแล้ว จึงเรียก getviewInformDetailsById
                         },
                         style: ElevatedButton.styleFrom(
                           primary: Color.fromARGB(

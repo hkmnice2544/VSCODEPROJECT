@@ -9,9 +9,11 @@ import 'ListManage.dart';
 
 class ViewNewInform extends StatefulWidget {
   final int? informdetails_id;
+  final int? user;
   const ViewNewInform({
     super.key,
     this.informdetails_id,
+    this.user,
     int? report_id,
   });
 
@@ -84,7 +86,7 @@ class _ViewNewInformState extends State<ViewNewInform> {
                     onPressed: () {
                       Navigator.push(context, MaterialPageRoute(
                         builder: (context) {
-                          return Home(username: 'ชื่อผู้ใช้');
+                          return Home(user: widget.user);
                         },
                       ));
                     }),

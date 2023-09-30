@@ -10,10 +10,8 @@ import '../../Login.dart';
 
 class View_Summary extends StatefulWidget {
   final int? informrepair_id;
-  const View_Summary({
-    super.key,
-    this.informrepair_id,
-  });
+  final int? user;
+  const View_Summary({super.key, this.informrepair_id, this.user});
 
   @override
   State<View_Summary> createState() => _View_SummaryState();
@@ -94,7 +92,7 @@ class _View_SummaryState extends State<View_Summary> {
                     onPressed: () {
                       Navigator.push(context, MaterialPageRoute(
                         builder: (context) {
-                          return Home(username: 'ชื่อผู้ใช้');
+                          return Home(user: widget.user);
                         },
                       ));
                     }),

@@ -9,10 +9,8 @@ import 'ListInformRepair.dart';
 
 class View_NewItem extends StatefulWidget {
   final int? informrepair_id;
-  const View_NewItem({
-    super.key,
-    this.informrepair_id,
-  });
+  final int? user;
+  const View_NewItem({super.key, this.informrepair_id, this.user});
 
   @override
   State<View_NewItem> createState() => _ViewResultState();
@@ -132,7 +130,7 @@ class _ViewResultState extends State<View_NewItem> {
                       Navigator.push(context, MaterialPageRoute(
                         builder: (context) {
                           var username;
-                          return Home(username: 'ชื่อผู้ใช้');
+                          return Home(user: widget.user);
                         },
                       ));
                     }),

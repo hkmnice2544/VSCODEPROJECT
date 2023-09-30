@@ -17,9 +17,11 @@ import 'ListManage.dart';
 
 class ReportInform extends StatefulWidget {
   final int? detailId;
+  final int? user;
   const ReportInform({
     super.key,
     required this.detailId,
+    required this.user,
     int? report_id,
   });
 
@@ -167,7 +169,7 @@ class _ReportInformState extends State<ReportInform> {
                     onPressed: () {
                       Navigator.push(context, MaterialPageRoute(
                         builder: (context) {
-                          return Home(username: 'ชื่อผู้ใช้');
+                          return Home(user: widget.user);
                         },
                       ));
                     }),

@@ -8,7 +8,11 @@ import 'ReportInform.dart';
 import 'View_NewInform.dart';
 
 class listNewInform extends StatefulWidget {
-  const listNewInform({super.key});
+  final int? user;
+  const listNewInform({
+    super.key,
+    required this.user,
+  });
 
   @override
   State<listNewInform> createState() => NewInform();
@@ -193,7 +197,8 @@ class NewInform extends State<listNewInform> {
                                 MaterialPageRoute(
                                   builder: (context) => ReportInform(
                                       detailId:
-                                          int.tryParse(DetailID![index] ?? '')),
+                                          int.tryParse(DetailID![index] ?? ''),
+                                      user: widget.user),
                                 ),
                               );
                             },

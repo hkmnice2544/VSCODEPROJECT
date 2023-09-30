@@ -13,10 +13,8 @@ import 'Rating.dart';
 
 class Review extends StatefulWidget {
   final int? report_id;
-  const Review({
-    super.key,
-    this.report_id,
-  });
+  final int? user;
+  const Review({super.key, this.report_id, this.user});
 
   @override
   State<Review> createState() => _MyWidgetState();
@@ -140,7 +138,7 @@ class _MyWidgetState extends State<Review> {
                 onPressed: () {
                   Navigator.push(context, MaterialPageRoute(
                     builder: (context) {
-                      return Home(username: 'ชื่อผู้ใช้');
+                      return Home(user: widget.user);
                     },
                   ));
                 },
@@ -433,7 +431,7 @@ class _MyWidgetState extends State<Review> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) {
-                    return Home(username: 'ชื่อผู้ใช้');
+                    return Home(user: widget.user);
                   }),
                 );
               },

@@ -14,7 +14,11 @@ import '../../Login.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 class Summary extends StatefulWidget {
-  const Summary({super.key});
+  final int? user;
+  const Summary({
+    super.key,
+    this.user,
+  });
 
   @override
   Form createState() => Form();
@@ -236,7 +240,7 @@ class Form extends State<Summary> {
                 onPressed: () {
                   Navigator.push(context, MaterialPageRoute(
                     builder: (context) {
-                      return Home(username: 'ชื่อผู้ใช้');
+                      return Home(user: widget.user);
                     },
                   ));
                 },

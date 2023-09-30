@@ -8,10 +8,8 @@ import 'ListInformRepair.dart';
 
 class ViewCompleted extends StatefulWidget {
   final int? report_id;
-  const ViewCompleted({
-    super.key,
-    this.report_id,
-  });
+  final int? user;
+  const ViewCompleted({super.key, this.report_id, this.user});
 
   @override
   State<ViewCompleted> createState() => _ViewResultState();
@@ -82,7 +80,7 @@ class _ViewResultState extends State<ViewCompleted> {
                     onPressed: () {
                       Navigator.push(context, MaterialPageRoute(
                         builder: (context) {
-                          return Home(username: 'ชื่อผู้ใช้');
+                          return Home(user: widget.user);
                         },
                       ));
                     }),

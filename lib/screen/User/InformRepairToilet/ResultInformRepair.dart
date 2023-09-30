@@ -10,10 +10,8 @@ import '../../../model/informrepair_model.dart';
 
 class ResultInformRepair extends StatefulWidget {
   final int? informrepair_id;
-  const ResultInformRepair({
-    super.key,
-    this.informrepair_id,
-  });
+  final int? user;
+  const ResultInformRepair({super.key, this.informrepair_id, this.user});
 
 //   MyResult(
 //     {Key?key,required this.informRepairs}):super(key:key);
@@ -105,7 +103,7 @@ class _MyResultState extends State<ResultInformRepair> {
                     onPressed: () {
                       Navigator.push(context, MaterialPageRoute(
                         builder: (context) {
-                          return Home(username: 'ชื่อผู้ใช้');
+                          return Home(user: widget.user);
                         },
                       ));
                     }),

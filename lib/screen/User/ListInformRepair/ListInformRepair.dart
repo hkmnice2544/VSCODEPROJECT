@@ -6,8 +6,17 @@ import '../../Login.dart';
 import 'List_InformCompleted.dart';
 import 'List_NewItem.dart';
 
-class ListInformRepair extends StatelessWidget {
+class ListInformRepair extends StatefulWidget {
+  final int? user;
+  const ListInformRepair({super.key, this.user});
+
+  @override
+  State<ListInformRepair> createState() => _ListInformRepairState();
+}
+
+class _ListInformRepairState extends State<ListInformRepair> {
   List<InformRepair>? informrepairs;
+
   bool? isDataLoaded = false;
 
   @override
@@ -74,7 +83,7 @@ class ListInformRepair extends StatelessWidget {
                               context,
                               MaterialPageRoute(
                                 builder: (context) =>
-                                    Home(username: 'ชื่อผู้ใช้'), // หน้า A
+                                    Home(user: widget.user), // หน้า A
                               ));
                         }),
                   ),

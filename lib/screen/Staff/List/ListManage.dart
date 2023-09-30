@@ -7,8 +7,19 @@ import 'List_Completed.dart';
 import 'List_NewInform.dart';
 import 'List_ReviewResults.dart';
 
-class ListManage extends StatelessWidget {
+class ListManage extends StatefulWidget {
+  final int? user;
+  const ListManage({
+    super.key,
+    this.user,
+  });
+  @override
+  State<ListManage> createState() => _ListManageState();
+}
+
+class _ListManageState extends State<ListManage> {
   List<InformRepair>? informrepairs;
+
   bool? isDataLoaded = false;
 
   @override
@@ -83,7 +94,7 @@ class ListManage extends StatelessWidget {
                         onPressed: () {
                           Navigator.push(context, MaterialPageRoute(
                             builder: (context) {
-                              return Home(username: 'ชื่อผู้ใช้');
+                              return Home(user: widget.user);
                             },
                           ));
                         }),
@@ -124,8 +135,8 @@ class ListManage extends StatelessWidget {
                 ]),
           ),
           body: TabBarView(children: [
-            listNewInform(),
-            ListActualize(),
+            listNewInform(user: widget.user),
+            ListActualize(user: widget.user),
             ListCompleted(),
             listReviewResult(),
           ]),

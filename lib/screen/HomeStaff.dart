@@ -8,9 +8,9 @@ import 'Staff/Summary/Sammary.dart';
 import 'User/ListInformRepair/ListInformRepair.dart';
 
 class HomeStaff extends StatefulWidget {
-  final String username; // สร้างตัวแปรเพื่อเก็บชื่อผู้ใช้
+  final int? user;
 
-  HomeStaff({required this.username});
+  HomeStaff({required this.user});
   @override
   State<HomeStaff> createState() => _HomeStaffState();
 }

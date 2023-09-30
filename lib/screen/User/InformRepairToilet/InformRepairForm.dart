@@ -12,8 +12,8 @@ import '../../../model/informrepair_model.dart';
 import 'package:http/http.dart' as http;
 
 class InformRepairForm extends StatefulWidget {
-  final String username;
-  InformRepairForm({required this.username});
+  final int? user;
+  InformRepairForm({required this.user});
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -196,6 +196,7 @@ class Form extends State<InformRepairForm> {
     formattedDate = DateFormat('dd-MM-yyyy').format(now);
     // fetchListBuilding();
     main();
+    print('user_id----${user_id}');
   }
 
   @override
@@ -227,11 +228,11 @@ class Form extends State<InformRepairForm> {
                     icon: Icon(Icons.home),
                     color: Color.fromARGB(255, 255, 255, 255),
                     onPressed: () {
-                      Navigator.push(context, MaterialPageRoute(
-                        builder: (context) {
-                          return Home(username: widget.username);
-                        },
-                      ));
+                      // Navigator.push(context, MaterialPageRoute(
+                      //   builder: (context) {
+                      //     return Home(username: widget.username);
+                      //   },
+                      // ));
                     },
                   ),
                 ),
@@ -239,11 +240,11 @@ class Form extends State<InformRepairForm> {
                   child: GestureDetector(
                     onTap: () {
                       // นำทางไปยังหน้าอื่นที่คุณต้องการ
-                      Navigator.push(context, MaterialPageRoute(
-                        builder: (context) {
-                          return Home(username: widget.username);
-                        },
-                      ));
+                      // Navigator.push(context, MaterialPageRoute(
+                      //   builder: (context) {
+                      //     return Home(username: widget.username);
+                      //   },
+                      // ));
                     },
                     child: Padding(
                       padding: EdgeInsets.only(left: 0, top: 0, right: 50),
@@ -658,16 +659,14 @@ class Form extends State<InformRepairForm> {
                   Expanded(
                     child: ElevatedButton(
                         onPressed: () async {
-                          // var response =
-                          //     await informRepairController.addInformRepair(
-                          //   informtype,status,
-                          // );
-                          // Navigator.push(
-                          //   context,
-                          //   MaterialPageRoute(builder: (context) {
-                          //     return Home(username: 'ชื่อผู้ใช้');
-                          //   }),
-                          // );
+                          var response = await informRepairController
+                              .addInformRepair(informtype, status, user_id);
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) {
+                              return Home(user: widget.user);
+                            }),
+                          );
 
                           // int u = 1001; // User ID
 
@@ -744,10 +743,10 @@ class Form extends State<InformRepairForm> {
                   Expanded(
                     child: ElevatedButton(
                         onPressed: () async {
-                          Navigator.push(context,
-                              MaterialPageRoute(builder: (context) {
-                            return Home(username: widget.username);
-                          }));
+                          // Navigator.push(context,
+                          //     MaterialPageRoute(builder: (context) {
+                          //   return Home(username: widget.username);
+                          // }));
 
                           // Navigator.pushNamed(context, '/one');
                         },
