@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:flutterr/controller/login_controller.dart';
+import 'package:flutterr/model/User_Model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'Login.dart';
@@ -18,45 +20,28 @@ class HomeStaff extends StatefulWidget {
 class _HomeStaffState extends State<HomeStaff> {
   late String storedUsername;
   bool isUsernameLoaded = false;
+  LoginController loginController = LoginController();
+  User? users;
+  bool? isDataLoaded = false;
+
+  void getLoginById(int user) async {
+    users = await loginController.getLoginById(user);
+    print("getuser : ${user}");
+    print("getuserfirstname : ${users?.firstname}");
+    setState(() {
+      isDataLoaded = true;
+    });
+  }
 
   @override
   void initState() {
     super.initState();
-    if (!isUsernameLoaded) {
-      loadUsername(); // เรียกเมธอด loadUsername ที่จะโหลดข้อมูล username จาก SharedPreferences ใน initState
-    } // เรียกเมธอด loadUsername ที่จะโหลดข้อมูล username จาก SharedPreferences ใน initState
-  }
-
-  Future<void> loadUsername() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    storedUsername = prefs.getString('username') ?? '';
-    isUsernameLoaded = true;
-    setState(() {});
-  }
-
-  void clearUsername() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.remove('username'); // ลบข้อมูล username จาก SharedPreferences
-    Navigator.pushReplacement(
-      context,
-      MaterialPageRoute(
-        builder: (context) {
-          return Login();
-        },
-      ),
-    );
+    print('${widget.user}-------------');
+    getLoginById(widget.user!);
   }
 
   @override
   Widget build(BuildContext context) {
-    if (!isUsernameLoaded) {
-      // ถ้าข้อมูล username ยังไม่ถูกโหลด ให้แสดง Placeholder หรือ Loading Screen
-      return Scaffold(
-        body: Center(
-          child: CircularProgressIndicator(),
-        ),
-      );
-    }
     return Scaffold(
         endDrawer: Drawer(
           child: Container(
@@ -84,13 +69,13 @@ class _HomeStaffState extends State<HomeStaff> {
                             color: Colors.red,
                           ),
                           title: Text(
-                            'มัลลิกา',
+                            '${users?.firstname}',
                             style: TextStyle(fontSize: 20),
                           )),
                     ),
                     Expanded(
                         child: Text(
-                      'แซ่ลิ้ม',
+                      '${users?.lastname}',
                       style: TextStyle(fontSize: 20),
                     )),
                   ],
@@ -101,7 +86,7 @@ class _HomeStaffState extends State<HomeStaff> {
                       color: Colors.red,
                     ),
                     title: Text(
-                      'ผู้รับผิดชอบ ',
+                      '${users?.usertype}',
                       style: TextStyle(fontSize: 20),
                     )),
                 ListTile(
@@ -110,7 +95,7 @@ class _HomeStaffState extends State<HomeStaff> {
                       color: Colors.red,
                     ),
                     title: Text(
-                      'staff01',
+                      '${users?.username}',
                       style: TextStyle(fontSize: 20),
                     )),
                 ListTile(
@@ -119,7 +104,7 @@ class _HomeStaffState extends State<HomeStaff> {
                       color: Colors.red,
                     ),
                     title: Text(
-                      '*******',
+                      '${users?.password}',
                       style: TextStyle(fontSize: 20),
                     )),
               ],
@@ -160,7 +145,7 @@ class _HomeStaffState extends State<HomeStaff> {
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
                     Text(
-                      'มัลลิกา แซ่ลิ้ม',
+                      '${users?.firstname} ${users?.lastname}',
                       style: TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.bold,
@@ -168,7 +153,7 @@ class _HomeStaffState extends State<HomeStaff> {
                       ),
                     ),
                     Text(
-                      'ตำแหน่ง : ผู้รับผิดชอบแผนกห้องน้ำ',
+                      'ตำแหน่ง : ${users?.usertype}',
                       style: TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.bold,
@@ -278,203 +263,195 @@ class _HomeStaffState extends State<HomeStaff> {
                 )
               ]),
         ),
-        body: isUsernameLoaded
-            ? SingleChildScrollView(
-                child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      // Text('Welcome, ${widget.username}'),
-                      const Padding(
-                        padding: EdgeInsets.only(left: 45, top: 10, right: 0),
-                        child: Text(
-                          "กรุณาเลือกรายการ",
-                          style: TextStyle(
-                            color: Color.fromARGB(255, 7, 94, 53),
-                            fontSize: 40,
-                            fontWeight: FontWeight.bold,
-                          ),
+        body: SingleChildScrollView(
+          child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+            // Text('Welcome, ${widget.username}'),
+            const Padding(
+              padding: EdgeInsets.only(left: 45, top: 10, right: 0),
+              child: Text(
+                "กรุณาเลือกรายการ",
+                style: TextStyle(
+                  color: Color.fromARGB(255, 7, 94, 53),
+                  fontSize: 40,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+            Center(
+              child: Container(
+                child: Stack(
+                  children: [
+                    Image.asset(
+                      'images/inform_Home.png',
+                      width: 500, // กำหนดความกว้าง
+                      height: 250, // กำหนดความสูง
+                      fit: BoxFit.cover,
+                    ),
+                    Positioned(
+                      child: IconButton(
+                        icon: Icon(
+                          Icons.chevron_right_sharp,
+                          size: 40,
+                          color: Color.fromRGBO(255, 255, 255,
+                              1), // ปรับขนาดของไอคอนตามที่คุณต้องการ
                         ),
+                        padding:
+                            EdgeInsets.only(left: 435, top: 105, right: 20),
+                        onPressed: () {
+                          // Navigator.push(
+                          //   context,
+                          //   MaterialPageRoute(builder: (context) {
+                          //     return InformRepairForm();
+                          //   }),
+                          // );
+                        },
                       ),
-                      Center(
-                        child: Container(
-                          child: Stack(
-                            children: [
-                              Image.asset(
-                                'images/inform_Home.png',
-                                width: 500, // กำหนดความกว้าง
-                                height: 250, // กำหนดความสูง
-                                fit: BoxFit.cover,
-                              ),
-                              Positioned(
-                                child: IconButton(
-                                  icon: Icon(
-                                    Icons.chevron_right_sharp,
-                                    size: 40,
-                                    color: Color.fromRGBO(255, 255, 255,
-                                        1), // ปรับขนาดของไอคอนตามที่คุณต้องการ
-                                  ),
-                                  padding: EdgeInsets.only(
-                                      left: 435, top: 105, right: 20),
-                                  onPressed: () {
-                                    // Navigator.push(
-                                    //   context,
-                                    //   MaterialPageRoute(builder: (context) {
-                                    //     return InformRepairForm();
-                                    //   }),
-                                    // );
-                                  },
-                                ),
-                              ),
-                            ],
-                          ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            Center(
+              child: Container(
+                padding: EdgeInsets.only(left: 0, top: 0, right: 0),
+                child: Stack(
+                  children: [
+                    Image.asset(
+                      'images/informroom_Home.png',
+                      width: 500, // กำหนดความกว้าง
+                      height: 250, // กำหนดความสูง
+                      fit: BoxFit.cover,
+                    ),
+                    Positioned(
+                      child: IconButton(
+                        icon: Icon(
+                          Icons.chevron_right_sharp,
+                          size: 40,
+                          color: Color.fromRGBO(255, 255, 255,
+                              1), // ปรับขนาดของไอคอนตามที่คุณต้องการ
                         ),
+                        padding:
+                            EdgeInsets.only(left: 435, top: 105, right: 20),
+                        onPressed: () {
+                          // Navigator.push(
+                          //   context,
+                          //   MaterialPageRoute(builder: (context) {
+                          //     return InformClassrooms();
+                          //   }),
+                          // );
+                        },
                       ),
-                      Center(
-                        child: Container(
-                          padding: EdgeInsets.only(left: 0, top: 0, right: 0),
-                          child: Stack(
-                            children: [
-                              Image.asset(
-                                'images/informroom_Home.png',
-                                width: 500, // กำหนดความกว้าง
-                                height: 250, // กำหนดความสูง
-                                fit: BoxFit.cover,
-                              ),
-                              Positioned(
-                                child: IconButton(
-                                  icon: Icon(
-                                    Icons.chevron_right_sharp,
-                                    size: 40,
-                                    color: Color.fromRGBO(255, 255, 255,
-                                        1), // ปรับขนาดของไอคอนตามที่คุณต้องการ
-                                  ),
-                                  padding: EdgeInsets.only(
-                                      left: 435, top: 105, right: 20),
-                                  onPressed: () {
-                                    // Navigator.push(
-                                    //   context,
-                                    //   MaterialPageRoute(builder: (context) {
-                                    //     return InformClassrooms();
-                                    //   }),
-                                    // );
-                                  },
-                                ),
-                              ),
-                            ],
-                          ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            Center(
+              child: Container(
+                padding: EdgeInsets.only(left: 0, top: 0, right: 0),
+                child: Stack(
+                  children: [
+                    Image.asset(
+                      'images/List_Home.png',
+                      width: 500, // กำหนดความกว้าง
+                      height: 250, // กำหนดความสูง
+                      fit: BoxFit.cover,
+                    ),
+                    Positioned(
+                      child: IconButton(
+                        icon: Icon(
+                          Icons.chevron_right_sharp,
+                          size: 40,
+                          color: Color.fromRGBO(255, 255, 255,
+                              1), // ปรับขนาดของไอคอนตามที่คุณต้องการ
                         ),
+                        padding:
+                            EdgeInsets.only(left: 435, top: 110, right: 20),
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) {
+                              return ListInformRepair();
+                            }),
+                          );
+                        },
                       ),
-                      Center(
-                        child: Container(
-                          padding: EdgeInsets.only(left: 0, top: 0, right: 0),
-                          child: Stack(
-                            children: [
-                              Image.asset(
-                                'images/List_Home.png',
-                                width: 500, // กำหนดความกว้าง
-                                height: 250, // กำหนดความสูง
-                                fit: BoxFit.cover,
-                              ),
-                              Positioned(
-                                child: IconButton(
-                                  icon: Icon(
-                                    Icons.chevron_right_sharp,
-                                    size: 40,
-                                    color: Color.fromRGBO(255, 255, 255,
-                                        1), // ปรับขนาดของไอคอนตามที่คุณต้องการ
-                                  ),
-                                  padding: EdgeInsets.only(
-                                      left: 435, top: 110, right: 20),
-                                  onPressed: () {
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(builder: (context) {
-                                        return ListInformRepair();
-                                      }),
-                                    );
-                                  },
-                                ),
-                              ),
-                            ],
-                          ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            Center(
+              child: Container(
+                padding: EdgeInsets.only(left: 0, top: 0, right: 0, bottom: 0),
+                child: Stack(
+                  children: [
+                    Image.asset(
+                      'images/List_Manage.png',
+                      width: 520, // กำหนดความกว้าง
+                      height: 250, // กำหนดความสูง
+                      fit: BoxFit.cover,
+                    ),
+                    Positioned(
+                      child: IconButton(
+                        icon: Icon(
+                          Icons.chevron_right_sharp,
+                          size: 40,
+                          color: Color.fromRGBO(255, 255, 255,
+                              1), // ปรับขนาดของไอคอนตามที่คุณต้องการ
                         ),
+                        padding:
+                            EdgeInsets.only(left: 465, top: 105, right: 20),
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) {
+                              return ListManage();
+                            }),
+                          );
+                        },
                       ),
-                      Center(
-                        child: Container(
-                          padding: EdgeInsets.only(
-                              left: 0, top: 0, right: 0, bottom: 0),
-                          child: Stack(
-                            children: [
-                              Image.asset(
-                                'images/List_Manage.png',
-                                width: 520, // กำหนดความกว้าง
-                                height: 250, // กำหนดความสูง
-                                fit: BoxFit.cover,
-                              ),
-                              Positioned(
-                                child: IconButton(
-                                  icon: Icon(
-                                    Icons.chevron_right_sharp,
-                                    size: 40,
-                                    color: Color.fromRGBO(255, 255, 255,
-                                        1), // ปรับขนาดของไอคอนตามที่คุณต้องการ
-                                  ),
-                                  padding: EdgeInsets.only(
-                                      left: 465, top: 105, right: 20),
-                                  onPressed: () {
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(builder: (context) {
-                                        return ListManage();
-                                      }),
-                                    );
-                                  },
-                                ),
-                              ),
-                            ],
-                          ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            Center(
+              child: Container(
+                padding: EdgeInsets.only(left: 0, top: 0, right: 0, bottom: 0),
+                child: Stack(
+                  children: [
+                    Image.asset(
+                      'images/List_Summary.png',
+                      width: 550, // กำหนดความกว้าง
+                      height: 250, // กำหนดความสูง
+                    ),
+                    Positioned(
+                      child: IconButton(
+                        icon: Icon(
+                          Icons.chevron_right_sharp,
+                          size: 40,
+                          color: Color.fromRGBO(255, 255, 255,
+                              1), // ปรับขนาดของไอคอนตามที่คุณต้องการ
                         ),
+                        padding:
+                            EdgeInsets.only(left: 490, top: 100, right: 20),
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) {
+                              return Summary();
+                            }),
+                          );
+                        },
                       ),
-                      Center(
-                        child: Container(
-                          padding: EdgeInsets.only(
-                              left: 0, top: 0, right: 0, bottom: 0),
-                          child: Stack(
-                            children: [
-                              Image.asset(
-                                'images/List_Summary.png',
-                                width: 550, // กำหนดความกว้าง
-                                height: 250, // กำหนดความสูง
-                              ),
-                              Positioned(
-                                child: IconButton(
-                                  icon: Icon(
-                                    Icons.chevron_right_sharp,
-                                    size: 40,
-                                    color: Color.fromRGBO(255, 255, 255,
-                                        1), // ปรับขนาดของไอคอนตามที่คุณต้องการ
-                                  ),
-                                  padding: EdgeInsets.only(
-                                      left: 490, top: 100, right: 20),
-                                  onPressed: () {
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(builder: (context) {
-                                        return Summary();
-                                      }),
-                                    );
-                                  },
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ]),
-              )
-            : Center(
-                child: CircularProgressIndicator(),
-              ));
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ]),
+        ));
   }
 }
 

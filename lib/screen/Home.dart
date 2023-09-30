@@ -21,7 +21,6 @@ class _HomeState extends State<Home> {
   LoginController loginController = LoginController();
   User? users;
   late String storeduser;
-  bool isuserLoaded = false;
   bool? isDataLoaded = false;
 
   void getLoginById(int user) async {
@@ -97,7 +96,7 @@ class _HomeState extends State<Home> {
                       color: Colors.red,
                     ),
                     title: Text(
-                      widget.user.toString(),
+                      '${users?.username}',
                       style: TextStyle(fontSize: 20),
                     )),
                 ListTile(
