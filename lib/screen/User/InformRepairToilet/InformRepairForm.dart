@@ -875,126 +875,126 @@ class Form extends State<InformRepairForm> {
                                   informtype, statusinform, user_id);
 
                           List<Map<String, String>> dataList = [];
-                          if (roomname == "ห้องน้ำชาย" &&
-                              buildingname == "อาคาร 60 ปี แม่โจ้" &&
-                              roomfloor == "1" &&
-                              roomposition == "ข้างบันได" &&
-                              _tapCheckBox == '1001') {
-                            // เพิ่มข้อมูลลงใน dataList ในกรณีที่เงื่อนไขเป็นจริง
-                            dataList.add({
-                              'amount': _tapCountController.text,
-                              'details': _tapCheckBoxController.text,
-                              'informrepair_id':
-                                  ((informrepairs?[informrepairs!.length - 1]
-                                                  .informrepair_id ??
-                                              0) +
-                                          1)
-                                      .toString(),
-                              'equipment_id': _tapCheckBox,
-                              'room_id': "101",
-                              'status': statusinformdetails,
-                            });
-                          }
-                          if (roomname == "ห้องน้ำชาย" &&
-                              buildingname == "อาคาร 60 ปี แม่โจ้" &&
-                              roomfloor == "1" &&
-                              roomposition == "ข้างบันได" &&
-                              _toiletbowlCheckBox == '1002') {
-                            // เพิ่มข้อมูลลงใน dataList ในกรณีที่เงื่อนไขเป็นจริง
-                            dataList.add({
-                              'amount': _toiletbowlCountController.text,
-                              'details': _toiletbowlBoxController.text,
-                              'informrepair_id':
-                                  ((informrepairs?[informrepairs!.length - 1]
-                                                  .informrepair_id ??
-                                              0) +
-                                          1)
-                                      .toString(),
-                              'equipment_id': _toiletbowlCheckBox,
-                              'room_id': "101",
-                              'status': statusinformdetails,
-                            });
-                          }
-                          if (roomname == "ห้องน้ำชาย" &&
-                              buildingname == "อาคาร 60 ปี แม่โจ้" &&
-                              roomfloor == "1" &&
-                              roomposition == "ข้างบันได" &&
-                              _bidetCheckBox == '1003') {
-                            // เพิ่มข้อมูลลงใน dataList ในกรณีที่เงื่อนไขเป็นจริง
-                            dataList.add({
-                              'amount': _bidetCheckCountController.text,
-                              'details': _bidetCheckBoxController.text,
-                              'informrepair_id':
-                                  ((informrepairs?[informrepairs!.length - 1]
-                                                  .informrepair_id ??
-                                              0) +
-                                          1)
-                                      .toString(),
-                              'equipment_id': _bidetCheckBox,
-                              'room_id': "101",
-                              'status': statusinformdetails,
-                            });
-                          }
-                          if (roomname == "ห้องน้ำชาย" &&
-                              buildingname == "อาคาร 60 ปี แม่โจ้" &&
-                              roomfloor == "1" &&
-                              roomposition == "ข้างบันได" &&
-                              _urinalCheckBox == '1004') {
-                            // เพิ่มข้อมูลลงใน dataList ในกรณีที่เงื่อนไขเป็นจริง
-                            dataList.add({
-                              'amount': _urinalCheckCountController.text,
-                              'details': _urinalCheckBoxController.text,
-                              'informrepair_id':
-                                  ((informrepairs?[informrepairs!.length - 1]
-                                                  .informrepair_id ??
-                                              0) +
-                                          1)
-                                      .toString(),
-                              'equipment_id': _urinalCheckBox,
-                              'room_id': "101",
-                              'status': statusinformdetails,
-                            });
-                          }
-                          if (roomname == "ห้องน้ำชาย" &&
-                              buildingname == "อาคาร 60 ปี แม่โจ้" &&
-                              roomfloor == "1" &&
-                              roomposition == "ข้างบันได" &&
-                              _sinkCheckBox == '1005') {
-                            // เพิ่มข้อมูลลงใน dataList ในกรณีที่เงื่อนไขเป็นจริง
-                            dataList.add({
-                              'amount': _sinkCheckCountController.text,
-                              'details': _sinkCheckBoxController.text,
-                              'informrepair_id':
-                                  ((informrepairs?[informrepairs!.length - 1]
-                                                  .informrepair_id ??
-                                              0) +
-                                          1)
-                                      .toString(),
-                              'equipment_id': _sinkCheckBox,
-                              'room_id': "101",
-                              'status': statusinformdetails,
-                            });
-                          }
-                          if (roomname == "ห้องน้ำชาย" &&
-                              buildingname == "อาคาร 60 ปี แม่โจ้" &&
-                              roomfloor == "1" &&
-                              roomposition == "ข้างบันได" &&
-                              _lightbulbCheckBox == '1006') {
-                            // เพิ่มข้อมูลลงใน dataList ในกรณีที่เงื่อนไขเป็นจริง
-                            dataList.add({
-                              'amount': _lightbulbCheckCountController.text,
-                              'details': _lightbulbCheckBoxController.text,
-                              'informrepair_id':
-                                  ((informrepairs?[informrepairs!.length - 1]
-                                                  .informrepair_id ??
-                                              0) +
-                                          1)
-                                      .toString(),
-                              'equipment_id': _lightbulbCheckBox,
-                              'room_id': "101",
-                              'status': statusinformdetails,
-                            });
-                          }
+                          // if (roomname == "ห้องน้ำชาย" &&
+                          //     buildingname == "อาคาร 60 ปี แม่โจ้" &&
+                          //     roomfloor == "1" &&
+                          //     roomposition == "ข้างบันได" &&
+                          //     _tapCheckBox == '1001') {
+                          //   // เพิ่มข้อมูลลงใน dataList ในกรณีที่เงื่อนไขเป็นจริง
+                          //   dataList.add({
+                          //     'amount': _tapCountController.text,
+                          //     'details': _tapCheckBoxController.text,
+                          //     'informrepair_id':
+                          //         ((informrepairs?[informrepairs!.length - 1]
+                          //                         .informrepair_id ??
+                          //                     0) +
+                          //                 1)
+                          //             .toString(),
+                          //     'equipment_id': _tapCheckBox,
+                          //     'room_id': "101",
+                          //     'status': statusinformdetails,
+                          //   });
+                          // }
+                          // if (roomname == "ห้องน้ำชาย" &&
+                          //     buildingname == "อาคาร 60 ปี แม่โจ้" &&
+                          //     roomfloor == "1" &&
+                          //     roomposition == "ข้างบันได" &&
+                          //     _toiletbowlCheckBox == '1002') {
+                          //   // เพิ่มข้อมูลลงใน dataList ในกรณีที่เงื่อนไขเป็นจริง
+                          //   dataList.add({
+                          //     'amount': _toiletbowlCountController.text,
+                          //     'details': _toiletbowlBoxController.text,
+                          //     'informrepair_id':
+                          //         ((informrepairs?[informrepairs!.length - 1]
+                          //                         .informrepair_id ??
+                          //                     0) +
+                          //                 1)
+                          //             .toString(),
+                          //     'equipment_id': _toiletbowlCheckBox,
+                          //     'room_id': "101",
+                          //     'status': statusinformdetails,
+                          //   });
+                          // }
+                          // if (roomname == "ห้องน้ำชาย" &&
+                          //     buildingname == "อาคาร 60 ปี แม่โจ้" &&
+                          //     roomfloor == "1" &&
+                          //     roomposition == "ข้างบันได" &&
+                          //     _bidetCheckBox == '1003') {
+                          //   // เพิ่มข้อมูลลงใน dataList ในกรณีที่เงื่อนไขเป็นจริง
+                          //   dataList.add({
+                          //     'amount': _bidetCheckCountController.text,
+                          //     'details': _bidetCheckBoxController.text,
+                          //     'informrepair_id':
+                          //         ((informrepairs?[informrepairs!.length - 1]
+                          //                         .informrepair_id ??
+                          //                     0) +
+                          //                 1)
+                          //             .toString(),
+                          //     'equipment_id': _bidetCheckBox,
+                          //     'room_id': "101",
+                          //     'status': statusinformdetails,
+                          //   });
+                          // }
+                          // if (roomname == "ห้องน้ำชาย" &&
+                          //     buildingname == "อาคาร 60 ปี แม่โจ้" &&
+                          //     roomfloor == "1" &&
+                          //     roomposition == "ข้างบันได" &&
+                          //     _urinalCheckBox == '1004') {
+                          //   // เพิ่มข้อมูลลงใน dataList ในกรณีที่เงื่อนไขเป็นจริง
+                          //   dataList.add({
+                          //     'amount': _urinalCheckCountController.text,
+                          //     'details': _urinalCheckBoxController.text,
+                          //     'informrepair_id':
+                          //         ((informrepairs?[informrepairs!.length - 1]
+                          //                         .informrepair_id ??
+                          //                     0) +
+                          //                 1)
+                          //             .toString(),
+                          //     'equipment_id': _urinalCheckBox,
+                          //     'room_id': "101",
+                          //     'status': statusinformdetails,
+                          //   });
+                          // }
+                          // if (roomname == "ห้องน้ำชาย" &&
+                          //     buildingname == "อาคาร 60 ปี แม่โจ้" &&
+                          //     roomfloor == "1" &&
+                          //     roomposition == "ข้างบันได" &&
+                          //     _sinkCheckBox == '1005') {
+                          //   // เพิ่มข้อมูลลงใน dataList ในกรณีที่เงื่อนไขเป็นจริง
+                          //   dataList.add({
+                          //     'amount': _sinkCheckCountController.text,
+                          //     'details': _sinkCheckBoxController.text,
+                          //     'informrepair_id':
+                          //         ((informrepairs?[informrepairs!.length - 1]
+                          //                         .informrepair_id ??
+                          //                     0) +
+                          //                 1)
+                          //             .toString(),
+                          //     'equipment_id': _sinkCheckBox,
+                          //     'room_id': "101",
+                          //     'status': statusinformdetails,
+                          //   });
+                          // }
+                          // if (roomname == "ห้องน้ำชาย" &&
+                          //     buildingname == "อาคาร 60 ปี แม่โจ้" &&
+                          //     roomfloor == "1" &&
+                          //     roomposition == "ข้างบันได" &&
+                          //     _lightbulbCheckBox == '1006') {
+                          //   // เพิ่มข้อมูลลงใน dataList ในกรณีที่เงื่อนไขเป็นจริง
+                          //   dataList.add({
+                          //     'amount': _lightbulbCheckCountController.text,
+                          //     'details': _lightbulbCheckBoxController.text,
+                          //     'informrepair_id':
+                          //         ((informrepairs?[informrepairs!.length - 1]
+                          //                         .informrepair_id ??
+                          //                     0) +
+                          //                 1)
+                          //             .toString(),
+                          //     'equipment_id': _lightbulbCheckBox,
+                          //     'room_id': "101",
+                          //     'status': statusinformdetails,
+                          //   });
+                          // }
 
                           // if (roomname == "ห้องน้ำชาย" &&
                           //     buildingname == "อาคาร 60 ปี แม่โจ้" &&
@@ -1015,6 +1015,65 @@ class Form extends State<InformRepairForm> {
                           //   'status': statusinformdetails,
                           // };
 
+                          // InformRepairDetailsController.saveInformRepairDetails(
+                          //     dataList);
+
+                          void addToDataList(
+                              String equipmentId,
+                              TextEditingController detailsController,
+                              TextEditingController countController) {
+                            if (roomname == "ห้องน้ำชาย" &&
+                                buildingname == "อาคาร 60 ปี แม่โจ้" &&
+                                roomfloor == "1" &&
+                                roomposition == "ข้างบันได" &&
+                                equipmentId.isNotEmpty) {
+                              dataList.add({
+                                'amount': countController.text,
+                                'details': detailsController.text,
+                                'informrepair_id':
+                                    ((informrepairs?[informrepairs!.length - 1]
+                                                    .informrepair_id ??
+                                                0) +
+                                            1)
+                                        .toString(),
+                                'equipment_id': equipmentId,
+                                'room_id': "101",
+                                'status': statusinformdetails,
+                              });
+                            }
+                            if (roomname == "ห้องน้ำหญิง" &&
+                                buildingname == "อาคาร 60 ปี แม่โจ้" &&
+                                roomfloor == "1" &&
+                                roomposition == "ข้างบันได" &&
+                                equipmentId.isNotEmpty) {
+                              dataList.add({
+                                'amount': countController.text,
+                                'details': detailsController.text,
+                                'informrepair_id':
+                                    ((informrepairs?[informrepairs!.length - 1]
+                                                    .informrepair_id ??
+                                                0) +
+                                            1)
+                                        .toString(),
+                                'equipment_id': equipmentId,
+                                'room_id': "102",
+                                'status': statusinformdetails,
+                              });
+                            }
+                          }
+
+                          addToDataList('1001', _tapCheckBoxController,
+                              _tapCountController);
+                          addToDataList('1002', _toiletbowlBoxController,
+                              _toiletbowlCountController);
+                          addToDataList('1003', _bidetCheckBoxController,
+                              _bidetCheckCountController);
+                          addToDataList('1004', _urinalCheckBoxController,
+                              _urinalCheckCountController);
+                          addToDataList('1005', _sinkCheckBoxController,
+                              _sinkCheckCountController);
+                          addToDataList('1006', _lightbulbCheckBoxController,
+                              _lightbulbCheckCountController);
                           InformRepairDetailsController.saveInformRepairDetails(
                               dataList);
 
