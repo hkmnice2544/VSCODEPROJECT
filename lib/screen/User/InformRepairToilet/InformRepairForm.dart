@@ -97,13 +97,27 @@ class Form extends State<InformRepairForm> {
   // รายละเอียด
   TextEditingController _tapCheckBoxController = TextEditingController();
   TextEditingController _toiletbowlBoxController = TextEditingController();
+  TextEditingController _bidetCheckBoxController = TextEditingController();
+  TextEditingController _urinalCheckBoxController = TextEditingController();
+  TextEditingController _sinkCheckBoxController = TextEditingController();
+  TextEditingController _lightbulbCheckBoxController = TextEditingController();
 
   // จำนวน
   TextEditingController _tapCountController = TextEditingController();
   TextEditingController _toiletbowlCountController = TextEditingController();
+  TextEditingController _bidetCheckCountController = TextEditingController();
+  TextEditingController _urinalCheckCountController = TextEditingController();
+  TextEditingController _sinkCheckCountController = TextEditingController();
+  TextEditingController _lightbulbCheckCountController =
+      TextEditingController();
 
   String _tapCheckBox = '';
   String _toiletbowlCheckBox = '';
+  String _bidetCheckBox = '';
+  String _urinalCheckBox = '';
+  String _sinkCheckBox = '';
+  String _lightbulbCheckBox = '';
+
   List<InformRepair>? informrepairs;
   bool? isDataLoaded = false;
   InformRepair? informRepairs;
@@ -649,6 +663,7 @@ class Form extends State<InformRepairForm> {
                     },
                   ),
                 ],
+
                 Row(
                   children: [
                     Checkbox(
@@ -684,6 +699,166 @@ class Form extends State<InformRepairForm> {
                     onChanged: (value) {
                       if (_toiletbowlCheckBox == "") {
                         _toiletbowlCountController
+                            .clear(); // ล้างค่าใน TextField
+                      }
+                    },
+                  ),
+                ],
+                Row(
+                  children: [
+                    Checkbox(
+                      value: _bidetCheckBox == '1003',
+                      onChanged: (bool? value) {
+                        setState(() {
+                          _bidetCheckBox = value != null && value ? '1003' : '';
+                        });
+                      },
+                    ),
+                    Icon(Icons.add_circle),
+                    Text('สายชำระ'),
+                  ],
+                ),
+                if (_bidetCheckBox.isNotEmpty) ...[
+                  TextField(
+                    controller: _bidetCheckBoxController,
+                    decoration: InputDecoration(
+                      labelText: 'รายละเอียด',
+                    ),
+                    onChanged: (value) {
+                      if (_bidetCheckBox == "") {
+                        _bidetCheckBoxController.clear(); // ล้างค่าใน TextField
+                      }
+                    },
+                  ),
+                  TextField(
+                    controller: _bidetCheckCountController,
+                    decoration: InputDecoration(
+                      labelText: 'จำนวน',
+                    ),
+                    onChanged: (value) {
+                      if (_bidetCheckBox == "") {
+                        _bidetCheckCountController
+                            .clear(); // ล้างค่าใน TextField
+                      }
+                    },
+                  ),
+                ],
+                Row(
+                  children: [
+                    Checkbox(
+                      value: _urinalCheckBox == '1004',
+                      onChanged: (bool? value) {
+                        setState(() {
+                          _urinalCheckBox =
+                              value != null && value ? '1004' : '';
+                        });
+                      },
+                    ),
+                    Icon(Icons.add_circle),
+                    Text('โถฉี่ชาย'),
+                  ],
+                ),
+                if (_urinalCheckBox.isNotEmpty) ...[
+                  TextField(
+                    controller: _urinalCheckBoxController,
+                    decoration: InputDecoration(
+                      labelText: 'รายละเอียด',
+                    ),
+                    onChanged: (value) {
+                      if (_urinalCheckBox == "") {
+                        _urinalCheckBoxController
+                            .clear(); // ล้างค่าใน TextField
+                      }
+                    },
+                  ),
+                  TextField(
+                    controller: _urinalCheckCountController,
+                    decoration: InputDecoration(
+                      labelText: 'จำนวน',
+                    ),
+                    onChanged: (value) {
+                      if (_urinalCheckBox == "") {
+                        _urinalCheckCountController
+                            .clear(); // ล้างค่าใน TextField
+                      }
+                    },
+                  ),
+                ],
+                Row(
+                  children: [
+                    Checkbox(
+                      value: _sinkCheckBox == '1005',
+                      onChanged: (bool? value) {
+                        setState(() {
+                          _sinkCheckBox = value != null && value ? '1005' : '';
+                        });
+                      },
+                    ),
+                    Icon(Icons.add_circle),
+                    Text('อ่างล้างมือ'),
+                  ],
+                ),
+                if (_sinkCheckBox.isNotEmpty) ...[
+                  TextField(
+                    controller: _sinkCheckBoxController,
+                    decoration: InputDecoration(
+                      labelText: 'รายละเอียด',
+                    ),
+                    onChanged: (value) {
+                      if (_sinkCheckBox == "") {
+                        _sinkCheckBoxController.clear(); // ล้างค่าใน TextField
+                      }
+                    },
+                  ),
+                  TextField(
+                    controller: _sinkCheckCountController,
+                    decoration: InputDecoration(
+                      labelText: 'จำนวน',
+                    ),
+                    onChanged: (value) {
+                      if (_sinkCheckBox == "") {
+                        _sinkCheckCountController
+                            .clear(); // ล้างค่าใน TextField
+                      }
+                    },
+                  ),
+                ],
+                Row(
+                  children: [
+                    Checkbox(
+                      value: _lightbulbCheckBox == '1006',
+                      onChanged: (bool? value) {
+                        setState(() {
+                          _lightbulbCheckBox =
+                              value != null && value ? '1006' : '';
+                        });
+                      },
+                    ),
+                    Icon(Icons.add_circle),
+                    Text('โถชักโครก'),
+                  ],
+                ),
+                if (_lightbulbCheckBox.isNotEmpty) ...[
+                  TextField(
+                    controller: _lightbulbCheckBoxController,
+                    decoration: InputDecoration(
+                      labelText: 'รายละเอียด',
+                    ),
+                    onChanged: (value) {
+                      if (_lightbulbCheckBox == "") {
+                        _lightbulbCheckBoxController
+                            .clear(); // ล้างค่าใน TextField
+                      }
+                    },
+                  ),
+                  TextField(
+                    controller: _lightbulbCheckCountController,
+                    decoration: InputDecoration(
+                      labelText: 'จำนวน',
+                    ),
+                    onChanged: (value) {
+                      if (_lightbulbCheckBox == "") {
+                        _lightbulbCheckCountController
                             .clear(); // ล้างค่าใน TextField
                       }
                     },
@@ -736,6 +911,86 @@ class Form extends State<InformRepairForm> {
                                           1)
                                       .toString(),
                               'equipment_id': _toiletbowlCheckBox,
+                              'room_id': "101",
+                              'status': statusinformdetails,
+                            });
+                          }
+                          if (roomname == "ห้องน้ำชาย" &&
+                              buildingname == "อาคาร 60 ปี แม่โจ้" &&
+                              roomfloor == "1" &&
+                              roomposition == "ข้างบันได" &&
+                              _bidetCheckBox == '1003') {
+                            // เพิ่มข้อมูลลงใน dataList ในกรณีที่เงื่อนไขเป็นจริง
+                            dataList.add({
+                              'amount': _bidetCheckCountController.text,
+                              'details': _bidetCheckBoxController.text,
+                              'informrepair_id':
+                                  ((informrepairs?[informrepairs!.length - 1]
+                                                  .informrepair_id ??
+                                              0) +
+                                          1)
+                                      .toString(),
+                              'equipment_id': _bidetCheckBox,
+                              'room_id': "101",
+                              'status': statusinformdetails,
+                            });
+                          }
+                          if (roomname == "ห้องน้ำชาย" &&
+                              buildingname == "อาคาร 60 ปี แม่โจ้" &&
+                              roomfloor == "1" &&
+                              roomposition == "ข้างบันได" &&
+                              _urinalCheckBox == '1004') {
+                            // เพิ่มข้อมูลลงใน dataList ในกรณีที่เงื่อนไขเป็นจริง
+                            dataList.add({
+                              'amount': _urinalCheckCountController.text,
+                              'details': _urinalCheckBoxController.text,
+                              'informrepair_id':
+                                  ((informrepairs?[informrepairs!.length - 1]
+                                                  .informrepair_id ??
+                                              0) +
+                                          1)
+                                      .toString(),
+                              'equipment_id': _urinalCheckBox,
+                              'room_id': "101",
+                              'status': statusinformdetails,
+                            });
+                          }
+                          if (roomname == "ห้องน้ำชาย" &&
+                              buildingname == "อาคาร 60 ปี แม่โจ้" &&
+                              roomfloor == "1" &&
+                              roomposition == "ข้างบันได" &&
+                              _sinkCheckBox == '1005') {
+                            // เพิ่มข้อมูลลงใน dataList ในกรณีที่เงื่อนไขเป็นจริง
+                            dataList.add({
+                              'amount': _sinkCheckCountController.text,
+                              'details': _sinkCheckBoxController.text,
+                              'informrepair_id':
+                                  ((informrepairs?[informrepairs!.length - 1]
+                                                  .informrepair_id ??
+                                              0) +
+                                          1)
+                                      .toString(),
+                              'equipment_id': _sinkCheckBox,
+                              'room_id': "101",
+                              'status': statusinformdetails,
+                            });
+                          }
+                          if (roomname == "ห้องน้ำชาย" &&
+                              buildingname == "อาคาร 60 ปี แม่โจ้" &&
+                              roomfloor == "1" &&
+                              roomposition == "ข้างบันได" &&
+                              _lightbulbCheckBox == '1006') {
+                            // เพิ่มข้อมูลลงใน dataList ในกรณีที่เงื่อนไขเป็นจริง
+                            dataList.add({
+                              'amount': _lightbulbCheckCountController.text,
+                              'details': _lightbulbCheckBoxController.text,
+                              'informrepair_id':
+                                  ((informrepairs?[informrepairs!.length - 1]
+                                                  .informrepair_id ??
+                                              0) +
+                                          1)
+                                      .toString(),
+                              'equipment_id': _lightbulbCheckBox,
                               'room_id': "101",
                               'status': statusinformdetails,
                             });
