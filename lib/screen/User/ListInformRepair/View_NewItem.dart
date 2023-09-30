@@ -57,6 +57,17 @@ class _ViewResultState extends State<View_NewItem> {
     });
   }
 
+  void ViewListInformDetails(int informrepair_id) async {
+    informRepairDetails =
+        await informRepairDetailsController.ViewListInformDetails(
+            informrepair_id);
+    print(
+        "ViewListInformDetails : ${informRepairDetails?[0].roomEquipment?.equipment?.equipment_id}");
+    setState(() {
+      isDataLoaded = true;
+    });
+  }
+
   List<InformRepairDetails> informDetails = [];
 
   Future getInformDetails(int informrepair_id) async {
@@ -80,6 +91,7 @@ class _ViewResultState extends State<View_NewItem> {
     }
     getListInformRepairDetails();
     getInformDetails(widget.informrepair_id!);
+    ViewListInformDetails(widget.informrepair_id!);
   }
 
   @override
@@ -161,298 +173,304 @@ class _ViewResultState extends State<View_NewItem> {
             ]),
       ),
       backgroundColor: Colors.white,
-      body:
-
-          // isDataLoaded == false?
-          // CircularProgressIndicator() : //คือตัวหมนุๆ
-          Padding(
-        padding: const EdgeInsets.fromLTRB(10, 20, 0, 0),
-        child: Center(
-          child: Column(children: [
-            Center(
-              child: Text(
-                "รายละเอียด",
-                style: TextStyle(
-                  color: Color.fromARGB(255, 7, 94, 53),
-                  fontSize: 40,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ),
-            Image.asset(
-              'images/View_Inform.png',
-              // fit: BoxFit.cover,
-              width: 220,
-              alignment: Alignment.center,
-            ),
-            Row(
-              children: [
-                Expanded(
-                  child: Text(
-                    "เลขที่แจ้งซ่อม  :",
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
+      body: isDataLoaded == false
+          ? CircularProgressIndicator()
+          : //คือตัวหมนุๆ
+          SingleChildScrollView(
+              padding: const EdgeInsets.fromLTRB(10, 20, 0, 0),
+              child: Center(
+                child: Column(children: [
+                  Center(
+                    child: Text(
+                      "รายละเอียด",
+                      style: TextStyle(
+                        color: Color.fromARGB(255, 7, 94, 53),
+                        fontSize: 40,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ),
-                ),
-                Expanded(
-                  child: Text(
-                    "${informDetails != null && informDetails.isNotEmpty ? informDetails[0].informRepair?.informrepair_id ?? 'N/A' : 'N/A'}",
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                    ),
+                  Image.asset(
+                    'images/View_Inform.png',
+                    // fit: BoxFit.cover,
+                    width: 220,
+                    alignment: Alignment.center,
                   ),
-                ),
-              ],
-            ),
-            Row(
-              children: [
-                Expanded(
-                  child: Text(
-                    "วันที่แจ้งซ่อม  :",
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-                Expanded(
-                  child: Text(
-                    "${informDetails != null && informDetails.isNotEmpty ? informDetails[0].informRepair?.informdate ?? 'N/A' : 'N/A'}",
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-              ],
-            ),
-            Row(
-              children: [
-                Expanded(
-                  child: Text(
-                    "ประเภทห้องน้ำ   :",
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-                Expanded(
-                  child: Text(
-                    "${informDetails != null && informDetails.isNotEmpty ? informDetails[0].roomEquipment?.room?.roomname ?? 'N/A' : 'N/A'}",
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-              ],
-            ),
-            Row(
-              children: [
-                Expanded(
-                  child: Text(
-                    "อาคาร   :",
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-                Expanded(
-                  child: Text(
-                    // informRepair?.rooms != null
-                    //     ? informRepair!.rooms!
-                    //         .map((room) =>
-                    //             room.building?.buildingname ??
-                    //             'N/A') // ดึงข้อมูลอาคารจากอ็อบเจกต์ Room
-                    //         .join(', ')
-                    //     : 'N/A',
-                    "${informDetails != null && informDetails.isNotEmpty ? informDetails[0].roomEquipment?.room?.building?.buildingname ?? 'N/A' : 'N/A'}",
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-              ],
-            ),
-            Row(
-              children: [
-                Expanded(
-                  child: Text(
-                    "ชั้น   :",
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-                Expanded(
-                  child: Text(
-                    // informRepair?.rooms != null
-                    //     ? informRepair!.rooms!
-                    //         .map((room) =>
-                    //             room.floor ??
-                    //             'N/A') // ดึงประเภทห้องน้ำจากอ็อบเจกต์ Room
-                    //         .join(', ')
-                    //     : 'N/A',
-                    "${informDetails != null && informDetails.isNotEmpty ? informDetails[0].roomEquipment?.room?.floor ?? 'N/A' : 'N/A'}",
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-              ],
-            ),
-            Row(
-              children: [
-                Expanded(
-                  child: Text(
-                    "ตำแหน่ง   :",
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-                Expanded(
-                  child: Text(
-                    // informRepair?.rooms != null
-                    //     ? informRepair!.rooms!
-                    //         .map((room) =>
-                    //             room.position ??
-                    //             'N/A') // ดึงประเภทห้องน้ำจากอ็อบเจกต์ Room
-                    //         .join(', ')
-                    //     : 'N/A',
-                    "${informDetails != null && informDetails.isNotEmpty ? informDetails[0].roomEquipment?.room?.position ?? 'N/A' : 'N/A'}",
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-              ],
-            ),
-            Row(
-              children: [
-                Text(
-                  "อุปกรณ์ชำรุด",
-                  style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ],
-            ),
-            Row(
-              children: [
-                Text(
-                  "-----------------------------------",
-                  style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ],
-            ),
-            Row(
-              children: [
-                Text(
-                  // informRepair?.equipment != null
-                  //     ? informRepair!.equipment!
-                  //         .map((equipment) =>
-                  //             equipment.equipmentname ??
-                  //             'N/A') // ดึงประเภทห้องน้ำจากอ็อบเจกต์ Room
-                  //         .join(', ')
-                  //     : 'N/A',
-                  "",
-                  style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ],
-            ),
-            Row(
-              children: [
-                Expanded(
-                  child: Text(
-                    "รายละเอียด   :",
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-                Expanded(
-                  child: Text(
-                    "informRepair?.informdetails",
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-              ],
-            ),
-            Padding(
-              padding: const EdgeInsets.fromLTRB(0, 20, 0, 0),
-              child: Row(
-                // Button Click
-                children: [
-                  Expanded(
-                    child: ElevatedButton(
-                      onPressed: () async {
-                        Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(builder: (_) => ListInformRepair()),
-                        );
-                      },
-                      style: ElevatedButton.styleFrom(
-                        primary: Color.fromARGB(255, 234, 112, 5),
-                        textStyle: TextStyle(
-                            color: Color.fromARGB(255, 255, 255, 255)),
-                        padding:
-                            EdgeInsets.symmetric(horizontal: 40, vertical: 20),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: Text(
+                          "เลขที่แจ้งซ่อม  :",
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
                       ),
-                      child: Text(
-                        'ย้อนกลับ',
-                        style: TextStyle(
-                            color: Color.fromARGB(255, 255, 255, 255)),
+                      Expanded(
+                        child: Text(
+                          "${informDetails != null && informDetails.isNotEmpty ? informDetails[0].informRepair?.informrepair_id ?? 'N/A' : 'N/A'}",
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
                       ),
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: Text(
+                          "วันที่แจ้งซ่อม  :",
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                      Expanded(
+                        child: Text(
+                          "${informDetails != null && informDetails.isNotEmpty ? informDetails[0].informRepair?.informdate ?? 'N/A' : 'N/A'}",
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: Text(
+                          "ประเภทห้องน้ำ   :",
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                      Expanded(
+                        child: Text(
+                          "${informDetails != null && informDetails.isNotEmpty ? informDetails[0].roomEquipment?.room?.roomname ?? 'N/A' : 'N/A'}",
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: Text(
+                          "อาคาร   :",
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                      Expanded(
+                        child: Text(
+                          // informRepair?.rooms != null
+                          //     ? informRepair!.rooms!
+                          //         .map((room) =>
+                          //             room.building?.buildingname ??
+                          //             'N/A') // ดึงข้อมูลอาคารจากอ็อบเจกต์ Room
+                          //         .join(', ')
+                          //     : 'N/A',
+                          "${informDetails != null && informDetails.isNotEmpty ? informDetails[0].roomEquipment?.room?.building?.buildingname ?? 'N/A' : 'N/A'}",
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: Text(
+                          "ชั้น   :",
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                      Expanded(
+                        child: Text(
+                          // informRepair?.rooms != null
+                          //     ? informRepair!.rooms!
+                          //         .map((room) =>
+                          //             room.floor ??
+                          //             'N/A') // ดึงประเภทห้องน้ำจากอ็อบเจกต์ Room
+                          //         .join(', ')
+                          //     : 'N/A',
+                          "${informDetails != null && informDetails.isNotEmpty ? informDetails[0].roomEquipment?.room?.floor ?? 'N/A' : 'N/A'}",
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: Text(
+                          "ตำแหน่ง   :",
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                      Expanded(
+                        child: Text(
+                          // informRepair?.rooms != null
+                          //     ? informRepair!.rooms!
+                          //         .map((room) =>
+                          //             room.position ??
+                          //             'N/A') // ดึงประเภทห้องน้ำจากอ็อบเจกต์ Room
+                          //         .join(', ')
+                          //     : 'N/A',
+                          "${informDetails != null && informDetails.isNotEmpty ? informDetails[0].roomEquipment?.room?.position ?? 'N/A' : 'N/A'}",
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      Text(
+                        "อุปกรณ์ชำรุด",
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      Text(
+                        "-----------------------------------",
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ],
+                  ),
+                  ListView.builder(
+                    shrinkWrap:
+                        true, // ตั้งค่า shrinkWrap เป็น true เพื่อให้ ListView ย่อเข้าตัวเมื่อมีเนื้อหาน้อย
+                    itemCount: informDetails.length,
+                    itemBuilder: (context, index) {
+                      return Card(
+                          elevation: 5,
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10)),
+                          child: ListTile(
+                              title: Column(
+                                  mainAxisSize: MainAxisSize.max,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                Row(children: [
+                                  Expanded(
+                                    child: Text(
+                                      "อุปกรณ์ :",
+                                      style: const TextStyle(
+                                          fontFamily: 'Itim', fontSize: 22),
+                                    ),
+                                  ),
+                                  Expanded(
+                                    child: Text(
+                                      "${informDetails?[index].roomEquipment?.equipment?.equipmentname}",
+                                      style: const TextStyle(
+                                          fontFamily: 'Itim', fontSize: 22),
+                                    ),
+                                  ),
+                                ]),
+                                Row(children: [
+                                  Expanded(
+                                    child: Text(
+                                      "รายละเอียด :",
+                                      style: const TextStyle(
+                                          fontFamily: 'Itim', fontSize: 22),
+                                    ),
+                                  ),
+                                  Expanded(
+                                    child: Text(
+                                      "${informDetails?[index].details}",
+                                      style: const TextStyle(
+                                          fontFamily: 'Itim', fontSize: 22),
+                                    ),
+                                  ),
+                                ]),
+                              ])));
+                    },
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(0, 20, 0, 0),
+                    child: Row(
+                      // Button Click
+                      children: [
+                        Expanded(
+                          child: ElevatedButton(
+                            onPressed: () async {
+                              Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (_) => ListInformRepair()),
+                              );
+                            },
+                            style: ElevatedButton.styleFrom(
+                              primary: Color.fromARGB(255, 234, 112, 5),
+                              textStyle: TextStyle(
+                                  color: Color.fromARGB(255, 255, 255, 255)),
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: 40, vertical: 20),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                            ),
+                            child: Text(
+                              'ย้อนกลับ',
+                              style: TextStyle(
+                                  color: Color.fromARGB(255, 255, 255, 255)),
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                   ),
-                ],
+                ]),
               ),
             ),
-          ]),
-        ),
-      ),
     ));
   }
 }

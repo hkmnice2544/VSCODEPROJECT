@@ -75,9 +75,22 @@ class InformRepairDetailsController {
     return list;
   }
 
-  Future getviewInformDetailsById(int informdetails_id) async {
+  Future getviewInformDetailsById(int informrepair_id) async {
     var url = Uri.parse(baseURL +
-        '/informrepairdetails/getInformRepairDetails/$informdetails_id');
+        '/informrepairdetails/getInformRepairDetails/$informrepair_id');
+
+    http.Response response = await http.post(url, headers: headers, body: null);
+    print("ข้อมูลที่ได้คือ : " + response.body);
+
+    Map<String, dynamic> jsonMap = json.decode(response.body);
+    InformRepairDetails? informRepair =
+        InformRepairDetails.fromJsonToInformRepairDetails(jsonMap);
+    return informRepair;
+  }
+
+  Future ViewListInformDetails(int informrepair_id) async {
+    var url = Uri.parse(baseURL +
+        '/informrepairdetails/ViewListInformDetails/$informrepair_id');
 
     http.Response response = await http.post(url, headers: headers, body: null);
     print("ข้อมูลที่ได้คือ : " + response.body);
