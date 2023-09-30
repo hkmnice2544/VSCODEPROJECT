@@ -1,45 +1,58 @@
 import 'package:flutter/material.dart';
-import 'package:flutterr/constant/constant_value.dart';
-import 'package:flutterr/controller/informrepair_controller.dart';
 import 'package:flutterr/controller/informrepairdetails_controller.dart';
-import 'package:flutterr/model/informrepair_model.dart';
+import 'package:flutterr/model/InformRepairDetails_Model.dart';
 import 'package:flutterr/screen/User/ListInformRepair/View_NewItem.dart';
-import 'package:http/http.dart' as http;
+import '../../../Model/Report_Model.dart';
+import '../../../controller/informrepair_controller.dart';
+import '../../../model/informrepair_model.dart';
 
 class listNewItem extends StatefulWidget {
-  const listNewItem({Key? key}) : super(key: key);
+  const listNewItem({super.key});
 
   @override
-  _listAllInformRepairsState createState() => _listAllInformRepairsState();
+  State<listNewItem> createState() => NewInform();
 }
 
-class _listAllInformRepairsState extends State<listNewItem> {
+class NewInform extends State<listNewItem> {
+  List<InformRepair>? informrepairs;
+  List<ReportRepair>? reports;
+  bool? isDataLoaded = false;
+  InformRepair? informRepairs;
+  String formattedDate = '';
+  String formattedInformDate = '';
+  String searchQuery = '';
   List<InformRepair>? informRepairList;
-  bool isDataLoaded = false;
+  int? informDetailsID;
 
-  final InformRepairDetailsController informRepairDetailsController =
+  final InformRepairController informrepairController =
+      InformRepairController();
+  final InformRepairController informRepairController =
+      InformRepairController();
+
+  InformRepairDetailsController informRepairDetailsController =
       InformRepairDetailsController();
+  List<InformRepairDetails>? informRepairDetails;
 
-  InformRepairController informRepairController = InformRepairController();
-
-  List<String>? amounts = [];
-  void listAllInformRepair() async {
-    informRepairList = await informRepairController.listAllInformRepairs();
-    for (int i = 0; i < informRepairList!.length; i++) {
-      amounts!.add(await informRepairController
-          .findSumamountById(informRepairList![i].informrepair_id ?? 0));
-    }
-    print("------------${informRepairList![0].informrepair_id}-------------");
-    informRepairList?.sort((a, b) {
-      if (a.informdate == null && b.informdate == null) {
-        return 0;
-      } else if (a.informdate == null) {
-        return 1;
-      } else if (b.informdate == null) {
-        return -1;
-      }
-      return b.informdate!.compareTo(a.informdate!);
+  void listAllInformRepairDetails() async {
+    // เรียกใช้งาน listAllInformRepairDetails และรอข้อมูลเสร็จสมบูรณ์
+    informRepairDetails =
+        (await informRepairDetailsController.listAllInformRepairDetails())
+            .cast<InformRepairDetails>();
+    // อัปเดตสถานะแสดงว่าข้อมูลถูกโหลดแล้ว
+    setState(() {
+      isDataLoaded = true;
     });
+  }
+
+  List<String>? DetailID = [];
+
+  void listAllInformRepair() async {
+    informRepairList = await informrepairController.listAllInformRepairs();
+    for (int i = 0; i < informRepairList!.length; i++) {
+      DetailID?.add(await informrepairController
+          .findInformDetailIDById(informRepairList![i].informrepair_id ?? 0));
+      print("-------informDetailsID-----${DetailID?[i]}-------------");
+    }
     setState(() {
       isDataLoaded = true;
     });
@@ -49,22 +62,41 @@ class _listAllInformRepairsState extends State<listNewItem> {
   void initState() {
     super.initState();
     listAllInformRepair();
+    listAllInformRepairDetails();
+
+    informrepairs?.sort((a, b) {
+      if (a.informdate == null && b.informdate == null) {
+        return 0;
+      } else if (a.informdate == null) {
+        return 1;
+      } else if (b.informdate == null) {
+        return -1;
+      }
+      return b.informdate!.compareTo(a.informdate!);
+    });
+    // formattedInformDate = DateFormat('dd-MM-yyyy')
+    //     .format(informrepairs?[index].informdate); // ใช้ this.formattedInformDate
   }
 
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        backgroundColor: Colors.white,
-        body: isDataLoaded == false
-            ? CircularProgressIndicator()
-            : Container(
-                padding: EdgeInsets.all(10.0),
-                child: ListView.builder(
-                    itemCount: informRepairList?.length,
+          backgroundColor: Colors.white,
+          floatingActionButtonLocation:
+              FloatingActionButtonLocation.centerDocked,
+          body: isDataLoaded == false
+              ? CircularProgressIndicator()
+              : Container(
+                  padding: EdgeInsets.all(10.0),
+                  child: ListView.builder(
+                    itemCount:
+                        informRepairList?.length ?? informRepairList?.length,
+                    scrollDirection: Axis.vertical,
                     itemBuilder: (context, index) {
-                      if (informRepairList?[index].status == "กำลังดำเนินการ" ||
-                          informRepairList?[index].status == "เสร็จสิ้น") {
+                      if (informRepairList?[index].status == "เสร็จสิ้น" ||
+                          informRepairList?[index].status == "กำลังดำเนินการ") {
+                        return Container(); // สร้าง Container ว่างเปล่าเพื่อซ่อนรายการที่มี status เป็น "กำลังดำเนินการ"
                       } else {
                         return Card(
                           elevation: 5,
@@ -74,7 +106,7 @@ class _listAllInformRepairsState extends State<listNewItem> {
                             // leading: Column(
                             //   mainAxisAlignment: MainAxisAlignment.center,
                             //   children: [
-                            //     // Icon(Icons.account_box_rounded,color: Colors.red)
+                            //     Icon(Icons.account_circle, color: Colors.red)
                             //   ],
                             // ),
                             title: Column(
@@ -86,14 +118,14 @@ class _listAllInformRepairsState extends State<listNewItem> {
                                     child: Text(
                                       "เลขที่แจ้งซ่อม",
                                       style: const TextStyle(
-                                          fontFamily: 'Itim', fontSize: 20),
+                                          fontFamily: 'Itim', fontSize: 22),
                                     ),
                                   ),
                                   Expanded(
                                     child: Text(
-                                      " ${informRepairList?[index].informrepair_id}",
+                                      "${informRepairList?[index].informrepair_id}",
                                       style: const TextStyle(
-                                          fontFamily: 'Itim', fontSize: 20),
+                                          fontFamily: 'Itim', fontSize: 22),
                                     ),
                                   ),
                                 ]),
@@ -102,51 +134,36 @@ class _listAllInformRepairsState extends State<listNewItem> {
                                     child: Text(
                                       "วันที่แจ้งซ่อม",
                                       style: const TextStyle(
-                                          fontFamily: 'Itim', fontSize: 20),
+                                          fontFamily: 'Itim', fontSize: 22),
                                     ),
                                   ),
                                   Expanded(
                                     child: Text(
-                                      "${informRepairList?[index].informdate.toString()}",
+                                      "${informRepairList?[index].informdate}",
                                       style: const TextStyle(
-                                          fontFamily: 'Itim', fontSize: 20),
-                                    ),
-                                  ),
-                                ]),
-                                Row(children: [
-                                  Expanded(
-                                    child: Text(
-                                      "จำนวนที่เสียทั้งหมด :",
-                                      style: const TextStyle(
-                                          fontFamily: 'Itim', fontSize: 20),
-                                    ),
-                                  ),
-                                  Expanded(
-                                    child: Text(
-                                      "${amounts![index]}",
-                                      style: const TextStyle(
-                                          fontFamily: 'Itim', fontSize: 20),
+                                          fontFamily: 'Itim', fontSize: 22),
                                     ),
                                   ),
                                 ]),
                                 Row(children: [
                                   Expanded(
                                     child: Text(
-                                      "สถานะ",
+                                      "สถานะ ",
                                       style: const TextStyle(
-                                          fontFamily: 'Itim', fontSize: 20),
+                                          fontFamily: 'Itim', fontSize: 22),
                                     ),
                                   ),
                                   Expanded(
                                     child: Text(
                                       "${informRepairList?[index].status}",
                                       style: const TextStyle(
-                                          fontFamily: 'Itim', fontSize: 20),
+                                          fontFamily: 'Itim', fontSize: 22),
                                     ),
                                   ),
                                 ]),
                               ],
                             ),
+
                             onTap: () {
                               WidgetsBinding.instance!
                                   .addPostFrameCallback((_) {
@@ -163,9 +180,9 @@ class _listAllInformRepairsState extends State<listNewItem> {
                           ),
                         );
                       }
-                    }),
-              ),
-      ),
+                    },
+                  ),
+                )),
     );
   }
 }
