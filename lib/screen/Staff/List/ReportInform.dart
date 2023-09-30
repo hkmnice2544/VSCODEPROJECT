@@ -1,3 +1,4 @@
+import 'dart:ffi';
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
@@ -15,10 +16,10 @@ import '../../User/ListInformRepair/ListInformRepair.dart';
 import 'ListManage.dart';
 
 class ReportInform extends StatefulWidget {
-  final int? informdetails_id;
+  final int? detailId;
   const ReportInform({
     super.key,
-    this.informdetails_id,
+    required this.detailId,
     int? report_id,
   });
 
@@ -72,13 +73,13 @@ class _ReportInformState extends State<ReportInform> {
   @override
   void initState() {
     super.initState();
-    if (widget.informdetails_id != null) {
-      getInformDetailsById(widget.informdetails_id!);
+    if (widget.detailId != null) {
+      getInformDetailsById(widget.detailId! as int);
     }
     DateTime now = DateTime.now();
     formattedDate = DateFormat('yyyy-MM-dd' ' HH:mm:ss.000').format(now);
 
-    print(widget.informdetails_id);
+    print(widget.detailId);
   }
 
   // void _pickImage() {

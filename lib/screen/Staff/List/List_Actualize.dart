@@ -19,6 +19,7 @@ class _MyWidgetState extends State<ListActualize> {
   bool? isDataLoaded = false;
   String formattedDate = '';
   DateTime informdate = DateTime.now();
+  List<int>? DetailID = [];
 
   final InformRepairController informController = InformRepairController();
 
@@ -148,13 +149,12 @@ class _MyWidgetState extends State<ListActualize> {
                             trailing: ElevatedButton(
                               onPressed: () {
                                 Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (_) => ReportInform(
-                                          informdetails_id:
-                                              informrepairs?[index]
-                                                  .informrepair_id),
-                                    ));
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => ReportInform(
+                                        detailId: DetailID![index]),
+                                  ),
+                                );
                               },
                               child: Text('รายงานผล'),
                             ),

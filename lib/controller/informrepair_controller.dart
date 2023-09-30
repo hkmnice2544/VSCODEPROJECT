@@ -43,6 +43,15 @@ class InformRepairController {
     return response.body == "" ? "0" : response.body;
   }
 
+  Future findInformDetailIDById(int? informrepair_id) async {
+    var url = Uri.parse(
+        baseURL + '/informrepairs/findInformDetailIDById/$informrepair_id');
+
+    http.Response response = await http.post(url, headers: headers, body: null);
+    print("ข้อมูลที่ได้คือ findInformDetailIDById : " + response.body);
+    return response.body == "" ? "0" : response.body;
+  }
+
   Future<List<InformRepair>> listAllInformRepairs() async {
     try {
       var url = Uri.parse(baseURL + '/informrepairs/list');

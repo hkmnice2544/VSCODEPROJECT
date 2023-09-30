@@ -23,6 +23,7 @@ class NewInform extends State<listNewInform> {
   String formattedInformDate = '';
   String searchQuery = '';
   List<InformRepair>? informRepairList;
+  int? informDetailsID;
 
   final InformRepairController informrepairController =
       InformRepairController();
@@ -44,14 +45,15 @@ class NewInform extends State<listNewInform> {
     });
   }
 
-  List<String>? amounts = [];
+  List<String>? DetailID = [];
+
   void listAllInformRepair() async {
     informRepairList = await informrepairController.listAllInformRepairs();
     for (int i = 0; i < informRepairList!.length; i++) {
-      amounts!.add(await informrepairController
-          .findSumamountById(informRepairList![i].informrepair_id ?? 0));
+      DetailID?.add(await informrepairController
+          .findInformDetailIDById(informRepairList![i].informrepair_id ?? 0));
+      print("-------informDetailsID-----${DetailID?[i]}-------------");
     }
-    print("------------${informRepairList![0].informrepair_id}-------------");
     setState(() {
       isDataLoaded = true;
     });
@@ -62,6 +64,7 @@ class NewInform extends State<listNewInform> {
     super.initState();
     listAllInformRepair();
     listAllInformRepairDetails();
+
     informrepairs?.sort((a, b) {
       if (a.informdate == null && b.informdate == null) {
         return 0;
@@ -186,13 +189,13 @@ class NewInform extends State<listNewInform> {
                           trailing: ElevatedButton(
                             onPressed: () {
                               Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (_) => ReportInform(
-                                        informdetails_id:
-                                            informRepairList?[index]
-                                                .informrepair_id),
-                                  ));
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => ReportInform(
+                                      detailId:
+                                          int.tryParse(DetailID![index] ?? '')),
+                                ),
+                              );
                             },
                             child: Text('รายงานผล'),
                           ),
