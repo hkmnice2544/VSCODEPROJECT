@@ -190,8 +190,8 @@ class NewInform extends State<listNewInform> {
                                   MaterialPageRoute(
                                     builder: (_) => ReportInform(
                                         informdetails_id:
-                                            informRepairDetails?[index]
-                                                .informdetails_id),
+                                            informRepairList?[index]
+                                                .informrepair_id),
                                   ));
                             },
                             child: Text('รายงานผล'),
