@@ -94,8 +94,13 @@ class Form extends State<InformRepairForm> {
   int user_id = 1001;
 
   Color backgroundColor = Colors.white;
+  // รายละเอียด
   TextEditingController _tapCheckBoxController = TextEditingController();
   TextEditingController _toiletbowlBoxController = TextEditingController();
+
+  // จำนวน
+  TextEditingController _tapCountController = TextEditingController();
+
   String _tapCheckBox = '';
   String _toiletbowlCheckBox = '';
   List<InformRepair>? informrepairs;
@@ -115,7 +120,10 @@ class Form extends State<InformRepairForm> {
   List<String> roompositions = [];
   late final String username;
   String informtype = "ห้องน้ำ";
-  String status = "ยังไม่ได้ดำเนินการ";
+  String statusinform = "ยังไม่ได้ดำเนินการ";
+  String statusinformdetails = "เสีย";
+  String room_id = '';
+  String? informrepair_idvar;
 
   Future<void> fetchRoomNames() async {
     var url = Uri.parse(baseURL + '/rooms/listAllDistinctRoomNames');
@@ -168,7 +176,10 @@ class Form extends State<InformRepairForm> {
     print(
         "getInform ปัจจุบัน : ${informrepairs?[informrepairs!.length - 1].informrepair_id}");
     print(
-        "getInform +1 : ${(informrepairs?[informrepairs!.length - 1]?.informrepair_id ?? 0) + 1}");
+        "getInform +1 : ${(informrepairs?[informrepairs!.length - 1].informrepair_id ?? 0) + 1}");
+    informrepair_idvar =
+        ((informrepairs?[informrepairs!.length - 1].informrepair_id ?? 0) + 1)
+            as String?;
     setState(() {
       isDataLoaded = true;
     });
@@ -367,7 +378,7 @@ class Form extends State<InformRepairForm> {
                         child: Padding(
                           padding: EdgeInsets.fromLTRB(0.0, 0, 5.0, 0), //
                           child: Text(
-                            "${(informrepairs?[informrepairs!.length - 1]?.informrepair_id ?? 0) + 1}",
+                            "${(informrepairs?[informrepairs!.length - 1].informrepair_id ?? 0) + 1}",
                             style: TextStyle(
                               color: Colors.black,
                               fontSize: 20,
@@ -601,11 +612,10 @@ class Form extends State<InformRepairForm> {
                 Row(
                   children: [
                     Checkbox(
-                      value: _tapCheckBox == 'ก๊อกน้ำ',
+                      value: _tapCheckBox == '1001',
                       onChanged: (bool? value) {
                         setState(() {
-                          _tapCheckBox =
-                              value != null && value ? 'ก๊อกน้ำ' : '';
+                          _tapCheckBox = value != null && value ? '1001' : '';
                           print(_tapCheckBox);
                         });
                       },
@@ -623,6 +633,17 @@ class Form extends State<InformRepairForm> {
                     onChanged: (value) {
                       if (_tapCheckBox == "") {
                         _tapCheckBoxController.clear(); // ล้างค่าใน TextField
+                      }
+                    },
+                  ),
+                  TextField(
+                    controller: _tapCountController,
+                    decoration: InputDecoration(
+                      labelText: 'จำนวน',
+                    ),
+                    onChanged: (value) {
+                      if (_tapCheckBox == "") {
+                        _tapCountController.clear(); // ล้างค่าใน TextField
                       }
                     },
                   ),
@@ -655,6 +676,17 @@ class Form extends State<InformRepairForm> {
                       }
                     },
                   ),
+                  TextField(
+                    controller: _toiletbowlBoxController,
+                    decoration: InputDecoration(
+                      labelText: 'รายละเอียด',
+                    ),
+                    onChanged: (value) {
+                      if (_toiletbowlCheckBox == "") {
+                        _toiletbowlBoxController.clear(); // ล้างค่าใน TextField
+                      }
+                    },
+                  ),
                 ],
 
                 Row(// Button Click
@@ -662,24 +694,71 @@ class Form extends State<InformRepairForm> {
                   Expanded(
                     child: ElevatedButton(
                         onPressed: () async {
-                          var response = await informRepairController
-                              .addInformRepair(informtype, status, user_id);
+                          var response =
+                              await informRepairController.addInformRepair(
+                                  informtype, statusinform, user_id);
 
-                          final data = {
-                            'amount': "2",
-                            'details': "สายชำระเสีย",
-                            'informrepair_id':
-                                (informrepairs?[informrepairs!.length - 1]
-                                            ?.informrepair_id ??
-                                        0) +
-                                    1,
-                            'equipment_id': "1002",
-                            'room_id': "101",
-                            'status': status,
-                          };
+                          List<Map<String, String>> dataList = [];
+                          if (roomname == "ห้องน้ำชาย" &&
+                              buildingname == "อาคาร 60 ปี แม่โจ้" &&
+                              roomfloor == "1" &&
+                              roomposition == "ข้างบันได") {
+                            // เพิ่มข้อมูลลงใน dataList ในกรณีที่เงื่อนไขเป็นจริง
+                            dataList.add({
+                              'amount': _tapCountController.text,
+                              'details': _tapCheckBoxController.text,
+                              'informrepair_id':
+                                  ((informrepairs?[informrepairs!.length - 1]
+                                                  .informrepair_id ??
+                                              0) +
+                                          1)
+                                      .toString(),
+                              'equipment_id': _tapCheckBox,
+                              'room_id': "101",
+                              'status': statusinformdetails,
+                            });
+                          }
+                          if (roomname == "ห้องน้ำชาย" &&
+                              buildingname == "อาคาร 60 ปี แม่โจ้" &&
+                              roomfloor == "1" &&
+                              roomposition == "ข้างบันได") {
+                            // เพิ่มข้อมูลลงใน dataList ในกรณีที่เงื่อนไขเป็นจริง
+                            dataList.add({
+                              'amount': _tapCountController.text,
+                              'details': _tapCheckBoxController.text,
+                              'informrepair_id':
+                                  ((informrepairs?[informrepairs!.length - 1]
+                                                  .informrepair_id ??
+                                              0) +
+                                          1)
+                                      .toString(),
+                              'equipment_id': _tapCheckBox,
+                              'room_id': "101",
+                              'status': statusinformdetails,
+                            });
+                          }
+
+                          // if (roomname == "ห้องน้ำชาย" &&
+                          //     buildingname == "อาคาร 60 ปี แม่โจ้" &&
+                          //     roomfloor == "1" &&
+                          //     roomposition == "ข้างบันได") {}
+                          // room_id = "101";
+
+                          // final data = {
+                          //   'amount': _tapCountController.text,
+                          //   'details': _tapCheckBoxController.text,
+                          //   'informrepair_id':
+                          //       (informrepairs?[informrepairs!.length - 1]
+                          //                   .informrepair_id ??
+                          //               0) +
+                          //           1,
+                          //   'equipment_id': _tapCheckBox,
+                          //   'room_id': room_id,
+                          //   'status': statusinformdetails,
+                          // };
 
                           InformRepairDetailsController.saveInformRepairDetails(
-                              [data]);
+                              dataList);
 
                           Navigator.push(
                             context,
