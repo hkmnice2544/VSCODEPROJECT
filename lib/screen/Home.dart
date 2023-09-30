@@ -19,14 +19,17 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   LoginController loginController = LoginController();
-  String? user;
+  int? user;
+  User? users;
   late String storedUsername;
   bool isUsernameLoaded = false;
   bool? isDataLoaded = false;
 
   void getviewInformDetailsById(String username) async {
     user = await loginController.getviewInformDetailsById(username);
+    users = await loginController.getLoginById(user!);
     print("getuser : ${user}");
+    print("getuserfirstname : ${users?.firstname}");
     setState(() {
       isDataLoaded = true;
     });
@@ -86,7 +89,7 @@ class _HomeState extends State<Home> {
                   ),
                 ),
                 Text(
-                  '${user}',
+                  'User',
                   textAlign: TextAlign.center,
                   style: TextStyle(fontSize: 30),
                 ),
@@ -99,13 +102,13 @@ class _HomeState extends State<Home> {
                             color: Colors.red,
                           ),
                           title: Text(
-                            'หัสยา',
+                            '${users?.firstname}',
                             style: TextStyle(fontSize: 20),
                           )),
                     ),
                     Expanded(
                         child: Text(
-                      'ขาวใหม่',
+                      '${users?.lastname}',
                       style: TextStyle(fontSize: 20),
                     )),
                   ],
@@ -116,7 +119,7 @@ class _HomeState extends State<Home> {
                       color: Colors.red,
                     ),
                     title: Text(
-                      'นักศึกษา',
+                      '${users?.usertype}',
                       style: TextStyle(fontSize: 20),
                     )),
                 ListTile(
@@ -134,7 +137,7 @@ class _HomeState extends State<Home> {
                       color: Colors.red,
                     ),
                     title: Text(
-                      '************',
+                      '${users?.password}',
                       style: TextStyle(fontSize: 20),
                     )),
               ],
