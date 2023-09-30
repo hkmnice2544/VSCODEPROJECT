@@ -100,6 +100,7 @@ class Form extends State<InformRepairForm> {
 
   // จำนวน
   TextEditingController _tapCountController = TextEditingController();
+  TextEditingController _toiletbowlCountController = TextEditingController();
 
   String _tapCheckBox = '';
   String _toiletbowlCheckBox = '';
@@ -651,12 +652,11 @@ class Form extends State<InformRepairForm> {
                 Row(
                   children: [
                     Checkbox(
-                      value: _toiletbowlCheckBox == 'โถชักโครก',
+                      value: _toiletbowlCheckBox == '1002',
                       onChanged: (bool? value) {
                         setState(() {
                           _toiletbowlCheckBox =
-                              value != null && value ? 'โถชักโครก' : '';
-                          print(_toiletbowlCheckBox);
+                              value != null && value ? '1002' : '';
                         });
                       },
                     ),
@@ -677,13 +677,14 @@ class Form extends State<InformRepairForm> {
                     },
                   ),
                   TextField(
-                    controller: _toiletbowlBoxController,
+                    controller: _toiletbowlCountController,
                     decoration: InputDecoration(
-                      labelText: 'รายละเอียด',
+                      labelText: 'จำนวน',
                     ),
                     onChanged: (value) {
                       if (_toiletbowlCheckBox == "") {
-                        _toiletbowlBoxController.clear(); // ล้างค่าใน TextField
+                        _toiletbowlCountController
+                            .clear(); // ล้างค่าใน TextField
                       }
                     },
                   ),
@@ -702,7 +703,8 @@ class Form extends State<InformRepairForm> {
                           if (roomname == "ห้องน้ำชาย" &&
                               buildingname == "อาคาร 60 ปี แม่โจ้" &&
                               roomfloor == "1" &&
-                              roomposition == "ข้างบันได") {
+                              roomposition == "ข้างบันได" &&
+                              _tapCheckBox == '1001') {
                             // เพิ่มข้อมูลลงใน dataList ในกรณีที่เงื่อนไขเป็นจริง
                             dataList.add({
                               'amount': _tapCountController.text,
@@ -721,18 +723,19 @@ class Form extends State<InformRepairForm> {
                           if (roomname == "ห้องน้ำชาย" &&
                               buildingname == "อาคาร 60 ปี แม่โจ้" &&
                               roomfloor == "1" &&
-                              roomposition == "ข้างบันได") {
+                              roomposition == "ข้างบันได" &&
+                              _toiletbowlCheckBox == '1002') {
                             // เพิ่มข้อมูลลงใน dataList ในกรณีที่เงื่อนไขเป็นจริง
                             dataList.add({
-                              'amount': _tapCountController.text,
-                              'details': _tapCheckBoxController.text,
+                              'amount': _toiletbowlCountController.text,
+                              'details': _toiletbowlBoxController.text,
                               'informrepair_id':
                                   ((informrepairs?[informrepairs!.length - 1]
                                                   .informrepair_id ??
                                               0) +
                                           1)
                                       .toString(),
-                              'equipment_id': _tapCheckBox,
+                              'equipment_id': _toiletbowlCheckBox,
                               'room_id': "101",
                               'status': statusinformdetails,
                             });
