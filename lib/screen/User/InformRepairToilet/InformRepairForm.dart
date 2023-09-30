@@ -111,6 +111,8 @@ class Form extends State<InformRepairForm> {
   List<String> roomfloors = [];
   List<String> roompositions = [];
   late final String username;
+  String informtype = "ห้องน้ำ";
+  String status = "ยังไม่ได้ดำเนินการ";
 
   Future<void> fetchRoomNames() async {
     var url = Uri.parse(baseURL + '/rooms/listAllDistinctRoomNames');
@@ -656,6 +658,17 @@ class Form extends State<InformRepairForm> {
                   Expanded(
                     child: ElevatedButton(
                         onPressed: () async {
+                          // var response =
+                          //     await informRepairController.addInformRepair(
+                          //   informtype,status,
+                          // );
+                          // Navigator.push(
+                          //   context,
+                          //   MaterialPageRoute(builder: (context) {
+                          //     return Home(username: 'ชื่อผู้ใช้');
+                          //   }),
+                          // );
+
                           // int u = 1001; // User ID
 
                           // // สร้างรายการ ID และรายละเอียดที่มีค่าไม่เป็นว่าง

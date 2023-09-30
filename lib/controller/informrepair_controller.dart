@@ -16,23 +16,23 @@ class InformRepairController {
   Building? building;
   Room? room;
 
-  Future<void> addInformRepair(List<Map<String, String>> data) async {
+  Future addInformRepair(String informtype, String status, int user_id) async {
+    Map data = {
+      // "informdate" : informdate,
+      "informtype": informtype,
+      "status": status,
+      "user_id": user_id
+    };
+
+    var body = json.encode(data);
     var url = Uri.parse('$baseURL/informrepairs/addInformRepair');
-    var headers = {"Content-Type": "application/json"};
 
-    try {
-      http.Response response =
-          await http.post(url, headers: headers, body: jsonEncode(data));
+    http.Response response = await http.post(url, headers: headers, body: body);
+    //print(response.statusCode);
 
-      if (response.statusCode == 200) {
-        var jsonResponse = jsonDecode(response.body);
-        print(jsonResponse);
-      } else {
-        print("เกิดข้อผิดพลาดในการส่งข้อมูล: ${response.statusCode}");
-      }
-    } catch (e) {
-      print("เกิดข้อผิดพลาด: $e");
-    }
+    var jsonResponse = jsonDecode(response.body);
+    print(jsonResponse);
+    // print("addInformRepair: ${informRepair!.informdate}");
   }
 
   Future findSumamountById(int? informrepair_id) async {
