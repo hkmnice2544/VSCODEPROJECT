@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:flutterr/constant/constant_value.dart';
+import 'package:flutterr/controller/informrepairdetails_controller.dart';
 import 'package:flutterr/model/Room_Model.dart';
 import 'package:flutterr/screen/Home.dart';
 import 'package:flutterr/screen/Login.dart';
@@ -67,6 +68,8 @@ class Form extends State<InformRepairForm> {
       TextEditingController();
   TextEditingController informtypeTextController = TextEditingController();
   final InformRepairController informController = InformRepairController();
+  InformRepairDetailsController informRepairDetailsController =
+      InformRepairDetailsController();
 
 //dropdown----------------------------------
 
@@ -661,6 +664,23 @@ class Form extends State<InformRepairForm> {
                         onPressed: () async {
                           var response = await informRepairController
                               .addInformRepair(informtype, status, user_id);
+
+                          final data = {
+                            'amount': "2",
+                            'details': "สายชำระเสีย",
+                            'informrepair_id':
+                                (informrepairs?[informrepairs!.length - 1]
+                                            ?.informrepair_id ??
+                                        0) +
+                                    1,
+                            'equipment_id': "1002",
+                            'room_id': "101",
+                            'status': status,
+                          };
+
+                          InformRepairDetailsController.saveInformRepairDetails(
+                              [data]);
+
                           Navigator.push(
                             context,
                             MaterialPageRoute(builder: (context) {
