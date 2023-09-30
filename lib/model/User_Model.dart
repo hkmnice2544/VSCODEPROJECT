@@ -9,7 +9,7 @@ class User with ChangeNotifier {
   String? password;
   String? mobile;
   User({
-    required this.user_id,
+    this.user_id,
     this.usertype,
     this.firstname,
     this.lastname,
@@ -20,8 +20,8 @@ class User with ChangeNotifier {
 
   factory User.fromJsonToUser(Map<String, dynamic> json) {
     return User(
-      user_id: json[
-          'user_id'], // แปลงเป็น String เนื่องจาก userId เป็น String ในคลาส Flutter
+      user_id: json['user_id']
+          as int, // แปลงเป็น String เนื่องจาก userId เป็น String ในคลาส Flutter
       usertype: json['usertype'] as String,
       firstname: json['firstname'] as String,
       lastname: json['lastname'] as String,

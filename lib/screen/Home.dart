@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:flutterr/controller/login_controller.dart';
+import 'package:flutterr/model/User_Model.dart';
 import 'package:flutterr/screen/Login.dart';
 import 'package:flutterr/screen/User/InformRepairToilet/InformRepairForm.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -16,15 +18,27 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+  LoginController loginController = LoginController();
+  String? user;
   late String storedUsername;
   bool isUsernameLoaded = false;
+  bool? isDataLoaded = false;
+
+  void getviewInformDetailsById(String username) async {
+    user = await loginController.getviewInformDetailsById(username);
+    print("getuser : ${user}");
+    setState(() {
+      isDataLoaded = true;
+    });
+  }
 
   @override
   void initState() {
     super.initState();
     if (!isUsernameLoaded) {
-      loadUsername(); // เรียกเมธอด loadUsername ที่จะโหลดข้อมูล username จาก SharedPreferences ใน initState
-    } // เรียกเมธอด loadUsername ที่จะโหลดข้อมูล username จาก SharedPreferences ใน initState
+      loadUsername();
+    }
+    getviewInformDetailsById(widget.username!);
   }
 
   Future<void> loadUsername() async {
@@ -72,7 +86,7 @@ class _HomeState extends State<Home> {
                   ),
                 ),
                 Text(
-                  'User',
+                  '${user}',
                   textAlign: TextAlign.center,
                   style: TextStyle(fontSize: 30),
                 ),

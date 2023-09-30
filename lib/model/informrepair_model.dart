@@ -1,6 +1,6 @@
 import 'dart:ui';
 
-import 'package:flutterr/model/%E0%B9%8AUser_Model.dart';
+import 'package:flutterr/model/User_Model.dart';
 import 'package:intl/intl.dart';
 
 class InformRepair {
