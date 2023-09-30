@@ -482,7 +482,7 @@ class _ReportInformState extends State<ReportInform> {
                 var response = await reportController.addReport(
                     _dropdownrepairer.toString(),
                     detailsTextController.text,
-                    informRepairDetail!.informdetails_id as int,
+                    widget.detailId as int,
                     _dropdownstatus.toString(),
                     statusroomEquipmentId.toString());
 

@@ -13,6 +13,7 @@ class InformCompleted extends StatefulWidget {
 }
 
 class _MyWidgetState extends State<InformCompleted> {
+  Set<String> uniqueInformRepairIDs = Set<String>();
   List<ReportRepair>? reportRepair;
   bool? isDataLoaded = false;
 
@@ -21,16 +22,19 @@ class _MyWidgetState extends State<InformCompleted> {
   void listAllReportRepair() async {
     reportRepair = await reportController.listAllReportRepairs();
     print({reportRepair?[0].report_id});
-    // print(informRepairs?.defectiveequipment);
+
     reportRepair?.sort((a, b) {
-      if (a.reportdate == null && b.reportdate == null) {
+      DateTime? dateA = a.reportdate;
+      DateTime? dateB = b.reportdate;
+
+      if (dateA == null && dateB == null) {
         return 0;
-      } else if (a.reportdate == null) {
+      } else if (dateA == null) {
         return 1;
-      } else if (b.reportdate == null) {
+      } else if (dateB == null) {
         return -1;
       }
-      return b.reportdate!.compareTo(a.reportdate!);
+      return dateB.compareTo(dateA); // คืนค่าลบถ้า B มากกว่า A
     });
     setState(() {
       isDataLoaded = true;
@@ -41,16 +45,6 @@ class _MyWidgetState extends State<InformCompleted> {
   void initState() {
     super.initState();
     listAllReportRepair();
-    reportRepair?.sort((a, b) {
-      if (a.reportdate == null && b.reportdate == null) {
-        return 0;
-      } else if (a.reportdate == null) {
-        return 1;
-      } else if (b.reportdate == null) {
-        return -1;
-      }
-      return b.reportdate!.compareTo(a.reportdate!);
-    });
   }
 
   @override
@@ -74,7 +68,6 @@ class _MyWidgetState extends State<InformCompleted> {
                               ?.informRepair
                               ?.status ==
                           "กำลังดำเนินการ") {
-                        return Container(); // สร้าง Container ว่างเปล่าเพื่อซ่อนรายการที่มี status เป็น "กำลังดำเนินการ"
                       } else {
                         return Card(
                           elevation: 5,
@@ -134,6 +127,22 @@ class _MyWidgetState extends State<InformCompleted> {
                                   Expanded(
                                     child: Text(
                                       "${reportRepair?[index].enddate}",
+                                      style: const TextStyle(
+                                          fontFamily: 'Itim', fontSize: 20),
+                                    ),
+                                  ),
+                                ]),
+                                Row(children: [
+                                  Expanded(
+                                    child: Text(
+                                      "อุปกรณ์",
+                                      style: const TextStyle(
+                                          fontFamily: 'Itim', fontSize: 20),
+                                    ),
+                                  ),
+                                  Expanded(
+                                    child: Text(
+                                      "${reportRepair?[index].informRepairDetails?.roomEquipment?.equipment?.equipmentname}",
                                       style: const TextStyle(
                                           fontFamily: 'Itim', fontSize: 20),
                                     ),
