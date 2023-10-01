@@ -7,7 +7,7 @@ import 'package:http/http.dart' as http;
 class Report_PicturesController {
   Report_pictures? report_pictures;
 
-  static Future<List<Report_pictures>> saveInform_Pictures(
+  static Future<List<Report_pictures>> saveReport_pictures(
       List<Map<String, dynamic>> dataList) async {
     final url = Uri.parse('$baseURL/report_pictures/addReport_pictures');
 

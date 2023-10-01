@@ -4,13 +4,15 @@ import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:flutterr/controller/informrepairdetails_controller.dart';
+import 'package:flutterr/controller/report_pictures_controller.dart';
 import 'package:flutterr/model/InformRepairDetails_Model.dart';
+import 'package:flutterr/model/Report_pictures_Model.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 
-import '../../../Model/Report_Model.dart';
 import '../../../controller/informrepair_controller.dart';
 import '../../../controller/report_controller.dart';
+import '../../../model/Report_Model.dart';
 import '../../../model/informrepair_model.dart';
 import '../../Home.dart';
 import '../../Login.dart';
@@ -36,9 +38,12 @@ class _ReportInformState extends State<ReportInform> {
       InformRepairController();
   InformRepairDetailsController informRepairDetailsController =
       InformRepairDetailsController();
+  Report_PicturesController report_picturesController =
+      Report_PicturesController();
+
+  ReportController reportController = ReportController();
 
   TextEditingController detailsTextController = TextEditingController();
-  final ReportController reportController = ReportController();
 
   InformRepair? informRepair;
   List<ReportRepair>? reports;
@@ -86,9 +91,22 @@ class _ReportInformState extends State<ReportInform> {
     });
   }
 
+  void listAllReportRepairs() async {
+    reports = await reportController.listAllReportRepairs();
+    print({reports?[0].report_id});
+    print("getreports ปัจจุบัน : ${reports?[reports!.length - 1].report_id}");
+    print(
+        "getreports +1 : ${(reports?[reports!.length - 1].report_id ?? 0) + 1}");
+
+    setState(() {
+      isDataLoaded = true;
+    });
+  }
+
   @override
   void initState() {
     super.initState();
+    listAllReportRepairs();
     if (widget.detailId != null) {
       getInformDetailsById(widget.detailId! as int);
     }
@@ -567,6 +585,24 @@ class _ReportInformState extends State<ReportInform> {
                     widget.detailId as int,
                     _dropdownstatus.toString(),
                     statusroomEquipmentId.toString());
+                final List<Map<String, dynamic>> data = [
+                  {
+                    "pictureUrl": "Nice.jpg",
+                    "reportrepair": {
+                      "report_id":
+                          ((reports?[reports!.length - 1].report_id ?? 0) + 1)
+                    }
+                  },
+                  {
+                    "pictureUrl": "Nice.jpg",
+                    "reportrepair": {
+                      "report_id":
+                          ((reports?[reports!.length - 1].report_id ?? 0) + 1)
+                    }
+                  }
+                ];
+                final List<Report_pictures> savedInformPictures =
+                    await Report_PicturesController.saveReport_pictures(data);
 
                 Navigator.push(
                   context,
