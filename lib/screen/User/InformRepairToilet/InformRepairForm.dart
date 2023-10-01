@@ -1,9 +1,11 @@
 import 'dart:convert';
+import 'dart:io';
 import 'package:flutterr/constant/constant_value.dart';
 import 'package:flutterr/controller/informrepairdetails_controller.dart';
 import 'package:flutterr/model/Room_Model.dart';
 import 'package:flutterr/screen/Home.dart';
 import 'package:flutterr/screen/Login.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:flutter/material.dart';
 import '../../../controller/informrepair_controller.dart';
@@ -139,6 +141,16 @@ class Form extends State<InformRepairForm> {
   String statusinformdetails = "เสีย";
   String room_id = '';
   String? informrepair_idvar;
+  final ImagePicker imagePicker = ImagePicker();
+  List<XFile> imageFileList = [];
+
+  void selectImages() async {
+    final List<XFile>? selectedImages = await imagePicker.pickMultiImage();
+    if (selectedImages != null && selectedImages.isNotEmpty) {
+      imageFileList.addAll(selectedImages);
+    }
+    setState(() {});
+  }
 
   Future<void> fetchRoomNames() async {
     var url = Uri.parse(baseURL + '/rooms/listAllDistinctRoomNames');
@@ -640,6 +652,66 @@ class Form extends State<InformRepairForm> {
                   ],
                 ),
                 if (_tapCheckBox.isNotEmpty) ...[
+                  GridView.builder(
+                    shrinkWrap: true,
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 3, // 3 คอลัมน์
+                    ),
+                    itemCount: imageFileList.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      String fileName = imageFileList[index]
+                          .path
+                          .split('/')
+                          .last; // ดึงชื่อไฟล์จาก path
+                      return Padding(
+                        padding: const EdgeInsets.all(2),
+                        child: Stack(
+                          children: [
+                            Image.file(File(imageFileList[index].path)),
+                            Positioned(
+                              bottom: 0,
+                              left: 0,
+                              right: 79,
+                              child: Container(
+                                color: Colors.black.withOpacity(0.7),
+                                padding: EdgeInsets.all(5.0),
+                                child: Text(
+                                  fileName, // ใช้ชื่อไฟล์แทน
+                                  style: TextStyle(color: Colors.white),
+                                ),
+                              ),
+                            ),
+                            Positioned(
+                              top: 0,
+                              right: 30,
+                              child: IconButton(
+                                icon: Icon(
+                                  Icons.highlight_remove_sharp,
+                                  color: Colors.red,
+                                ),
+                                onPressed: () {
+                                  // ลบรูปออกจาก imageFileList
+                                  setState(() {
+                                    imageFileList.removeAt(index);
+                                  });
+                                },
+                              ),
+                            ),
+                          ],
+                        ),
+                      );
+                    },
+                  ),
+                  MaterialButton(
+                      color: Colors.blue,
+                      child: Text(
+                        "Pick",
+                        style: TextStyle(
+                            color: Colors.white, fontWeight: FontWeight.bold),
+                      ),
+                      onPressed: () {
+                        selectImages();
+                      }),
                   TextField(
                     controller: _tapCheckBoxController,
                     decoration: InputDecoration(
