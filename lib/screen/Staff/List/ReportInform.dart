@@ -3,6 +3,7 @@ import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
+import 'package:flutterr/constant/constant_value.dart';
 import 'package:flutterr/controller/informrepairdetails_controller.dart';
 import 'package:flutterr/controller/report_pictures_controller.dart';
 import 'package:flutterr/model/InformRepairDetails_Model.dart';
@@ -18,6 +19,7 @@ import '../../Home.dart';
 import '../../Login.dart';
 import '../../User/ListInformRepair/ListInformRepair.dart';
 import 'ListManage.dart';
+import 'package:http/http.dart' as http;
 
 class ReportInform extends StatefulWidget {
   final int? detailId;
@@ -76,18 +78,42 @@ class _ReportInformState extends State<ReportInform> {
   List<String> imageFileNames = [];
   int selectedImageCount = 0;
 
-  void selectImages() async {
-    if (selectedImageCount < 3) {
-      // จำกัดให้เลือกรูปได้สูงสุด 2 รูป
-      final List<XFile>? selectedImages = await imagePicker.pickMultiImage();
-      if (selectedImages != null && selectedImages.isNotEmpty) {
-        selectedImageCount +=
-            selectedImages.length; // เพิ่มจำนวนรูปภาพที่ถูกเลือก
-        imageFileList.addAll(selectedImages);
+  List<File> _selectedImages = [];
+
+  Future<void> _selectImages() async {
+    final List<XFile>? selectedImages = await imagePicker.pickMultiImage();
+    if (selectedImages != null && selectedImages.isNotEmpty) {
+      selectedImageCount += selectedImages.length;
+      imageFileList.addAll(selectedImages);
+      // เพิ่มรูปภาพที่เลือกเข้า _selectedImages
+      _selectedImages.addAll(selectedImages.map((image) => File(image.path)));
+    }
+    setState(() {});
+  }
+
+  Future<void> _uploadImages() async {
+    if (_selectedImages.isNotEmpty) {
+      final uri = Uri.parse(baseURL + '/report_pictures/uploadMultiple');
+      final request = http.MultipartRequest('POST', uri);
+
+      for (final image in _selectedImages) {
+        final file = await http.MultipartFile.fromPath(
+          'files',
+          image.path,
+          filename: image.path.split('/').last,
+        );
+        request.files.add(file);
       }
-      setState(() {});
-    } else {
-      // แสดงข้อความหรือแจ้งเตือนว่าเลือกรูปได้สูงสุด 2 รูป
+
+      final response = await request.send();
+
+      if (response.statusCode == 200) {
+        print('รูปภาพถูกอัพโหลดและข้อมูลถูกบันทึกเรียบร้อย');
+        // เพิ่มโค้ดหลังการอัพโหลดสำเร็จ
+      } else {
+        print('เกิดข้อผิดพลาดในการอัพโหลดและบันทึกไฟล์');
+        // เพิ่มโค้ดหลังการอัพโหลดไม่สำเร็จ
+      }
     }
   }
 
@@ -465,7 +491,8 @@ class _ReportInformState extends State<ReportInform> {
                             color: Colors.white, fontWeight: FontWeight.bold),
                       ),
                       onPressed: () {
-                        selectImages();
+                        _selectImages();
+                        _uploadImages();
                         print('imageFileNames----${imageFileNames}');
                       }),
                 ),
@@ -587,6 +614,7 @@ class _ReportInformState extends State<ReportInform> {
                 style: TextStyle(color: Colors.white),
               ),
               onPressed: () async {
+                await _uploadImages();
                 var response = await reportController.addReport(
                     _dropdownrepairer.toString(),
                     detailsTextController.text,
