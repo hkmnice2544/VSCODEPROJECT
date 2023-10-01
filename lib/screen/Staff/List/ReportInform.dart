@@ -74,13 +74,21 @@ class _ReportInformState extends State<ReportInform> {
   final ImagePicker imagePicker = ImagePicker();
   List<XFile> imageFileList = [];
   List<String> imageFileNames = [];
+  int selectedImageCount = 0;
 
   void selectImages() async {
-    final List<XFile>? selectedImages = await imagePicker.pickMultiImage();
-    if (selectedImages != null && selectedImages.isNotEmpty) {
-      imageFileList.addAll(selectedImages);
+    if (selectedImageCount < 3) {
+      // จำกัดให้เลือกรูปได้สูงสุด 2 รูป
+      final List<XFile>? selectedImages = await imagePicker.pickMultiImage();
+      if (selectedImages != null && selectedImages.isNotEmpty) {
+        selectedImageCount +=
+            selectedImages.length; // เพิ่มจำนวนรูปภาพที่ถูกเลือก
+        imageFileList.addAll(selectedImages);
+      }
+      setState(() {});
+    } else {
+      // แสดงข้อความหรือแจ้งเตือนว่าเลือกรูปได้สูงสุด 2 รูป
     }
-    setState(() {});
   }
 
   void getInformDetailsById(int informdetails_id) async {
@@ -585,25 +593,23 @@ class _ReportInformState extends State<ReportInform> {
                     widget.detailId as int,
                     _dropdownstatus.toString(),
                     statusroomEquipmentId.toString());
-                final List<Map<String, dynamic>> data = [
-                  {
-                    "pictureUrl": "Nice.jpg",
-                    "reportrepair": {
-                      "report_id":
-                          ((reports?[reports!.length - 1].report_id ?? 0) + 1)
-                    }
-                  },
-                  {
-                    "pictureUrl": "Nice.jpg",
-                    "reportrepair": {
-                      "report_id":
-                          ((reports?[reports!.length - 1].report_id ?? 0) + 1)
-                    }
+                final List<Map<String, dynamic>> data = [];
+
+                for (final imageName in imageFileNames) {
+                  if (!data.any((item) => item["pictureUrl"] == imageName)) {
+                    data.add({
+                      "pictureUrl": imageName,
+                      "reportrepair": {
+                        "report_id":
+                            ((reports?[reports!.length - 1].report_id ?? 0) +
+                                1),
+                      },
+                    });
                   }
-                ];
+                }
+
                 final List<Report_pictures> savedInformPictures =
                     await Report_PicturesController.saveReport_pictures(data);
-
                 Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) {
