@@ -1,8 +1,10 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:flutterr/constant/constant_value.dart';
+import 'package:flutterr/controller/informrepair_pictures_controller.dart';
 import 'package:flutterr/controller/informrepairdetails_controller.dart';
 import 'package:flutterr/model/Room_Model.dart';
+import 'package:flutterr/model/inform_pictures_model.dart';
 import 'package:flutterr/screen/Home.dart';
 import 'package:flutterr/screen/Login.dart';
 import 'package:image_picker/image_picker.dart';
@@ -72,6 +74,8 @@ class Form extends State<InformRepairForm> {
   final InformRepairController informController = InformRepairController();
   InformRepairDetailsController informRepairDetailsController =
       InformRepairDetailsController();
+  InformRepair_PicturesController informRepair_PicturesController =
+      InformRepair_PicturesController();
 
 //dropdown----------------------------------
 
@@ -143,6 +147,7 @@ class Form extends State<InformRepairForm> {
   String? informrepair_idvar;
   final ImagePicker imagePicker = ImagePicker();
   List<XFile> imageFileList = [];
+  List<String> imageFileNames = [];
 
   void selectImages() async {
     final List<XFile>? selectedImages = await imagePicker.pickMultiImage();
@@ -238,6 +243,7 @@ class Form extends State<InformRepairForm> {
     // fetchListBuilding();
     main();
     print('user_id----${user_id}');
+    print('imageFileNames----${imageFileNames}');
   }
 
   @override
@@ -659,10 +665,9 @@ class Form extends State<InformRepairForm> {
                     ),
                     itemCount: imageFileList.length,
                     itemBuilder: (BuildContext context, int index) {
-                      String fileName = imageFileList[index]
-                          .path
-                          .split('/')
-                          .last; // ดึงชื่อไฟล์จาก path
+                      String fileName =
+                          imageFileList[index].path.split('/').last;
+                      imageFileNames.add(fileName); // เพิ่มชื่อไฟล์ลงใน List
                       return Padding(
                         padding: const EdgeInsets.all(2),
                         child: Stack(
@@ -694,6 +699,11 @@ class Form extends State<InformRepairForm> {
                                   setState(() {
                                     imageFileList.removeAt(index);
                                   });
+                                  // ลบชื่อรูปภาพที่เกี่ยวข้องออกจาก imageFileNames
+                                  String fileNameToRemove =
+                                      imageFileNames[index];
+                                  imageFileNames.removeWhere((fileName) =>
+                                      fileName == fileNameToRemove);
                                 },
                               ),
                             ),
@@ -711,6 +721,7 @@ class Form extends State<InformRepairForm> {
                       ),
                       onPressed: () {
                         selectImages();
+                        print('imageFileNames----${imageFileNames}');
                       }),
                   TextField(
                     controller: _tapCheckBoxController,
@@ -1149,6 +1160,19 @@ class Form extends State<InformRepairForm> {
                           InformRepairDetailsController.saveInformRepairDetails(
                               dataList);
 
+                          final List<Map<String, dynamic>> data = [
+                            {
+                              "pictureUrl": "Nice.jpg",
+                              "informRepairDetails": {"informdetails_id": 1001}
+                            },
+                            {
+                              "pictureUrl": "Nice.jpg",
+                              "informRepairDetails": {"informdetails_id": 1001}
+                            }
+                          ];
+                          final List<Inform_Pictures> savedInformPictures =
+                              await InformRepair_PicturesController
+                                  .saveInform_Pictures(data);
                           Navigator.push(
                             context,
                             MaterialPageRoute(builder: (context) {
