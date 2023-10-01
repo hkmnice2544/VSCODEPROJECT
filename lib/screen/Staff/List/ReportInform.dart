@@ -1,9 +1,11 @@
 import 'dart:ffi';
+import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:flutterr/controller/informrepairdetails_controller.dart';
 import 'package:flutterr/model/InformRepairDetails_Model.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 
 import '../../../Model/Report_Model.dart';
@@ -63,6 +65,18 @@ class _ReportInformState extends State<ReportInform> {
 
   final _repairerList = ["นายอนุวัฒน์ คำเมืองลือ", "นายรชานนท์ พรหมมา"];
   final _statusList = ["กำลังดำเนินการ", "เสร็จสิ้น"];
+
+  final ImagePicker imagePicker = ImagePicker();
+  List<XFile> imageFileList = [];
+  List<String> imageFileNames = [];
+
+  void selectImages() async {
+    final List<XFile>? selectedImages = await imagePicker.pickMultiImage();
+    if (selectedImages != null && selectedImages.isNotEmpty) {
+      imageFileList.addAll(selectedImages);
+    }
+    setState(() {});
+  }
 
   void getInformDetailsById(int informdetails_id) async {
     informRepairDetail = await informRepairDetailsController
@@ -416,8 +430,74 @@ class _ReportInformState extends State<ReportInform> {
                     ),
                   ),
                 ),
+                Expanded(
+                  child: MaterialButton(
+                      color: Color.fromARGB(255, 243, 103, 33),
+                      child: Text(
+                        "อัปโหลดรูปภาพ",
+                        style: TextStyle(
+                            color: Colors.white, fontWeight: FontWeight.bold),
+                      ),
+                      onPressed: () {
+                        selectImages();
+                        print('imageFileNames----${imageFileNames}');
+                      }),
+                ),
               ],
             ),
+            GridView.builder(
+              shrinkWrap: true,
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 3, // 3 คอลัมน์
+              ),
+              itemCount: imageFileList.length,
+              itemBuilder: (BuildContext context, int index) {
+                String fileName = imageFileList[index].path.split('/').last;
+                imageFileNames.add(fileName); // เพิ่มชื่อไฟล์ลงใน List
+                return Padding(
+                  padding: const EdgeInsets.all(2),
+                  child: Stack(
+                    children: [
+                      Image.file(File(imageFileList[index].path)),
+                      Positioned(
+                        bottom: 0,
+                        left: 0,
+                        right: 79,
+                        child: Container(
+                          color: Colors.black.withOpacity(0.7),
+                          padding: EdgeInsets.all(5.0),
+                          child: Text(
+                            fileName, // ใช้ชื่อไฟล์แทน
+                            style: TextStyle(color: Colors.white),
+                          ),
+                        ),
+                      ),
+                      Positioned(
+                        top: 0,
+                        right: 30,
+                        child: IconButton(
+                          icon: Icon(
+                            Icons.highlight_remove_sharp,
+                            color: Colors.red,
+                          ),
+                          onPressed: () {
+                            // ลบรูปออกจาก imageFileList
+                            setState(() {
+                              imageFileList.removeAt(index);
+                            });
+                            // ลบชื่อรูปภาพที่เกี่ยวข้องออกจาก imageFileNames
+                            String fileNameToRemove = imageFileNames[index];
+                            imageFileNames.removeWhere(
+                                (fileName) => fileName == fileNameToRemove);
+                          },
+                        ),
+                      ),
+                    ],
+                  ),
+                );
+              },
+            ),
+
             // ElevatedButton(
             //   onPressed: _pickImage,
             //   child: Text('เลือกรูปภาพ'),
