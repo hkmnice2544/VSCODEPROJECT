@@ -1,26 +1,32 @@
+import 'dart:io';
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:flutterr/constant/constant_value.dart';
+import 'package:flutterr/controller/review_controller.dart';
+import 'package:flutterr/controller/review_pictures_controller.dart';
+import 'package:flutterr/model/Review_Model.dart';
+import 'package:flutterr/model/Review_pictures_Model.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import '../../../controller/report_controller.dart';
-import '../../../controller/review_controller.dart';
 import '../../../model/Report_Model.dart';
-import '../../../model/Review_Model.dart';
 import '../../Home.dart';
 import '../../Login.dart';
 import 'ListInformRepair.dart';
 import 'Rating.dart';
+import 'package:http/http.dart' as http;
 
-class Review extends StatefulWidget {
+class Reviews extends StatefulWidget {
   final int? report_id;
   final int? user;
-  const Review({super.key, this.report_id, this.user});
+  const Reviews({super.key, this.report_id, this.user});
 
   @override
-  State<Review> createState() => _MyWidgetState();
+  State<Reviews> createState() => _MyWidgetState();
 }
 
-class _MyWidgetState extends State<Review> {
+class _MyWidgetState extends State<Reviews> {
   TextEditingController textEditingController = TextEditingController();
   List<Uint8List> imageBytesList = [];
   List<String> imageNames = [];
@@ -28,13 +34,60 @@ class _MyWidgetState extends State<Review> {
   int? _rating;
   String formattedDate = '';
   DateTime informdate = DateTime.now();
-  List<Reviews>? reviews;
-  Reviews? review;
+  List<Review>? reviews;
+  Review? review;
   bool? isDataLoaded = false;
   ReportRepair? reportRepair;
 
   final ReviewController reviewController = ReviewController();
   final ReportController reportController = ReportController();
+
+  final ImagePicker imagePicker = ImagePicker();
+  List<XFile> imageFileList = [];
+  List<String> imageFileNames = [];
+  int selectedImageCount = 0;
+
+  List<File> _selectedImages = [];
+
+  Review_PicturesController review_picturesController =
+      Review_PicturesController();
+
+  Future<void> _selectImages() async {
+    final List<XFile>? selectedImages = await imagePicker.pickMultiImage();
+    if (selectedImages != null && selectedImages.isNotEmpty) {
+      selectedImageCount += selectedImages.length;
+      imageFileList.addAll(selectedImages);
+      // เพิ่มรูปภาพที่เลือกเข้า _selectedImages
+      _selectedImages.addAll(selectedImages.map((image) => File(image.path)));
+    }
+    setState(() {});
+  }
+
+  Future<void> _uploadImages() async {
+    if (_selectedImages.isNotEmpty) {
+      final uri = Uri.parse(baseURL + '/review_pictures/uploadMultiple');
+      final request = http.MultipartRequest('POST', uri);
+
+      for (final image in _selectedImages) {
+        final file = await http.MultipartFile.fromPath(
+          'files',
+          image.path,
+          filename: image.path.split('/').last,
+        );
+        request.files.add(file);
+      }
+
+      final response = await request.send();
+
+      if (response.statusCode == 200) {
+        print('รูปภาพถูกอัพโหลดและข้อมูลถูกบันทึกเรียบร้อย');
+        // เพิ่มโค้ดหลังการอัพโหลดสำเร็จ
+      } else {
+        print('เกิดข้อผิดพลาดในการอัพโหลดและบันทึกไฟล์');
+        // เพิ่มโค้ดหลังการอัพโหลดไม่สำเร็จ
+      }
+    }
+  }
 
   void fetchReview_id() async {
     reviews = await reviewController.listAllReviews();
@@ -316,7 +369,7 @@ class _MyWidgetState extends State<Review> {
                   children: [
                     Expanded(
                       child: Text(
-                        "รูปภาพ  :",
+                        "รูปภาพ   :",
                         style: TextStyle(
                           color: Colors.black,
                           fontSize: 20,
@@ -324,56 +377,74 @@ class _MyWidgetState extends State<Review> {
                         ),
                       ),
                     ),
+                    Expanded(
+                      child: MaterialButton(
+                          color: Color.fromARGB(255, 243, 103, 33),
+                          child: Text(
+                            "อัปโหลดรูปภาพ",
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold),
+                          ),
+                          onPressed: () {
+                            _selectImages();
+                            _uploadImages();
+                            print('imageFileNames----${imageFileNames}');
+                          }),
+                    ),
                   ],
                 ),
-                // ElevatedButton(
-                //   onPressed: _pickImage,
-                //   child: Text('เลือกรูปภาพ'),
-                // ),
-                SizedBox(height: 16.0),
-                SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  child: Row(
-                    children: List.generate(imageBytesList.length, (index) {
-                      final bytes = imageBytesList[index];
-                      final imageName = imageNames[index];
-                      return Padding(
-                        padding: EdgeInsets.only(right: 16.0),
-                        child: Column(
-                          children: [
-                            Stack(
-                              children: [
-                                Image.memory(
-                                  bytes,
-                                  width: 200,
-                                  height: 200,
-                                ),
-                                Positioned(
-                                  top: 8.0,
-                                  right: 8.0,
-                                  child: GestureDetector(
-                                    onTap: () {
-                                      setState(() {
-                                        imageBytesList.removeAt(index);
-                                        imageNames.removeAt(index);
-                                      });
-                                    },
-                                    child: Icon(
-                                      Icons.disabled_by_default_rounded,
-                                      color: Colors.red,
-                                      size: 24.0,
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                            SizedBox(height: 8.0),
-                            Text('ชื่อภาพ: $imageName'),
-                          ],
-                        ),
-                      );
-                    }),
+                GridView.builder(
+                  shrinkWrap: true,
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 3, // 3 คอลัมน์
                   ),
+                  itemCount: imageFileList.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    String fileName = imageFileList[index].path.split('/').last;
+                    imageFileNames.add(fileName); // เพิ่มชื่อไฟล์ลงใน List
+                    return Padding(
+                      padding: const EdgeInsets.all(2),
+                      child: Stack(
+                        children: [
+                          Image.file(File(imageFileList[index].path)),
+                          Positioned(
+                            bottom: 0,
+                            left: 0,
+                            right: 79,
+                            child: Container(
+                              color: Colors.black.withOpacity(0.7),
+                              padding: EdgeInsets.all(5.0),
+                              child: Text(
+                                fileName, // ใช้ชื่อไฟล์แทน
+                                style: TextStyle(color: Colors.white),
+                              ),
+                            ),
+                          ),
+                          Positioned(
+                            top: 0,
+                            right: 30,
+                            child: IconButton(
+                              icon: Icon(
+                                Icons.highlight_remove_sharp,
+                                color: Colors.red,
+                              ),
+                              onPressed: () {
+                                // ลบรูปออกจาก imageFileList
+                                setState(() {
+                                  imageFileList.removeAt(index);
+                                });
+                                // ลบชื่อรูปภาพที่เกี่ยวข้องออกจาก imageFileNames
+                                String fileNameToRemove = imageFileNames[index];
+                                imageFileNames.removeWhere(
+                                    (fileName) => fileName == fileNameToRemove);
+                              },
+                            ),
+                          ),
+                        ],
+                      ),
+                    );
+                  },
                 ),
                 Row(
                   children: [
@@ -421,6 +492,7 @@ class _MyWidgetState extends State<Review> {
             child: FloatingActionButton.extended(
               label: Text("ยืนยัน"),
               onPressed: () async {
+                await _uploadImages();
                 var response = await reviewController.addReview(
                     reviewer,
                     _rating != null
@@ -428,10 +500,29 @@ class _MyWidgetState extends State<Review> {
                         : "", // แปลง _rating เป็น String
                     textEditingController.text,
                     reportRepair?.report_id as int);
+
+                final List<Map<String, dynamic>> data = [];
+
+                for (final imageName in imageFileNames) {
+                  if (!data.any((item) => item["pictureUrl"] == imageName)) {
+                    data.add({
+                      "pictureUrl": imageName,
+                      "review": {
+                        "review_id": ((reviews?.isEmpty ?? true)
+                            ? 10001
+                            : ((reviews?[reviews!.length - 1]?.review_id ?? 0) +
+                                1)),
+                      },
+                    });
+                  }
+                }
+
+                final List<Review_pictures> savedInformPictures =
+                    await Review_PicturesController.saveReview_pictures(data);
                 Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) {
-                    return Home(user: widget.user);
+                    return ListInformRepair(user: widget.user);
                   }),
                 );
               },

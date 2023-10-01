@@ -18,7 +18,7 @@ class ViewResultReview extends StatefulWidget {
 class _ViewResultState extends State<ViewResultReview> {
   final ReviewController reviewController = ReviewController();
 
-  Reviews? review;
+  Review? review;
 
   bool? isDataLoaded = false;
   String formattedDate = '';

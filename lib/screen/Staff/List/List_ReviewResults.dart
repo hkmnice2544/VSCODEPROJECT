@@ -13,7 +13,7 @@ class listReviewResult extends StatefulWidget {
 }
 
 class _listAllInformRepairsState extends State<listReviewResult> {
-  List<Reviews>? reviews;
+  List<Review>? reviews;
   bool? isDataLoaded = false;
   InformRepair? informRepairs;
   String formattedDate = '';

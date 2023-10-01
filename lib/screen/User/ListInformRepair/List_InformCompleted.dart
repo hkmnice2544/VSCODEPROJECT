@@ -172,7 +172,7 @@ class _MyWidgetState extends State<InformCompleted> {
                                 Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                        builder: (_) => Review(
+                                        builder: (_) => Reviews(
                                             report_id: reportRepair?[index]
                                                 .report_id)));
                               },

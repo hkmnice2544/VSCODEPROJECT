@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:intl/intl.dart';
 
-class Reviews {
+class Review {
   int? review_id;
   DateTime? reviewdate;
   String? reviewer;
@@ -10,7 +10,7 @@ class Reviews {
   String? comment;
   int? report_id;
 
-  Reviews({
+  Review({
     required this.review_id,
     this.reviewdate,
     this.reviewer,
@@ -33,7 +33,7 @@ class Reviews {
     }
   }
 
-  factory Reviews.fromJsonToReviews(Map<String, dynamic> json) {
+  factory Review.fromJsonToReviews(Map<String, dynamic> json) {
     final reviewdateString = json["reviewdate"] as String?;
     DateTime? reviewdate;
 
@@ -56,7 +56,7 @@ class Reviews {
         ? int.tryParse(json["report_id"].toString())
         : null;
 
-    return Reviews(
+    return Review(
       review_id: reviewId,
       reviewer: json["reviewer"],
       repairscore: json["repairscore"],

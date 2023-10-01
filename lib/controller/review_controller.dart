@@ -6,7 +6,7 @@ import '../constant/constant_value.dart';
 import '../model/Review_Model.dart';
 
 class ReviewController {
-  Reviews? review;
+  Review? review;
 
   Future addReview(String reviewer, String repairscore, String comment,
       int report_id) async {
@@ -44,23 +44,23 @@ class ReviewController {
 
     String utf8DecodedBody = decodeUtf8(response.body); // แปลง UTF-8
     Map<String, dynamic> jsonMap = json.decode(utf8DecodedBody);
-    Reviews? reviews = Reviews.fromJsonToReviews(jsonMap);
+    Review? reviews = Review.fromJsonToReviews(jsonMap);
     return reviews;
   }
 
-  Future<List<Reviews>> listAllReviews() async {
+  Future<List<Review>> listAllReviews() async {
     var url = Uri.parse(baseURL + '/reviews/list');
 
     http.Response response = await http.post(url, headers: headers);
     print(response.body);
 
-    List<Reviews> list = [];
+    List<Review> list = [];
 
     final utf8body = utf8.decode(response.bodyBytes);
     final jsonList = json.decode(utf8body) as List<dynamic>;
 
     for (final jsonData in jsonList) {
-      final review = Reviews.fromJsonToReviews(jsonData);
+      final review = Review.fromJsonToReviews(jsonData);
       list.add(review);
     }
 
