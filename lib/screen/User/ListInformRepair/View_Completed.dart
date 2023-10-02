@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutterr/constant/constant_value.dart';
+import 'package:flutterr/controller/report_pictures_controller.dart';
+import 'package:flutterr/model/Report_pictures_Model.dart';
 import 'package:intl/intl.dart';
 import '../../../controller/report_controller.dart';
 import '../../../model/Report_Model.dart';
@@ -17,9 +20,11 @@ class ViewCompleted extends StatefulWidget {
 
 class _ViewResultState extends State<ViewCompleted> {
   final ReportController reportController = ReportController();
+  Report_PicturesController report_picturesController =
+      Report_PicturesController();
 
   ReportRepair? reportRepair;
-
+  List<Report_pictures>? report_pictures;
   bool? isDataLoaded = false;
   String formattedDate = '';
   DateTime informdate = DateTime.now();
@@ -32,6 +37,22 @@ class _ViewResultState extends State<ViewCompleted> {
     });
   }
 
+  List<String> report_picture = [];
+
+  void getListReport_pictures(int report_id) async {
+    List<String> nameList = [];
+    report_pictures =
+        await report_picturesController.getListReport_pictures(report_id);
+    for (int i = 0; i < report_pictures!.length; i++) {
+      nameList.add(report_pictures![i].picture_url.toString());
+      print("-------report_picture-----${nameList[i]}-------------");
+    }
+    setState(() {
+      report_picture = nameList;
+      isDataLoaded = true;
+    });
+  }
+
   @override
   void initState() {
     super.initState();
@@ -40,6 +61,7 @@ class _ViewResultState extends State<ViewCompleted> {
     }
     DateTime now = DateTime.now();
     formattedDate = DateFormat('dd-MM-yyyy').format(now);
+    getListReport_pictures(widget.report_id!);
   }
 
   @override
@@ -287,6 +309,24 @@ class _ViewResultState extends State<ViewCompleted> {
                   ),
                 ),
               ],
+            ),
+            Wrap(
+              spacing: 8.0, // ระยะห่างระหว่างรูปภาพในแนวนอน
+              runSpacing: 8.0, // ระยะห่างระหว่างรูปภาพในแนวดิ่ง
+              children: List.generate(
+                report_picture.length,
+                (index) {
+                  return Container(
+                    width: 200,
+                    height: 350,
+                    child: Image.network(
+                      baseURL +
+                          '/report_pictures/image/${report_picture[index]}',
+                      fit: BoxFit.cover,
+                    ),
+                  );
+                },
+              ),
             ),
             Padding(
               padding: const EdgeInsets.fromLTRB(0, 20, 0, 0),

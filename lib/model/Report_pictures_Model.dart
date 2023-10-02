@@ -17,7 +17,7 @@ class Report_pictures {
 
     final inform_Pictures = Report_pictures(
         reportpictures_id: json['reportpictures_id'] as int,
-        picture_url: json['picture_url'],
+        picture_url: json['pictureUrl'],
         reportrepair: reportrepair);
 
     return inform_Pictures;

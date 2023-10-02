@@ -33,4 +33,30 @@ class Report_PicturesController {
       throw Exception('Failed to save savedInform_PicturesList');
     }
   }
+
+  Future getListReport_pictures(int report_id) async {
+    var url = Uri.parse(baseURL + '/report_pictures/list/${report_id}');
+
+    http.Response response = await http.post(url, headers: headers, body: null);
+    print("-------ข้อมูลที่ได้-----${response.body}");
+
+    final utf8body = utf8.decode(response.bodyBytes);
+    List<dynamic> jsonList = json.decode(utf8body);
+
+    List<Report_pictures>? list = await jsonList
+        .map((e) => Report_pictures.fromJsonToReport_pictures(e))
+        .toList();
+    print(
+        "----ได้reportpictures_id----${list[0].picture_url}-----${list[1].reportrepair?.report_id}---------");
+
+    return list;
+  }
+
+  Future findNamePicturesById(String? picture_url) async {
+    var url = Uri.parse(baseURL + '/report_pictures/image/$picture_url');
+
+    http.Response response = await http.post(url, headers: headers, body: null);
+    print("ข้อมูลที่ได้คือ findNamePicturesById : " + response.body);
+    return response.body == "" ? "0" : response.body;
+  }
 }
