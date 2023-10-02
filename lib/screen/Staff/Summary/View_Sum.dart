@@ -368,7 +368,7 @@ class _ViewResultState extends State<View_Sum> {
                 ),
                 Expanded(
                   child: Text(
-                    "${reportRepair?.reportdate}",
+                    "${informDetails != null && informDetails.isNotEmpty ? informDetails[0].informdetails_id ?? 'N/A' : 'N/A'}",
                     style: TextStyle(
                       color: Colors.black,
                       fontSize: 20,
