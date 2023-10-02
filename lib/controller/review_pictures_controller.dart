@@ -32,4 +32,22 @@ class Review_PicturesController {
       throw Exception('Failed to save savedReview_picturesList');
     }
   }
+
+  Future getListReview_pictures(int review_id) async {
+    var url = Uri.parse(baseURL + '/review_pictures/list/${review_id}');
+
+    http.Response response = await http.post(url, headers: headers, body: null);
+    print("-------ข้อมูลที่ได้-----${response.body}");
+
+    final utf8body = utf8.decode(response.bodyBytes);
+    List<dynamic> jsonList = json.decode(utf8body);
+
+    List<Review_pictures>? list = await jsonList
+        .map((e) => Review_pictures.fromJsonToReview_pictures(e))
+        .toList();
+    print(
+        "----ได้Review_pictures----${list[0].picture_url}-----${list[0].review?.review_id}---------");
+
+    return list;
+  }
 }

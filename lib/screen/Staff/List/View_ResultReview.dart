@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutterr/constant/constant_value.dart';
+import 'package:flutterr/controller/review_pictures_controller.dart';
+import 'package:flutterr/model/Review_pictures_Model.dart';
 import '../../../controller/review_controller.dart';
 import '../../../model/Review_Model.dart';
 import '../../Home.dart';
@@ -17,8 +20,11 @@ class ViewResultReview extends StatefulWidget {
 
 class _ViewResultState extends State<ViewResultReview> {
   final ReviewController reviewController = ReviewController();
+  Review_PicturesController review_picturesController =
+      Review_PicturesController();
 
   Review? review;
+  List<Review_pictures>? review_pictures;
 
   bool? isDataLoaded = false;
   String formattedDate = '';
@@ -32,12 +38,29 @@ class _ViewResultState extends State<ViewResultReview> {
     });
   }
 
+  List<String> review_picture = [];
+
+  void getListReview_pictures(int review_id) async {
+    List<String> nameList = [];
+    review_pictures =
+        await review_picturesController.getListReview_pictures(review_id);
+    for (int i = 0; i < review_pictures!.length; i++) {
+      nameList.add(review_pictures![i].picture_url.toString());
+      print("-------review_picture-----${nameList[i]}-------------");
+    }
+    setState(() {
+      review_picture = nameList;
+      isDataLoaded = true;
+    });
+  }
+
   @override
   void initState() {
     super.initState();
     if (widget.review_id != null) {
       getReview(widget.review_id!);
     }
+    getListReview_pictures(widget.review_id!);
   }
 
   @override
@@ -261,6 +284,24 @@ class _ViewResultState extends State<ViewResultReview> {
                   ),
                 ),
               ],
+            ),
+            Wrap(
+              spacing: 8.0, // ระยะห่างระหว่างรูปภาพในแนวนอน
+              runSpacing: 8.0, // ระยะห่างระหว่างรูปภาพในแนวดิ่ง
+              children: List.generate(
+                review_picture.length,
+                (index) {
+                  return Container(
+                    width: 200,
+                    height: 350,
+                    child: Image.network(
+                      baseURL +
+                          '/report_pictures/image/${review_picture[index]}',
+                      fit: BoxFit.cover,
+                    ),
+                  );
+                },
+              ),
             ),
           ]),
         ),

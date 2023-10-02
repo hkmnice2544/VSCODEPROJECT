@@ -17,7 +17,7 @@ class Review_pictures {
 
     final inform_Pictures = Review_pictures(
         reviewpictures_id: json['reviewpictures_id'] as int,
-        picture_url: json['picture_url'],
+        picture_url: json['pictureUrl'],
         review: review);
 
     return inform_Pictures;
