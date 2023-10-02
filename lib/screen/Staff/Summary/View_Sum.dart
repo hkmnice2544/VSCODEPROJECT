@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutterr/controller/informrepairdetails_controller.dart';
 import 'package:flutterr/controller/report_controller.dart';
+import 'package:flutterr/model/InformRepairDetails_Model.dart';
 import 'package:flutterr/model/Report_Model.dart';
 import 'package:flutterr/screen/Staff/Summary/Sammary.dart';
 import 'package:flutterr/screen/User/ListInformRepair/ListInformRepair.dart';
@@ -20,6 +22,8 @@ class View_Sum extends StatefulWidget {
 class _ViewResultState extends State<View_Sum> {
   final InformRepairController informController = InformRepairController();
   final ReportController reportController = ReportController();
+  InformRepairDetailsController informRepairDetailsController =
+      InformRepairDetailsController();
   InformRepair? informRepair;
   List<InformRepair>? informrepairs;
   ReportRepair? reportRepair;
@@ -45,6 +49,20 @@ class _ViewResultState extends State<View_Sum> {
     });
   }
 
+  List<InformRepairDetails> informDetails = [];
+
+  Future getInformDetails(int informrepair_id) async {
+    List<InformRepairDetails> result = await informRepairDetailsController
+        .getInformDetailsById(informrepair_id);
+    for (int i = 0; i < result.length; i++) {
+      informDetails.add(result[i]);
+    }
+    // print("------ส่ง ${informDetails?[0].amount}--------");
+    setState(() {
+      isDataLoaded = true;
+    });
+  }
+
   // void getInform(int informrepair_id) async {
   //   informRepair = await informController.getInform(informrepair_id);
   //   print("getInform : ${informRepair?.informrepair_id}");
@@ -63,6 +81,7 @@ class _ViewResultState extends State<View_Sum> {
     if (widget.informrepair_id != null) {
       getReportRepair(widget.informrepair_id!);
     }
+    getInformDetails(widget.informrepair_id!);
   }
 
   @override
@@ -181,7 +200,7 @@ class _ViewResultState extends State<View_Sum> {
                 ),
                 Expanded(
                   child: Text(
-                    "${informRepair?.informrepair_id}",
+                    "${informDetails != null && informDetails.isNotEmpty ? informDetails[0].informRepair?.informrepair_id ?? 'N/A' : 'N/A'}",
                     style: TextStyle(
                       color: Colors.black,
                       fontSize: 20,
@@ -205,7 +224,7 @@ class _ViewResultState extends State<View_Sum> {
                 ),
                 Expanded(
                   child: Text(
-                    "${informRepair?.informdate}",
+                    "${informDetails != null && informDetails.isNotEmpty ? informDetails[0].informRepair?.informdate ?? 'N/A' : 'N/A'}",
                     style: TextStyle(
                       color: Colors.black,
                       fontSize: 20,
@@ -227,20 +246,16 @@ class _ViewResultState extends State<View_Sum> {
                     ),
                   ),
                 ),
-                // Expanded(
-                //   child: Text(
-                //     informRepair?.equipment?.rooms != null
-                //         ? informRepair!.equipment!.rooms!
-                //             .map((room) => room.roomname!)
-                //             .join(', ')
-                //         : 'N/A',
-                //     style: TextStyle(
-                //       color: Colors.black,
-                //       fontSize: 20,
-                //       fontWeight: FontWeight.bold,
-                //     ),
-                //   ),
-                // ),
+                Expanded(
+                  child: Text(
+                    "${informDetails != null && informDetails.isNotEmpty ? informDetails[0].roomEquipment?.room?.roomname ?? 'N/A' : 'N/A'}",
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
               ],
             ),
             Row(
@@ -255,20 +270,16 @@ class _ViewResultState extends State<View_Sum> {
                     ),
                   ),
                 ),
-                // Expanded(
-                //   child: Text(
-                //     informRepair?.equipment?.rooms != null
-                //         ? informRepair!.equipment!.rooms!
-                //             .map((room) => room.building?.buildingname ?? 'N/A')
-                //             .join(', ')
-                //         : 'N/A',
-                //     style: TextStyle(
-                //       color: Colors.black,
-                //       fontSize: 20,
-                //       fontWeight: FontWeight.bold,
-                //     ),
-                //   ),
-                // ),
+                Expanded(
+                  child: Text(
+                    "${informDetails != null && informDetails.isNotEmpty ? informDetails[0].roomEquipment?.room?.building?.buildingname ?? 'N/A' : 'N/A'}",
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
               ],
             ),
             Row(
@@ -283,20 +294,16 @@ class _ViewResultState extends State<View_Sum> {
                     ),
                   ),
                 ),
-                // Expanded(
-                //   child: Text(
-                //     informRepair?.equipment?.rooms != null
-                //         ? informRepair!.equipment!.rooms!
-                //             .map((room) => room.floor ?? 'N/A')
-                //             .join(', ')
-                //         : 'N/A',
-                //     style: TextStyle(
-                //       color: Colors.black,
-                //       fontSize: 20,
-                //       fontWeight: FontWeight.bold,
-                //     ),
-                //   ),
-                // ),
+                Expanded(
+                  child: Text(
+                    "${informDetails != null && informDetails.isNotEmpty ? informDetails[0].roomEquipment?.room?.floor ?? 'N/A' : 'N/A'}",
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
               ],
             ),
             Row(
@@ -311,20 +318,40 @@ class _ViewResultState extends State<View_Sum> {
                     ),
                   ),
                 ),
-                // Expanded(
-                //   child: Text(
-                //     informRepair?.equipment?.rooms != null
-                //         ? informRepair!.equipment!.rooms!
-                //             .map((room) => room.position ?? 'N/A')
-                //             .join(', ')
-                //         : 'N/A',
-                //     style: TextStyle(
-                //       color: Colors.black,
-                //       fontSize: 20,
-                //       fontWeight: FontWeight.bold,
-                //     ),
-                //   ),
-                // ),
+                Expanded(
+                  child: Text(
+                    "${informDetails != null && informDetails.isNotEmpty ? informDetails[0].roomEquipment?.room?.position ?? 'N/A' : 'N/A'}",
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            Row(
+              children: [
+                Expanded(
+                  child: Text(
+                    "สถานะ   :",
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+                Expanded(
+                  child: Text(
+                    "${informDetails != null && informDetails.isNotEmpty ? informDetails[0].informRepair?.status ?? 'N/A' : 'N/A'}",
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
               ],
             ),
             Row(
@@ -351,30 +378,7 @@ class _ViewResultState extends State<View_Sum> {
                 ),
               ],
             ),
-            Row(
-              children: [
-                Expanded(
-                  child: Text(
-                    "สถานะ   :",
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-                Expanded(
-                  child: Text(
-                    "${informRepair?.status}",
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-              ],
-            ),
+
             Row(
               children: [
                 Expanded(
@@ -399,6 +403,7 @@ class _ViewResultState extends State<View_Sum> {
                 ),
               ],
             ),
+
             Row(
               children: [
                 Text(
@@ -423,6 +428,55 @@ class _ViewResultState extends State<View_Sum> {
                 ),
               ],
             ),
+            ListView.builder(
+              shrinkWrap:
+                  true, // ตั้งค่า shrinkWrap เป็น true เพื่อให้ ListView ย่อเข้าตัวเมื่อมีเนื้อหาน้อย
+              itemCount: informDetails.length,
+              itemBuilder: (context, index) {
+                return Card(
+                    elevation: 5,
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10)),
+                    child: ListTile(
+                        title: Column(
+                            mainAxisSize: MainAxisSize.max,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                          Row(children: [
+                            Expanded(
+                              child: Text(
+                                "อุปกรณ์ :",
+                                style: const TextStyle(
+                                    fontFamily: 'Itim', fontSize: 22),
+                              ),
+                            ),
+                            Expanded(
+                              child: Text(
+                                "${informDetails?[index].roomEquipment?.equipment?.equipmentname}",
+                                style: const TextStyle(
+                                    fontFamily: 'Itim', fontSize: 22),
+                              ),
+                            ),
+                          ]),
+                          Row(children: [
+                            Expanded(
+                              child: Text(
+                                "รายละเอียด :",
+                                style: const TextStyle(
+                                    fontFamily: 'Itim', fontSize: 22),
+                              ),
+                            ),
+                            Expanded(
+                              child: Text(
+                                "${informDetails?[index].details}",
+                                style: const TextStyle(
+                                    fontFamily: 'Itim', fontSize: 22),
+                              ),
+                            ),
+                          ]),
+                        ])));
+              },
+            ),
             // Row(
             //   children: [
             //     Text(
@@ -435,30 +489,7 @@ class _ViewResultState extends State<View_Sum> {
             //     ),
             //   ],
             // ),
-            Row(
-              children: [
-                Expanded(
-                  child: Text(
-                    "รายละเอียด   :",
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-                Expanded(
-                  child: Text(
-                    "informRepair?.informdetails",
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-              ],
-            ),
+
             Padding(
               padding: const EdgeInsets.fromLTRB(0, 20, 0, 0),
               child: Row(
