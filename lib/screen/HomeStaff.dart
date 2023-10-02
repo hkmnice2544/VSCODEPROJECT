@@ -145,7 +145,8 @@ class _HomeStaffState extends State<HomeStaff> {
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
                     Text(
-                      '${users?.firstname} ${users?.lastname}',
+                      "มัลลิกา แซ่ลิ้ม",
+                      // '${users?.firstname} ${users?.lastname}',
                       style: TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.bold,
@@ -153,7 +154,8 @@ class _HomeStaffState extends State<HomeStaff> {
                       ),
                     ),
                     Text(
-                      'ตำแหน่ง : ${users?.usertype}',
+                      "ตำแหน่ง : หัวหน้างานแผนกห้องน้ำ",
+                      // 'ตำแหน่ง : ${users?.usertype}',
                       style: TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.bold,
