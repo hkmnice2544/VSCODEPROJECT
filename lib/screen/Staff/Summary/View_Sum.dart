@@ -50,18 +50,31 @@ class _ViewResultState extends State<View_Sum> {
   }
 
   List<InformRepairDetails> informDetails = [];
-
+  List<ReportRepair> results = [];
   Future getInformDetails(int informrepair_id) async {
     List<InformRepairDetails> result = await informRepairDetailsController
         .getInformDetailsById(informrepair_id);
     for (int i = 0; i < result.length; i++) {
       informDetails.add(result[i]);
     }
-    // print("------ส่ง ${informDetails?[0].amount}--------");
+    results = await reportController.ViewListInformDetails(
+        result[0].informdetails_id!);
+
+    print(
+        "------ส่งresults ${results?[0].informRepairDetails?.informdetails_id}--------");
     setState(() {
       isDataLoaded = true;
     });
   }
+
+  // Future ViewListInformDetails(int informdetails_id) async {
+
+  //   print(
+  //       "------ส่งinformdetails_id ${result[0].informRepairDetails?.informdetails_id}--------");
+  //   setState(() {
+  //     isDataLoaded = true;
+  //   });
+  // }
 
   // void getInform(int informrepair_id) async {
   //   informRepair = await informController.getInform(informrepair_id);
@@ -82,6 +95,9 @@ class _ViewResultState extends State<View_Sum> {
       getReportRepair(widget.informrepair_id!);
     }
     getInformDetails(widget.informrepair_id!);
+    // ViewListInformDetails(1001);
+    print(
+        "informdetailsId---${informDetails != null && informDetails.isNotEmpty ? informDetails[0].informdetails_id ?? 'N/A' : 'N/A'}");
   }
 
   @override
@@ -368,7 +384,7 @@ class _ViewResultState extends State<View_Sum> {
                 ),
                 Expanded(
                   child: Text(
-                    "${informDetails != null && informDetails.isNotEmpty ? informDetails[0].informdetails_id ?? 'N/A' : 'N/A'}",
+                    "${results != null && results.isNotEmpty ? results[0].enddate ?? 'ยังไม่มีข้อมูล' : 'ยังไม่มีข้อมูล'}",
                     style: TextStyle(
                       color: Colors.black,
                       fontSize: 20,
@@ -393,7 +409,7 @@ class _ViewResultState extends State<View_Sum> {
                 ),
                 Expanded(
                   child: Text(
-                    "${reportRepair?.repairer}",
+                    "${results != null && results.isNotEmpty ? results[0].repairer ?? 'ยังไม่มีข้อมูล' : 'ยังไม่มีข้อมูล'}",
                     style: TextStyle(
                       color: Colors.black,
                       fontSize: 20,

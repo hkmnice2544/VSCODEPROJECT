@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutterr/controller/informrepairdetails_controller.dart';
 import 'package:flutterr/model/InformRepairDetails_Model.dart';
 import 'package:flutterr/screen/Staff/List/View_NewInform.dart';
+import 'package:flutterr/screen/User/ListInformRepair/View_Checkstatus.dart';
 import '../../../Model/Report_Model.dart';
 import '../../../controller/informrepair_controller.dart';
 import '../../../model/informrepair_model.dart';
@@ -168,14 +169,14 @@ class NewInform extends State<listCheckStatus> {
                             onTap: () {
                               WidgetsBinding.instance!
                                   .addPostFrameCallback((_) {
-                                // Navigator.pushReplacement(
-                                //   context,
-                                //   MaterialPageRoute(
-                                //       builder: (_) => ViewNewInform(
-                                //           informdetails_id:
-                                //               informRepairDetails?[index]
-                                //                   .informdetails_id)),
-                                // );
+                                Navigator.pushReplacement(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (_) => View_Checkstatus(
+                                          informrepair_id:
+                                              informRepairList?[index]
+                                                  .informrepair_id)),
+                                );
                               });
                             },
                           ),

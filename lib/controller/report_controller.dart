@@ -87,4 +87,18 @@ class ReportController {
 
     return list;
   }
+
+  Future<List<ReportRepair>> ViewListInformDetails(int informdetails_id) async {
+    var url = Uri.parse(
+        baseURL + '/reportrepairs/ViewListInformDetails/$informdetails_id');
+
+    http.Response response = await http.post(url, headers: headers, body: null);
+    print("ข้อมูลที่ได้คือ : " + response.body);
+
+    List<dynamic> jsonList = json.decode(response.body);
+    List<ReportRepair> reportRepairs = jsonList
+        .map((jsonMap) => ReportRepair.fromJsonToReportRepair(jsonMap))
+        .toList();
+    return reportRepairs;
+  }
 }

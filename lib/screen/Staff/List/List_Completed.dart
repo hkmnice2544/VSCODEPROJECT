@@ -8,7 +8,11 @@ import 'ReportInform.dart';
 import 'View_NewInform.dart';
 
 class ListCompleted extends StatefulWidget {
-  const ListCompleted({super.key});
+  final int? user;
+  const ListCompleted({
+    super.key,
+    required this.user,
+  });
 
   @override
   State<ListCompleted> createState() => NewInform();
@@ -40,7 +44,32 @@ class NewInform extends State<ListCompleted> {
         (await informRepairDetailsController.listAllInformRepairDetails())
             .cast<InformRepairDetails>();
     // อัปเดตสถานะแสดงว่าข้อมูลถูกโหลดแล้ว
-    informRepairList?.sort((a, b) {
+    setState(() {
+      isDataLoaded = true;
+    });
+  }
+
+  List<String>? DetailID = [];
+
+  void listAllInformRepair() async {
+    informRepairList = await informrepairController.listAllInformRepairs();
+    for (int i = 0; i < informRepairList!.length; i++) {
+      DetailID?.add(await informrepairController
+          .findInformDetailIDById(informRepairList![i].informrepair_id ?? 0));
+      print("-------informDetailsID-----${DetailID?[i]}-------------");
+    }
+    setState(() {
+      isDataLoaded = true;
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    listAllInformRepair();
+    listAllInformRepairDetails();
+
+    informrepairs?.sort((a, b) {
       if (a.informdate == null && b.informdate == null) {
         return 0;
       } else if (a.informdate == null) {
@@ -50,40 +79,8 @@ class NewInform extends State<ListCompleted> {
       }
       return b.informdate!.compareTo(a.informdate!);
     });
-    setState(() {
-      isDataLoaded = true;
-    });
-  }
-
-  List<String>? DetailID = [];
-
-  // void listAllInformRepair() async {
-  //   informRepairList = await informrepairController.listAllInformRepairs();
-  //   for (int i = 0; i < informRepairList!.length; i++) {
-  //     DetailID?.add(await informrepairController
-  //         .findInformDetailIDById(informRepairList![i].informrepair_id ?? 0));
-  //     print("-------informDetailsID-----${DetailID?[i]}-------------");
-  //     informRepairList?.sort((a, b) {
-  //       if (a.informdate == null && b.informdate == null) {
-  //         return 0;
-  //       } else if (a.informdate == null) {
-  //         return 1;
-  //       } else if (b.informdate == null) {
-  //         return -1;
-  //       }
-  //       return b.informdate!.compareTo(a.informdate!);
-  //     });
-  //   }
-  //   setState(() {
-  //     isDataLoaded = true;
-  //   });
-  // }
-
-  @override
-  void initState() {
-    super.initState();
-    // listAllInformRepair();
-    listAllInformRepairDetails();
+    // formattedInformDate = DateFormat('dd-MM-yyyy')
+    //     .format(informrepairs?[index].informdate); // ใช้ this.formattedInformDate
   }
 
   @override
@@ -201,9 +198,9 @@ class NewInform extends State<ListCompleted> {
                                 context,
                                 MaterialPageRoute(
                                     builder: (_) => ViewNewInform(
-                                        informdetails_id:
-                                            informRepairDetails?[index]
-                                                .informdetails_id)),
+                                        informrepair_id:
+                                            informRepairList?[index]
+                                                .informrepair_id)),
                               );
                             });
                           },

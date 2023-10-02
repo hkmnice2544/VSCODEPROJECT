@@ -137,7 +137,7 @@ class _ListManageState extends State<ListManage> {
           body: TabBarView(children: [
             listNewInform(user: widget.user),
             ListActualize(user: widget.user),
-            ListCompleted(),
+            ListCompleted(user: widget.user),
             listReviewResult(),
           ]),
         ),

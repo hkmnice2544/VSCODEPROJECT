@@ -1,23 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:flutterr/controller/informrepairdetails_controller.dart';
 import 'package:flutterr/model/InformRepairDetails_Model.dart';
-import 'package:flutterr/screen/Staff/List/ListManage.dart';
-import 'package:flutterr/screen/User/ListInformRepair/ListInformRepair.dart';
 import '../../../controller/informrepair_controller.dart';
 import '../../../model/informrepair_model.dart';
 import '../../Home.dart';
 import '../../Login.dart';
+import 'ListInformRepair.dart';
 
-class ViewNewInform extends StatefulWidget {
+class View_Checkstatus extends StatefulWidget {
   final int? informrepair_id;
   final int? user;
-  const ViewNewInform({super.key, this.informrepair_id, this.user});
+  const View_Checkstatus({super.key, this.informrepair_id, this.user});
 
   @override
-  State<ViewNewInform> createState() => _ViewResultState();
+  State<View_Checkstatus> createState() => _ViewResultState();
 }
 
-class _ViewResultState extends State<ViewNewInform> {
+class _ViewResultState extends State<View_Checkstatus> {
   final InformRepairController informController = InformRepairController();
   InformRepairDetailsController informRepairDetailsController =
       InformRepairDetailsController();
@@ -109,9 +108,9 @@ class _ViewResultState extends State<ViewNewInform> {
         leading: IconButton(
           icon: Icon(Icons.arrow_back),
           onPressed: () {
-            // Navigator.push(context, MaterialPageRoute(builder: (context) {
-            //   return ListInformRepair();
-            // }));
+            Navigator.push(context, MaterialPageRoute(builder: (context) {
+              return ListInformRepair();
+            }));
           },
         ),
       ),
@@ -443,7 +442,8 @@ class _ViewResultState extends State<ViewNewInform> {
                             onPressed: () async {
                               Navigator.pushReplacement(
                                 context,
-                                MaterialPageRoute(builder: (_) => ListManage()),
+                                MaterialPageRoute(
+                                    builder: (_) => ListInformRepair()),
                               );
                             },
                             style: ElevatedButton.styleFrom(

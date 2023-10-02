@@ -67,7 +67,7 @@ class _MyWidgetState extends State<InformCompleted> {
                               .informRepairDetails
                               ?.informRepair
                               ?.status ==
-                          "กำลังดำเนินการ") {
+                          "") {
                       } else {
                         return Card(
                           elevation: 5,

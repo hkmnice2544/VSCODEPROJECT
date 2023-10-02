@@ -220,7 +220,7 @@ class Form extends State<InformRepairForm> {
   void listAllInformRepairDetails() async {
     informdetails =
         await informRepairDetailsController.listAllInformRepairDetails();
-    print({informdetails?[0].informdetails_id});
+    // print({informdetails?[0].informdetails_id});
     print(
         "getinformdetails_id ปัจจุบัน : ${informdetails?[informdetails!.length - 1].informdetails_id}");
     print(
@@ -252,13 +252,13 @@ class Form extends State<InformRepairForm> {
     fetchRoomNames();
     fetchRoomfloors();
     fetchRoompositions();
-    listAllInformRepairDetails();
+    // listAllInformRepairDetails();
     DateTime now = DateTime.now();
     formattedDate = DateFormat('dd-MM-yyyy').format(now);
     // fetchListBuilding();
     main();
-    print('user_id----${user_id}');
-    print('imageFileNames----${imageFileNames}');
+    // print('user_id----${user_id}');
+    // print('imageFileNames----${imageFileNames}');
   }
 
   @override
@@ -673,71 +673,71 @@ class Form extends State<InformRepairForm> {
                   ],
                 ),
                 if (_tapCheckBox.isNotEmpty) ...[
-                  GridView.builder(
-                    shrinkWrap: true,
-                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 3, // 3 คอลัมน์
-                    ),
-                    itemCount: imageFileList.length,
-                    itemBuilder: (BuildContext context, int index) {
-                      String fileName =
-                          imageFileList[index].path.split('/').last;
-                      imageFileNames.add(fileName); // เพิ่มชื่อไฟล์ลงใน List
-                      return Padding(
-                        padding: const EdgeInsets.all(2),
-                        child: Stack(
-                          children: [
-                            Image.file(File(imageFileList[index].path)),
-                            Positioned(
-                              bottom: 0,
-                              left: 0,
-                              right: 79,
-                              child: Container(
-                                color: Colors.black.withOpacity(0.7),
-                                padding: EdgeInsets.all(5.0),
-                                child: Text(
-                                  fileName, // ใช้ชื่อไฟล์แทน
-                                  style: TextStyle(color: Colors.white),
-                                ),
-                              ),
-                            ),
-                            Positioned(
-                              top: 0,
-                              right: 30,
-                              child: IconButton(
-                                icon: Icon(
-                                  Icons.highlight_remove_sharp,
-                                  color: Colors.red,
-                                ),
-                                onPressed: () {
-                                  // ลบรูปออกจาก imageFileList
-                                  setState(() {
-                                    imageFileList.removeAt(index);
-                                  });
-                                  // ลบชื่อรูปภาพที่เกี่ยวข้องออกจาก imageFileNames
-                                  String fileNameToRemove =
-                                      imageFileNames[index];
-                                  imageFileNames.removeWhere((fileName) =>
-                                      fileName == fileNameToRemove);
-                                },
-                              ),
-                            ),
-                          ],
-                        ),
-                      );
-                    },
-                  ),
-                  MaterialButton(
-                      color: Colors.blue,
-                      child: Text(
-                        "Pick",
-                        style: TextStyle(
-                            color: Colors.white, fontWeight: FontWeight.bold),
-                      ),
-                      onPressed: () {
-                        selectImages();
-                        print('imageFileNames----${imageFileNames}');
-                      }),
+                  // GridView.builder(
+                  //   shrinkWrap: true,
+                  //   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  //     crossAxisCount: 3, // 3 คอลัมน์
+                  //   ),
+                  //   itemCount: imageFileList.length,
+                  //   itemBuilder: (BuildContext context, int index) {
+                  //     String fileName =
+                  //         imageFileList[index].path.split('/').last;
+                  //     imageFileNames.add(fileName); // เพิ่มชื่อไฟล์ลงใน List
+                  //     return Padding(
+                  //       padding: const EdgeInsets.all(2),
+                  //       child: Stack(
+                  //         children: [
+                  //           Image.file(File(imageFileList[index].path)),
+                  //           Positioned(
+                  //             bottom: 0,
+                  //             left: 0,
+                  //             right: 79,
+                  //             child: Container(
+                  //               color: Colors.black.withOpacity(0.7),
+                  //               padding: EdgeInsets.all(5.0),
+                  //               child: Text(
+                  //                 fileName, // ใช้ชื่อไฟล์แทน
+                  //                 style: TextStyle(color: Colors.white),
+                  //               ),
+                  //             ),
+                  //           ),
+                  //           Positioned(
+                  //             top: 0,
+                  //             right: 30,
+                  //             child: IconButton(
+                  //               icon: Icon(
+                  //                 Icons.highlight_remove_sharp,
+                  //                 color: Colors.red,
+                  //               ),
+                  //               onPressed: () {
+                  //                 // ลบรูปออกจาก imageFileList
+                  //                 setState(() {
+                  //                   imageFileList.removeAt(index);
+                  //                 });
+                  //                 // ลบชื่อรูปภาพที่เกี่ยวข้องออกจาก imageFileNames
+                  //                 String fileNameToRemove =
+                  //                     imageFileNames[index];
+                  //                 imageFileNames.removeWhere((fileName) =>
+                  //                     fileName == fileNameToRemove);
+                  //               },
+                  //             ),
+                  //           ),
+                  //         ],
+                  //       ),
+                  //     );
+                  //   },
+                  // ),
+                  // MaterialButton(
+                  //     color: Colors.blue,
+                  //     child: Text(
+                  //       "Pick",
+                  //       style: TextStyle(
+                  //           color: Colors.white, fontWeight: FontWeight.bold),
+                  //     ),
+                  //     onPressed: () {
+                  //       selectImages();
+                  //       print('imageFileNames----${imageFileNames}');
+                  //     }),
                   TextField(
                     controller: _tapCheckBoxController,
                     decoration: InputDecoration(
@@ -982,7 +982,19 @@ class Form extends State<InformRepairForm> {
                                 buildingname == "อาคาร 60 ปี แม่โจ้" &&
                                 roomfloor == "1" &&
                                 roomposition == "ข้างบันได" &&
-                                equipmentId.isNotEmpty) {
+                                equipmentId.isNotEmpty)
+                              print(
+                                  "-------dataList---countController---${countController.text}--------------");
+                            print(
+                                "-------dataList--detailsController----${detailsController.text}--------------");
+                            print(
+                                "-------dataList---informrepairs---${((informrepairs?[informrepairs!.length - 1].informrepair_id ?? 0) + 1).toString()}--------------");
+                            print(
+                                "-------dataList--equipmentId----${equipmentId}--------------");
+                            print(
+                                "-------dataList---statusinformdetails---${statusinformdetails}--------------");
+
+                            {
                               dataList.add({
                                 'amount': countController.text,
                                 'details': detailsController.text,
@@ -1033,27 +1045,27 @@ class Form extends State<InformRepairForm> {
                           InformRepairDetailsController.saveInformRepairDetails(
                               dataList);
 
-                          final List<Map<String, dynamic>> data = [];
-                          for (final imageName in imageFileNames) {
-                            if (!data.any(
-                                (item) => item["pictureUrl"] == imageName)) {
-                              data.add({
-                                "pictureUrl": imageName,
-                                "informRepairDetails": {
-                                  "informdetails_id": 1003,
-                                  // ((informdetails?[
-                                  //                 informdetails!.length - 1]
-                                  //             .informdetails_id ??
-                                  //         0) +
-                                  //     1),
-                                },
-                              });
-                            }
-                          }
+                          // final List<Map<String, dynamic>> data = [];
+                          // for (final imageName in imageFileNames) {
+                          //   if (!data.any(
+                          //       (item) => item["pictureUrl"] == imageName)) {
+                          //     data.add({
+                          //       "pictureUrl": imageName,
+                          //       "informRepairDetails": {
+                          //         "informdetails_id": 10001,
+                          // ((informdetails?[
+                          //                 informdetails!.length - 1]
+                          //             .informdetails_id ??
+                          //         0) +
+                          //     1),
+                          //       },
+                          //     });
+                          //   }
+                          // }
 
-                          final List<Inform_Pictures> saveInform_Pictures =
-                              await InformRepair_PicturesController
-                                  .saveInform_Pictures(data);
+                          // final List<Inform_Pictures> saveInform_Pictures =
+                          //     await InformRepair_PicturesController
+                          //         .saveInform_Pictures(data);
                           Navigator.push(
                             context,
                             MaterialPageRoute(builder: (context) {
@@ -1136,12 +1148,10 @@ class Form extends State<InformRepairForm> {
                   Expanded(
                     child: ElevatedButton(
                         onPressed: () async {
-                          // Navigator.push(context,
-                          //     MaterialPageRoute(builder: (context) {
-                          //   return Home(username: widget.username);
-                          // }));
-
-                          // Navigator.pushNamed(context, '/one');
+                          Navigator.push(context,
+                              MaterialPageRoute(builder: (context) {
+                            return Home(user: widget.user);
+                          }));
                         },
                         style: ElevatedButton.styleFrom(
                           primary: Color.fromARGB(
