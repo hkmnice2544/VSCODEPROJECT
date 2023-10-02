@@ -13,6 +13,7 @@ import 'package:flutter/material.dart';
 import '../../../controller/informrepair_controller.dart';
 import 'package:intl/intl.dart';
 import '../../../model/Building_Model.dart';
+import '../../../model/InformRepairDetails_Model.dart';
 import '../../../model/informrepair_model.dart';
 import 'package:http/http.dart' as http;
 
@@ -125,6 +126,7 @@ class Form extends State<InformRepairForm> {
   String _lightbulbCheckBox = '';
 
   List<InformRepair>? informrepairs;
+  List<InformRepairDetails>? informdetails;
   bool? isDataLoaded = false;
   InformRepair? informRepairs;
   InformRepair? informRepair;
@@ -209,9 +211,21 @@ class Form extends State<InformRepairForm> {
         "getInform ปัจจุบัน : ${informrepairs?[informrepairs!.length - 1].informrepair_id}");
     print(
         "getInform +1 : ${(informrepairs?[informrepairs!.length - 1].informrepair_id ?? 0) + 1}");
-    informrepair_idvar =
-        ((informrepairs?[informrepairs!.length - 1].informrepair_id ?? 0) + 1)
-            as String?;
+
+    setState(() {
+      isDataLoaded = true;
+    });
+  }
+
+  void listAllInformRepairDetails() async {
+    informdetails =
+        await informRepairDetailsController.listAllInformRepairDetails();
+    print({informdetails?[0].informdetails_id});
+    print(
+        "getinformdetails_id ปัจจุบัน : ${informdetails?[informdetails!.length - 1].informdetails_id}");
+    print(
+        "getinformdetails_id +1 : ${(informdetails?[informdetails!.length - 1].informdetails_id ?? 0) + 1}");
+
     setState(() {
       isDataLoaded = true;
     });
@@ -238,6 +252,7 @@ class Form extends State<InformRepairForm> {
     fetchRoomNames();
     fetchRoomfloors();
     fetchRoompositions();
+    listAllInformRepairDetails();
     DateTime now = DateTime.now();
     formattedDate = DateFormat('dd-MM-yyyy').format(now);
     // fetchListBuilding();
@@ -958,148 +973,6 @@ class Form extends State<InformRepairForm> {
                                   informtype, statusinform, user_id);
 
                           List<Map<String, String>> dataList = [];
-                          // if (roomname == "ห้องน้ำชาย" &&
-                          //     buildingname == "อาคาร 60 ปี แม่โจ้" &&
-                          //     roomfloor == "1" &&
-                          //     roomposition == "ข้างบันได" &&
-                          //     _tapCheckBox == '1001') {
-                          //   // เพิ่มข้อมูลลงใน dataList ในกรณีที่เงื่อนไขเป็นจริง
-                          //   dataList.add({
-                          //     'amount': _tapCountController.text,
-                          //     'details': _tapCheckBoxController.text,
-                          //     'informrepair_id':
-                          //         ((informrepairs?[informrepairs!.length - 1]
-                          //                         .informrepair_id ??
-                          //                     0) +
-                          //                 1)
-                          //             .toString(),
-                          //     'equipment_id': _tapCheckBox,
-                          //     'room_id': "101",
-                          //     'status': statusinformdetails,
-                          //   });
-                          // }
-                          // if (roomname == "ห้องน้ำชาย" &&
-                          //     buildingname == "อาคาร 60 ปี แม่โจ้" &&
-                          //     roomfloor == "1" &&
-                          //     roomposition == "ข้างบันได" &&
-                          //     _toiletbowlCheckBox == '1002') {
-                          //   // เพิ่มข้อมูลลงใน dataList ในกรณีที่เงื่อนไขเป็นจริง
-                          //   dataList.add({
-                          //     'amount': _toiletbowlCountController.text,
-                          //     'details': _toiletbowlBoxController.text,
-                          //     'informrepair_id':
-                          //         ((informrepairs?[informrepairs!.length - 1]
-                          //                         .informrepair_id ??
-                          //                     0) +
-                          //                 1)
-                          //             .toString(),
-                          //     'equipment_id': _toiletbowlCheckBox,
-                          //     'room_id': "101",
-                          //     'status': statusinformdetails,
-                          //   });
-                          // }
-                          // if (roomname == "ห้องน้ำชาย" &&
-                          //     buildingname == "อาคาร 60 ปี แม่โจ้" &&
-                          //     roomfloor == "1" &&
-                          //     roomposition == "ข้างบันได" &&
-                          //     _bidetCheckBox == '1003') {
-                          //   // เพิ่มข้อมูลลงใน dataList ในกรณีที่เงื่อนไขเป็นจริง
-                          //   dataList.add({
-                          //     'amount': _bidetCheckCountController.text,
-                          //     'details': _bidetCheckBoxController.text,
-                          //     'informrepair_id':
-                          //         ((informrepairs?[informrepairs!.length - 1]
-                          //                         .informrepair_id ??
-                          //                     0) +
-                          //                 1)
-                          //             .toString(),
-                          //     'equipment_id': _bidetCheckBox,
-                          //     'room_id': "101",
-                          //     'status': statusinformdetails,
-                          //   });
-                          // }
-                          // if (roomname == "ห้องน้ำชาย" &&
-                          //     buildingname == "อาคาร 60 ปี แม่โจ้" &&
-                          //     roomfloor == "1" &&
-                          //     roomposition == "ข้างบันได" &&
-                          //     _urinalCheckBox == '1004') {
-                          //   // เพิ่มข้อมูลลงใน dataList ในกรณีที่เงื่อนไขเป็นจริง
-                          //   dataList.add({
-                          //     'amount': _urinalCheckCountController.text,
-                          //     'details': _urinalCheckBoxController.text,
-                          //     'informrepair_id':
-                          //         ((informrepairs?[informrepairs!.length - 1]
-                          //                         .informrepair_id ??
-                          //                     0) +
-                          //                 1)
-                          //             .toString(),
-                          //     'equipment_id': _urinalCheckBox,
-                          //     'room_id': "101",
-                          //     'status': statusinformdetails,
-                          //   });
-                          // }
-                          // if (roomname == "ห้องน้ำชาย" &&
-                          //     buildingname == "อาคาร 60 ปี แม่โจ้" &&
-                          //     roomfloor == "1" &&
-                          //     roomposition == "ข้างบันได" &&
-                          //     _sinkCheckBox == '1005') {
-                          //   // เพิ่มข้อมูลลงใน dataList ในกรณีที่เงื่อนไขเป็นจริง
-                          //   dataList.add({
-                          //     'amount': _sinkCheckCountController.text,
-                          //     'details': _sinkCheckBoxController.text,
-                          //     'informrepair_id':
-                          //         ((informrepairs?[informrepairs!.length - 1]
-                          //                         .informrepair_id ??
-                          //                     0) +
-                          //                 1)
-                          //             .toString(),
-                          //     'equipment_id': _sinkCheckBox,
-                          //     'room_id': "101",
-                          //     'status': statusinformdetails,
-                          //   });
-                          // }
-                          // if (roomname == "ห้องน้ำชาย" &&
-                          //     buildingname == "อาคาร 60 ปี แม่โจ้" &&
-                          //     roomfloor == "1" &&
-                          //     roomposition == "ข้างบันได" &&
-                          //     _lightbulbCheckBox == '1006') {
-                          //   // เพิ่มข้อมูลลงใน dataList ในกรณีที่เงื่อนไขเป็นจริง
-                          //   dataList.add({
-                          //     'amount': _lightbulbCheckCountController.text,
-                          //     'details': _lightbulbCheckBoxController.text,
-                          //     'informrepair_id':
-                          //         ((informrepairs?[informrepairs!.length - 1]
-                          //                         .informrepair_id ??
-                          //                     0) +
-                          //                 1)
-                          //             .toString(),
-                          //     'equipment_id': _lightbulbCheckBox,
-                          //     'room_id': "101",
-                          //     'status': statusinformdetails,
-                          //   });
-                          // }
-
-                          // if (roomname == "ห้องน้ำชาย" &&
-                          //     buildingname == "อาคาร 60 ปี แม่โจ้" &&
-                          //     roomfloor == "1" &&
-                          //     roomposition == "ข้างบันได") {}
-                          // room_id = "101";
-
-                          // final data = {
-                          //   'amount': _tapCountController.text,
-                          //   'details': _tapCheckBoxController.text,
-                          //   'informrepair_id':
-                          //       (informrepairs?[informrepairs!.length - 1]
-                          //                   .informrepair_id ??
-                          //               0) +
-                          //           1,
-                          //   'equipment_id': _tapCheckBox,
-                          //   'room_id': room_id,
-                          //   'status': statusinformdetails,
-                          // };
-
-                          // InformRepairDetailsController.saveInformRepairDetails(
-                          //     dataList);
 
                           void addToDataList(
                               String equipmentId,
@@ -1160,17 +1033,25 @@ class Form extends State<InformRepairForm> {
                           InformRepairDetailsController.saveInformRepairDetails(
                               dataList);
 
-                          final List<Map<String, dynamic>> data = [
-                            {
-                              "pictureUrl": "Nice.jpg",
-                              "informRepairDetails": {"informdetails_id": 1001}
-                            },
-                            {
-                              "pictureUrl": "Nice.jpg",
-                              "informRepairDetails": {"informdetails_id": 1001}
+                          final List<Map<String, dynamic>> data = [];
+                          for (final imageName in imageFileNames) {
+                            if (!data.any(
+                                (item) => item["pictureUrl"] == imageName)) {
+                              data.add({
+                                "pictureUrl": imageName,
+                                "informRepairDetails": {
+                                  "informdetails_id": 1003,
+                                  // ((informdetails?[
+                                  //                 informdetails!.length - 1]
+                                  //             .informdetails_id ??
+                                  //         0) +
+                                  //     1),
+                                },
+                              });
                             }
-                          ];
-                          final List<Inform_Pictures> savedInformPictures =
+                          }
+
+                          final List<Inform_Pictures> saveInform_Pictures =
                               await InformRepair_PicturesController
                                   .saveInform_Pictures(data);
                           Navigator.push(

@@ -33,7 +33,7 @@ class InformRepairDetailsController {
     }
   }
 
-  Future<List> listAllInformRepairDetails() async {
+  Future<List<InformRepairDetails>> listAllInformRepairDetails() async {
     var url = Uri.parse(baseURL + '/informrepairdetails/list');
 
     http.Response response = await http.post(url, headers: headers);
