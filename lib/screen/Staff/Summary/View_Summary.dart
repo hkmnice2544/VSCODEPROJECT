@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutterr/controller/report_controller.dart';
 import 'package:flutterr/model/Report_Model.dart';
+import 'package:flutterr/screen/HomeStaff.dart';
 import 'package:flutterr/screen/Staff/Summary/Sammary.dart';
 import 'package:flutterr/screen/User/ListInformRepair/ListInformRepair.dart';
 import '../../../controller/informrepair_controller.dart';
@@ -92,7 +93,7 @@ class _View_SummaryState extends State<View_Summary> {
                     onPressed: () {
                       Navigator.push(context, MaterialPageRoute(
                         builder: (context) {
-                          return Home(user: widget.user);
+                          return HomeStaff(user: widget.user);
                         },
                       ));
                     }),

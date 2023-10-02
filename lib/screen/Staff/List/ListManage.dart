@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutterr/screen/HomeStaff.dart';
 import '../../../Model/informrepair_model.dart';
 import '../../Home.dart';
 import '../../Login.dart';
@@ -94,7 +95,7 @@ class _ListManageState extends State<ListManage> {
                         onPressed: () {
                           Navigator.push(context, MaterialPageRoute(
                             builder: (context) {
-                              return Home(user: widget.user);
+                              return HomeStaff(user: 0);
                             },
                           ));
                         }),

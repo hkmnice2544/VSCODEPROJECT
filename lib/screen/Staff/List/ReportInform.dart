@@ -8,6 +8,7 @@ import 'package:flutterr/controller/informrepairdetails_controller.dart';
 import 'package:flutterr/controller/report_pictures_controller.dart';
 import 'package:flutterr/model/InformRepairDetails_Model.dart';
 import 'package:flutterr/model/Report_pictures_Model.dart';
+import 'package:flutterr/screen/HomeStaff.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 
@@ -235,7 +236,7 @@ class _ReportInformState extends State<ReportInform> {
                     onPressed: () {
                       Navigator.push(context, MaterialPageRoute(
                         builder: (context) {
-                          return Home(user: widget.user);
+                          return HomeStaff(user: 0);
                         },
                       ));
                     }),

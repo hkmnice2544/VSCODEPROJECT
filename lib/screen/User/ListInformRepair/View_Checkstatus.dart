@@ -130,7 +130,7 @@ class _ViewResultState extends State<View_Checkstatus> {
                       Navigator.push(context, MaterialPageRoute(
                         builder: (context) {
                           var username;
-                          return Home(user: widget.user);
+                          return Home(user: 0);
                         },
                       ));
                     }),

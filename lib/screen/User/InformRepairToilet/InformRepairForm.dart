@@ -301,12 +301,11 @@ class Form extends State<InformRepairForm> {
                 Expanded(
                   child: GestureDetector(
                     onTap: () {
-                      // นำทางไปยังหน้าอื่นที่คุณต้องการ
-                      // Navigator.push(context, MaterialPageRoute(
-                      //   builder: (context) {
-                      //     return Home(username: widget.username);
-                      //   },
-                      // ));
+                      Navigator.push(context, MaterialPageRoute(
+                        builder: (context) {
+                          return Home(user: 0);
+                        },
+                      ));
                     },
                     child: Padding(
                       padding: EdgeInsets.only(left: 0, top: 0, right: 50),

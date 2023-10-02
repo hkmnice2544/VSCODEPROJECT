@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutterr/screen/HomeStaff.dart';
 import 'package:intl/intl.dart';
 
 import '../../../controller/informrepair_controller.dart';
@@ -87,7 +88,7 @@ class _ViewViewActualizeState extends State<ViewActualize> {
                     onPressed: () {
                       Navigator.push(context, MaterialPageRoute(
                         builder: (context) {
-                          return Home(user: widget.user);
+                          return HomeStaff(user: 0);
                         },
                       ));
                     }),

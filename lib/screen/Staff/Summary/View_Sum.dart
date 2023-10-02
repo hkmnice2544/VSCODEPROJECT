@@ -3,6 +3,7 @@ import 'package:flutterr/controller/informrepairdetails_controller.dart';
 import 'package:flutterr/controller/report_controller.dart';
 import 'package:flutterr/model/InformRepairDetails_Model.dart';
 import 'package:flutterr/model/Report_Model.dart';
+import 'package:flutterr/screen/HomeStaff.dart';
 import 'package:flutterr/screen/Staff/Summary/Sammary.dart';
 import 'package:flutterr/screen/User/ListInformRepair/ListInformRepair.dart';
 import '../../../controller/informrepair_controller.dart';
@@ -137,7 +138,7 @@ class _ViewResultState extends State<View_Sum> {
                     onPressed: () {
                       Navigator.push(context, MaterialPageRoute(
                         builder: (context) {
-                          return Home(user: widget.user);
+                          return HomeStaff(user: 0);
                         },
                       ));
                     }),

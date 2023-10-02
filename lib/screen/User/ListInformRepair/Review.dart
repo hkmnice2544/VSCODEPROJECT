@@ -191,7 +191,7 @@ class _MyWidgetState extends State<Reviews> {
                 onPressed: () {
                   Navigator.push(context, MaterialPageRoute(
                     builder: (context) {
-                      return Home(user: widget.user);
+                      return Home(user: 0);
                     },
                   ));
                 },

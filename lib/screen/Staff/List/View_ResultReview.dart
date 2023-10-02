@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutterr/constant/constant_value.dart';
 import 'package:flutterr/controller/review_pictures_controller.dart';
 import 'package:flutterr/model/Review_pictures_Model.dart';
+import 'package:flutterr/screen/HomeStaff.dart';
 import '../../../controller/review_controller.dart';
 import '../../../model/Review_Model.dart';
 import '../../Home.dart';
@@ -100,7 +101,7 @@ class _ViewResultState extends State<ViewResultReview> {
                     onPressed: () {
                       Navigator.push(context, MaterialPageRoute(
                         builder: (context) {
-                          return Home(user: widget.user);
+                          return HomeStaff(user: 0);
                         },
                       ));
                     }),

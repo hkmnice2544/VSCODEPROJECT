@@ -102,7 +102,7 @@ class _ViewResultState extends State<ViewCompleted> {
                     onPressed: () {
                       Navigator.push(context, MaterialPageRoute(
                         builder: (context) {
-                          return Home(user: widget.user);
+                          return Home(user: 0);
                         },
                       ));
                     }),

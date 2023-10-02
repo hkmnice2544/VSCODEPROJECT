@@ -1,6 +1,7 @@
 import 'dart:typed_data';
 import 'package:flutterr/controller/informrepairdetails_controller.dart';
 import 'package:flutterr/model/InformRepairDetails_Model.dart';
+import 'package:flutterr/screen/HomeStaff.dart';
 import 'package:flutterr/screen/Staff/Summary/View_Sum.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:flutter/material.dart';
@@ -240,7 +241,7 @@ class Form extends State<Summary> {
                 onPressed: () {
                   Navigator.push(context, MaterialPageRoute(
                     builder: (context) {
-                      return Home(user: widget.user);
+                      return HomeStaff(user: 0);
                     },
                   ));
                 },

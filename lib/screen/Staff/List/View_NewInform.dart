@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutterr/controller/informrepairdetails_controller.dart';
 import 'package:flutterr/model/InformRepairDetails_Model.dart';
+import 'package:flutterr/screen/HomeStaff.dart';
 import 'package:flutterr/screen/Staff/List/ListManage.dart';
 import 'package:flutterr/screen/User/ListInformRepair/ListInformRepair.dart';
 import '../../../controller/informrepair_controller.dart';
@@ -131,7 +132,7 @@ class _ViewResultState extends State<ViewNewInform> {
                       Navigator.push(context, MaterialPageRoute(
                         builder: (context) {
                           var username;
-                          return Home(user: widget.user);
+                          return HomeStaff(user: 0);
                         },
                       ));
                     }),
