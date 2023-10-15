@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:flutterr/model/Room_Model.dart';
 import 'package:flutterr/model/User_Model.dart';
 import 'package:intl/intl.dart';
 
@@ -9,6 +10,7 @@ class InformRepair {
   String? informtype;
   String? status;
   User? user;
+  Room? room;
 
   String formattedInformDate() {
     if (informdate != null) {
@@ -26,12 +28,15 @@ class InformRepair {
     this.informdate,
     this.status,
     this.user,
+    this.room,
   });
 
   factory InformRepair.fromJsonToInformRepair(Map<String, dynamic> json) {
     final userJson = json['user'] as Map<String, dynamic>;
+    final roomJson = json['room'] as Map<String, dynamic>;
 
     final user = User.fromJsonToUser(userJson);
+    final room = Room.fromJsonToRoom(roomJson);
 
     final informRepair = InformRepair(
         informrepair_id: json['informrepair_id'] as int,
@@ -39,6 +44,7 @@ class InformRepair {
             ? DateTime.parse(json['informdate'] as String)
             : null,
         user: user,
+        room: room,
         status: json['status']);
 
     return informRepair;
@@ -50,6 +56,7 @@ class InformRepair {
       'informdate': informdate?.toIso8601String(),
       'status': status,
       'user': user?.toJson(),
+      'room': room?.toJson(),
     };
   }
 }

@@ -131,7 +131,7 @@ class Form extends State<InformRepairForm> {
   InformRepair? informRepairs;
   InformRepair? informRepair;
   List<Building>? buildings;
-  String? buildingname;
+  String? buildingId;
   String? roomname;
   String? roomfloor;
   String? roomposition;
@@ -189,6 +189,20 @@ class Form extends State<InformRepairForm> {
 
   Future<void> fetchRoompositions() async {
     var url = Uri.parse(baseURL + '/rooms/listAllDistinctRoomposition');
+    final response = await http.post(url, headers: headers);
+
+    if (response.statusCode == 200) {
+      final data = json.decode(response.body);
+      setState(() {
+        roompositions = List<String>.from(data);
+      });
+    } else {
+      throw Exception('Failed to load room names');
+    }
+  }
+
+  Future<void> fetchRoomByBuilding(String building_id) async {
+    var url = Uri.parse(baseURL + '/rooms/listAllByBuilding/${building_id}');
     final response = await http.post(url, headers: headers);
 
     if (response.statusCode == 200) {
@@ -524,25 +538,25 @@ class Form extends State<InformRepairForm> {
                       child: // DropdownButton  ประเภทอาคาร-------------------------------------
                           DropdownButton<String>(
                         isExpanded: true,
-                        value: buildingname != null &&
+                        value: buildingId != null &&
                                 buildings?.any((building) =>
-                                        building.buildingname ==
-                                        buildingname) ==
+                                        building.buildingname == buildingId) ==
                                     true
-                            ? buildingname
+                            ? buildingId
                             : buildings?.isNotEmpty == true
                                 ? buildings![0].buildingname
                                 : null,
                         items: buildings?.map((Building building) {
                           return DropdownMenuItem<String>(
                             child: Text(building.buildingname ?? ''),
-                            value: building.buildingname,
+                            value: building.building_id.toString(),
                           );
                         }).toList(),
                         onChanged: (val) {
                           setState(() {
-                            buildingname = val;
-                            print("Controller: $buildingname");
+                            buildingId = val;
+                            print("Controller: $buildingId");
+                            fetchRoomByBuilding(buildingId!);
                           });
                         },
                         icon: const Icon(
@@ -978,7 +992,7 @@ class Form extends State<InformRepairForm> {
                               TextEditingController detailsController,
                               TextEditingController countController) {
                             if (roomname == "ห้องน้ำชาย" &&
-                                buildingname == "อาคาร 60 ปี แม่โจ้" &&
+                                buildingId == "อาคาร 60 ปี แม่โจ้" &&
                                 roomfloor == "1" &&
                                 roomposition == "ข้างบันได" &&
                                 equipmentId.isNotEmpty)
@@ -1009,7 +1023,7 @@ class Form extends State<InformRepairForm> {
                               });
                             }
                             if (roomname == "ห้องน้ำหญิง" &&
-                                buildingname == "อาคาร 60 ปี แม่โจ้" &&
+                                buildingId == "อาคาร 60 ปี แม่โจ้" &&
                                 roomfloor == "1" &&
                                 roomposition == "ข้างบันได" &&
                                 equipmentId.isNotEmpty) {
