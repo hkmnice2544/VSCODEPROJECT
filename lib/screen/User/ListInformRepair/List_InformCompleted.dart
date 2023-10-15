@@ -63,11 +63,9 @@ class _MyWidgetState extends State<InformCompleted> {
                     itemCount: reportRepair?.length,
                     scrollDirection: Axis.vertical,
                     itemBuilder: (context, index) {
-                      if (reportRepair?[index]
-                              .informRepairDetails
-                              ?.informRepair
-                              ?.status ==
-                          "") {
+                      if (reportRepair?[index].status == "กำลังดำเนินการ" ||
+                          reportRepair?[index].status == "ยังไม่ได้ดำเนินการ") {
+                        return Container();
                       } else {
                         return Card(
                           elevation: 5,
@@ -119,14 +117,14 @@ class _MyWidgetState extends State<InformCompleted> {
                                 Row(children: [
                                   Expanded(
                                     child: Text(
-                                      "เสร็จสิ้นวันที่ ",
+                                      "วันที่รายงานผล",
                                       style: const TextStyle(
                                           fontFamily: 'Itim', fontSize: 20),
                                     ),
                                   ),
                                   Expanded(
                                     child: Text(
-                                      "${reportRepair?[index].enddate}",
+                                      "${reportRepair?[index].reportdate}",
                                       style: const TextStyle(
                                           fontFamily: 'Itim', fontSize: 20),
                                     ),
@@ -158,7 +156,7 @@ class _MyWidgetState extends State<InformCompleted> {
                                   ),
                                   Expanded(
                                     child: Text(
-                                      "${reportRepair?[index].informRepairDetails?.informRepair?.status}",
+                                      "${reportRepair?[index].status}",
                                       style: const TextStyle(
                                           fontFamily: 'Itim', fontSize: 20),
                                     ),

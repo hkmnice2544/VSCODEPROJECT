@@ -10,13 +10,12 @@ import '../../User/ListInformRepair/ListInformRepair.dart';
 import 'ListManage.dart';
 
 class ViewCompleted extends StatefulWidget {
-  final int? informrepair_id;
+  final int? report_id;
   final int? user;
   const ViewCompleted({
     super.key,
-    this.informrepair_id,
+    this.report_id,
     this.user,
-    int? report_id,
   });
 
   @override

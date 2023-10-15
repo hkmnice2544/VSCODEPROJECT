@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutterr/controller/informrepairdetails_controller.dart';
+import 'package:flutterr/controller/report_controller.dart';
 import 'package:flutterr/model/InformRepairDetails_Model.dart';
-import '../../../Model/Report_Model.dart';
+import 'package:flutterr/model/Report_Model.dart';
+import 'package:flutterr/screen/Staff/List/View_Completed.dart';
 import '../../../controller/informrepair_controller.dart';
 import '../../../model/informrepair_model.dart';
-import 'ReportInform.dart';
 import 'View_NewInform.dart';
 
 class ListCompleted extends StatefulWidget {
@@ -36,13 +37,13 @@ class NewInform extends State<ListCompleted> {
 
   InformRepairDetailsController informRepairDetailsController =
       InformRepairDetailsController();
+  ReportController reportController = ReportController();
   List<InformRepairDetails>? informRepairDetails;
+  List<ReportRepair>? reportrepair;
 
-  void listAllInformRepairDetails() async {
+  void listAllReportRepairs() async {
     // เรียกใช้งาน listAllInformRepairDetails และรอข้อมูลเสร็จสมบูรณ์
-    informRepairDetails =
-        (await informRepairDetailsController.listAllInformRepairDetails())
-            .cast<InformRepairDetails>();
+    reportrepair = await reportController.listAllReportRepairs();
     // อัปเดตสถานะแสดงว่าข้อมูลถูกโหลดแล้ว
     setState(() {
       isDataLoaded = true;
@@ -66,8 +67,8 @@ class NewInform extends State<ListCompleted> {
   @override
   void initState() {
     super.initState();
-    listAllInformRepair();
-    listAllInformRepairDetails();
+    // listAllInformRepair();
+    listAllReportRepairs();
 
     informrepairs?.sort((a, b) {
       if (a.informdate == null && b.informdate == null) {
@@ -103,13 +104,13 @@ class NewInform extends State<ListCompleted> {
                     setState(() {
                       searchQuery = value;
                       if (searchQuery.isNotEmpty) {
-                        informRepairList = informrepairs
-                            ?.where((informrepair) =>
-                                informrepair.informrepair_id.toString() ==
+                        reportrepair = reportrepair
+                            ?.where((reportrepair) =>
+                                reportrepair.report_id.toString() ==
                                 searchQuery)
                             .toList();
                       } else {
-                        informRepairList = null; // เมื่อค่าค้นหาเป็นว่าง
+                        reportrepair = null; // เมื่อค่าค้นหาเป็นว่าง
                       }
                     });
                   },
@@ -117,13 +118,11 @@ class NewInform extends State<ListCompleted> {
               ),
               Expanded(
                 child: ListView.builder(
-                  itemCount:
-                      informRepairList?.length ?? informRepairList?.length,
+                  itemCount: reportrepair?.length ?? reportrepair?.length,
                   scrollDirection: Axis.vertical,
                   itemBuilder: (context, index) {
-                    if (informRepairList?[index].status == "กำลังดำเนินการ" ||
-                        informRepairList?[index].status ==
-                            "ยังไม่ได้ดำเนินการ") {
+                    if (reportrepair?[index].status == "กำลังดำเนินการ" ||
+                        reportrepair?[index].status == "ยังไม่ได้ดำเนินการ") {
                       return Container(); // สร้าง Container ว่างเปล่าเพื่อซ่อนรายการที่มี status เป็น "กำลังดำเนินการ"
                     } else {
                       return Card(
@@ -151,7 +150,7 @@ class NewInform extends State<ListCompleted> {
                                 ),
                                 Expanded(
                                   child: Text(
-                                    "${informRepairList?[index].informrepair_id}",
+                                    "${reportrepair?[index].report_id}",
                                     style: const TextStyle(
                                         fontFamily: 'Itim', fontSize: 22),
                                   ),
@@ -167,7 +166,7 @@ class NewInform extends State<ListCompleted> {
                                 ),
                                 Expanded(
                                   child: Text(
-                                    "${informRepairList?[index].informdate}",
+                                    "${reportrepair?[index].reportdate}",
                                     style: const TextStyle(
                                         fontFamily: 'Itim', fontSize: 22),
                                   ),
@@ -183,7 +182,7 @@ class NewInform extends State<ListCompleted> {
                                 ),
                                 Expanded(
                                   child: Text(
-                                    "${informRepairList?[index].status}",
+                                    "${reportrepair?[index].status}",
                                     style: const TextStyle(
                                         fontFamily: 'Itim', fontSize: 22),
                                   ),
@@ -197,10 +196,9 @@ class NewInform extends State<ListCompleted> {
                               Navigator.pushReplacement(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (_) => ViewNewInform(
-                                        informrepair_id:
-                                            informRepairList?[index]
-                                                .informrepair_id)),
+                                    builder: (_) => ViewCompleted(
+                                        report_id:
+                                            reportrepair?[index].report_id)),
                               );
                             });
                           },

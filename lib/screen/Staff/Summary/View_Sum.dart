@@ -385,7 +385,7 @@ class _ViewResultState extends State<View_Sum> {
                 ),
                 Expanded(
                   child: Text(
-                    "${results != null && results.isNotEmpty ? results[0].enddate ?? 'ยังไม่มีข้อมูล' : 'ยังไม่มีข้อมูล'}",
+                    "${results != null && results.isNotEmpty ? results[0].reportdate ?? 'ยังไม่มีข้อมูล' : 'ยังไม่มีข้อมูล'}",
                     style: TextStyle(
                       color: Colors.black,
                       fontSize: 20,

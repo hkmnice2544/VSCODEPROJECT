@@ -1,7 +1,4 @@
-import 'package:flutterr/model/Equipment_Model.dart';
-import 'package:flutterr/model/RoomEquipmentID_Model.dart';
 import 'package:flutterr/model/RoomEquipment_Model.dart';
-import 'package:flutterr/model/Room_Model.dart';
 import 'package:flutterr/model/informrepair_model.dart';
 
 class InformRepairDetails {
@@ -24,9 +21,9 @@ class InformRepairDetails {
           informdetails_id: json["informdetails_id"] as int?,
           amount: json["amount"] as int?,
           details: json["details"],
-          informRepair: json["informRepair"] == null
+          informRepair: json["informrepairid"] == null
               ? null
-              : InformRepair.fromJsonToInformRepair(json["informRepair"]),
+              : InformRepair.fromJsonToInformRepair(json["informrepairid"]),
           roomEquipment: json["roomEquipment"] == null
               ? null
               : RoomEquipment.fromJsonToRoomEquipment(json["roomEquipment"]));
@@ -35,7 +32,7 @@ class InformRepairDetails {
       'informdetails_id': informdetails_id,
       'amount': amount,
       'details': details,
-      'informRepair': informRepair?.informrepair_id,
+      'informRepair': informRepair,
       'roomEquipment': roomEquipment,
     };
   }

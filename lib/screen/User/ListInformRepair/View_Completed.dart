@@ -218,30 +218,6 @@ class _ViewResultState extends State<ViewCompleted> {
               children: [
                 Expanded(
                   child: Text(
-                    "เสร็จสิ้นวันที่  :",
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-                Expanded(
-                  child: Text(
-                    "${reportRepair?.enddate}",
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-              ],
-            ),
-            Row(
-              children: [
-                Expanded(
-                  child: Text(
                     "รายละเอียด",
                     style: TextStyle(
                       color: Colors.black,

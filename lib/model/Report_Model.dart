@@ -8,8 +8,9 @@ class ReportRepair {
 
   String? repairer;
   DateTime? reportdate;
-  DateTime? enddate;
   String? details;
+  String? status;
+  DateTime? statusdate;
   InformRepairDetails? informRepairDetails;
 
   ReportRepair(
@@ -17,8 +18,9 @@ class ReportRepair {
       // this.informdate,
       this.repairer,
       this.reportdate,
-      this.enddate,
       this.details,
+      this.status,
+      this.statusdate,
       this.informRepairDetails});
 
   String formattedReviewDate(DateTime? enddate) {
@@ -58,8 +60,14 @@ class ReportRepair {
     return ReportRepair(
         report_id: report_id,
         repairer: json["repairer"],
+        reportdate: json['reportdate'] != null
+            ? DateTime.parse(json['reportdate'] as String)
+            : null,
         details: json["details"],
-        enddate: enddate,
+        status: json["status"],
+        statusdate: json['statusdate'] != null
+            ? DateTime.parse(json['statusdate'] as String)
+            : null,
         informRepairDetails: json["informRepairDetails"] == null
             ? null
             : InformRepairDetails.fromJsonToInformRepairDetails(
@@ -70,8 +78,10 @@ class ReportRepair {
     return <String, dynamic>{
       'report_id': report_id,
       'repairer': repairer,
+      'reportdate': reportdate,
       'details': details,
-      'enddate': enddate,
+      'status': status,
+      'statusdate': statusdate,
       'informRepairDetails': informRepairDetails,
     };
   }
