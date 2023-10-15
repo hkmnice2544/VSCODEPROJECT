@@ -59,10 +59,10 @@ class _ViewResultState extends State<View_Sum> {
       informDetails.add(result[i]);
     }
     results = await reportController.ViewListInformDetails(
-        result[0].informdetails_id!);
+        result[0].informRepair!.informrepair_id!);
 
     print(
-        "------ส่งresults ${results?[0].informRepairDetails?.informdetails_id}--------");
+        "------ส่งresults ${results?[0].informRepairDetails?.informRepair?.informrepair_id}--------");
     setState(() {
       isDataLoaded = true;
     });
@@ -78,7 +78,7 @@ class _ViewResultState extends State<View_Sum> {
   // }
 
   // void getInform(int informrepair_id) async {
-  //   informRepair = await informController.getInform(informrepair_id);
+  //   informRepair = await .getInform(informrepair_id);
   //   print("getInform : ${informRepair?.informrepair_id}");
   //   setState(() {
   //     isDataLoaded = true;
@@ -96,9 +96,8 @@ class _ViewResultState extends State<View_Sum> {
       getReportRepair(widget.informrepair_id!);
     }
     getInformDetails(widget.informrepair_id!);
-    // ViewListInformDetails(1001);
-    print(
-        "informdetailsId---${informDetails != null && informDetails.isNotEmpty ? informDetails[0].informdetails_id ?? 'N/A' : 'N/A'}");
+    // ViewListByinformrepair_id(widget.informrepair_id!);
+    print(widget.informrepair_id!);
   }
 
   @override
@@ -217,7 +216,16 @@ class _ViewResultState extends State<View_Sum> {
                 ),
                 Expanded(
                   child: Text(
-                    "${informDetails != null && informDetails.isNotEmpty ? informDetails[0].informRepair?.informrepair_id ?? 'N/A' : 'N/A'}",
+                    isDataLoaded! &&
+                            informDetails != null &&
+                            informDetails.isNotEmpty
+                        ? informDetails[0].informRepair?.informrepair_id != null
+                            ? informDetails[0]
+                                .informRepair!
+                                .informrepair_id
+                                .toString()
+                            : 'N/A'
+                        : 'Loading...', // แสดง 'Loading...' เมื่อข้อมูลยังไม่พร้อม
                     style: TextStyle(
                       color: Colors.black,
                       fontSize: 20,
@@ -385,7 +393,7 @@ class _ViewResultState extends State<View_Sum> {
                 ),
                 Expanded(
                   child: Text(
-                    "${results != null && results.isNotEmpty ? results[0].reportdate ?? 'ยังไม่มีข้อมูล' : 'ยังไม่มีข้อมูล'}",
+                    "${results != null && results.isNotEmpty ? results[0]?.reportdate ?? 'ยังไม่มีข้อมูล' : 'ยังไม่มีข้อมูล'}",
                     style: TextStyle(
                       color: Colors.black,
                       fontSize: 20,
@@ -410,7 +418,7 @@ class _ViewResultState extends State<View_Sum> {
                 ),
                 Expanded(
                   child: Text(
-                    "${results != null && results.isNotEmpty ? results[0].repairer ?? 'ยังไม่มีข้อมูล' : 'ยังไม่มีข้อมูล'}",
+                    "${results != null && results.isNotEmpty ? results[0]?.repairer ?? 'ยังไม่มีข้อมูล' : 'ยังไม่มีข้อมูล'}",
                     style: TextStyle(
                       color: Colors.black,
                       fontSize: 20,
@@ -469,7 +477,7 @@ class _ViewResultState extends State<View_Sum> {
                             ),
                             Expanded(
                               child: Text(
-                                "${informDetails?[index].roomEquipment?.equipment?.equipmentname}",
+                                "${informDetails != null && informDetails.isNotEmpty ? informDetails[index]?.roomEquipment?.equipment?.equipmentname ?? 'N/A' : 'N/A'}",
                                 style: const TextStyle(
                                     fontFamily: 'Itim', fontSize: 22),
                               ),
@@ -485,7 +493,7 @@ class _ViewResultState extends State<View_Sum> {
                             ),
                             Expanded(
                               child: Text(
-                                "${informDetails?[index].details}",
+                                "${informDetails != null && informDetails.isNotEmpty ? informDetails[index]?.details ?? 'N/A' : 'N/A'}",
                                 style: const TextStyle(
                                     fontFamily: 'Itim', fontSize: 22),
                               ),

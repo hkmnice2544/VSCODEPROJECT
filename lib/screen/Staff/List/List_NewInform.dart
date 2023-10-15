@@ -196,8 +196,9 @@ class NewInform extends State<listNewInform> {
                                 context,
                                 MaterialPageRoute(
                                   builder: (context) => ReportInform(
-                                      detailId:
-                                          int.tryParse(DetailID![index] ?? ''),
+                                      detailId: int.tryParse(
+                                              DetailID![index] ?? '') ??
+                                          0,
                                       user: widget.user),
                                 ),
                               );

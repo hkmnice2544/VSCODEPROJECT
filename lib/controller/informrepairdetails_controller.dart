@@ -98,7 +98,7 @@ class InformRepairDetailsController {
     List<InformRepairDetails>? list = await jsonList
         .map((e) => InformRepairDetails.fromJsonToInformRepairDetails(e))
         .toList();
-    print("----ได้----${list[0].informdetails_id}--------------");
+    print("----ได้----${list[0].amount}--------------");
     return list;
   }
 

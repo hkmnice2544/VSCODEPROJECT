@@ -228,4 +228,16 @@ class InformRepairController {
   //     print("เกิดข้อผิดพลาดในการส่งข้อมูล: $error");
   //   }
   // }
+
+  Future ViewListByinformrepair_id(int informrepair_id) async {
+    var url = Uri.parse(
+        baseURL + '/informrepairs/ViewListByinformrepair_id/$informrepair_id');
+
+    http.Response response = await http.post(url, headers: headers, body: null);
+    print("ข้อมูลที่ได้คือ : " + response.body);
+
+    Map<String, dynamic> jsonMap = json.decode(response.body);
+    InformRepair? informRepair = InformRepair.fromJsonToInformRepair(jsonMap);
+    return informRepair;
+  }
 }
