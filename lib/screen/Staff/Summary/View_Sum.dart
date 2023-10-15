@@ -249,7 +249,7 @@ class _ViewResultState extends State<View_Sum> {
                 ),
                 Expanded(
                   child: Text(
-                    "${informDetails != null && informDetails.isNotEmpty ? informDetails[0].informRepair?.informdate ?? 'N/A' : 'N/A'}",
+                    "${informDetails != null && informDetails.isNotEmpty ? informDetails[0].informRepair?.informdate ?? 'N/A' : 'Loading...'}",
                     style: TextStyle(
                       color: Colors.black,
                       fontSize: 20,
@@ -273,7 +273,7 @@ class _ViewResultState extends State<View_Sum> {
                 ),
                 Expanded(
                   child: Text(
-                    "${informDetails != null && informDetails.isNotEmpty ? informDetails[0].roomEquipment?.room?.roomname ?? 'N/A' : 'N/A'}",
+                    "${informDetails != null && informDetails.isNotEmpty ? informDetails[0].roomEquipment?.room?.roomname ?? 'N/A' : 'Loading...'}",
                     style: TextStyle(
                       color: Colors.black,
                       fontSize: 20,
@@ -297,7 +297,7 @@ class _ViewResultState extends State<View_Sum> {
                 ),
                 Expanded(
                   child: Text(
-                    "${informDetails != null && informDetails.isNotEmpty ? informDetails[0].roomEquipment?.room?.building?.buildingname ?? 'N/A' : 'N/A'}",
+                    "${informDetails != null && informDetails.isNotEmpty ? informDetails[0].roomEquipment?.room?.building?.buildingname ?? 'N/A' : 'Loading...'}",
                     style: TextStyle(
                       color: Colors.black,
                       fontSize: 20,
@@ -321,7 +321,7 @@ class _ViewResultState extends State<View_Sum> {
                 ),
                 Expanded(
                   child: Text(
-                    "${informDetails != null && informDetails.isNotEmpty ? informDetails[0].roomEquipment?.room?.floor ?? 'N/A' : 'N/A'}",
+                    "${informDetails != null && informDetails.isNotEmpty ? informDetails[0].roomEquipment?.room?.floor ?? 'N/A' : 'Loading...'}",
                     style: TextStyle(
                       color: Colors.black,
                       fontSize: 20,
@@ -345,7 +345,7 @@ class _ViewResultState extends State<View_Sum> {
                 ),
                 Expanded(
                   child: Text(
-                    "${informDetails != null && informDetails.isNotEmpty ? informDetails[0].roomEquipment?.room?.position ?? 'N/A' : 'N/A'}",
+                    "${informDetails != null && informDetails.isNotEmpty ? informDetails[0].roomEquipment?.room?.position ?? 'N/A' : 'Loading...'}",
                     style: TextStyle(
                       color: Colors.black,
                       fontSize: 20,
@@ -369,7 +369,7 @@ class _ViewResultState extends State<View_Sum> {
                 ),
                 Expanded(
                   child: Text(
-                    "${informDetails != null && informDetails.isNotEmpty ? informDetails[0].informRepair?.status ?? 'N/A' : 'N/A'}",
+                    "${informDetails != null && informDetails.isNotEmpty ? informDetails[0].informRepair?.status ?? 'N/A' : 'Loading...'}",
                     style: TextStyle(
                       color: Colors.black,
                       fontSize: 20,
@@ -477,7 +477,7 @@ class _ViewResultState extends State<View_Sum> {
                             ),
                             Expanded(
                               child: Text(
-                                "${informDetails != null && informDetails.isNotEmpty ? informDetails[index]?.roomEquipment?.equipment?.equipmentname ?? 'N/A' : 'N/A'}",
+                                "${informDetails != null && informDetails.isNotEmpty ? informDetails[index]?.roomEquipment?.equipment?.equipmentname ?? 'N/A' : 'Loading...'}",
                                 style: const TextStyle(
                                     fontFamily: 'Itim', fontSize: 22),
                               ),
@@ -493,7 +493,7 @@ class _ViewResultState extends State<View_Sum> {
                             ),
                             Expanded(
                               child: Text(
-                                "${informDetails != null && informDetails.isNotEmpty ? informDetails[index]?.details ?? 'N/A' : 'N/A'}",
+                                "${informDetails != null && informDetails.isNotEmpty ? informDetails[index]?.details ?? 'N/A' : 'Loading...'}",
                                 style: const TextStyle(
                                     fontFamily: 'Itim', fontSize: 22),
                               ),
