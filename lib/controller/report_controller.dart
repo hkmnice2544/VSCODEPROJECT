@@ -8,15 +8,16 @@ import '../model/Report_Model.dart';
 class ReportController {
   ReportRepair? reportRepair;
 
-  Future<void> addReport(String repairer, String details, int informdetails_id,
-      String statusinformRepair, String statusroomEquipmentId) async {
+  Future<void> addReport(String repairer, String details, String status,
+      int equipment_id, int room_id, int informrepair_id) async {
     try {
       Map<String, dynamic> data = {
         "repairer": repairer,
         "details": details,
-        "informdetails_id": informdetails_id,
-        "statusinformRepair": statusinformRepair,
-        "statusroomEquipmentId": statusroomEquipmentId,
+        "status": status,
+        "equipment_id": equipment_id,
+        "room_id": room_id,
+        "informrepair_id": informrepair_id
       };
 
       final response = await http.post(

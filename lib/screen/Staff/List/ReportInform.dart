@@ -630,11 +630,13 @@ class _ReportInformState extends State<ReportInform> {
               onPressed: () async {
                 await _uploadImages();
                 var response = await reportController.addReport(
-                    _dropdownrepairer.toString(),
-                    detailsTextController.text,
-                    widget.informrepair_id as int,
-                    _dropdownstatus.toString(),
-                    statusroomEquipmentId.toString());
+                  _dropdownrepairer.toString(),
+                  detailsTextController.text,
+                  _dropdownstatus.toString(),
+                  widget.equipment_id,
+                  widget.room_id,
+                  widget.informrepair_id,
+                );
                 final List<Map<String, dynamic>> data = [];
 
                 for (final imageName in imageFileNames) {
