@@ -150,7 +150,7 @@ class NewInform extends State<ListCompleted> {
                                 ),
                                 Expanded(
                                   child: Text(
-                                    "${reportrepair?[index].report_id}",
+                                    "${reportrepair?[index].informRepairDetails?.informRepair?.informrepair_id}",
                                     style: const TextStyle(
                                         fontFamily: 'Itim', fontSize: 22),
                                   ),
