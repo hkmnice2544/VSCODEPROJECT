@@ -214,6 +214,30 @@ class _ViewResultState extends State<ViewResultReview> {
                 ),
               ],
             ),
+            //  Row(
+            //   children: [
+            //     Expanded(
+            //       child: Text(
+            //         "อุปกรณ์   :",
+            //         style: TextStyle(
+            //           color: Colors.black,
+            //           fontSize: 20,
+            //           fontWeight: FontWeight.bold,
+            //         ),
+            //       ),
+            //     ),
+            //     Expanded(
+            //       child: Text(
+            //         "${review?.repairscore}",
+            //         style: TextStyle(
+            //           color: Colors.black,
+            //           fontSize: 20,
+            //           fontWeight: FontWeight.bold,
+            //         ),
+            //       ),
+            //     ),
+            //   ],
+            // ),
             Row(
               children: [
                 Expanded(
