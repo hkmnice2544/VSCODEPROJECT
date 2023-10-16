@@ -122,14 +122,21 @@ class _ReportInformState extends State<ReportInform> {
     }
   }
 
-  void getInformDetailsById(int informdetails_id) async {
-    if (widget.informrepair_id != null) {
-      informRepairDetail = await informRepairDetailsController
-          .getviewInformDetailsById(informdetails_id);
-      setState(() {
-        isDataLoaded = true;
-      });
-    }
+  void getInformDetailsById(int informrepair_id) async {
+    informRepairDetail = await informRepairDetailsController
+        .getviewInformDetailsById(informrepair_id);
+    print("getinformrepair_id${informRepairDetail?.amount}");
+    setState(() {
+      isDataLoaded = true;
+    });
+  }
+
+  void getInform(int informrepair_id) async {
+    informRepair = await informRepairController.getInform(informrepair_id);
+    print("getInform : ${informRepair?.informrepair_id}");
+    setState(() {
+      isDataLoaded = true;
+    });
   }
 
   void listAllReportRepairs() async {
@@ -147,12 +154,10 @@ class _ReportInformState extends State<ReportInform> {
   @override
   void initState() {
     super.initState();
-    // listAllReportRepairs();
-    // if (widget.informrepair_id != null) {
-    //   getInformDetailsById(widget.informrepair_id!);
-    // }
-    // DateTime now = DateTime.now();
-    // formattedDate = DateFormat('yyyy-MM-dd' ' HH:mm:ss.000').format(now);
+    listAllReportRepairs();
+    getInform(widget.informrepair_id!);
+    DateTime now = DateTime.now();
+    formattedDate = DateFormat('yyyy-MM-dd' ' HH:mm:ss.000').format(now);
 
     print("informrepair_id${widget.informrepair_id}");
     print("room_id${widget.room_id}");
@@ -323,7 +328,7 @@ class _ReportInformState extends State<ReportInform> {
                 ),
                 Expanded(
                   child: Text(
-                    "${informRepairDetail?.informRepair?.informrepair_id ?? 'N/A'}",
+                    "${informRepair?.informrepair_id ?? 'N/A'}",
                     style: TextStyle(
                       color: Colors.black,
                       fontSize: 20,
@@ -348,7 +353,7 @@ class _ReportInformState extends State<ReportInform> {
                 ),
                 Expanded(
                   child: Text(
-                    "${informRepairDetail?.informRepair?.informdate}",
+                    "${informRepair?.informdate ?? 'N/A'}",
                     style: TextStyle(
                       color: Colors.black,
                       fontSize: 20,
