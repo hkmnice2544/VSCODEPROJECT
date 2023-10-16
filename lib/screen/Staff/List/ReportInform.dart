@@ -23,14 +23,18 @@ import 'ListManage.dart';
 import 'package:http/http.dart' as http;
 
 class ReportInform extends StatefulWidget {
-  final int? detailId;
-  final int? user;
+  final int informrepair_id;
+  final int room_id;
+  final int equipment_id;
+  final int user;
+
   const ReportInform({
-    super.key,
-    required this.detailId,
+    Key? key,
+    required this.informrepair_id,
+    required this.room_id,
+    required this.equipment_id,
     required this.user,
-    int? report_id,
-  });
+  }) : super(key: key);
 
   @override
   State<ReportInform> createState() => _ReportInformState();
@@ -119,11 +123,13 @@ class _ReportInformState extends State<ReportInform> {
   }
 
   void getInformDetailsById(int informdetails_id) async {
-    informRepairDetail = await informRepairDetailsController
-        .getviewInformDetailsById(informdetails_id);
-    setState(() {
-      isDataLoaded = true;
-    });
+    if (widget.informrepair_id != null) {
+      informRepairDetail = await informRepairDetailsController
+          .getviewInformDetailsById(informdetails_id);
+      setState(() {
+        isDataLoaded = true;
+      });
+    }
   }
 
   void listAllReportRepairs() async {
@@ -141,14 +147,16 @@ class _ReportInformState extends State<ReportInform> {
   @override
   void initState() {
     super.initState();
-    listAllReportRepairs();
-    if (widget.detailId != null) {
-      getInformDetailsById(widget.detailId! as int);
-    }
-    DateTime now = DateTime.now();
-    formattedDate = DateFormat('yyyy-MM-dd' ' HH:mm:ss.000').format(now);
+    // listAllReportRepairs();
+    // if (widget.informrepair_id != null) {
+    //   getInformDetailsById(widget.informrepair_id!);
+    // }
+    // DateTime now = DateTime.now();
+    // formattedDate = DateFormat('yyyy-MM-dd' ' HH:mm:ss.000').format(now);
 
-    print(widget.detailId);
+    print("informrepair_id${widget.informrepair_id}");
+    print("room_id${widget.room_id}");
+    print("equipment_id${widget.equipment_id}");
   }
 
   // void _pickImage() {
@@ -315,7 +323,7 @@ class _ReportInformState extends State<ReportInform> {
                 ),
                 Expanded(
                   child: Text(
-                    "${informRepairDetail?.informRepair?.informrepair_id}",
+                    "${informRepairDetail?.informRepair?.informrepair_id ?? 'N/A'}",
                     style: TextStyle(
                       color: Colors.black,
                       fontSize: 20,
@@ -619,7 +627,7 @@ class _ReportInformState extends State<ReportInform> {
                 var response = await reportController.addReport(
                     _dropdownrepairer.toString(),
                     detailsTextController.text,
-                    widget.detailId as int,
+                    widget.informrepair_id as int,
                     _dropdownstatus.toString(),
                     statusroomEquipmentId.toString());
                 final List<Map<String, dynamic>> data = [];

@@ -43,7 +43,6 @@ class NewInform extends State<listNewInform> {
     informRepairDetails =
         (await informRepairDetailsController.listAllInformRepairDetails())
             .cast<InformRepairDetails>();
-    // อัปเดตสถานะแสดงว่าข้อมูลถูกโหลดแล้ว
     setState(() {
       isDataLoaded = true;
     });
@@ -109,7 +108,7 @@ class NewInform extends State<listNewInform> {
                                 searchQuery)
                             .toList();
                       } else {
-                        informRepairList = null; // เมื่อค่าค้นหาเป็นว่าง
+                        informRepairDetails = null; // เมื่อค่าค้นหาเป็นว่าง
                       }
                     });
                   },
@@ -118,11 +117,13 @@ class NewInform extends State<listNewInform> {
               Expanded(
                 child: ListView.builder(
                   itemCount:
-                      informRepairList?.length ?? informRepairList?.length,
+                      informRepairDetails?.length ?? informRepairList?.length,
                   scrollDirection: Axis.vertical,
                   itemBuilder: (context, index) {
-                    if (informRepairList?[index].status == "เสร็จสิ้น" ||
-                        informRepairList?[index].status == "กำลังดำเนินการ") {
+                    if (informRepairDetails?[index].informRepair?.status ==
+                            "เสร็จสิ้น" ||
+                        informRepairDetails?[index].informRepair?.status ==
+                            "กำลังดำเนินการ") {
                       return Container(); // สร้าง Container ว่างเปล่าเพื่อซ่อนรายการที่มี status เป็น "กำลังดำเนินการ"
                     } else {
                       return Card(
@@ -150,7 +151,7 @@ class NewInform extends State<listNewInform> {
                                 ),
                                 Expanded(
                                   child: Text(
-                                    "${informRepairList?[index].informrepair_id}",
+                                    "${informRepairDetails?[index].informRepair?.informrepair_id}",
                                     style: const TextStyle(
                                         fontFamily: 'Itim', fontSize: 22),
                                   ),
@@ -166,7 +167,23 @@ class NewInform extends State<listNewInform> {
                                 ),
                                 Expanded(
                                   child: Text(
-                                    "${informRepairList?[index].informdate}",
+                                    "${informRepairDetails?[index].informRepair?.informdate}",
+                                    style: const TextStyle(
+                                        fontFamily: 'Itim', fontSize: 22),
+                                  ),
+                                ),
+                              ]),
+                              Row(children: [
+                                Expanded(
+                                  child: Text(
+                                    "อุปกรณ์ ",
+                                    style: const TextStyle(
+                                        fontFamily: 'Itim', fontSize: 22),
+                                  ),
+                                ),
+                                Expanded(
+                                  child: Text(
+                                    "${informRepairDetails?[index].roomEquipment?.equipment?.equipmentname}",
                                     style: const TextStyle(
                                         fontFamily: 'Itim', fontSize: 22),
                                   ),
@@ -182,7 +199,7 @@ class NewInform extends State<listNewInform> {
                                 ),
                                 Expanded(
                                   child: Text(
-                                    "${informRepairList?[index].status}",
+                                    "${informRepairDetails?[index].informRepair?.status}",
                                     style: const TextStyle(
                                         fontFamily: 'Itim', fontSize: 22),
                                   ),
@@ -196,10 +213,22 @@ class NewInform extends State<listNewInform> {
                                 context,
                                 MaterialPageRoute(
                                   builder: (context) => ReportInform(
-                                      detailId: int.tryParse(
-                                              DetailID![index] ?? '') ??
-                                          0,
-                                      user: widget.user),
+                                    informrepair_id: informRepairDetails?[index]
+                                            ?.informRepair
+                                            ?.informrepair_id ??
+                                        0,
+                                    room_id: informRepairDetails?[index]
+                                            ?.informRepair
+                                            ?.room
+                                            ?.room_id ??
+                                        0,
+                                    equipment_id: informRepairDetails?[index]
+                                            ?.roomEquipment
+                                            ?.equipment
+                                            ?.equipment_id ??
+                                        0,
+                                    user: widget.user ?? 0,
+                                  ),
                                 ),
                               );
                             },
@@ -213,8 +242,9 @@ class NewInform extends State<listNewInform> {
                                 MaterialPageRoute(
                                     builder: (_) => ViewNewInform(
                                         informrepair_id:
-                                            informRepairList?[index]
-                                                .informrepair_id)),
+                                            informRepairDetails?[index]
+                                                .informRepair
+                                                ?.informrepair_id)),
                               );
                             });
                           },

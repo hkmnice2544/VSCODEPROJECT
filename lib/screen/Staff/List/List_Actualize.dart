@@ -193,15 +193,15 @@ class NewInform extends State<ListActualize> {
                           ),
                           trailing: ElevatedButton(
                             onPressed: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => ReportInform(
-                                      detailId:
-                                          int.tryParse(DetailID![index] ?? ''),
-                                      user: widget.user),
-                                ),
-                              );
+                              // Navigator.push(
+                              //   context,
+                              //   MaterialPageRoute(
+                              //     builder: (context) => ReportInform(
+                              //         detailId:
+                              //             int.tryParse(DetailID![index] ?? ''),
+                              //         user: widget.user),
+                              //   ),
+                              // );
                             },
                             child: Text('รายงานผล'),
                           ),
