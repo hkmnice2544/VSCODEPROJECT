@@ -196,10 +196,15 @@ class Form extends State<InformRepairForm> {
     informdetails =
         await informRepairDetailsController.listAllInformRepairDetails();
     // print({informdetails?[0].informdetails_id});
-    print(
-        "getinformdetails_id ปัจจุบัน : ${informdetails?[informdetails!.length - 1].informdetails_id}");
-    print(
-        "getinformdetails_id +1 : ${(informdetails?[informdetails!.length - 1].informdetails_id ?? 0) + 1}");
+    if (informrepairs != null && informrepairs!.isNotEmpty) {
+      print("Informrepair ID: ${informrepairs![0].informrepair_id}");
+      print(
+          "getInform ปัจจุบัน : ${informrepairs![informrepairs!.length - 1].informrepair_id}");
+      print(
+          "getInform +1 : ${informrepairs![informrepairs!.length - 1].informrepair_id! + 1}");
+    } else {
+      print("Informrepairs เป็น null หรือว่าง");
+    }
 
     setState(() {
       isDataLoaded = true;
