@@ -51,7 +51,8 @@ class Room {
       'roomname': roomname,
       'floor': floor,
       'position': position,
-      'building': building?.toJson(), // เรียกใช้ toJson ของคลาส Building
+      'building':
+          building?.fromBuildingToJson(), // เรียกใช้ toJson ของคลาส Building
     };
   }
 }

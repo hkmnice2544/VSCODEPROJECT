@@ -18,6 +18,4 @@ class Building {
       'buildingname': buildingname,
     };
   }
-
-  toJson() {}
 }

@@ -20,46 +20,8 @@ import 'package:http/http.dart' as http;
 class InformRepairForm extends StatefulWidget {
   final int? user;
   InformRepairForm({required this.user});
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text("หน้าที่ InformRepairForm"),
-        backgroundColor: Colors.red,
-      ),
-      body: Material(
-        child: Center(
-          child: Text(
-            "แจ้งซ่อมห้องน้ำ",
-            style: TextStyle(
-              color: Color.fromARGB(255, 7, 94, 53),
-              fontSize: 40,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-        ),
-      ),
-      extendBody: true,
-      bottomNavigationBar: BottomAppBar(
-        clipBehavior: Clip.antiAlias,
-        shape: const CircularNotchedRectangle(),
-        child: Container(
-          color: Color.fromARGB(255, 245, 59, 59),
-          height: 50.0,
-        ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: Color.fromARGB(255, 245, 59, 59),
-        onPressed: () {},
-        child: Icon(
-          Icons.add,
-          color: Colors.white,
-        ),
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-    );
-  }
 
+  @override
   Form createState() => Form();
 }
 
@@ -263,6 +225,7 @@ class Form extends State<InformRepairForm> {
     super.initState();
     fetchInformRepairs();
     listAllBuildings();
+
     fetchRoomNames();
     fetchRoomfloors();
     fetchRoompositions();
@@ -480,49 +443,6 @@ class Form extends State<InformRepairForm> {
                 //  //--------------------------------------------
                 Row(
                   children: [
-                    Expanded(child: Icon(Icons.featured_play_list_outlined)),
-                    Expanded(
-                      child: Text(
-                        "ประเภทห้องน้ำ  :",
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                    Expanded(
-                      child: DropdownButton<String>(
-                        isExpanded: true,
-                        value: roomname != null && roomNames.contains(roomname)
-                            ? roomname
-                            : roomNames.isNotEmpty
-                                ? roomNames[0]
-                                : null,
-                        items: roomNames.map((String roomname) {
-                          return DropdownMenuItem<String>(
-                            child: Text(roomname),
-                            value: roomname,
-                          );
-                        }).toList(),
-                        onChanged: (val) {
-                          setState(() {
-                            roomname = val;
-                            print("Controller: $roomname");
-                          });
-                        },
-                        icon: const Icon(
-                          Icons.arrow_drop_down_circle,
-                          color: Colors.red,
-                        ),
-                        dropdownColor: Colors.white,
-                      ),
-                    ),
-                  ],
-                ),
-
-                Row(
-                  children: [
                     Expanded(child: Icon(Icons.business)),
                     Expanded(
                       child: Text(
@@ -535,17 +455,9 @@ class Form extends State<InformRepairForm> {
                       ),
                     ),
                     Expanded(
-                      child: // DropdownButton  ประเภทอาคาร-------------------------------------
-                          DropdownButton<String>(
+                      child: DropdownButton<String>(
                         isExpanded: true,
-                        value: buildingId != null &&
-                                buildings?.any((building) =>
-                                        building.buildingname == buildingId) ==
-                                    true
-                            ? buildingId
-                            : buildings?.isNotEmpty == true
-                                ? buildings![0].buildingname
-                                : null,
+                        value: buildingId,
                         items: buildings?.map((Building building) {
                           return DropdownMenuItem<String>(
                             child: Text(building.buildingname ?? ''),
@@ -654,6 +566,49 @@ class Form extends State<InformRepairForm> {
                     ),
                   ],
                 ),
+                Row(
+                  children: [
+                    Expanded(child: Icon(Icons.featured_play_list_outlined)),
+                    Expanded(
+                      child: Text(
+                        "ประเภทห้องน้ำ  :",
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                    Expanded(
+                      child: DropdownButton<String>(
+                        isExpanded: true,
+                        value: roomname != null && roomNames.contains(roomname)
+                            ? roomname
+                            : roomNames.isNotEmpty
+                                ? roomNames[0]
+                                : null,
+                        items: roomNames.map((String roomname) {
+                          return DropdownMenuItem<String>(
+                            child: Text(roomname),
+                            value: roomname,
+                          );
+                        }).toList(),
+                        onChanged: (val) {
+                          setState(() {
+                            roomname = val;
+                            print("Controller: $roomname");
+                          });
+                        },
+                        icon: const Icon(
+                          Icons.arrow_drop_down_circle,
+                          color: Colors.red,
+                        ),
+                        dropdownColor: Colors.white,
+                      ),
+                    ),
+                  ],
+                ),
+
                 //  //---------------------------------------------------------------------------------------------
                 //  //---------------------------------------------------------------------------------------------
                 Row(children: [
