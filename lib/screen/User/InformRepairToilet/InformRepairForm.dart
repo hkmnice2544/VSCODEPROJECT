@@ -230,6 +230,22 @@ class Form extends State<InformRepairForm> {
     });
   }
 
+  List<String>? Position = [];
+
+  void findpositionByIdbuilding_id(String building_id, String floor) async {
+    Position = await informrepairController.findpositionByIdbuilding_id(
+        building_id, floor);
+    if (Position != null && Position!.isNotEmpty) {
+      for (var i = 0; i < Position!.length; i++) {
+        print("Floor $i: ${Position![i]}");
+      }
+    }
+
+    setState(() {
+      isDataLoaded = true;
+    });
+  }
+
   void main() {
     initializeDateFormatting('th_TH', null).then((_) {});
   }
@@ -534,6 +550,8 @@ class Form extends State<InformRepairForm> {
                             setState(() {
                               print("Controller: $roomfloor");
                               roomfloor = val;
+                              findpositionByIdbuilding_id(
+                                  buildingId!, roomfloor!);
                             });
                           },
                           icon: const Icon(
@@ -553,7 +571,7 @@ class Form extends State<InformRepairForm> {
 
                 Row(
                   children: [
-                    Expanded(child: Icon(Icons.location_on)),
+                    Expanded(child: Icon(Icons.linear_scale_outlined)),
                     Expanded(
                       child: Text(
                         "ตำแหน่ง  :",
@@ -564,34 +582,37 @@ class Form extends State<InformRepairForm> {
                         ),
                       ),
                     ),
-                    Expanded(
-                      child: DropdownButton<String>(
-                        isExpanded: true,
-                        value: roomposition != null &&
-                                roompositions.contains(roomposition)
-                            ? roomposition
-                            : roompositions.isNotEmpty
-                                ? roompositions[0]
-                                : null,
-                        items: roompositions.map((String roomposition) {
-                          return DropdownMenuItem<String>(
-                            child: Text(roomposition),
-                            value: roomposition,
-                          );
-                        }).toList(),
-                        onChanged: (val) {
-                          setState(() {
-                            roomposition = val;
-                            print("Controller: $roomposition");
-                          });
-                        },
-                        icon: const Icon(
-                          Icons.arrow_drop_down_circle,
-                          color: Colors.red,
+                    if (Position != null && Position!.isNotEmpty) ...{
+                      Expanded(
+                        child: DropdownButton<String>(
+                          isExpanded: true,
+                          value: roomposition ?? Position!.first,
+                          items: [
+                            ...Position!.map((String position) {
+                              return DropdownMenuItem<String>(
+                                child: Text(position),
+                                value: position,
+                              );
+                            }),
+                          ],
+                          onChanged: (val) {
+                            setState(() {
+                              print("Controller: $roomposition");
+                              roomposition = val;
+                            });
+                          },
+                          icon: const Icon(
+                            Icons.arrow_drop_down_circle,
+                            color: Colors.red,
+                          ),
+                          dropdownColor: Colors.white,
                         ),
-                        dropdownColor: Colors.white,
                       ),
-                    ),
+                    } else ...{
+                      Expanded(
+                        child: Text("กรุณาเลือกชั้น"),
+                      ),
+                    },
                   ],
                 ),
                 Row(
