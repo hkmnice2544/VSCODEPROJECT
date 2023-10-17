@@ -213,6 +213,9 @@ class Form extends State<InformRepairForm> {
     print("listAllBuildings : ${buildings?[0].building_id}");
     setState(() {
       isDataLoaded = true;
+      if (buildings != null && buildings!.isNotEmpty) {
+        buildingId = buildings?[0].building_id.toString();
+      }
     });
   }
 
@@ -225,7 +228,6 @@ class Form extends State<InformRepairForm> {
     super.initState();
     fetchInformRepairs();
     listAllBuildings();
-
     fetchRoomNames();
     fetchRoomfloors();
     fetchRoompositions();
