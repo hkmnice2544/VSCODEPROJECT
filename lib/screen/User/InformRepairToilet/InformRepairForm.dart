@@ -216,7 +216,6 @@ class Form extends State<InformRepairForm> {
   }
 
   List<String>? Floor = [];
-
   void findfloorByIdbuilding_id(String building_id) async {
     Floor = await informrepairController.findfloorByIdbuilding_id(building_id);
     if (Floor != null && Floor!.isNotEmpty) {
@@ -224,14 +223,12 @@ class Form extends State<InformRepairForm> {
         print("Floor $i: ${Floor![i]}");
       }
     }
-
     setState(() {
       isDataLoaded = true;
     });
   }
 
   List<String>? Position = [];
-
   void findpositionByIdbuilding_id(String building_id, String floor) async {
     Position = await informrepairController.findpositionByIdbuilding_id(
         building_id, floor);
@@ -240,7 +237,21 @@ class Form extends State<InformRepairForm> {
         print("Floor $i: ${Position![i]}");
       }
     }
+    setState(() {
+      isDataLoaded = true;
+    });
+  }
 
+  List<String>? Roomname = [];
+  void findroomnameByIdbuilding_id(
+      String building_id, String floor, String position) async {
+    Roomname = await informrepairController.findroomnameByIdbuilding_id(
+        building_id, floor, position);
+    if (Roomname != null && Roomname!.isNotEmpty) {
+      for (var i = 0; i < Roomname!.length; i++) {
+        print("Floor $i: ${Roomname![i]}");
+      }
+    }
     setState(() {
       isDataLoaded = true;
     });
@@ -599,6 +610,8 @@ class Form extends State<InformRepairForm> {
                             setState(() {
                               print("Controller: $roomposition");
                               roomposition = val;
+                              findroomnameByIdbuilding_id(
+                                  buildingId!, roomfloor!, roomposition!);
                             });
                           },
                           icon: const Icon(
@@ -617,7 +630,7 @@ class Form extends State<InformRepairForm> {
                 ),
                 Row(
                   children: [
-                    Expanded(child: Icon(Icons.featured_play_list_outlined)),
+                    Expanded(child: Icon(Icons.linear_scale_outlined)),
                     Expanded(
                       child: Text(
                         "ประเภทห้องน้ำ  :",
@@ -628,33 +641,37 @@ class Form extends State<InformRepairForm> {
                         ),
                       ),
                     ),
-                    Expanded(
-                      child: DropdownButton<String>(
-                        isExpanded: true,
-                        value: roomname != null && roomNames.contains(roomname)
-                            ? roomname
-                            : roomNames.isNotEmpty
-                                ? roomNames[0]
-                                : null,
-                        items: roomNames.map((String roomname) {
-                          return DropdownMenuItem<String>(
-                            child: Text(roomname),
-                            value: roomname,
-                          );
-                        }).toList(),
-                        onChanged: (val) {
-                          setState(() {
-                            roomname = val;
-                            print("Controller: $roomname");
-                          });
-                        },
-                        icon: const Icon(
-                          Icons.arrow_drop_down_circle,
-                          color: Colors.red,
+                    if (Roomname != null && Roomname!.isNotEmpty) ...{
+                      Expanded(
+                        child: DropdownButton<String>(
+                          isExpanded: true,
+                          value: roomname ?? Roomname!.first,
+                          items: [
+                            ...Roomname!.map((String roomnames) {
+                              return DropdownMenuItem<String>(
+                                child: Text(roomnames),
+                                value: roomnames,
+                              );
+                            }),
+                          ],
+                          onChanged: (val) {
+                            setState(() {
+                              print("Controller: $roomname");
+                              roomname = val;
+                            });
+                          },
+                          icon: const Icon(
+                            Icons.arrow_drop_down_circle,
+                            color: Colors.red,
+                          ),
+                          dropdownColor: Colors.white,
                         ),
-                        dropdownColor: Colors.white,
                       ),
-                    ),
+                    } else ...{
+                      Expanded(
+                        child: Text("กรุณาเลือกตำแหน่ง"),
+                      ),
+                    },
                   ],
                 ),
 
