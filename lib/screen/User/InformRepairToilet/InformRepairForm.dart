@@ -93,7 +93,6 @@ class Form extends State<InformRepairForm> {
   InformRepair? informRepairs;
   InformRepair? informRepair;
   List<Building>? buildings;
-  String? buildingId;
   String? roomname;
   String? roomfloor;
   String? roomposition;
@@ -112,7 +111,7 @@ class Form extends State<InformRepairForm> {
   final ImagePicker imagePicker = ImagePicker();
   List<XFile> imageFileList = [];
   List<String> imageFileNames = [];
-
+  String? buildingId = '';
   void selectImages() async {
     final List<XFile>? selectedImages = await imagePicker.pickMultiImage();
     if (selectedImages != null && selectedImages.isNotEmpty) {
@@ -213,15 +212,12 @@ class Form extends State<InformRepairForm> {
     print("listAllBuildings : ${buildings?[0].building_id}");
     setState(() {
       isDataLoaded = true;
-      if (buildings != null && buildings!.isNotEmpty) {
-        buildingId = buildings?[0].building_id.toString();
-      }
     });
   }
 
   List<String>? Floor = [];
 
-  void listAllInformRepair(String building_id) async {
+  void findfloorByIdbuilding_id(String building_id) async {
     Floor = await informrepairController.findfloorByIdbuilding_id(building_id);
     if (Floor != null && Floor!.isNotEmpty) {
       for (var i = 0; i < Floor!.length; i++) {
@@ -475,19 +471,27 @@ class Form extends State<InformRepairForm> {
                       child: DropdownButton<String>(
                         isExpanded: true,
                         value: buildingId,
-                        items: buildings?.map((Building building) {
-                          return DropdownMenuItem<String>(
-                            child: Text(building.buildingname ?? ''),
-                            value: building.building_id.toString(),
-                          );
-                        }).toList(),
+                        items: [
+                          DropdownMenuItem<String>(
+                            child: Text('กรุณาเลือกอาคาร'),
+                            value: '', // หรือค่าว่าง
+                          ),
+                          ...buildings!.map((Building building) {
+                            return DropdownMenuItem<String>(
+                              child: Text(building.buildingname ?? ''),
+                              value: building.building_id.toString(),
+                            );
+                          }).toList(),
+                        ],
                         onChanged: (val) {
                           setState(() {
                             buildingId = val;
-                            print("Controller: $buildingId");
-
-                            fetchRoomByBuilding(buildingId!);
-                            listAllInformRepair(buildingId!);
+                            if (val != '') {
+                              // ตรวจสอบว่าค่าไม่ใช่ค่าว่าง
+                              print("Controller: $buildingId");
+                              fetchRoomByBuilding(buildingId!);
+                              findfloorByIdbuilding_id(buildingId!);
+                            }
                           });
                         },
                         icon: const Icon(
@@ -496,9 +500,10 @@ class Form extends State<InformRepairForm> {
                         ),
                         dropdownColor: Colors.white,
                       ),
-                    ),
+                    )
                   ],
                 ),
+
                 Row(
                   children: [
                     Expanded(child: Icon(Icons.linear_scale_outlined)),
@@ -512,33 +517,40 @@ class Form extends State<InformRepairForm> {
                         ),
                       ),
                     ),
-                    Expanded(
-                      child: DropdownButton<String>(
-                        isExpanded: true,
-                        value: roomfloor ??
-                            Floor
-                                ?.first, // กำหนดค่าเริ่มต้นเป็นค่าแรกจากรายการ Floor
-                        items: Floor!.map((String floor) {
-                          return DropdownMenuItem<String>(
-                            child: Text(floor),
-                            value: floor,
-                          );
-                        }).toList(),
-                        onChanged: (val) {
-                          setState(() {
-                            roomfloor = val;
-                            print("Controller: $roomfloor");
-                          });
-                        },
-                        icon: const Icon(
-                          Icons.arrow_drop_down_circle,
-                          color: Colors.red,
+                    if (Floor != null && Floor!.isNotEmpty) ...{
+                      Expanded(
+                        child: DropdownButton<String>(
+                          isExpanded: true,
+                          value: roomfloor ?? Floor!.first,
+                          items: [
+                            ...Floor!.map((String floor) {
+                              return DropdownMenuItem<String>(
+                                child: Text(floor),
+                                value: floor,
+                              );
+                            }),
+                          ],
+                          onChanged: (val) {
+                            setState(() {
+                              print("Controller: $roomfloor");
+                              roomfloor = val;
+                            });
+                          },
+                          icon: const Icon(
+                            Icons.arrow_drop_down_circle,
+                            color: Colors.red,
+                          ),
+                          dropdownColor: Colors.white,
                         ),
-                        dropdownColor: Colors.white,
                       ),
-                    ),
+                    } else ...{
+                      Expanded(
+                        child: Text("กรุณาเลือกอาคาร"),
+                      ),
+                    },
                   ],
                 ),
+
                 Row(
                   children: [
                     Expanded(child: Icon(Icons.location_on)),
