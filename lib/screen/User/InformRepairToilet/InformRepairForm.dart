@@ -219,6 +219,21 @@ class Form extends State<InformRepairForm> {
     });
   }
 
+  // List<String>? Floor = [];
+
+  // void listAllInformRepair(int building_id) async {
+  //   Floor = await informrepairController.findfloorByIdbuilding_id(building_id);
+  //   if (Floor != null && Floor!.isNotEmpty) {
+  //     for (var i = 0; i < Floor!.length; i++) {
+  //       print("Floor $i: ${Floor![i]}");
+  //     }
+  //   }
+
+  //   setState(() {
+  //     isDataLoaded = true;
+  //   });
+  // }
+
   void main() {
     initializeDateFormatting('th_TH', null).then((_) {});
   }
@@ -404,7 +419,7 @@ class Form extends State<InformRepairForm> {
                         child: Padding(
                           padding: EdgeInsets.fromLTRB(0.0, 0, 5.0, 0), //
                           child: Text(
-                            "${(informrepairs?[informrepairs!.length - 1].informrepair_id ?? 0) + 1}",
+                            "${(informrepairs?.isNotEmpty == true ? (informrepairs![informrepairs!.length - 1].informrepair_id ?? 0) + 1 : 1)}",
                             style: TextStyle(
                               color: Colors.black,
                               fontSize: 20,
@@ -471,6 +486,7 @@ class Form extends State<InformRepairForm> {
                             buildingId = val;
                             print("Controller: $buildingId");
                             fetchRoomByBuilding(buildingId!);
+                            // listAllInformRepair(buildingId as int);
                           });
                         },
                         icon: const Icon(

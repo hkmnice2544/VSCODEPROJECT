@@ -240,4 +240,21 @@ class InformRepairController {
     InformRepair? informRepair = InformRepair.fromJsonToInformRepair(jsonMap);
     return informRepair;
   }
+
+  Future<List<String>> findfloorByIdbuilding_id(int? building_id) async {
+    var url = Uri.parse(baseURL + '/rooms/floor/$building_id');
+
+    http.Response response = await http.post(url, headers: headers, body: null);
+    print("ข้อมูลที่ได้คือ : " + response.body);
+
+    if (response.statusCode == 200) {
+      // แปลงข้อมูล JSON จาก String เป็น List<String>
+      List<String> floorList =
+          (json.decode(response.body) as List).cast<String>();
+
+      return floorList;
+    } else {
+      throw Exception("ไม่สามารถดึงข้อมูลได้");
+    }
+  }
 }
