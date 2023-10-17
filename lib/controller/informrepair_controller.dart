@@ -241,7 +241,7 @@ class InformRepairController {
     return informRepair;
   }
 
-  Future<List<String>> findfloorByIdbuilding_id(int? building_id) async {
+  Future<List<String>> findfloorByIdbuilding_id(String? building_id) async {
     var url = Uri.parse(baseURL + '/rooms/floor/$building_id');
 
     http.Response response = await http.post(url, headers: headers, body: null);

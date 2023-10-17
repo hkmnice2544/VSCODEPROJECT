@@ -219,20 +219,20 @@ class Form extends State<InformRepairForm> {
     });
   }
 
-  // List<String>? Floor = [];
+  List<String>? Floor = [];
 
-  // void listAllInformRepair(int building_id) async {
-  //   Floor = await informrepairController.findfloorByIdbuilding_id(building_id);
-  //   if (Floor != null && Floor!.isNotEmpty) {
-  //     for (var i = 0; i < Floor!.length; i++) {
-  //       print("Floor $i: ${Floor![i]}");
-  //     }
-  //   }
+  void listAllInformRepair(String building_id) async {
+    Floor = await informrepairController.findfloorByIdbuilding_id(building_id);
+    if (Floor != null && Floor!.isNotEmpty) {
+      for (var i = 0; i < Floor!.length; i++) {
+        print("Floor $i: ${Floor![i]}");
+      }
+    }
 
-  //   setState(() {
-  //     isDataLoaded = true;
-  //   });
-  // }
+    setState(() {
+      isDataLoaded = true;
+    });
+  }
 
   void main() {
     initializeDateFormatting('th_TH', null).then((_) {});
@@ -485,8 +485,9 @@ class Form extends State<InformRepairForm> {
                           setState(() {
                             buildingId = val;
                             print("Controller: $buildingId");
+
                             fetchRoomByBuilding(buildingId!);
-                            // listAllInformRepair(buildingId as int);
+                            listAllInformRepair(buildingId!);
                           });
                         },
                         icon: const Icon(
@@ -514,16 +515,13 @@ class Form extends State<InformRepairForm> {
                     Expanded(
                       child: DropdownButton<String>(
                         isExpanded: true,
-                        value:
-                            roomfloor != null && roomfloors.contains(roomfloor)
-                                ? roomfloor
-                                : roomfloors.isNotEmpty
-                                    ? roomfloors[0]
-                                    : null,
-                        items: roomfloors.map((String roomfloor) {
+                        value: roomfloor ??
+                            Floor
+                                ?.first, // กำหนดค่าเริ่มต้นเป็นค่าแรกจากรายการ Floor
+                        items: Floor!.map((String floor) {
                           return DropdownMenuItem<String>(
-                            child: Text(roomfloor),
-                            value: roomfloor,
+                            child: Text(floor),
+                            value: floor,
                           );
                         }).toList(),
                         onChanged: (val) {
