@@ -32,3 +32,8 @@ flutter:
   uses-material-design: true
   assets:
     - images/
+
+    spring:
+  servlet:
+    multipart:
+      enabled: true
