@@ -112,6 +112,7 @@ class Form extends State<InformRepairForm> {
   List<XFile> imageFileList = [];
   List<String> imageFileNames = [];
   String? buildingId = '';
+
   void selectImages() async {
     final List<XFile>? selectedImages = await imagePicker.pickMultiImage();
     if (selectedImages != null && selectedImages.isNotEmpty) {
@@ -731,311 +732,7 @@ class Form extends State<InformRepairForm> {
                   ),
                   Text("                                "),
                 ]),
-                Row(
-                  children: [
-                    Checkbox(
-                      value: _tapCheckBox == '1001',
-                      onChanged: (bool? value) {
-                        setState(() {
-                          _tapCheckBox = value != null && value ? '1001' : '';
-                          print(_tapCheckBox);
-                        });
-                      },
-                    ),
-                    Icon(Icons.add_circle),
-                    Text('ก๊อกน้ำ'),
-                  ],
-                ),
-                if (_tapCheckBox.isNotEmpty) ...[
-                  // GridView.builder(
-                  //   shrinkWrap: true,
-                  //   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  //     crossAxisCount: 3, // 3 คอลัมน์
-                  //   ),
-                  //   itemCount: imageFileList.length,
-                  //   itemBuilder: (BuildContext context, int index) {
-                  //     String fileName =
-                  //         imageFileList[index].path.split('/').last;
-                  //     imageFileNames.add(fileName); // เพิ่มชื่อไฟล์ลงใน List
-                  //     return Padding(
-                  //       padding: const EdgeInsets.all(2),
-                  //       child: Stack(
-                  //         children: [
-                  //           Image.file(File(imageFileList[index].path)),
-                  //           Positioned(
-                  //             bottom: 0,
-                  //             left: 0,
-                  //             right: 79,
-                  //             child: Container(
-                  //               color: Colors.black.withOpacity(0.7),
-                  //               padding: EdgeInsets.all(5.0),
-                  //               child: Text(
-                  //                 fileName, // ใช้ชื่อไฟล์แทน
-                  //                 style: TextStyle(color: Colors.white),
-                  //               ),
-                  //             ),
-                  //           ),
-                  //           Positioned(
-                  //             top: 0,
-                  //             right: 30,
-                  //             child: IconButton(
-                  //               icon: Icon(
-                  //                 Icons.highlight_remove_sharp,
-                  //                 color: Colors.red,
-                  //               ),
-                  //               onPressed: () {
-                  //                 // ลบรูปออกจาก imageFileList
-                  //                 setState(() {
-                  //                   imageFileList.removeAt(index);
-                  //                 });
-                  //                 // ลบชื่อรูปภาพที่เกี่ยวข้องออกจาก imageFileNames
-                  //                 String fileNameToRemove =
-                  //                     imageFileNames[index];
-                  //                 imageFileNames.removeWhere((fileName) =>
-                  //                     fileName == fileNameToRemove);
-                  //               },
-                  //             ),
-                  //           ),
-                  //         ],
-                  //       ),
-                  //     );
-                  //   },
-                  // ),
-                  // MaterialButton(
-                  //     color: Colors.blue,
-                  //     child: Text(
-                  //       "Pick",
-                  //       style: TextStyle(
-                  //           color: Colors.white, fontWeight: FontWeight.bold),
-                  //     ),
-                  //     onPressed: () {
-                  //       selectImages();
-                  //       print('imageFileNames----${imageFileNames}');
-                  //     }),
-                  TextField(
-                    controller: _tapCheckBoxController,
-                    decoration: InputDecoration(
-                      labelText: 'รายละเอียด',
-                    ),
-                    onChanged: (value) {
-                      if (_tapCheckBox == "") {
-                        _tapCheckBoxController.clear(); // ล้างค่าใน TextField
-                      }
-                    },
-                  ),
-                  TextField(
-                    controller: _tapCountController,
-                    decoration: InputDecoration(
-                      labelText: 'จำนวน',
-                    ),
-                    onChanged: (value) {
-                      if (_tapCheckBox == "") {
-                        _tapCountController.clear(); // ล้างค่าใน TextField
-                      }
-                    },
-                  ),
-                ],
-
-                Row(
-                  children: [
-                    Checkbox(
-                      value: _toiletbowlCheckBox == '1002',
-                      onChanged: (bool? value) {
-                        setState(() {
-                          _toiletbowlCheckBox =
-                              value != null && value ? '1002' : '';
-                        });
-                      },
-                    ),
-                    Icon(Icons.add_circle),
-                    Text('โถชักโครก'),
-                  ],
-                ),
-                if (_toiletbowlCheckBox.isNotEmpty) ...[
-                  TextField(
-                    controller: _toiletbowlBoxController,
-                    decoration: InputDecoration(
-                      labelText: 'รายละเอียด',
-                    ),
-                    onChanged: (value) {
-                      if (_toiletbowlCheckBox == "") {
-                        _toiletbowlBoxController.clear(); // ล้างค่าใน TextField
-                      }
-                    },
-                  ),
-                  TextField(
-                    controller: _toiletbowlCountController,
-                    decoration: InputDecoration(
-                      labelText: 'จำนวน',
-                    ),
-                    onChanged: (value) {
-                      if (_toiletbowlCheckBox == "") {
-                        _toiletbowlCountController
-                            .clear(); // ล้างค่าใน TextField
-                      }
-                    },
-                  ),
-                ],
-                Row(
-                  children: [
-                    Checkbox(
-                      value: _bidetCheckBox == '1003',
-                      onChanged: (bool? value) {
-                        setState(() {
-                          _bidetCheckBox = value != null && value ? '1003' : '';
-                        });
-                      },
-                    ),
-                    Icon(Icons.add_circle),
-                    Text('สายชำระ'),
-                  ],
-                ),
-                if (_bidetCheckBox.isNotEmpty) ...[
-                  TextField(
-                    controller: _bidetCheckBoxController,
-                    decoration: InputDecoration(
-                      labelText: 'รายละเอียด',
-                    ),
-                    onChanged: (value) {
-                      if (_bidetCheckBox == "") {
-                        _bidetCheckBoxController.clear(); // ล้างค่าใน TextField
-                      }
-                    },
-                  ),
-                  TextField(
-                    controller: _bidetCheckCountController,
-                    decoration: InputDecoration(
-                      labelText: 'จำนวน',
-                    ),
-                    onChanged: (value) {
-                      if (_bidetCheckBox == "") {
-                        _bidetCheckCountController
-                            .clear(); // ล้างค่าใน TextField
-                      }
-                    },
-                  ),
-                ],
-                Row(
-                  children: [
-                    Checkbox(
-                      value: _urinalCheckBox == '1004',
-                      onChanged: (bool? value) {
-                        setState(() {
-                          _urinalCheckBox =
-                              value != null && value ? '1004' : '';
-                        });
-                      },
-                    ),
-                    Icon(Icons.add_circle),
-                    Text('โถฉี่ชาย'),
-                  ],
-                ),
-                if (_urinalCheckBox.isNotEmpty) ...[
-                  TextField(
-                    controller: _urinalCheckBoxController,
-                    decoration: InputDecoration(
-                      labelText: 'รายละเอียด',
-                    ),
-                    onChanged: (value) {
-                      if (_urinalCheckBox == "") {
-                        _urinalCheckBoxController
-                            .clear(); // ล้างค่าใน TextField
-                      }
-                    },
-                  ),
-                  TextField(
-                    controller: _urinalCheckCountController,
-                    decoration: InputDecoration(
-                      labelText: 'จำนวน',
-                    ),
-                    onChanged: (value) {
-                      if (_urinalCheckBox == "") {
-                        _urinalCheckCountController
-                            .clear(); // ล้างค่าใน TextField
-                      }
-                    },
-                  ),
-                ],
-                Row(
-                  children: [
-                    Checkbox(
-                      value: _sinkCheckBox == '1005',
-                      onChanged: (bool? value) {
-                        setState(() {
-                          _sinkCheckBox = value != null && value ? '1005' : '';
-                        });
-                      },
-                    ),
-                    Icon(Icons.add_circle),
-                    Text('อ่างล้างมือ'),
-                  ],
-                ),
-                if (_sinkCheckBox.isNotEmpty) ...[
-                  TextField(
-                    controller: _sinkCheckBoxController,
-                    decoration: InputDecoration(
-                      labelText: 'รายละเอียด',
-                    ),
-                    onChanged: (value) {
-                      if (_sinkCheckBox == "") {
-                        _sinkCheckBoxController.clear(); // ล้างค่าใน TextField
-                      }
-                    },
-                  ),
-                  TextField(
-                    controller: _sinkCheckCountController,
-                    decoration: InputDecoration(
-                      labelText: 'จำนวน',
-                    ),
-                    onChanged: (value) {
-                      if (_sinkCheckBox == "") {
-                        _sinkCheckCountController
-                            .clear(); // ล้างค่าใน TextField
-                      }
-                    },
-                  ),
-                ],
-                Row(
-                  children: [
-                    Checkbox(
-                      value: _lightbulbCheckBox == '1006',
-                      onChanged: (bool? value) {
-                        setState(() {
-                          _lightbulbCheckBox =
-                              value != null && value ? '1006' : '';
-                        });
-                      },
-                    ),
-                    Icon(Icons.add_circle),
-                    Text('โถชักโครก'),
-                  ],
-                ),
-                if (_lightbulbCheckBox.isNotEmpty) ...[
-                  TextField(
-                    controller: _lightbulbCheckBoxController,
-                    decoration: InputDecoration(
-                      labelText: 'รายละเอียด',
-                    ),
-                    onChanged: (value) {
-                      if (_lightbulbCheckBox == "") {
-                        _lightbulbCheckBoxController
-                            .clear(); // ล้างค่าใน TextField
-                      }
-                    },
-                  ),
-                  TextField(
-                    controller: _lightbulbCheckCountController,
-                    decoration: InputDecoration(
-                      labelText: 'จำนวน',
-                    ),
-                    onChanged: (value) {
-                      if (_lightbulbCheckBox == "") {
-                        _lightbulbCheckCountController
-                            .clear(); // ล้างค่าใน TextField
-                      }
-                    },
-                  ),
-                ],
+                ...buildEquipmentWidgets(),
 
                 Row(// Button Click
                     children: [
@@ -1252,5 +949,58 @@ class Form extends State<InformRepairForm> {
             ),
           ),
         ));
+  }
+
+  List<Widget> buildEquipmentWidgets() {
+    List<Widget> widgets = [];
+    for (String equipment in equipmentName) {
+      widgets.add(
+        Row(
+          children: [
+            Checkbox(
+              value: _tapCheckBox == '1001',
+              onChanged: (bool? value) {
+                setState(() {
+                  _tapCheckBox = value != null && value ? '1001' : '';
+                  print(_tapCheckBox);
+                });
+              },
+            ),
+            Icon(Icons.add_circle),
+            Text(equipment),
+          ],
+        ),
+      );
+
+      if (_tapCheckBox.isNotEmpty) {
+        widgets.add(
+          TextField(
+            controller: _tapCheckBoxController,
+            decoration: InputDecoration(
+              labelText: 'รายละเอียด',
+            ),
+            onChanged: (value) {
+              if (_tapCheckBox == "") {
+                _tapCheckBoxController.clear(); // ล้างค่าใน TextField
+              }
+            },
+          ),
+        );
+        widgets.add(
+          TextField(
+            controller: _tapCountController,
+            decoration: InputDecoration(
+              labelText: 'จำนวน',
+            ),
+            onChanged: (value) {
+              if (_tapCheckBox == "") {
+                _tapCountController.clear(); // ล้างค่าใน TextField
+              }
+            },
+          ),
+        );
+      }
+    }
+    return widgets;
   }
 }
