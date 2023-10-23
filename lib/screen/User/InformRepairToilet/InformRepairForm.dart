@@ -262,6 +262,39 @@ class Form extends State<InformRepairForm> {
     });
   }
 
+  String? selectedRoomId;
+  List<String>? Room_id = [];
+  List<String> equipmentName = [];
+
+  void findroom_idByIdByAll(String building_id, String floor, String position,
+      String roomname) async {
+    Room_id = await informrepairController.findroom_idByIdByAll(
+        building_id, floor, position, roomname);
+    if (Room_id != null && Room_id!.isNotEmpty) {
+      selectedRoomId = Room_id![0]; // ยกตัวอย่างว่าเลือก index 0
+
+      // เรียกใช้ฟังก์ชันเพื่อดึงข้อมูล equipment_ids
+      List<String> equipmentIds = await informrepairController
+          .findequipment_idByIdByroom_id(selectedRoomId);
+
+      for (int i = 0; i < equipmentIds.length; i++) {
+        int? equipmentId = int.tryParse(equipmentIds[i]);
+        if (equipmentId != null) {
+          String name = await informrepairController
+              .findequipmentnameByIdByequipment_id(equipmentId)
+              .then((value) => value.first);
+          equipmentName.add(name);
+        }
+      }
+
+      print("equipmentIds : $equipmentIds");
+      print("equipmentName : $equipmentName");
+    }
+    setState(() {
+      isDataLoaded = true;
+    });
+  }
+
   void main() {
     initializeDateFormatting('th_TH', null).then((_) {});
   }
@@ -663,6 +696,8 @@ class Form extends State<InformRepairForm> {
                             setState(() {
                               print("Controller: $roomname");
                               roomname = val;
+                              findroom_idByIdByAll(buildingId!, roomfloor!,
+                                  roomposition!, roomname!);
                             });
                           },
                           icon: const Icon(

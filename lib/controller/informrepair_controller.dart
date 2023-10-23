@@ -294,4 +294,60 @@ class InformRepairController {
       throw Exception("ไม่สามารถดึงข้อมูลได้");
     }
   }
+
+  Future<List<String>> findroom_idByIdByAll(String? building_id, String? floor,
+      String? position, String? roomname) async {
+    var url = Uri.parse(baseURL +
+        '/rooms/findroom_idByIdByAll/$building_id/$floor/$position/$roomname');
+
+    http.Response response = await http.post(url, headers: headers, body: null);
+    print("ข้อมูลที่ได้คือ : " + response.body);
+
+    if (response.statusCode == 200) {
+      // แปลงข้อมูล JSON จาก String เป็น List<String>
+      List<String> floorList =
+          (json.decode(response.body) as List).cast<String>();
+
+      return floorList;
+    } else {
+      throw Exception("ไม่สามารถดึงข้อมูลได้");
+    }
+  }
+
+  Future<List<String>> findequipment_idByIdByroom_id(String? room_id) async {
+    var url =
+        Uri.parse(baseURL + '/rooms/findequipment_idByIdByroom_id/$room_id');
+
+    http.Response response = await http.post(url, headers: headers, body: null);
+    print("ข้อมูลที่ได้คือ : " + response.body);
+
+    if (response.statusCode == 200) {
+      // แปลงข้อมูล JSON จาก String เป็น List<String>
+      List<String> floorList =
+          (json.decode(response.body) as List).cast<String>();
+
+      return floorList;
+    } else {
+      throw Exception("ไม่สามารถดึงข้อมูลได้");
+    }
+  }
+
+  Future<List<String>> findequipmentnameByIdByequipment_id(
+      int? equipment_id) async {
+    var url = Uri.parse(
+        baseURL + '/rooms/findequipmentnameByIdByequipment_id/$equipment_id');
+
+    http.Response response = await http.post(url, headers: headers, body: null);
+    print("ข้อมูลที่ได้คือ : " + response.body);
+
+    if (response.statusCode == 200) {
+      // แปลงข้อมูล JSON จาก String เป็น List<String>
+      List<String> floorList =
+          (json.decode(response.body) as List).cast<String>();
+
+      return floorList;
+    } else {
+      throw Exception("ไม่สามารถดึงข้อมูลได้");
+    }
+  }
 }
