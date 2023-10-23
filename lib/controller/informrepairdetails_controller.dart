@@ -127,4 +127,23 @@ class InformRepairDetailsController {
         InformRepairDetails.fromJsonToInformRepairDetails(jsonMap);
     return informRepair;
   }
+
+  Future<List<InformRepairDetails>>
+      ViewListInformListInformDetailsGroupbyinformrepair_idDetails() async {
+    final response = await http.post(Uri.parse((baseURL +
+        '/informrepairdetails/ListInformDetailsGroupbyinformrepair_id')));
+    if (response.statusCode == 200) {
+      final List<dynamic> jsonData = json.decode(response.body);
+      List<InformRepairDetails> detailsList = [];
+
+      for (final dynamic data in jsonData) {
+        final details = InformRepairDetails.fromJsonToInformRepairDetails(data);
+        detailsList.add(details);
+      }
+
+      return detailsList;
+    } else {
+      throw Exception('Failed to load data');
+    }
+  }
 }

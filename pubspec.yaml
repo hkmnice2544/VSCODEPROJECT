@@ -33,7 +33,4 @@ flutter:
   assets:
     - images/
 
-    spring:
-  servlet:
-    multipart:
-      enabled: true
+

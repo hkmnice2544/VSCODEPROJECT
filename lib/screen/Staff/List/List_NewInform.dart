@@ -36,13 +36,23 @@ class NewInform extends State<listNewInform> {
 
   InformRepairDetailsController informRepairDetailsController =
       InformRepairDetailsController();
-  List<InformRepairDetails>? informRepairDetails;
+  List<InformRepairDetails>? informRepairDetailsList;
 
-  void listAllInformRepairDetails() async {
+  // void listAllInformRepairDetails() async {
+  //   // เรียกใช้งาน listAllInformRepairDetails และรอข้อมูลเสร็จสมบูรณ์
+  //   informRepairDetails =
+  //       (await informRepairDetailsController.listAllInformRepairDetails())
+  //           .cast<InformRepairDetails>();
+  //   setState(() {
+  //     isDataLoaded = true;
+  //   });
+  // }
+
+  void ViewListInformListInformDetailsGroupbyinformrepair_idDetails() async {
     // เรียกใช้งาน listAllInformRepairDetails และรอข้อมูลเสร็จสมบูรณ์
-    informRepairDetails =
-        (await informRepairDetailsController.listAllInformRepairDetails())
-            .cast<InformRepairDetails>();
+    informRepairDetailsList = (await informRepairDetailsController
+            .ViewListInformListInformDetailsGroupbyinformrepair_idDetails())
+        .cast<InformRepairDetails>();
     setState(() {
       isDataLoaded = true;
     });
@@ -66,7 +76,7 @@ class NewInform extends State<listNewInform> {
   void initState() {
     super.initState();
     listAllInformRepair();
-    listAllInformRepairDetails();
+    ViewListInformListInformDetailsGroupbyinformrepair_idDetails();
 
     informrepairs?.sort((a, b) {
       if (a.informdate == null && b.informdate == null) {
@@ -108,7 +118,7 @@ class NewInform extends State<listNewInform> {
                                 searchQuery)
                             .toList();
                       } else {
-                        informRepairDetails = null; // เมื่อค่าค้นหาเป็นว่าง
+                        informRepairDetailsList = null; // เมื่อค่าค้นหาเป็นว่าง
                       }
                     });
                   },
@@ -116,13 +126,13 @@ class NewInform extends State<listNewInform> {
               ),
               Expanded(
                 child: ListView.builder(
-                  itemCount:
-                      informRepairDetails?.length ?? informRepairList?.length,
+                  itemCount: informRepairDetailsList?.length ??
+                      informRepairList?.length,
                   scrollDirection: Axis.vertical,
                   itemBuilder: (context, index) {
-                    if (informRepairDetails?[index].informRepair?.status ==
+                    if (informRepairDetailsList?[index].informRepair?.status ==
                             "เสร็จสิ้น" ||
-                        informRepairDetails?[index].informRepair?.status ==
+                        informRepairDetailsList?[index].informRepair?.status ==
                             "กำลังดำเนินการ") {
                       return Container(); // สร้าง Container ว่างเปล่าเพื่อซ่อนรายการที่มี status เป็น "กำลังดำเนินการ"
                     } else {
@@ -151,7 +161,7 @@ class NewInform extends State<listNewInform> {
                                 ),
                                 Expanded(
                                   child: Text(
-                                    "${informRepairDetails?[index].informRepair?.informrepair_id}",
+                                    "${informRepairDetailsList?[index].informRepair?.informrepair_id}",
                                     style: const TextStyle(
                                         fontFamily: 'Itim', fontSize: 22),
                                   ),
@@ -167,23 +177,7 @@ class NewInform extends State<listNewInform> {
                                 ),
                                 Expanded(
                                   child: Text(
-                                    "${informRepairDetails?[index].informRepair?.informdate}",
-                                    style: const TextStyle(
-                                        fontFamily: 'Itim', fontSize: 22),
-                                  ),
-                                ),
-                              ]),
-                              Row(children: [
-                                Expanded(
-                                  child: Text(
-                                    "อุปกรณ์ ",
-                                    style: const TextStyle(
-                                        fontFamily: 'Itim', fontSize: 22),
-                                  ),
-                                ),
-                                Expanded(
-                                  child: Text(
-                                    "${informRepairDetails?[index].roomEquipment?.equipment?.equipmentname}",
+                                    "${informRepairDetailsList?[index].informRepair?.informdate}",
                                     style: const TextStyle(
                                         fontFamily: 'Itim', fontSize: 22),
                                   ),
@@ -199,7 +193,7 @@ class NewInform extends State<listNewInform> {
                                 ),
                                 Expanded(
                                   child: Text(
-                                    "${informRepairDetails?[index].informRepair?.status}",
+                                    "${informRepairDetailsList?[index].informRepair?.status}",
                                     style: const TextStyle(
                                         fontFamily: 'Itim', fontSize: 22),
                                   ),
@@ -213,20 +207,22 @@ class NewInform extends State<listNewInform> {
                                 context,
                                 MaterialPageRoute(
                                   builder: (context) => ReportInform(
-                                    informrepair_id: informRepairDetails?[index]
-                                            ?.informRepair
-                                            ?.informrepair_id ??
-                                        0,
-                                    room_id: informRepairDetails?[index]
+                                    informrepair_id:
+                                        informRepairDetailsList?[index]
+                                                ?.informRepair
+                                                ?.informrepair_id ??
+                                            0,
+                                    room_id: informRepairDetailsList?[index]
                                             ?.informRepair
                                             ?.room
                                             ?.room_id ??
                                         0,
-                                    equipment_id: informRepairDetails?[index]
-                                            ?.roomEquipment
-                                            ?.equipment
-                                            ?.equipment_id ??
-                                        0,
+                                    equipment_id:
+                                        informRepairDetailsList?[index]
+                                                ?.roomEquipment
+                                                ?.equipment
+                                                ?.equipment_id ??
+                                            0,
                                     user: widget.user ?? 0,
                                   ),
                                 ),
@@ -242,7 +238,7 @@ class NewInform extends State<listNewInform> {
                                 MaterialPageRoute(
                                     builder: (_) => ViewNewInform(
                                         informrepair_id:
-                                            informRepairDetails?[index]
+                                            informRepairDetailsList?[index]
                                                 .informRepair
                                                 ?.informrepair_id)),
                               );
