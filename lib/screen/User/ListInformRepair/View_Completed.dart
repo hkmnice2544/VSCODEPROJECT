@@ -56,9 +56,9 @@ class _ViewResultState extends State<ViewCompleted> {
   @override
   void initState() {
     super.initState();
-    if (widget.report_id != null) {
-      getInform(widget.report_id!);
-    }
+    print("-------report_id-----${widget.report_id!}-------------");
+    getInform(widget.report_id!);
+
     DateTime now = DateTime.now();
     formattedDate = DateFormat('dd-MM-yyyy').format(now);
     getListReport_pictures(widget.report_id!);

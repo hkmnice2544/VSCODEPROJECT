@@ -46,8 +46,7 @@ class Report_PicturesController {
     List<Report_pictures>? list = await jsonList
         .map((e) => Report_pictures.fromJsonToReport_pictures(e))
         .toList();
-    print(
-        "----ได้reportpictures_id----${list[0].picture_url}-----${list[1].reportrepair?.report_id}---------");
+    print("----ได้reportpictures_id----${list[0].picture_url}--------------");
 
     return list;
   }

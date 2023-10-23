@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutterr/constant/constant_value.dart';
 import 'package:flutterr/controller/report_pictures_controller.dart';
 import 'package:flutterr/model/Report_pictures_Model.dart';
+import 'package:flutterr/screen/HomeStaff.dart';
 import 'package:flutterr/screen/Staff/List/ListManage.dart';
 import 'package:intl/intl.dart';
 import '../../../controller/report_controller.dart';
@@ -9,16 +10,16 @@ import '../../../model/Report_Model.dart';
 import '../../Home.dart';
 import '../../Login.dart';
 
-class ViewCompleted extends StatefulWidget {
+class View_Completed extends StatefulWidget {
   final int? report_id;
   final int? user;
-  const ViewCompleted({super.key, this.report_id, this.user});
+  const View_Completed({super.key, this.report_id, this.user});
 
   @override
-  State<ViewCompleted> createState() => _ViewResultState();
+  State<View_Completed> createState() => _ViewResultState();
 }
 
-class _ViewResultState extends State<ViewCompleted> {
+class _ViewResultState extends State<View_Completed> {
   final ReportController reportController = ReportController();
   Report_PicturesController report_picturesController =
       Report_PicturesController();
@@ -56,9 +57,9 @@ class _ViewResultState extends State<ViewCompleted> {
   @override
   void initState() {
     super.initState();
-    if (widget.report_id != null) {
-      getInform(widget.report_id!);
-    }
+    print("-------report_id-----${widget.report_id!}-------------");
+    getInform(widget.report_id!);
+
     DateTime now = DateTime.now();
     formattedDate = DateFormat('dd-MM-yyyy').format(now);
     getListReport_pictures(widget.report_id!);
@@ -102,7 +103,7 @@ class _ViewResultState extends State<ViewCompleted> {
                     onPressed: () {
                       Navigator.push(context, MaterialPageRoute(
                         builder: (context) {
-                          return Home(user: 0);
+                          return HomeStaff(user: 0);
                         },
                       ));
                     }),
@@ -311,10 +312,11 @@ class _ViewResultState extends State<ViewCompleted> {
                   Expanded(
                     child: ElevatedButton(
                       onPressed: () {
-                        Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(builder: (_) => ListManage()),
-                        );
+                        Navigator.push(context, MaterialPageRoute(
+                          builder: (context) {
+                            return ListManage();
+                          },
+                        ));
                       },
                       style: ElevatedButton.styleFrom(
                         primary: Color.fromARGB(255, 234, 112, 5),
