@@ -780,9 +780,8 @@ class Form extends State<InformRepairForm> {
                               // ทำการบันทึกข้อมูลใน dataList
                               List<Map<String, dynamic>> dataList = [];
 
-                              for (String equipment in equipmentName) {
-                                if (checkboxStates[equipment] != null &&
-                                    checkboxStates[equipment]!) {
+                              for (String equipment in equipmentIds) {
+                                if (checkboxStates[equipment] ?? false) {
                                   String details =
                                       detailsMap[equipment] ?? ''; // รายละเอียด
                                   int amount =
@@ -792,8 +791,11 @@ class Form extends State<InformRepairForm> {
                                               .informrepair_id ??
                                           0) +
                                       1); // แทนค่าด้วยข้อมูลของคุณ
-
-                                  int equipment_id = 1001;
+                                  int equipment_id = int.tryParse(
+                                          checkedEquipmentIds[0] ?? "") ??
+                                      0;
+                                  // int equipment_id =
+                                  //     1001; // แทนค่าด้วยข้อมูลของคุณ
                                   int room_id =
                                       roomIdInt; // แทนค่าด้วยข้อมูลของคุณ
 
