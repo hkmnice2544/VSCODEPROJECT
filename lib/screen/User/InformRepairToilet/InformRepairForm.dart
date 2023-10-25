@@ -791,9 +791,15 @@ class Form extends State<InformRepairForm> {
                                               .informrepair_id ??
                                           0) +
                                       1); // แทนค่าด้วยข้อมูลของคุณ
-                                  int equipment_id = int.tryParse(
-                                          checkedEquipmentIds[0] ?? "") ??
-                                      0;
+                                  int equipment_id = 0; // ค่าเริ่มต้น
+
+                                  if (checkedEquipmentIds.isNotEmpty) {
+                                    int? parsedEquipmentId =
+                                        int.tryParse(checkedEquipmentIds[0]);
+                                    if (parsedEquipmentId != null) {
+                                      equipment_id = parsedEquipmentId;
+                                    }
+                                  }
                                   // int equipment_id =
                                   //     1001; // แทนค่าด้วยข้อมูลของคุณ
                                   int room_id =
