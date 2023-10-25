@@ -16,12 +16,14 @@ class InformRepairController {
   Building? building;
   Room? room;
 
-  Future addInformRepair(String informtype, String status, int user_id) async {
+  Future addInformRepair(
+      String informtype, String status, int user_id, int room_id) async {
     Map data = {
       // "informdate" : informdate,
       "informtype": informtype,
       "status": status,
-      "user_id": user_id
+      "user_id": user_id,
+      "room_id": room_id
     };
 
     var body = json.encode(data);

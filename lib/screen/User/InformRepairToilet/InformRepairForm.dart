@@ -117,7 +117,6 @@ class Form extends State<InformRepairForm> {
   String informtype = "ห้องน้ำ";
   String statusinform = "ยังไม่ได้ดำเนินการ";
   String statusinformdetails = "เสีย";
-  String room_id = '';
   String? informrepair_idvar;
   final ImagePicker imagePicker = ImagePicker();
   List<XFile> imageFileList = [];
@@ -278,7 +277,7 @@ class Form extends State<InformRepairForm> {
   List<String>? Room_id = [];
   List<String> equipmentName = [];
 
-  void findroom_idByIdByAll(String building_id, String floor, String position,
+  void findequipmentByIdByAll(String building_id, String floor, String position,
       String roomname) async {
     Room_id = await informrepairController.findroom_idByIdByAll(
         building_id, floor, position, roomname);
@@ -302,6 +301,18 @@ class Form extends State<InformRepairForm> {
       print("equipmentIds : $equipmentIds");
       print("equipmentName : $equipmentName");
     }
+    setState(() {
+      isDataLoaded = true;
+    });
+  }
+
+  List<String>? room_id = [];
+
+  void findrooom_idByIdByAll(String building_id, String floor, String position,
+      String roomname) async {
+    room_id = await informrepairController.findroom_idByIdByAll(
+        building_id, floor, position, roomname);
+    print(" findrooom_idByIdByAll : ${room_id}");
     setState(() {
       isDataLoaded = true;
     });
@@ -708,7 +719,9 @@ class Form extends State<InformRepairForm> {
                             setState(() {
                               print("Controller: $roomname");
                               roomname = val;
-                              findroom_idByIdByAll(buildingId!, roomfloor!,
+                              findrooom_idByIdByAll(buildingId!, roomfloor!,
+                                  roomposition!, roomname!);
+                              findequipmentByIdByAll(buildingId!, roomfloor!,
                                   roomposition!, roomname!);
                               equipmentName.clear();
                               buildEquipmentWidgets();
@@ -752,82 +765,96 @@ class Form extends State<InformRepairForm> {
                   Expanded(
                     child: ElevatedButton(
                         onPressed: () async {
-                          var response =
-                              await informRepairController.addInformRepair(
-                                  informtype, statusinform, user_id);
+                          if (room_id != null && room_id!.isNotEmpty) {
+                            int? roomIdInt = int.tryParse(room_id![0]);
 
-                          List<Map<String, String>> dataList = [];
-
-                          void addToDataList(
-                              String equipmentId,
-                              TextEditingController detailsController,
-                              TextEditingController countController) {
-                            if (roomname == "ห้องน้ำชาย" &&
-                                buildingId == "อาคาร 60 ปี แม่โจ้" &&
-                                roomfloor == "1" &&
-                                roomposition == "ข้างบันได" &&
-                                equipmentId.isNotEmpty)
-                              print(
-                                  "-------dataList---countController---${countController.text}--------------");
-                            print(
-                                "-------dataList--detailsController----${detailsController.text}--------------");
-                            print(
-                                "-------dataList---informrepairs---${((informrepairs?[informrepairs!.length - 1].informrepair_id ?? 0) + 1).toString()}--------------");
-                            print(
-                                "-------dataList--equipmentId----${equipmentId}--------------");
-                            print(
-                                "-------dataList---statusinformdetails---${statusinformdetails}--------------");
-
-                            {
-                              dataList.add({
-                                'amount': countController.text,
-                                'details': detailsController.text,
-                                'informrepair_id':
-                                    ((informrepairs?[informrepairs!.length - 1]
-                                                    .informrepair_id ??
-                                                0) +
-                                            1)
-                                        .toString(),
-                                'equipment_id': equipmentId,
-                                'room_id': "101",
-                                'status': statusinformdetails,
-                              });
+                            if (roomIdInt != null) {
+                              var response =
+                                  await informRepairController.addInformRepair(
+                                informtype,
+                                statusinform,
+                                user_id,
+                                roomIdInt,
+                              );
+                            } else {
+                              // Handle the case where room_id[0] couldn't be converted to an integer.
+                              // You might want to show an error message or take appropriate action.
                             }
-                            if (roomname == "ห้องน้ำหญิง" &&
-                                buildingId == "อาคาร 60 ปี แม่โจ้" &&
-                                roomfloor == "1" &&
-                                roomposition == "ข้างบันได" &&
-                                equipmentId.isNotEmpty) {
-                              dataList.add({
-                                'amount': countController.text,
-                                'details': detailsController.text,
-                                'informrepair_id':
-                                    ((informrepairs?[informrepairs!.length - 1]
-                                                    .informrepair_id ??
-                                                0) +
-                                            1)
-                                        .toString(),
-                                'equipment_id': equipmentId,
-                                'room_id': "102",
-                                'status': statusinformdetails,
-                              });
-                            }
+                          } else {
+                            // Handle the case where room_id is empty or null.
                           }
+                          // List<Map<String, String>> dataList = [];
 
-                          addToDataList('1001', _tapCheckBoxController,
-                              _tapCountController);
-                          addToDataList('1002', _toiletbowlBoxController,
-                              _toiletbowlCountController);
-                          addToDataList('1003', _bidetCheckBoxController,
-                              _bidetCheckCountController);
-                          addToDataList('1004', _urinalCheckBoxController,
-                              _urinalCheckCountController);
-                          addToDataList('1005', _sinkCheckBoxController,
-                              _sinkCheckCountController);
-                          addToDataList('1006', _lightbulbCheckBoxController,
-                              _lightbulbCheckCountController);
-                          InformRepairDetailsController.saveInformRepairDetails(
-                              dataList);
+                          // void addToDataList(
+                          //     String equipmentId,
+                          //     TextEditingController detailsController,
+                          //     TextEditingController countController) {
+                          //   if (roomname == "ห้องน้ำชาย" &&
+                          //       buildingId == "อาคาร 60 ปี แม่โจ้" &&
+                          //       roomfloor == "1" &&
+                          //       roomposition == "ข้างบันได" &&
+                          //       equipmentId.isNotEmpty)
+                          //     print(
+                          //         "-------dataList---countController---${countController.text}--------------");
+                          //   print(
+                          //       "-------dataList--detailsController----${detailsController.text}--------------");
+                          //   print(
+                          //       "-------dataList---informrepairs---${((informrepairs?[informrepairs!.length - 1].informrepair_id ?? 0) + 1).toString()}--------------");
+                          //   print(
+                          //       "-------dataList--equipmentId----${equipmentId}--------------");
+                          //   print(
+                          //       "-------dataList---statusinformdetails---${statusinformdetails}--------------");
+
+                          //   {
+                          //     dataList.add({
+                          //       'amount': countController.text,
+                          //       'details': detailsController.text,
+                          //       'informrepair_id':
+                          //           ((informrepairs?[informrepairs!.length - 1]
+                          //                           .informrepair_id ??
+                          //                       0) +
+                          //                   1)
+                          //               .toString(),
+                          //       'equipment_id': equipmentId,
+                          //       'room_id': "101",
+                          //       'status': statusinformdetails,
+                          //     });
+                          //   }
+                          //   if (roomname == "ห้องน้ำหญิง" &&
+                          //       buildingId == "อาคาร 60 ปี แม่โจ้" &&
+                          //       roomfloor == "1" &&
+                          //       roomposition == "ข้างบันได" &&
+                          //       equipmentId.isNotEmpty) {
+                          //     dataList.add({
+                          //       'amount': countController.text,
+                          //       'details': detailsController.text,
+                          //       'informrepair_id':
+                          //           ((informrepairs?[informrepairs!.length - 1]
+                          //                           .informrepair_id ??
+                          //                       0) +
+                          //                   1)
+                          //               .toString(),
+                          //       'equipment_id': equipmentId,
+                          //       'room_id': "102",
+                          //       'status': statusinformdetails,
+                          //     });
+                          //   }
+                          // }
+
+                          // addToDataList('1001', _tapCheckBoxController,
+                          //     _tapCountController);
+                          // addToDataList('1002', _toiletbowlBoxController,
+                          //     _toiletbowlCountController);
+                          // addToDataList('1003', _bidetCheckBoxController,
+                          //     _bidetCheckCountController);
+                          // addToDataList('1004', _urinalCheckBoxController,
+                          //     _urinalCheckCountController);
+                          // addToDataList('1005', _sinkCheckBoxController,
+                          //     _sinkCheckCountController);
+                          // addToDataList('1006', _lightbulbCheckBoxController,
+                          //     _lightbulbCheckCountController);
+                          // InformRepairDetailsController.saveInformRepairDetails(
+                          //     dataList);
 
                           // final List<Map<String, dynamic>> data = [];
                           // for (final imageName in imageFileNames) {
@@ -997,7 +1024,7 @@ class Form extends State<InformRepairForm> {
               labelText: 'รายละเอียด',
             ),
             onChanged: (value) {
-              // รายละเอียดเมื่อ Checkbox ถูกตั้งค่าเป็น true
+              print('รายละเอียด--${TextEditingController()}');
             },
           ),
         );
@@ -1008,9 +1035,7 @@ class Form extends State<InformRepairForm> {
             decoration: InputDecoration(
               labelText: 'จำนวน',
             ),
-            onChanged: (value) {
-              // จำนวนเมื่อ Checkbox ถูกตั้งค่าเป็น true
-            },
+            onChanged: (value) {},
           ),
         );
       }
