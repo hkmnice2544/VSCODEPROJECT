@@ -710,6 +710,8 @@ class Form extends State<InformRepairForm> {
                               roomname = val;
                               findroom_idByIdByAll(buildingId!, roomfloor!,
                                   roomposition!, roomname!);
+                              equipmentName.clear();
+                              buildEquipmentWidgets();
                             });
                           },
                           icon: const Icon(
