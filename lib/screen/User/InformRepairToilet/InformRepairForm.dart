@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:ffi';
 import 'dart:io';
 import 'package:flutterr/constant/constant_value.dart';
 import 'package:flutterr/controller/informrepair_pictures_controller.dart';
@@ -26,6 +27,10 @@ class InformRepairForm extends StatefulWidget {
 }
 
 class Form extends State<InformRepairForm> {
+  Map<String, TextEditingController> checkboxControllers = {};
+  Map<String, TextEditingController> countControllers = {};
+  Map<String, String> checkboxValues = {};
+
   String formattedDate = '';
   DateTime informdate = DateTime.now();
 
@@ -70,6 +75,8 @@ class Form extends State<InformRepairForm> {
   TextEditingController _urinalCheckBoxController = TextEditingController();
   TextEditingController _sinkCheckBoxController = TextEditingController();
   TextEditingController _lightbulbCheckBoxController = TextEditingController();
+  TextEditingController _doorCheckBoxController = TextEditingController();
+  TextEditingController _otherCheckBoxController = TextEditingController();
 
   // จำนวน
   TextEditingController _tapCountController = TextEditingController();
@@ -79,13 +86,17 @@ class Form extends State<InformRepairForm> {
   TextEditingController _sinkCheckCountController = TextEditingController();
   TextEditingController _lightbulbCheckCountController =
       TextEditingController();
+  TextEditingController _doorCheckCountController = TextEditingController();
+  TextEditingController _otherCheckCountController = TextEditingController();
 
-  String _tapCheckBox = '';
-  String _toiletbowlCheckBox = '';
-  String _bidetCheckBox = '';
-  String _urinalCheckBox = '';
-  String _sinkCheckBox = '';
-  String _lightbulbCheckBox = '';
+  bool? _tapCheckBox = false;
+  bool? _toiletbowlCheckBox = false;
+  bool? _bidetCheckBox = false;
+  bool? _urinalCheckBox = false;
+  bool? _sinkCheckBox = false;
+  bool? _lightbulbCheckBox = false;
+  bool? _doorCheckBox = false;
+  bool? _otherCheckBox = false;
 
   List<InformRepair>? informrepairs;
   List<InformRepairDetails>? informdetails;
@@ -951,56 +962,58 @@ class Form extends State<InformRepairForm> {
         ));
   }
 
+  Map<String, bool> checkboxStates = {};
+
   List<Widget> buildEquipmentWidgets() {
     List<Widget> widgets = [];
     for (String equipment in equipmentName) {
-      widgets.add(
-        Row(
-          children: [
-            Checkbox(
-              value: _tapCheckBox == '1001',
-              onChanged: (bool? value) {
-                setState(() {
-                  _tapCheckBox = value != null && value ? '1001' : '';
-                  print(_tapCheckBox);
-                });
-              },
-            ),
-            Icon(Icons.add_circle),
-            Text(equipment),
-          ],
-        ),
-      );
+      if (!checkboxStates.containsKey(equipment)) {
+        checkboxStates[equipment] = false;
+      }
+      widgets.add(Row(
+        children: [
+          Checkbox(
+            value: checkboxStates[equipment],
+            onChanged: (value) {
+              setState(() {
+                checkboxStates[equipment] = value!;
+                print(checkboxStates);
+              });
+            },
+          ),
+          Icon(Icons.add_circle),
+          Text(equipment),
+        ],
+      ));
 
-      if (_tapCheckBox.isNotEmpty) {
+      if (checkboxStates[equipment]!) {
         widgets.add(
           TextField(
-            controller: _tapCheckBoxController,
+            controller:
+                TextEditingController(), // สร้าง TextEditingController ใหม่สำหรับแต่ละ TextField
             decoration: InputDecoration(
               labelText: 'รายละเอียด',
             ),
             onChanged: (value) {
-              if (_tapCheckBox == "") {
-                _tapCheckBoxController.clear(); // ล้างค่าใน TextField
-              }
+              // รายละเอียดเมื่อ Checkbox ถูกตั้งค่าเป็น true
             },
           ),
         );
         widgets.add(
           TextField(
-            controller: _tapCountController,
+            controller:
+                TextEditingController(), // สร้าง TextEditingController ใหม่สำหรับแต่ละ TextField
             decoration: InputDecoration(
               labelText: 'จำนวน',
             ),
             onChanged: (value) {
-              if (_tapCheckBox == "") {
-                _tapCountController.clear(); // ล้างค่าใน TextField
-              }
+              // จำนวนเมื่อ Checkbox ถูกตั้งค่าเป็น true
             },
           ),
         );
       }
     }
+
     return widgets;
   }
 }
