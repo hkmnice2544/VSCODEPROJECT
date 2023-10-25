@@ -273,6 +273,7 @@ class Form extends State<InformRepairForm> {
     });
   }
 
+  List<String> equipmentIds = [];
   String? selectedRoomId;
   List<String>? Room_id = [];
   List<String> equipmentName = [];
@@ -285,7 +286,7 @@ class Form extends State<InformRepairForm> {
       selectedRoomId = Room_id![0]; // ยกตัวอย่างว่าเลือก index 0
 
       // เรียกใช้ฟังก์ชันเพื่อดึงข้อมูล equipment_ids
-      List<String> equipmentIds = await informrepairController
+      equipmentIds = await informrepairController
           .findequipment_idByIdByroom_id(selectedRoomId);
 
       for (int i = 0; i < equipmentIds.length; i++) {
@@ -767,7 +768,6 @@ class Form extends State<InformRepairForm> {
                         onPressed: () async {
                           if (room_id != null && room_id!.isNotEmpty) {
                             int? roomIdInt = int.tryParse(room_id![0]);
-
                             if (roomIdInt != null) {
                               var response =
                                   await informRepairController.addInformRepair(
@@ -776,6 +776,40 @@ class Form extends State<InformRepairForm> {
                                 user_id,
                                 roomIdInt,
                               );
+
+                              // ทำการบันทึกข้อมูลใน dataList
+                              List<Map<String, dynamic>> dataList = [];
+
+                              for (String equipment in equipmentName) {
+                                if (checkboxStates[equipment] != null &&
+                                    checkboxStates[equipment]!) {
+                                  String details =
+                                      detailsMap[equipment] ?? ''; // รายละเอียด
+                                  int amount =
+                                      amountMap[equipment] ?? 0; // จำนวน
+                                  int informrepair_id = ((informrepairs?[
+                                                  informrepairs!.length - 1]
+                                              .informrepair_id ??
+                                          0) +
+                                      1); // แทนค่าด้วยข้อมูลของคุณ
+
+                                  int equipment_id = 1001;
+                                  int room_id =
+                                      roomIdInt; // แทนค่าด้วยข้อมูลของคุณ
+
+                                  Map<String, dynamic> equipmentData = {
+                                    "amount": amount,
+                                    "details": details,
+                                    "informrepair_id": informrepair_id,
+                                    "equipment_id": equipment_id,
+                                    "room_id": room_id,
+                                  };
+
+                                  dataList.add(equipmentData);
+                                }
+                              }
+                              InformRepairDetailsController
+                                  .saveInformRepairDetails(dataList);
                             } else {
                               // Handle the case where room_id[0] couldn't be converted to an integer.
                               // You might want to show an error message or take appropriate action.
@@ -992,10 +1026,16 @@ class Form extends State<InformRepairForm> {
   }
 
   Map<String, bool> checkboxStates = {};
+  Map<String, String> detailsMap = {};
+  Map<String, int> amountMap = {};
+  Map<String, int> EquipID = {};
+  List<String> checkedEquipmentIds = [];
+
+  // equipmentIds
 
   List<Widget> buildEquipmentWidgets() {
     List<Widget> widgets = [];
-    for (String equipment in equipmentName) {
+    for (String equipment in equipmentIds) {
       if (!checkboxStates.containsKey(equipment)) {
         checkboxStates[equipment] = false;
       }
@@ -1007,6 +1047,14 @@ class Form extends State<InformRepairForm> {
               setState(() {
                 checkboxStates[equipment] = value!;
                 print(checkboxStates);
+                print("Checked equipment ID: ${checkboxStates[equipment]}");
+                for (String equipmentId in checkboxStates.keys) {
+                  if (checkboxStates[equipmentId] == true) {
+                    checkedEquipmentIds.add(equipmentId);
+                  }
+                }
+
+                print("รหัสอุปกรณ์ที่ถูกเลือก: $checkedEquipmentIds");
               });
             },
           ),
@@ -1018,29 +1066,26 @@ class Form extends State<InformRepairForm> {
       if (checkboxStates[equipment]!) {
         widgets.add(
           TextField(
-            controller:
-                TextEditingController(), // สร้าง TextEditingController ใหม่สำหรับแต่ละ TextField
             decoration: InputDecoration(
               labelText: 'รายละเอียด',
             ),
             onChanged: (value) {
-              print('รายละเอียด--${TextEditingController()}');
+              detailsMap[equipment] = value; // บันทึกรายละเอียด
             },
           ),
         );
         widgets.add(
           TextField(
-            controller:
-                TextEditingController(), // สร้าง TextEditingController ใหม่สำหรับแต่ละ TextField
             decoration: InputDecoration(
               labelText: 'จำนวน',
             ),
-            onChanged: (value) {},
+            onChanged: (value) {
+              amountMap[equipment] = int.tryParse(value) ?? 0; // บันทึกจำนวน
+            },
           ),
         );
       }
     }
-
     return widgets;
   }
 }
