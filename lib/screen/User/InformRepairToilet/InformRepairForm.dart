@@ -786,36 +786,38 @@ class Form extends State<InformRepairForm> {
                                       detailsMap[equipment] ?? ''; // รายละเอียด
                                   int amount =
                                       amountMap[equipment] ?? 0; // จำนวน
-                                  int informrepair_id = ((informrepairs?[
-                                                  informrepairs!.length - 1]
-                                              .informrepair_id ??
-                                          0) +
-                                      1); // แทนค่าด้วยข้อมูลของคุณ
-                                  int equipment_id = 0; // ค่าเริ่มต้น
-
-                                  if (checkedEquipmentIds.isNotEmpty) {
-                                    int? parsedEquipmentId =
-                                        int.tryParse(checkedEquipmentIds[0]);
-                                    if (parsedEquipmentId != null) {
-                                      equipment_id = parsedEquipmentId;
-                                    }
-                                  }
-                                  // int equipment_id =
-                                  //     1001; // แทนค่าด้วยข้อมูลของคุณ
                                   int room_id =
                                       roomIdInt; // แทนค่าด้วยข้อมูลของคุณ
 
-                                  Map<String, dynamic> equipmentData = {
-                                    "amount": amount,
-                                    "details": details,
-                                    "informrepair_id": informrepair_id,
-                                    "equipment_id": equipment_id,
-                                    "room_id": room_id,
-                                  };
+                                  if (checkedEquipmentIds.isNotEmpty) {
+                                    for (String checkedEquipmentId
+                                        in checkedEquipmentIds) {
+                                      int? parsedEquipmentId =
+                                          int.tryParse(checkedEquipmentId);
+                                      if (parsedEquipmentId != null) {
+                                        int equipment_id = parsedEquipmentId;
+                                        int informrepair_id = ((informrepairs?[
+                                                        informrepairs!.length -
+                                                            1]
+                                                    .informrepair_id ??
+                                                0) +
+                                            1); // แทนค่าด้วยข้อมูลของคุณ
 
-                                  dataList.add(equipmentData);
+                                        Map<String, dynamic> equipmentData = {
+                                          "amount": amount,
+                                          "details": details,
+                                          "informrepair_id": informrepair_id,
+                                          "equipment_id": equipment_id,
+                                          "room_id": room_id,
+                                        };
+
+                                        dataList.add(equipmentData);
+                                      }
+                                    }
+                                  }
                                 }
                               }
+
                               InformRepairDetailsController
                                   .saveInformRepairDetails(dataList);
                             } else {
@@ -1056,10 +1058,26 @@ class Form extends State<InformRepairForm> {
                 checkboxStates[equipment] = value!;
                 print(checkboxStates);
                 print("Checked equipment ID: ${checkboxStates[equipment]}");
-                for (String equipmentId in checkboxStates.keys) {
-                  if (checkboxStates[equipmentId] == true) {
-                    checkedEquipmentIds.add(equipmentId);
+                // for (String equipmentId in checkboxStates.keys) {
+                //   if (checkboxStates[equipmentId] == true && value!) {
+                //     checkedEquipmentIds.add(equipmentId);
+                //   } else {
+                //     checkedEquipmentIds.remove(equipment);
+                //   }
+                // }
+
+                if (value!) {
+                  // เมื่อ checkbox ถูกเลือก
+                  if (!checkedEquipmentIds.contains(equipment)) {
+                    checkedEquipmentIds.add(equipment);
                   }
+                } else {
+                  // เมื่อ checkbox ถูกถอดออก
+                  checkedEquipmentIds.remove(equipment);
+                }
+                if (value) {
+                  amountMap[equipment] = 0;
+                  detailsMap[equipment] = "";
                 }
 
                 print("รหัสอุปกรณ์ที่ถูกเลือก: $checkedEquipmentIds");
