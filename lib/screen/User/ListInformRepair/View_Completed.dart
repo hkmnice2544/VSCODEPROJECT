@@ -8,6 +8,7 @@ import '../../../model/Report_Model.dart';
 import '../../Home.dart';
 import '../../Login.dart';
 import 'ListInformRepair.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class ViewCompleted extends StatefulWidget {
   final int? report_id;
@@ -158,6 +159,11 @@ class _ViewResultState extends State<ViewCompleted> {
                   fontSize: 40,
                   fontWeight: FontWeight.bold,
                 ),
+              ),
+            ),
+            Center(
+              child: Text(
+                "รายละเอียดผลการซ่อม",
               ),
             ),
             Image.asset(

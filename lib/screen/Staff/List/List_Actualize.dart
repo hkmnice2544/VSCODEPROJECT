@@ -198,16 +198,16 @@ class NewInform extends State<ListActualize> {
                                 MaterialPageRoute(
                                   builder: (context) => ReportInform(
                                     informrepair_id: informRepairDetails?[index]
-                                            ?.informRepair
+                                            .informRepair
                                             ?.informrepair_id ??
                                         0,
                                     room_id: informRepairDetails?[index]
-                                            ?.informRepair
+                                            .informRepair
                                             ?.room
                                             ?.room_id ??
                                         0,
                                     equipment_id: informRepairDetails?[index]
-                                            ?.roomEquipment
+                                            .roomEquipment
                                             ?.equipment
                                             ?.equipment_id ??
                                         0,
@@ -220,7 +220,7 @@ class NewInform extends State<ListActualize> {
                           ),
 
                           onTap: () {
-                            WidgetsBinding.instance!.addPostFrameCallback((_) {
+                            WidgetsBinding.instance.addPostFrameCallback((_) {
                               Navigator.pushReplacement(
                                 context,
                                 MaterialPageRoute(

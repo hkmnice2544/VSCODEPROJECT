@@ -4,8 +4,9 @@ import 'dart:io';
 import 'package:flutterr/constant/constant_value.dart';
 import 'package:flutterr/controller/informrepair_pictures_controller.dart';
 import 'package:flutterr/controller/informrepairdetails_controller.dart';
+import 'package:flutterr/model/InformRepairDetails_Model.dart';
+import 'package:flutterr/model/InformRepairDetails_Model.dart';
 import 'package:flutterr/model/Room_Model.dart';
-import 'package:flutterr/model/inform_pictures_model.dart';
 import 'package:flutterr/screen/Home.dart';
 import 'package:flutterr/screen/Login.dart';
 import 'package:image_picker/image_picker.dart';
@@ -14,7 +15,6 @@ import 'package:flutter/material.dart';
 import '../../../controller/informrepair_controller.dart';
 import 'package:intl/intl.dart';
 import '../../../model/Building_Model.dart';
-import '../../../model/InformRepairDetails_Model.dart';
 import '../../../model/informrepair_model.dart';
 import 'package:http/http.dart' as http;
 
@@ -323,6 +323,12 @@ class Form extends State<InformRepairForm> {
     initializeDateFormatting('th_TH', null).then((_) {});
   }
 
+  Future<void> initialize() async {
+    isChecked = List.filled(10, false);
+    detailscontrollers = List.generate(10, (index) => TextEditingController());
+    amountcontrollers = List.generate(10, (index) => TextEditingController());
+  }
+
   @override
   void initState() {
     super.initState();
@@ -335,6 +341,7 @@ class Form extends State<InformRepairForm> {
     DateTime now = DateTime.now();
     formattedDate = DateFormat('dd-MM-yyyy').format(now);
     // fetchListBuilding();
+    initialize();
     main();
     // print('user_id----${user_id}');
     // print('imageFileNames----${imageFileNames}');
@@ -724,8 +731,8 @@ class Form extends State<InformRepairForm> {
                                   roomposition!, roomname!);
                               findequipmentByIdByAll(buildingId!, roomfloor!,
                                   roomposition!, roomname!);
+
                               equipmentName.clear();
-                              buildEquipmentWidgets();
                             });
                           },
                           icon: const Icon(
@@ -778,51 +785,27 @@ class Form extends State<InformRepairForm> {
                               );
 
                               // ทำการบันทึกข้อมูลใน dataList
-                              List<Map<String, dynamic>> dataList = [];
 
-                              for (String equipment in equipmentIds) {
-                                if (checkboxStates[equipment] ?? false) {
-                                  String details =
-                                      detailsMap[equipment] ?? ''; // รายละเอียด
-                                  int amount =
-                                      amountMap[equipment] ?? 0; // จำนวน
-                                  int room_id =
-                                      roomIdInt; // แทนค่าด้วยข้อมูลของคุณ
-
-                                  if (checkedEquipmentIds.isNotEmpty) {
-                                    for (String checkedEquipmentId
-                                        in checkedEquipmentIds) {
-                                      int? parsedEquipmentId =
-                                          int.tryParse(checkedEquipmentId);
-                                      if (parsedEquipmentId != null) {
-                                        int equipment_id = parsedEquipmentId;
-                                        int informrepair_id = ((informrepairs?[
-                                                        informrepairs!.length -
-                                                            1]
-                                                    .informrepair_id ??
-                                                0) +
-                                            1); // แทนค่าด้วยข้อมูลของคุณ
-
-                                        Map<String, dynamic> equipmentData = {
-                                          "amount": amount,
-                                          "details": details,
-                                          "informrepair_id": informrepair_id,
-                                          "equipment_id": equipment_id,
-                                          "room_id": room_id,
-                                        };
-
-                                        dataList.add(equipmentData);
-                                      }
-                                    }
-                                  }
+                              for (int i = 0; i < equipmentIds.length; i++) {
+                                if (isChecked[i]) {
+                                  int? parsedEquipmentId =
+                                      int.tryParse(amountcontrollers[i].text);
+                                  int? parsedEquipmentId2 =
+                                      int.tryParse(equipmentIds[i]);
+                                  await informRepairDetailsController
+                                      .saveInformRepairDetails(
+                                          parsedEquipmentId ?? 1,
+                                          detailscontrollers[i].text,
+                                          ((informrepairs?[informrepairs!
+                                                              .length -
+                                                          1]
+                                                      .informrepair_id ??
+                                                  0) +
+                                              1),
+                                          parsedEquipmentId2 ?? 0,
+                                          roomIdInt);
                                 }
                               }
-
-                              InformRepairDetailsController
-                                  .saveInformRepairDetails(dataList);
-                            } else {
-                              // Handle the case where room_id[0] couldn't be converted to an integer.
-                              // You might want to show an error message or take appropriate action.
                             }
                           } else {
                             // Handle the case where room_id is empty or null.
@@ -1038,79 +1021,69 @@ class Form extends State<InformRepairForm> {
   Map<String, bool> checkboxStates = {};
   Map<String, String> detailsMap = {};
   Map<String, int> amountMap = {};
-  Map<String, int> EquipID = {};
   List<String> checkedEquipmentIds = [];
+  List<String> checkedDetails = [];
+  List<String> listdetails = [];
+  List<String> amountLists = [];
 
-  // equipmentIds
-
+  List<bool> isChecked = [];
+  List<TextEditingController> detailscontrollers = [];
+  List<TextEditingController> amountcontrollers = [];
   List<Widget> buildEquipmentWidgets() {
     List<Widget> widgets = [];
-    for (String equipment in equipmentIds) {
-      if (!checkboxStates.containsKey(equipment)) {
-        checkboxStates[equipment] = false;
-      }
-      widgets.add(Row(
-        children: [
-          Checkbox(
-            value: checkboxStates[equipment],
-            onChanged: (value) {
-              setState(() {
-                checkboxStates[equipment] = value!;
-                print(checkboxStates);
-                print("Checked equipment ID: ${checkboxStates[equipment]}");
-                // for (String equipmentId in checkboxStates.keys) {
-                //   if (checkboxStates[equipmentId] == true && value!) {
-                //     checkedEquipmentIds.add(equipmentId);
-                //   } else {
-                //     checkedEquipmentIds.remove(equipment);
-                //   }
-                // }
 
-                if (value!) {
-                  // เมื่อ checkbox ถูกเลือก
-                  if (!checkedEquipmentIds.contains(equipment)) {
-                    checkedEquipmentIds.add(equipment);
-                  }
-                } else {
-                  // เมื่อ checkbox ถูกถอดออก
-                  checkedEquipmentIds.remove(equipment);
-                }
-                if (value) {
-                  amountMap[equipment] = 0;
-                  detailsMap[equipment] = "";
-                }
+    for (int index = 0; index < equipmentIds.length; index++) {
+      widgets.add(
+        CheckboxListTile(
+          controlAffinity: ListTileControlAffinity.leading,
+          title: Text(equipmentName[index]),
+          value: isChecked[index],
+          onChanged: (bool? value) {
+            setState(() {
+              isChecked[index] = value ?? false;
+              if (value == true) {
+                detailscontrollers[index].text = '';
+                amountcontrollers[index].text = '';
+              }
+            });
+          },
+        ),
+      );
 
-                print("รหัสอุปกรณ์ที่ถูกเลือก: $checkedEquipmentIds");
-              });
-            },
+      widgets.add(
+        Visibility(
+          visible:
+              isChecked[index], // Control visibility based on checkbox state
+          child: Column(
+            children: [
+              TextFormField(
+                controller: detailscontrollers[index],
+                decoration: const InputDecoration(
+                  hintText: 'Enter details',
+                ),
+                onChanged: (value) {
+                  setState(() {
+                    detailscontrollers[index].text = value;
+                  });
+                  print(detailscontrollers[index].text);
+                },
+              ),
+              TextFormField(
+                controller: amountcontrollers[index],
+                decoration: const InputDecoration(
+                  hintText: 'Enter amount',
+                ),
+                onChanged: (value) {
+                  setState(() {
+                    amountcontrollers[index].text = value;
+                  });
+                  print(amountcontrollers[index].text);
+                },
+              ),
+            ],
           ),
-          Icon(Icons.add_circle),
-          Text(equipment),
-        ],
-      ));
-
-      if (checkboxStates[equipment]!) {
-        widgets.add(
-          TextField(
-            decoration: InputDecoration(
-              labelText: 'รายละเอียด',
-            ),
-            onChanged: (value) {
-              detailsMap[equipment] = value; // บันทึกรายละเอียด
-            },
-          ),
-        );
-        widgets.add(
-          TextField(
-            decoration: InputDecoration(
-              labelText: 'จำนวน',
-            ),
-            onChanged: (value) {
-              amountMap[equipment] = int.tryParse(value) ?? 0; // บันทึกจำนวน
-            },
-          ),
-        );
-      }
+        ),
+      );
     }
     return widgets;
   }

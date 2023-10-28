@@ -6,18 +6,26 @@ import 'package:http/http.dart' as http;
 class InformRepairDetailsController {
   InformRepairDetails? informRepairDetails;
 
-  static Future<List<InformRepairDetails>> saveInformRepairDetails(
-      List<Map<String, dynamic>> dataList) async {
+  Future saveInformRepairDetails(int amount, String details,
+      int informrepair_id, int equipment_id, int room_id) async {
     final url = Uri.parse('$baseURL/informrepairdetails/add');
 
     final headers = {
       'Content-Type': 'application/json',
     };
-
+    List<Map<String, dynamic>> data = [
+      {
+        "amount": amount,
+        "details": details,
+        "informrepair_id": informrepair_id,
+        "equipment_id": equipment_id,
+        "room_id": room_id
+      }
+    ];
     final response = await http.post(
       url,
       headers: headers,
-      body: jsonEncode(dataList),
+      body: jsonEncode(data),
     );
 
     if (response.statusCode == 200) {
@@ -26,7 +34,7 @@ class InformRepairDetailsController {
           .map((dynamic item) =>
               InformRepairDetails.fromJsonToInformRepairDetails(item))
           .toList();
-
+      print(savedDetailsList);
       return savedDetailsList;
     } else {
       throw Exception('Failed to save InformRepairDetails');
