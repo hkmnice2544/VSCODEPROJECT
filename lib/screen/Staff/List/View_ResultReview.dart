@@ -101,7 +101,7 @@ class _ViewResultState extends State<ViewResultReview> {
                     onPressed: () {
                       Navigator.push(context, MaterialPageRoute(
                         builder: (context) {
-                          return HomeStaff(user: 0);
+                          return HomeStaff(user: widget.user);
                         },
                       ));
                     }),
@@ -345,7 +345,7 @@ class _ViewResultState extends State<ViewResultReview> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) {
-                    return ListManage();
+                    return ListManage(user: widget.user);
                   }),
                 );
               },

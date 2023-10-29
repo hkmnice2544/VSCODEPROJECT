@@ -6,7 +6,11 @@ import '../../../model/Review_Model.dart';
 import 'View_ResultReview.dart';
 
 class listReviewResult extends StatefulWidget {
-  const listReviewResult({super.key});
+  final int? user;
+  const listReviewResult({
+    super.key,
+    required this.user,
+  });
 
   @override
   State<listReviewResult> createState() => _listAllInformRepairsState();
@@ -149,7 +153,8 @@ class _listAllInformRepairsState extends State<listReviewResult> {
                                 context,
                                 MaterialPageRoute(
                                     builder: (_) => ViewResultReview(
-                                        review_id: reviews?[index].review_id)),
+                                        review_id: reviews?[index].review_id,
+                                        user: widget.user)),
                               );
                             });
                           },

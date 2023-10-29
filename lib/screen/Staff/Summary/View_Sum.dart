@@ -137,7 +137,7 @@ class _ViewResultState extends State<View_Sum> {
                     onPressed: () {
                       Navigator.push(context, MaterialPageRoute(
                         builder: (context) {
-                          return HomeStaff(user: 0);
+                          return HomeStaff(user: widget.user);
                         },
                       ));
                     }),
@@ -525,7 +525,8 @@ class _ViewResultState extends State<View_Sum> {
                       onPressed: () async {
                         Navigator.pushReplacement(
                           context,
-                          MaterialPageRoute(builder: (_) => Summary()),
+                          MaterialPageRoute(
+                              builder: (_) => Summary(user: widget.user)),
                         );
                       },
                       style: ElevatedButton.styleFrom(

@@ -240,7 +240,8 @@ class NewInform extends State<listNewInform> {
                                         informrepair_id:
                                             informRepairDetailsList?[index]
                                                 .informRepair
-                                                ?.informrepair_id)),
+                                                ?.informrepair_id,
+                                        user: widget.user)),
                               );
                             });
                           },

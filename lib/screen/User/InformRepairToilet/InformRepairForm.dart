@@ -412,11 +412,11 @@ class Form extends State<InformRepairForm> {
                     icon: Icon(Icons.home),
                     color: Color.fromARGB(255, 255, 255, 255),
                     onPressed: () {
-                      // Navigator.push(context, MaterialPageRoute(
-                      //   builder: (context) {
-                      //     return Home(username: widget.username);
-                      //   },
-                      // ));
+                      Navigator.push(context, MaterialPageRoute(
+                        builder: (context) {
+                          return Home(user: widget.user);
+                        },
+                      ));
                     },
                   ),
                 ),
@@ -425,7 +425,7 @@ class Form extends State<InformRepairForm> {
                     onTap: () {
                       Navigator.push(context, MaterialPageRoute(
                         builder: (context) {
-                          return Home(user: 0);
+                          return Home(user: widget.user);
                         },
                       ));
                     },

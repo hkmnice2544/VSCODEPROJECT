@@ -141,8 +141,8 @@ class _HomeState extends State<Home> {
             Padding(
               padding: EdgeInsets.only(left: 0, top: 55, right: 15),
               child: Text(
-                "หัสยา ขาวใหม่",
-                // '${users?.firstname} ${users?.lastname}',
+                // "หัสยา ขาวใหม่",
+                '${users?.firstname} ${users?.lastname}',
                 style: TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.bold,
@@ -321,7 +321,7 @@ class _HomeState extends State<Home> {
                             //   context,
                             //   // MaterialPageRoute(builder: (context) {
                             //   //   return InformRepairForm(
-                            //   //       username: widget.username);
+                            //   //       user: widget.user);
                             //   // }),
                             // );
                           },
@@ -357,7 +357,9 @@ class _HomeState extends State<Home> {
                             Navigator.push(
                               context,
                               MaterialPageRoute(builder: (context) {
-                                return ListInformRepair();
+                                return ListInformRepair(
+                                  user: widget.user,
+                                );
                               }),
                             );
                           },

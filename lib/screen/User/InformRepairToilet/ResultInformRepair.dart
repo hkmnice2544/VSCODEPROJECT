@@ -156,7 +156,7 @@ class _ViewResultState extends State<ResultInformRepair> {
                             Navigator.push(context, MaterialPageRoute(
                               builder: (context) {
                                 var username;
-                                return Home(user: 0);
+                                return Home(user: widget.user);
                               },
                             ));
                           }),
@@ -504,7 +504,9 @@ class _ViewResultState extends State<ResultInformRepair> {
                                                 Navigator.push(context,
                                                     MaterialPageRoute(
                                                   builder: (context) {
-                                                    return listNewItem();
+                                                    return listNewItem(
+                                                      user: widget.user,
+                                                    );
                                                   },
                                                 ));
                                               }),
@@ -559,7 +561,8 @@ class _ViewResultState extends State<ResultInformRepair> {
                                       MaterialPageRoute(
                                           builder: (_) => EditInformRepairs(
                                               informrepair_id: (informRepair
-                                                  ?.informrepair_id))),
+                                                  ?.informrepair_id),
+                                              user: widget.user)),
                                     );
 
                                     // Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => EditInformRepairs(informrerair_id: informrepairs?[index].informrepair_id)));

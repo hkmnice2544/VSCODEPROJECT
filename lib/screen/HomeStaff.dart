@@ -145,8 +145,8 @@ class _HomeStaffState extends State<HomeStaff> {
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
                     Text(
-                      "มัลลิกา แซ่ลิ้ม",
-                      // '${users?.firstname} ${users?.lastname}',
+                      // "มัลลิกา แซ่ลิ้ม",
+                      '${users?.firstname} ${users?.lastname}',
                       style: TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.bold,
@@ -154,8 +154,8 @@ class _HomeStaffState extends State<HomeStaff> {
                       ),
                     ),
                     Text(
-                      "ตำแหน่ง : หัวหน้างานแผนกห้องน้ำ",
-                      // 'ตำแหน่ง : ${users?.usertype}',
+                      // "ตำแหน่ง : หัวหน้างานแผนกห้องน้ำ",
+                      'ตำแหน่ง : ${users?.usertype}',
                       style: TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.bold,
@@ -303,7 +303,7 @@ class _HomeStaffState extends State<HomeStaff> {
                           // Navigator.push(
                           //   context,
                           //   MaterialPageRoute(builder: (context) {
-                          //     return InformRepairForm();
+                          //     return InformRepairForm(user: widget.user);
                           //   }),
                           // );
                         },
@@ -338,7 +338,7 @@ class _HomeStaffState extends State<HomeStaff> {
                           // Navigator.push(
                           //   context,
                           //   MaterialPageRoute(builder: (context) {
-                          //     return InformClassrooms();
+                          //     return InformClassrooms(user: widget.user);
                           //   }),
                           // );
                         },
@@ -373,7 +373,7 @@ class _HomeStaffState extends State<HomeStaff> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(builder: (context) {
-                              return ListInformRepair();
+                              return ListInformRepair(user: widget.user);
                             }),
                           );
                         },
@@ -408,7 +408,7 @@ class _HomeStaffState extends State<HomeStaff> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(builder: (context) {
-                              return ListManage();
+                              return ListManage(user: widget.user);
                             }),
                           );
                         },
@@ -442,7 +442,7 @@ class _HomeStaffState extends State<HomeStaff> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(builder: (context) {
-                              return Summary();
+                              return Summary(user: widget.user);
                             }),
                           );
                         },

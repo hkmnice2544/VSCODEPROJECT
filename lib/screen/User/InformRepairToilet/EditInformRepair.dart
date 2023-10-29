@@ -547,7 +547,7 @@ class Form extends State<EditInformRepairs> {
 
                           // informrepairDetails.informtype = _dropdowninformtype!;
                           // Navigator.push(context,MaterialPageRoute(builder: (context){
-                          //   return MyResult(informRepair: informRepair,);
+                          //   return MyResult(informRepair: informRepair,user: widget.user);
                           // }));
 
                           // Navigator.pushNamed(context, '/one');
@@ -583,7 +583,8 @@ class Form extends State<EditInformRepairs> {
                             MaterialPageRoute(
                                 builder: (_) => ResultInformRepair(
                                     informrepair_id:
-                                        (informRepair?.informrepair_id))),
+                                        (informRepair?.informrepair_id),
+                                    user: widget.user)),
                           );
 
                           // Navigator.pushNamed(context, '/one');

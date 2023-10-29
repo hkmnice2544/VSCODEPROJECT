@@ -460,7 +460,8 @@ class _View_SummaryState extends State<View_Summary> {
                       onPressed: () async {
                         Navigator.pushReplacement(
                           context,
-                          MaterialPageRoute(builder: (_) => Summary()),
+                          MaterialPageRoute(
+                              builder: (_) => Summary(user: widget.user)),
                         );
                       },
                       style: ElevatedButton.styleFrom(

@@ -3,10 +3,12 @@ import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutterr/constant/constant_value.dart';
+import 'package:flutterr/controller/login_controller.dart';
 import 'package:flutterr/controller/review_controller.dart';
 import 'package:flutterr/controller/review_pictures_controller.dart';
 import 'package:flutterr/model/Review_Model.dart';
 import 'package:flutterr/model/Review_pictures_Model.dart';
+import 'package:flutterr/model/User_Model.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import '../../../controller/report_controller.dart';
@@ -30,7 +32,7 @@ class _MyWidgetState extends State<Reviews> {
   TextEditingController textEditingController = TextEditingController();
   List<Uint8List> imageBytesList = [];
   List<String> imageNames = [];
-  String reviewer = '';
+  String reviewer = 'ไม่ประสงคอออกนาม';
   int? _rating;
   String formattedDate = '';
   DateTime informdate = DateTime.now();
@@ -48,9 +50,12 @@ class _MyWidgetState extends State<Reviews> {
   int selectedImageCount = 0;
 
   List<File> _selectedImages = [];
+  User? users;
+  late String storeduser;
 
   Review_PicturesController review_picturesController =
       Review_PicturesController();
+  LoginController loginController = LoginController();
 
   Future<void> _selectImages() async {
     final List<XFile>? selectedImages = await imagePicker.pickMultiImage();
@@ -108,6 +113,15 @@ class _MyWidgetState extends State<Reviews> {
     });
   }
 
+  void getLoginById(int user) async {
+    users = await loginController.getLoginById(user);
+    print("getuser : ${user}");
+    print("getuserfirstname : ${users?.firstname}");
+    setState(() {
+      isDataLoaded = true;
+    });
+  }
+
   @override
   void initState() {
     super.initState();
@@ -117,6 +131,9 @@ class _MyWidgetState extends State<Reviews> {
     }
     DateTime now = DateTime.now();
     formattedDate = DateFormat('dd-MM-yyyy').format(now);
+
+    print("user-------------${widget.user}");
+    getLoginById(widget.user!);
   }
 
   // void _pickImage() {
@@ -191,7 +208,7 @@ class _MyWidgetState extends State<Reviews> {
                 onPressed: () {
                   Navigator.push(context, MaterialPageRoute(
                     builder: (context) {
-                      return Home(user: 0);
+                      return Home(user: widget.user);
                     },
                   ));
                 },
@@ -462,21 +479,31 @@ class _MyWidgetState extends State<Reviews> {
                       child: Row(
                         children: [
                           Checkbox(
-                            value: reviewer == 'ไม่ประสงค์ออกนาม',
+                            value: reviewer == 'ไม่ประสงคอออกนาม',
                             onChanged: (bool? value) {
                               setState(() {
-                                reviewer = value != null && value
-                                    ? 'ไม่ประสงค์ออกนาม'
-                                    : '';
+                                if (value != null && value) {
+                                  reviewer = 'ไม่ประสงคอออกนาม';
+                                } else {
+                                  if (users != null &&
+                                      users!.firstname != null) {
+                                    reviewer = users!.firstname! +
+                                        " " +
+                                        users!.lastname!;
+                                  } else {
+                                    reviewer =
+                                        ''; // Set to an empty string if the user's first name is not available
+                                  }
+                                }
                                 print(reviewer);
                               });
                             },
                             shape: CircleBorder(),
                           ),
-                          Text('ไม่ประสงค์ออกนาม'),
+                          Text(reviewer),
                         ],
                       ),
-                    ),
+                    )
                   ],
                 ),
               ],
@@ -537,7 +564,7 @@ class _MyWidgetState extends State<Reviews> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) {
-                    return ListInformRepair();
+                    return ListInformRepair(user: widget.user);
                   }),
                 );
               },

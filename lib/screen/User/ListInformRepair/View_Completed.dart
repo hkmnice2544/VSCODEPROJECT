@@ -103,7 +103,7 @@ class _ViewResultState extends State<ViewCompleted> {
                     onPressed: () {
                       Navigator.push(context, MaterialPageRoute(
                         builder: (context) {
-                          return Home(user: 0);
+                          return Home(user: widget.user);
                         },
                       ));
                     }),
@@ -319,7 +319,7 @@ class _ViewResultState extends State<ViewCompleted> {
                       onPressed: () {
                         Navigator.push(context, MaterialPageRoute(
                           builder: (context) {
-                            return ListInformRepair();
+                            return ListInformRepair(user: widget.user);
                           },
                         ));
                       },

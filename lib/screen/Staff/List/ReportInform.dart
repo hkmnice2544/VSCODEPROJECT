@@ -229,7 +229,7 @@ class _ReportInformState extends State<ReportInform> {
           icon: Icon(Icons.arrow_back),
           onPressed: () {
             Navigator.push(context, MaterialPageRoute(builder: (context) {
-              return ListInformRepair();
+              return ListInformRepair(user: widget.user);
             }));
           },
         ),
@@ -249,7 +249,7 @@ class _ReportInformState extends State<ReportInform> {
                     onPressed: () {
                       Navigator.push(context, MaterialPageRoute(
                         builder: (context) {
-                          return HomeStaff(user: 0);
+                          return HomeStaff(user: widget.user);
                         },
                       ));
                     }),
@@ -657,7 +657,7 @@ class _ReportInformState extends State<ReportInform> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) {
-                    return ListManage();
+                    return ListManage(user: widget.user);
                   }),
                 );
               },
@@ -675,7 +675,7 @@ class _ReportInformState extends State<ReportInform> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) {
-                    return ListManage();
+                    return ListManage(user: widget.user);
                   }),
                 );
               },

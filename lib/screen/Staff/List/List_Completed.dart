@@ -5,7 +5,11 @@ import '../../../model/Report_Model.dart';
 import 'View_Completed.dart';
 
 class ListCompleted extends StatefulWidget {
-  const ListCompleted({super.key});
+  final int? user;
+  const ListCompleted({
+    super.key,
+    required this.user,
+  });
 
   @override
   State<ListCompleted> createState() => _MyWidgetState();
@@ -156,7 +160,8 @@ class _MyWidgetState extends State<ListCompleted> {
                                   MaterialPageRoute(
                                       builder: (_) => View_Completed(
                                           report_id:
-                                              reportRepair?[index].report_id)),
+                                              reportRepair?[index].report_id,
+                                          user: widget.user)),
                                 );
                               });
                             },

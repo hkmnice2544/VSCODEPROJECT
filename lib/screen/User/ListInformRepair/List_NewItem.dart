@@ -7,7 +7,9 @@ import '../../../controller/informrepair_controller.dart';
 import '../../../model/informrepair_model.dart';
 
 class listNewItem extends StatefulWidget {
-  const listNewItem({super.key});
+  final int? user; // สร้างตัวแปรเพื่อเก็บชื่อผู้ใช้
+
+  listNewItem({required this.user});
 
   @override
   State<listNewItem> createState() => NewInform();
@@ -63,6 +65,7 @@ class NewInform extends State<listNewItem> {
     super.initState();
     listAllInformRepair();
     listAllInformRepairDetails();
+    print("user-------New-----------${widget.user}");
 
     informrepairs?.sort((a, b) {
       if (a.informdate == null && b.informdate == null) {
@@ -171,9 +174,11 @@ class NewInform extends State<listNewItem> {
                                   context,
                                   MaterialPageRoute(
                                       builder: (_) => View_NewItem(
-                                          informrepair_id:
-                                              informRepairList?[index]
-                                                  .informrepair_id)),
+                                            informrepair_id:
+                                                informRepairList?[index]
+                                                    .informrepair_id,
+                                            user: widget.user,
+                                          )),
                                 );
                               });
                             },

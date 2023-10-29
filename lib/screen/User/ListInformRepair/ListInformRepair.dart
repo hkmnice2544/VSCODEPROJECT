@@ -82,7 +82,8 @@ class _ListInformRepairState extends State<ListInformRepair> {
                           Navigator.pushReplacement(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => Home(user: 0), // หน้า A
+                                builder: (context) =>
+                                    Home(user: widget.user), // หน้า A
                               ));
                         }),
                   ),
@@ -122,9 +123,11 @@ class _ListInformRepairState extends State<ListInformRepair> {
                 ]),
           ),
           body: TabBarView(children: [
-            listNewItem(),
-            listCheckStatus(),
-            InformCompleted(),
+            listNewItem(
+              user: widget.user,
+            ),
+            listCheckStatus(user: widget.user),
+            InformCompleted(user: widget.user),
           ]),
         ),
       );

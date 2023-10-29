@@ -132,7 +132,7 @@ class _ViewResultState extends State<ViewNewInform> {
                       Navigator.push(context, MaterialPageRoute(
                         builder: (context) {
                           var username;
-                          return HomeStaff(user: 0);
+                          return HomeStaff(user: widget.user);
                         },
                       ));
                     }),
@@ -444,7 +444,9 @@ class _ViewResultState extends State<ViewNewInform> {
                             onPressed: () async {
                               Navigator.pushReplacement(
                                 context,
-                                MaterialPageRoute(builder: (_) => ListManage()),
+                                MaterialPageRoute(
+                                    builder: (_) =>
+                                        ListManage(user: widget.user)),
                               );
                             },
                             style: ElevatedButton.styleFrom(

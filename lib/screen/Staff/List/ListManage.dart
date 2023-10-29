@@ -95,7 +95,7 @@ class _ListManageState extends State<ListManage> {
                         onPressed: () {
                           Navigator.push(context, MaterialPageRoute(
                             builder: (context) {
-                              return HomeStaff(user: 0);
+                              return HomeStaff(user: widget.user);
                             },
                           ));
                         }),
@@ -138,8 +138,8 @@ class _ListManageState extends State<ListManage> {
           body: TabBarView(children: [
             listNewInform(user: widget.user),
             ListActualize(user: widget.user),
-            ListCompleted(),
-            listReviewResult(),
+            ListCompleted(user: widget.user),
+            listReviewResult(user: widget.user),
           ]),
         ),
       );

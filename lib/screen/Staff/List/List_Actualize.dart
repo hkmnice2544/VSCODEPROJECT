@@ -227,7 +227,8 @@ class NewInform extends State<ListActualize> {
                                     builder: (_) => ViewNewInform(
                                         informrepair_id:
                                             informRepairList?[index]
-                                                .informrepair_id)),
+                                                .informrepair_id,
+                                        user: widget.user)),
                               );
                             });
                           },

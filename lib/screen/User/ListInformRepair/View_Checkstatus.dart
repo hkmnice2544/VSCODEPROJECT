@@ -130,7 +130,7 @@ class _ViewResultState extends State<View_Checkstatus> {
                       Navigator.push(context, MaterialPageRoute(
                         builder: (context) {
                           var username;
-                          return Home(user: 0);
+                          return Home(user: widget.user);
                         },
                       ));
                     }),
@@ -443,7 +443,8 @@ class _ViewResultState extends State<View_Checkstatus> {
                               Navigator.pushReplacement(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (_) => ListInformRepair()),
+                                    builder: (_) =>
+                                        ListInformRepair(user: widget.user)),
                               );
                             },
                             style: ElevatedButton.styleFrom(

@@ -8,7 +8,9 @@ import '../../../controller/informrepair_controller.dart';
 import '../../../model/informrepair_model.dart';
 
 class listCheckStatus extends StatefulWidget {
-  const listCheckStatus({super.key});
+  final int? user; // สร้างตัวแปรเพื่อเก็บชื่อผู้ใช้
+
+  listCheckStatus({required this.user});
 
   @override
   State<listCheckStatus> createState() => NewInform();
@@ -175,7 +177,8 @@ class NewInform extends State<listCheckStatus> {
                                       builder: (_) => View_Checkstatus(
                                           informrepair_id:
                                               informRepairList?[index]
-                                                  .informrepair_id)),
+                                                  .informrepair_id,
+                                          user: widget.user)),
                                 );
                               });
                             },

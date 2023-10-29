@@ -241,7 +241,7 @@ class Form extends State<Summary> {
                 onPressed: () {
                   Navigator.push(context, MaterialPageRoute(
                     builder: (context) {
-                      return HomeStaff(user: 0);
+                      return HomeStaff(user: widget.user);
                     },
                   ));
                 },
@@ -517,7 +517,8 @@ class Form extends State<Summary> {
                                 MaterialPageRoute(
                                     builder: (_) => View_Sum(
                                         informrepair_id: informRepairs?[index]
-                                            .informrepair_id)),
+                                            .informrepair_id,
+                                        user: widget.user)),
                               );
                             });
                           },

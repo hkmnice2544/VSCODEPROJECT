@@ -6,7 +6,9 @@ import 'Review.dart';
 import 'View_Completed.dart';
 
 class InformCompleted extends StatefulWidget {
-  const InformCompleted({super.key});
+  final int? user; // สร้างตัวแปรเพื่อเก็บชื่อผู้ใช้
+
+  InformCompleted({required this.user});
 
   @override
   State<InformCompleted> createState() => _MyWidgetState();
@@ -45,6 +47,7 @@ class _MyWidgetState extends State<InformCompleted> {
   void initState() {
     super.initState();
     listAllReportRepair();
+    print("user-----Com--------${widget.user}");
   }
 
   @override
@@ -171,8 +174,10 @@ class _MyWidgetState extends State<InformCompleted> {
                                     context,
                                     MaterialPageRoute(
                                         builder: (_) => Reviews(
-                                            report_id: reportRepair?[index]
-                                                .report_id)));
+                                              report_id: reportRepair?[index]
+                                                  .report_id,
+                                              user: widget.user,
+                                            )));
                               },
                               child: Text('ประเมิน'),
                             ),
@@ -184,7 +189,8 @@ class _MyWidgetState extends State<InformCompleted> {
                                   MaterialPageRoute(
                                       builder: (_) => ViewCompleted(
                                           report_id:
-                                              reportRepair?[index].report_id)),
+                                              reportRepair?[index].report_id,
+                                          user: widget.user)),
                                 );
                               });
                             },
