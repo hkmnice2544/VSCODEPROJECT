@@ -126,15 +126,16 @@ class Form extends State<InformRepairForm> {
   int selectedImageCount = 0;
 
   List<File> _selectedImages = [];
-  Future<void> _selectImages() async {
+  void _addImageForEquipment(String equipmentId) async {
     final List<XFile>? selectedImages = await imagePicker.pickMultiImage();
     if (selectedImages != null && selectedImages.isNotEmpty) {
-      selectedImageCount += selectedImages.length;
-      imageFileList.addAll(selectedImages);
-      // เพิ่มรูปภาพที่เลือกเข้า _selectedImages
-      _selectedImages.addAll(selectedImages.map((image) => File(image.path)));
+      if (equipmentImages.containsKey(equipmentId)) {
+        equipmentImages[equipmentId]!.addAll(selectedImages);
+      } else {
+        equipmentImages[equipmentId] = selectedImages;
+      }
+      setState(() {});
     }
-    setState(() {});
   }
 
   Future<void> _uploadImages() async {
@@ -161,14 +162,6 @@ class Form extends State<InformRepairForm> {
         // เพิ่มโค้ดหลังการอัพโหลดไม่สำเร็จ
       }
     }
-  }
-
-  void selectImages() async {
-    final List<XFile>? selectedImages = await imagePicker.pickMultiImage();
-    if (selectedImages != null && selectedImages.isNotEmpty) {
-      imageFileList.addAll(selectedImages);
-    }
-    setState(() {});
   }
 
   Future<void> fetchRoomNames() async {
@@ -823,6 +816,8 @@ class Form extends State<InformRepairForm> {
                                 user_id,
                                 roomIdInt,
                               );
+                              List<Map<String, dynamic>> data = [];
+                              Set<String> uniqueImageFileNames = Set();
 
                               // ทำการบันทึกข้อมูลใน dataList
 
@@ -832,40 +827,41 @@ class Form extends State<InformRepairForm> {
                                       int.tryParse(amountcontrollers[i].text);
                                   int? parsedEquipmentId2 =
                                       int.tryParse(equipmentIds[i]);
-                                  await informRepairDetailsController
-                                      .saveInformRepairDetails(
-                                          parsedEquipmentId ?? 1,
-                                          detailscontrollers[i].text,
-                                          ((informrepairs?[informrepairs!
-                                                              .length -
-                                                          1]
-                                                      .informrepair_id ??
-                                                  0) +
-                                              1),
-                                          parsedEquipmentId2 ?? 0,
-                                          roomIdInt);
-                                }
-                              }
-                              List<Map<String, dynamic>> data = [];
-                              Set<String> uniqueImageFileNames = Set();
+                                  var jsonResponse =
+                                      await informRepairDetailsController
+                                          .saveInformRepairDetails(
+                                              parsedEquipmentId ?? 1,
+                                              detailscontrollers[i].text,
+                                              ((informrepairs?[informrepairs!
+                                                                  .length -
+                                                              1]
+                                                          .informrepair_id ??
+                                                      0) +
+                                                  1),
+                                              parsedEquipmentId2 ?? 0,
+                                              roomIdInt);
 
-                              for (final imageName in imageFileNames) {
-                                if (!uniqueImageFileNames.contains(imageName)) {
-                                  // Check if the image filename is unique
-                                  uniqueImageFileNames.add(
-                                      imageName); // Add the image filename to the Set
-                                  data.add({
-                                    "informPicturesList": [
-                                      {"pictureUrl": imageName}
-                                    ],
-                                    "equipment_id": 1001,
-                                    "room_id": roomIdInt,
-                                    "informrepair_id": ((informrepairs?[
-                                                    informrepairs!.length - 1]
-                                                .informrepair_id ??
-                                            0) +
-                                        1),
-                                  });
+                                  for (int j = 0;
+                                      j < imageFileNames.length;
+                                      j++) {
+                                    if (isChecked[j]) {
+                                      if (int.tryParse(equipmentIds[j]) ==
+                                          parsedEquipmentId2) {
+                                        data.add({
+                                          "informPicturesList": [
+                                            {"pictureUrl": imageFileNames[j]}
+                                          ],
+                                          "equipment_id":
+                                              int.tryParse(equipmentIds[j]) ??
+                                                  0,
+                                          "room_id": roomIdInt,
+                                          "informrepair_id": jsonResponse[0]
+                                                  ["informrepairid"]
+                                              ["informrepair_id"],
+                                        });
+                                      }
+                                    }
+                                  }
                                 }
                               }
 
@@ -946,6 +942,7 @@ class Form extends State<InformRepairForm> {
   List<String> checkedDetails = [];
   List<String> listdetails = [];
   List<String> amountLists = [];
+  Map<String, List<XFile>> equipmentImages = {};
 
   List<bool> isChecked = [];
   List<TextEditingController> detailscontrollers = [];
@@ -954,6 +951,7 @@ class Form extends State<InformRepairForm> {
     List<Widget> widgets = [];
 
     for (int index = 0; index < equipmentIds.length; index++) {
+      final equipmentId = equipmentIds[index];
       widgets.add(
         CheckboxListTile(
           controlAffinity: ListTileControlAffinity.leading,
@@ -1005,7 +1003,7 @@ class Form extends State<InformRepairForm> {
                 onPressed: () {
                   // เรียกฟังก์ชันเพิ่มรูป
                   // _addImageForEquipment(equipmentIds[index]);
-                  _selectImages();
+                  _addImageForEquipment(equipmentId);
                   _uploadImages();
                   print('imageFileNames----${imageFileNames}');
                 },
@@ -1014,17 +1012,25 @@ class Form extends State<InformRepairForm> {
               GridView.builder(
                 shrinkWrap: true,
                 gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 3, // 3 คอลัมน์
+                  crossAxisCount: 3,
                 ),
-                itemCount: imageFileList.length,
-                itemBuilder: (BuildContext context, int index) {
-                  String fileName = imageFileList[index].path.split('/').last;
-                  imageFileNames.add(fileName); // เพิ่มชื่อไฟล์ลงใน List
+                itemCount: equipmentImages[equipmentId]?.length ?? 0,
+                itemBuilder: (BuildContext context, int imageIndex) {
+                  final image = equipmentImages[equipmentId]![imageIndex];
+                  final imagePath = image.path; // Get the image file path
+                  final imageName =
+                      imagePath.split('/').last; // Get the image file name
+
+                  if (!imageFileNames.contains(imageName)) {
+                    imageFileNames.add(imageName);
+                  }
+                  // Add the image name to the list
+
                   return Padding(
                     padding: const EdgeInsets.all(2),
                     child: Stack(
                       children: [
-                        Image.file(File(imageFileList[index].path)),
+                        Image.file(File(imagePath)), // Display the image
                         Positioned(
                           bottom: 0,
                           left: 0,
@@ -1033,7 +1039,7 @@ class Form extends State<InformRepairForm> {
                             color: Colors.black.withOpacity(0.7),
                             padding: EdgeInsets.all(5.0),
                             child: Text(
-                              fileName, // ใช้ชื่อไฟล์แทน
+                              imageName, // Display the image name
                               style: TextStyle(color: Colors.white),
                             ),
                           ),
@@ -1047,12 +1053,15 @@ class Form extends State<InformRepairForm> {
                               color: Colors.red,
                             ),
                             onPressed: () {
-                              // ลบรูปออกจาก imageFileList
+                              // Remove the image from the equipmentImages map
                               setState(() {
-                                imageFileList.removeAt(index);
+                                equipmentImages[equipmentId]!
+                                    .removeAt(imageIndex);
                               });
-                              // ลบชื่อรูปภาพที่เกี่ยวข้องออกจาก imageFileNames
-                              String fileNameToRemove = imageFileNames[index];
+
+                              // Remove the image name from the imageFileNames list
+                              String fileNameToRemove =
+                                  imageFileNames[imageIndex];
                               imageFileNames.removeWhere(
                                   (fileName) => fileName == fileNameToRemove);
                             },
@@ -1062,7 +1071,7 @@ class Form extends State<InformRepairForm> {
                     ),
                   );
                 },
-              ),
+              )
             ],
           ),
         ),

@@ -22,23 +22,14 @@ class InformRepairDetailsController {
         "room_id": room_id
       }
     ];
-    final response = await http.post(
+    http.Response response = await http.post(
       url,
       headers: headers,
       body: jsonEncode(data),
     );
-
-    if (response.statusCode == 200) {
-      final List<dynamic> jsonResponse = json.decode(response.body);
-      final List<InformRepairDetails> savedDetailsList = jsonResponse
-          .map((dynamic item) =>
-              InformRepairDetails.fromJsonToInformRepairDetails(item))
-          .toList();
-      print(savedDetailsList);
-      return savedDetailsList;
-    } else {
-      throw Exception('Failed to save InformRepairDetails');
-    }
+    var jsonResponse = jsonDecode(response.body);
+    print("--------->>> ${jsonResponse}<<<-----------");
+    return jsonResponse;
   }
 
   Future<List<InformRepairDetails>> listAllInformRepairDetails() async {
