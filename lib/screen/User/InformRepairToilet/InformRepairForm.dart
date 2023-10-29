@@ -7,6 +7,7 @@ import 'package:flutterr/controller/informrepairdetails_controller.dart';
 import 'package:flutterr/model/InformRepairDetails_Model.dart';
 import 'package:flutterr/model/InformRepairDetails_Model.dart';
 import 'package:flutterr/model/Room_Model.dart';
+import 'package:flutterr/model/inform_pictures_model.dart';
 import 'package:flutterr/screen/Home.dart';
 import 'package:flutterr/screen/Login.dart';
 import 'package:image_picker/image_picker.dart';
@@ -122,6 +123,45 @@ class Form extends State<InformRepairForm> {
   List<XFile> imageFileList = [];
   List<String> imageFileNames = [];
   String? buildingId = '';
+  int selectedImageCount = 0;
+
+  List<File> _selectedImages = [];
+  Future<void> _selectImages() async {
+    final List<XFile>? selectedImages = await imagePicker.pickMultiImage();
+    if (selectedImages != null && selectedImages.isNotEmpty) {
+      selectedImageCount += selectedImages.length;
+      imageFileList.addAll(selectedImages);
+      // เพิ่มรูปภาพที่เลือกเข้า _selectedImages
+      _selectedImages.addAll(selectedImages.map((image) => File(image.path)));
+    }
+    setState(() {});
+  }
+
+  Future<void> _uploadImages() async {
+    if (_selectedImages.isNotEmpty) {
+      final uri = Uri.parse(baseURL + '/review_pictures/uploadMultiple');
+      final request = http.MultipartRequest('POST', uri);
+
+      for (final image in _selectedImages) {
+        final file = await http.MultipartFile.fromPath(
+          'files',
+          image.path,
+          filename: image.path.split('/').last,
+        );
+        request.files.add(file);
+      }
+
+      final response = await request.send();
+
+      if (response.statusCode == 200) {
+        print('รูปภาพถูกอัพโหลดและข้อมูลถูกบันทึกเรียบร้อย');
+        // เพิ่มโค้ดหลังการอัพโหลดสำเร็จ
+      } else {
+        print('เกิดข้อผิดพลาดในการอัพโหลดและบันทึกไฟล์');
+        // เพิ่มโค้ดหลังการอัพโหลดไม่สำเร็จ
+      }
+    }
+  }
 
   void selectImages() async {
     final List<XFile>? selectedImages = await imagePicker.pickMultiImage();
@@ -806,162 +846,43 @@ class Form extends State<InformRepairForm> {
                                           roomIdInt);
                                 }
                               }
+                              List<Map<String, dynamic>> data = [];
+                              Set<String> uniqueImageFileNames = Set();
+
+                              for (final imageName in imageFileNames) {
+                                if (!uniqueImageFileNames.contains(imageName)) {
+                                  // Check if the image filename is unique
+                                  uniqueImageFileNames.add(
+                                      imageName); // Add the image filename to the Set
+                                  data.add({
+                                    "informPicturesList": [
+                                      {"pictureUrl": imageName}
+                                    ],
+                                    "equipment_id": 1001,
+                                    "room_id": roomIdInt,
+                                    "informrepair_id": ((informrepairs?[
+                                                    informrepairs!.length - 1]
+                                                .informrepair_id ??
+                                            0) +
+                                        1),
+                                  });
+                                }
+                              }
+
+                              List<Inform_Pictures> savedInformPictures =
+                                  await InformRepair_PicturesController
+                                      .saveInform_Pictures(data);
+
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(builder: (context) {
+                                  return Home(user: widget.user);
+                                }),
+                              );
+                            } else {
+                              // Handle the case where room_id is empty or null.
                             }
-                          } else {
-                            // Handle the case where room_id is empty or null.
                           }
-                          // List<Map<String, String>> dataList = [];
-
-                          // void addToDataList(
-                          //     String equipmentId,
-                          //     TextEditingController detailsController,
-                          //     TextEditingController countController) {
-                          //   if (roomname == "ห้องน้ำชาย" &&
-                          //       buildingId == "อาคาร 60 ปี แม่โจ้" &&
-                          //       roomfloor == "1" &&
-                          //       roomposition == "ข้างบันได" &&
-                          //       equipmentId.isNotEmpty)
-                          //     print(
-                          //         "-------dataList---countController---${countController.text}--------------");
-                          //   print(
-                          //       "-------dataList--detailsController----${detailsController.text}--------------");
-                          //   print(
-                          //       "-------dataList---informrepairs---${((informrepairs?[informrepairs!.length - 1].informrepair_id ?? 0) + 1).toString()}--------------");
-                          //   print(
-                          //       "-------dataList--equipmentId----${equipmentId}--------------");
-                          //   print(
-                          //       "-------dataList---statusinformdetails---${statusinformdetails}--------------");
-
-                          //   {
-                          //     dataList.add({
-                          //       'amount': countController.text,
-                          //       'details': detailsController.text,
-                          //       'informrepair_id':
-                          //           ((informrepairs?[informrepairs!.length - 1]
-                          //                           .informrepair_id ??
-                          //                       0) +
-                          //                   1)
-                          //               .toString(),
-                          //       'equipment_id': equipmentId,
-                          //       'room_id': "101",
-                          //       'status': statusinformdetails,
-                          //     });
-                          //   }
-                          //   if (roomname == "ห้องน้ำหญิง" &&
-                          //       buildingId == "อาคาร 60 ปี แม่โจ้" &&
-                          //       roomfloor == "1" &&
-                          //       roomposition == "ข้างบันได" &&
-                          //       equipmentId.isNotEmpty) {
-                          //     dataList.add({
-                          //       'amount': countController.text,
-                          //       'details': detailsController.text,
-                          //       'informrepair_id':
-                          //           ((informrepairs?[informrepairs!.length - 1]
-                          //                           .informrepair_id ??
-                          //                       0) +
-                          //                   1)
-                          //               .toString(),
-                          //       'equipment_id': equipmentId,
-                          //       'room_id': "102",
-                          //       'status': statusinformdetails,
-                          //     });
-                          //   }
-                          // }
-
-                          // addToDataList('1001', _tapCheckBoxController,
-                          //     _tapCountController);
-                          // addToDataList('1002', _toiletbowlBoxController,
-                          //     _toiletbowlCountController);
-                          // addToDataList('1003', _bidetCheckBoxController,
-                          //     _bidetCheckCountController);
-                          // addToDataList('1004', _urinalCheckBoxController,
-                          //     _urinalCheckCountController);
-                          // addToDataList('1005', _sinkCheckBoxController,
-                          //     _sinkCheckCountController);
-                          // addToDataList('1006', _lightbulbCheckBoxController,
-                          //     _lightbulbCheckCountController);
-                          // InformRepairDetailsController.saveInformRepairDetails(
-                          //     dataList);
-
-                          // final List<Map<String, dynamic>> data = [];
-                          // for (final imageName in imageFileNames) {
-                          //   if (!data.any(
-                          //       (item) => item["pictureUrl"] == imageName)) {
-                          //     data.add({
-                          //       "pictureUrl": imageName,
-                          //       "informRepairDetails": {
-                          //         "informdetails_id": 10001,
-                          // ((informdetails?[
-                          //                 informdetails!.length - 1]
-                          //             .informdetails_id ??
-                          //         0) +
-                          //     1),
-                          //       },
-                          //     });
-                          //   }
-                          // }
-
-                          // final List<Inform_Pictures> saveInform_Pictures =
-                          //     await InformRepair_PicturesController
-                          //         .saveInform_Pictures(data);
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(builder: (context) {
-                              return Home(user: widget.user);
-                            }),
-                          );
-
-                          // int u = 1001; // User ID
-
-                          // // สร้างรายการ ID และรายละเอียดที่มีค่าไม่เป็นว่าง
-                          // List<Map<String, String>> idDetailsList = [];
-
-                          // if (roomname == "ห้องน้ำชาย" &&
-                          //     buildingname == "อาคาร 60 ปี แม่โจ้" &&
-                          //     roomfloor == "1" &&
-                          //     roomposition == "ข้างบันได") {
-                          //   // ให้เพิ่มรายการสำหรับอุปกรณ์ก๊อกน้ำ
-                          //   String detail1 = _tapCheckBoxController.text;
-                          //   idDetailsList.add({
-                          //     "informdetails": detail1,
-                          //     "status": "ยังไม่ได้ดำเนินการ",
-                          //     "equipment_id": "1001",
-                          //     "user_id": u.toString(),
-                          //   });
-                          // }
-
-                          // if (_toiletbowlCheckBox == 'โถชักโครก' &&
-                          //     roomname == "ห้องน้ำชาย" &&
-                          //     buildingname == "อาคาร 60 ปี แม่โจ้" &&
-                          //     roomfloor == "1" &&
-                          //     roomposition == "ข้างบันได") {
-                          //   // ให้เพิ่มรายการสำหรับอุปกรณ์โถชักโครก
-                          //   String detail2 = _toiletbowlBoxController.text;
-                          //   idDetailsList.add({
-                          //     "informdetails": detail2,
-                          //     "status": "ยังไม่ได้ดำเนินการ",
-                          //     "equipment_id": "1001",
-                          //     "user_id": u.toString(),
-                          //   });
-                          // }
-                          // if (idDetailsList.isNotEmpty) {
-                          //   // เรียกใช้ addInformRepair ด้วยข้อมูลที่เตรียมไว้
-                          //   var response = await informController
-                          //       .addInformRepair(idDetailsList);
-
-                          //   // หลังจากส่งข้อมูลไปยังเซิร์ฟเวอร์เรียบร้อยแล้ว
-                          //   // คุณสามารถนำผู้ใช้ไปยังหน้า ListManage หรือทำอย่างอื่นตามที่ต้องการ
-                          //   Navigator.pushReplacement(
-                          //     context,
-                          //     MaterialPageRoute(
-                          //         builder: (_) => ResultInformRepair(
-                          //             informrepair_id: (informrepairs?[
-                          //                             informrepairs!.length - 1]
-                          //                         ?.informrepair_id ??
-                          //                     0) +
-                          //                 1)),
-                          //   );
-                          // }
                         },
                         style: ElevatedButton.styleFrom(
                           primary: Color.fromARGB(
@@ -1078,6 +999,68 @@ class Form extends State<InformRepairForm> {
                     amountcontrollers[index].text = value;
                   });
                   print(amountcontrollers[index].text);
+                },
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  // เรียกฟังก์ชันเพิ่มรูป
+                  // _addImageForEquipment(equipmentIds[index]);
+                  _selectImages();
+                  _uploadImages();
+                  print('imageFileNames----${imageFileNames}');
+                },
+                child: Text('เพิ่มรูปภาพ'),
+              ),
+              GridView.builder(
+                shrinkWrap: true,
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 3, // 3 คอลัมน์
+                ),
+                itemCount: imageFileList.length,
+                itemBuilder: (BuildContext context, int index) {
+                  String fileName = imageFileList[index].path.split('/').last;
+                  imageFileNames.add(fileName); // เพิ่มชื่อไฟล์ลงใน List
+                  return Padding(
+                    padding: const EdgeInsets.all(2),
+                    child: Stack(
+                      children: [
+                        Image.file(File(imageFileList[index].path)),
+                        Positioned(
+                          bottom: 0,
+                          left: 0,
+                          right: 79,
+                          child: Container(
+                            color: Colors.black.withOpacity(0.7),
+                            padding: EdgeInsets.all(5.0),
+                            child: Text(
+                              fileName, // ใช้ชื่อไฟล์แทน
+                              style: TextStyle(color: Colors.white),
+                            ),
+                          ),
+                        ),
+                        Positioned(
+                          top: 0,
+                          right: 30,
+                          child: IconButton(
+                            icon: Icon(
+                              Icons.highlight_remove_sharp,
+                              color: Colors.red,
+                            ),
+                            onPressed: () {
+                              // ลบรูปออกจาก imageFileList
+                              setState(() {
+                                imageFileList.removeAt(index);
+                              });
+                              // ลบชื่อรูปภาพที่เกี่ยวข้องออกจาก imageFileNames
+                              String fileNameToRemove = imageFileNames[index];
+                              imageFileNames.removeWhere(
+                                  (fileName) => fileName == fileNameToRemove);
+                            },
+                          ),
+                        ),
+                      ],
+                    ),
+                  );
                 },
               ),
             ],
