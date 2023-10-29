@@ -114,44 +114,27 @@ class InformRepairController {
     return informRepair;
   }
 
-  // Future deleteInformRepair(int? informrepair_id) async {
-  //   if (informrepair_id == null) {
-  //     // กรณีค่า informrepair_id เป็น null
-  //     print('informrepair_id is null');
-  //     return;
-  //   }
+  Future deleteInformRepair(int? informrepair_id) async {
+    if (informrepair_id == null) {
+      print('informrepair_id is null');
+      return;
+    }
 
-  //   var url =
-  //       Uri.parse('$baseURL/informrepairs/deleteInformRepair/$informrepair_id');
+    var url =
+        Uri.parse('$baseURL/informrepairs/deleteInformRepair/$informrepair_id');
+    var response = await http.post(url, headers: headers);
 
-  //   // Create the request body
-  //   Map<String, int> data = {
-  //     "informrepair_id": informrepair_id,
-  //   };
-  //   var body = json.encode(data);
-
-  //   http.Response response = await http.post(
-  //     url,
-  //     headers: headers,
-  //     body: body,
-  //   );
-
-  //   var jsonResponse = jsonDecode(response.body);
-  //   print(jsonResponse);
-  // }
-
-  // Future getbuilding(int building_id) async {
-  //   var url = Uri.parse('$baseURL/buildings/getbuildings/$building_id');
-
-  //   http.Response response = await http.get(url);
-
-  //   print(response.body);
-
-  //   var jsonResponse = jsonDecode(response.body);
-  //   Building building = Building.fromJsonToBuilding(jsonResponse['result']);
-  //   print("getbuilding : ${building.building_id}");
-  //   return building;
-  // }
+    if (response.statusCode == 200) {
+      print('Deleted successfully: ${response.body}');
+      return "Deleted successfully";
+      // ดำเนินการตามความเหมาะสมหลังจากลบสำเร็จ
+    } else {
+      print('Failed to delete with status: ${response.statusCode}');
+      print('Response JSON: ${response.body}');
+      // แสดงข้อมูล JSON ที่ได้รับเพื่อทราบข้อผิดพลาด
+      throw Exception('Failed to delete InformRepair');
+    }
+  }
 
   Future<List> listAllBuildings() async {
     var url = Uri.parse(baseURL + '/buildings/list');

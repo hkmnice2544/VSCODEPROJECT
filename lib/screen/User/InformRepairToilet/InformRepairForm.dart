@@ -10,6 +10,7 @@ import 'package:flutterr/model/Room_Model.dart';
 import 'package:flutterr/model/inform_pictures_model.dart';
 import 'package:flutterr/screen/Home.dart';
 import 'package:flutterr/screen/Login.dart';
+import 'package:flutterr/screen/User/InformRepairToilet/ResultInformRepair.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:flutter/material.dart';
@@ -376,6 +377,8 @@ class Form extends State<InformRepairForm> {
     // fetchListBuilding();
     initialize();
     main();
+    print("user-----------------------${widget.user}");
+
     // print('user_id----${user_id}');
     // print('imageFileNames----${imageFileNames}');
   }
@@ -869,11 +872,17 @@ class Form extends State<InformRepairForm> {
                                   await InformRepair_PicturesController
                                       .saveInform_Pictures(data);
 
-                              Navigator.push(
+                              Navigator.pushReplacement(
                                 context,
-                                MaterialPageRoute(builder: (context) {
-                                  return Home(user: widget.user);
-                                }),
+                                MaterialPageRoute(
+                                    builder: (_) => ResultInformRepair(
+                                        informrepair_id: ((informrepairs?[
+                                                        informrepairs!.length -
+                                                            1]
+                                                    .informrepair_id ??
+                                                0) +
+                                            1),
+                                        user: widget.user)),
                               );
                             } else {
                               // Handle the case where room_id is empty or null.
