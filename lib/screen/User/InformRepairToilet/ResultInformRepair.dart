@@ -115,7 +115,7 @@ class _ViewResultState extends State<ResultInformRepair> {
     getListInformRepairDetails();
     getInformDetails(widget.informrepair_id!);
     ViewListInformDetails(widget.informrepair_id!);
-    print("user${widget.user}");
+    print("user-----------Re----------------${widget.user}");
   }
 
   @override
@@ -504,7 +504,7 @@ class _ViewResultState extends State<ResultInformRepair> {
                                                 Navigator.push(context,
                                                     MaterialPageRoute(
                                                   builder: (context) {
-                                                    return listNewItem(
+                                                    return ListInformRepair(
                                                       user: widget.user,
                                                     );
                                                   },
@@ -540,8 +540,8 @@ class _ViewResultState extends State<ResultInformRepair> {
                             Expanded(
                               child: ElevatedButton(
                                   onPressed: () {
-                                    EditInformRepairs editInformRepair =
-                                        EditInformRepairs();
+                                    // EditInformRepairs editInformRepair =
+                                    //     EditInformRepairs();
                                     // informRepair.informtype = _dropdowninformtype!;
                                     // informRepair.buildngname = _dropdownbuildngname!;
                                     // informRepair.floor = _dropdownfloor!;

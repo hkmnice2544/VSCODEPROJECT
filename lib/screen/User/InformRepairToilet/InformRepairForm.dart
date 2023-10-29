@@ -377,7 +377,7 @@ class Form extends State<InformRepairForm> {
     // fetchListBuilding();
     initialize();
     main();
-    print("user-----------------------${widget.user}");
+    print("user----------Inform-------------${widget.user}");
 
     // print('user_id----${user_id}');
     // print('imageFileNames----${imageFileNames}');

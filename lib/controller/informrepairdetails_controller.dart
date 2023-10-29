@@ -121,10 +121,11 @@ class InformRepairDetailsController {
     http.Response response = await http.post(url, headers: headers, body: null);
     print("ข้อมูลที่ได้คือ : " + response.body);
 
-    Map<String, dynamic> jsonMap = json.decode(response.body);
-    InformRepairDetails? informRepair =
-        InformRepairDetails.fromJsonToInformRepairDetails(jsonMap);
-    return informRepair;
+    List<dynamic> jsonMap = json.decode(response.body);
+    List<InformRepairDetails>? informRepairs = await jsonMap
+        .map((e) => InformRepairDetails.fromJsonToInformRepairDetails(e))
+        .toList();
+    return informRepairs;
   }
 
   Future<List<InformRepairDetails>>

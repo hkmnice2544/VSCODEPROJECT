@@ -1,74 +1,38 @@
-import 'dart:typed_data';
-import 'package:flutter/material.dart';
+import 'dart:convert';
+import 'dart:ffi';
+import 'dart:io';
+import 'package:flutterr/constant/constant_value.dart';
+import 'package:flutterr/controller/informrepair_pictures_controller.dart';
+import 'package:flutterr/controller/informrepairdetails_controller.dart';
+import 'package:flutterr/model/InformRepairDetails_Model.dart';
+import 'package:flutterr/model/InformRepairDetails_Model.dart';
+import 'package:flutterr/model/Room_Model.dart';
+import 'package:flutterr/model/inform_pictures_model.dart';
 import 'package:flutterr/screen/Home.dart';
 import 'package:flutterr/screen/Login.dart';
 import 'package:flutterr/screen/User/InformRepairToilet/ResultInformRepair.dart';
-import 'package:intl/intl.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:intl/date_symbol_data_local.dart';
+import 'package:flutter/material.dart';
 import '../../../controller/informrepair_controller.dart';
+import 'package:intl/intl.dart';
+import '../../../model/Building_Model.dart';
 import '../../../model/informrepair_model.dart';
+import 'package:http/http.dart' as http;
 
 class EditInformRepairs extends StatefulWidget {
-  final int? informrepair_id;
   final int? user;
-  const EditInformRepairs({super.key, this.informrepair_id, this.user});
+  final int? informrepair_id;
+  EditInformRepairs({required this.user, required this.informrepair_id});
 
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text("EditInformRepair"),
-        backgroundColor: Colors.red,
-      ),
-      body: Material(
-        child: Center(
-          child: Text(
-            "แก้ไขแจ้งซ่อมห้องน้ำ",
-            style: TextStyle(
-              color: Color.fromARGB(255, 7, 94, 53),
-              fontSize: 40,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-        ),
-      ),
-      extendBody: true,
-      bottomNavigationBar: BottomAppBar(
-        clipBehavior: Clip.antiAlias,
-        shape: const CircularNotchedRectangle(),
-        child: Container(
-          color: Color.fromARGB(255, 245, 59, 59),
-          height: 50.0,
-        ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: Color.fromARGB(255, 245, 59, 59),
-        onPressed: () {},
-        child: Icon(
-          Icons.add,
-          color: Colors.white,
-        ),
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-    );
-  }
-
   Form createState() => Form();
 }
 
 class Form extends State<EditInformRepairs> {
-  Color backgroundColor = Colors.white;
-
-  List<Uint8List> imageBytesList = [];
-  List<String> imageNames = [];
-  String isChecked = 'ก๊อกน้ำ';
-
-  final InformRepairController informrepairController =
-      InformRepairController();
-
-  List<InformRepair>? informrepairs;
-  bool? isDataLoaded = false;
-  InformRepair? informRepairs;
-  InformRepair? informRepair;
+  Map<String, TextEditingController> checkboxControllers = {};
+  Map<String, TextEditingController> countControllers = {};
+  Map<String, String> checkboxValues = {};
 
   String formattedDate = '';
   DateTime informdate = DateTime.now();
@@ -79,82 +43,396 @@ class Form extends State<EditInformRepairs> {
       TextEditingController();
   TextEditingController informtypeTextController = TextEditingController();
   final InformRepairController informController = InformRepairController();
+  InformRepairDetailsController informRepairDetailsController =
+      InformRepairDetailsController();
+  InformRepair_PicturesController informRepair_PicturesController =
+      InformRepair_PicturesController();
 
 //dropdown----------------------------------
-  Form() {
-    //dropdown
-    _dropdowninformtype = _informtypeList[0]; //ประเภทห้องน้ำ
-    _dropdownbuildngname = _buildngnameList[0]; //ประเภทอาคาร
-    _dropdownfloor = _floorList[0]; //ชั้น
-    _dropdownposition = _positionList[0]; //ตำแหน่ง
-  }
-  TextEditingController textEditingController = TextEditingController();
-  String? _dropdowninformtype = "";
-  String? _dropdownbuildngname = ""; //ประเภทอาคาร
-  String? _dropdownfloor = ""; //ชั้น
-  String? _dropdownposition = ""; //ตำแหน่ง
-
-  final _informtypeList = ["ห้องน้ำชาย", "ห้องน้ำหญิง"]; //ประเภทห้องน้ำ
-  final _buildngnameList = [
-    "อาคาร 60 ปี แม่โจ้",
-    "อาคารจุฬาภรณ์",
-    "อาคารเสาวรัจ"
-  ]; //ประเภทอาคาร
-  final _floorList = ["1", "2", "3", "4"]; //ชั้น
-  final _positionList = ["ข้างลิฟท์", "ข้างบันได"]; //ตำแหน่ง
 
 //CheckBox----------------------------------
-  bool? _tapCheckBox = false; //ก๊อกน้ำ
-  bool? _toiletbowlCheckBox = false; //โถชักโครก
-  bool? _bidetCheckBox = false; //สายชำระ
-  bool? _urinalCheckBox = false; //โถฉี่ชาย
-  bool? _sinkCheckBox = false; //อ่างล้างมือ
-  bool? _lightbulbCheckBox = false; //หลอดไฟ
-  bool? _otherCheckBox = false; //อื่นๆ
+  // bool? _tapCheckBox = false; //ก๊อกน้ำ
+  // bool? _toiletbowlCheckBox = false; //โถชักโครก
+  // bool? _bidetCheckBox = false; //สายชำระ
+  // bool? _urinalCheckBox = false; //โถฉี่ชาย
+  // bool? _sinkCheckBox = false; //อ่างล้างมือ
+  // bool? _lightbulbCheckBox = false; //หลอดไฟ
+  // bool? _otherCheckBox = false; //อื่นๆ
 
-  // void fetchInformRepairs() async {
-  //   informrepairs = await informrepairController.updateInformRepair(
-  //       "informrepair_id", "informtype", "defectiveequipment", "informdetails");
-  //   print({informrepairs?[0].informrepair_id});
-  //   setState(() {
-  //     isDataLoaded = true;
-  //   });
-  // }
+  TextEditingController detailController1 = TextEditingController();
+  TextEditingController detailController2 = TextEditingController();
+  TextEditingController detailController3 = TextEditingController();
+  TextEditingController idController1 = TextEditingController();
+  TextEditingController idController2 = TextEditingController();
+  TextEditingController idController3 = TextEditingController();
+  TextEditingController imageController1 = TextEditingController();
 
-  void fetchInformRepair() async {
-    // informrepairs = await informrepairController.listAllInformRepairs();
+  int equip_id = 1002;
+  int user_id = 1001;
+
+  Color backgroundColor = Colors.white;
+  // รายละเอียด
+  TextEditingController _tapCheckBoxController = TextEditingController();
+  TextEditingController _toiletbowlBoxController = TextEditingController();
+  TextEditingController _bidetCheckBoxController = TextEditingController();
+  TextEditingController _urinalCheckBoxController = TextEditingController();
+  TextEditingController _sinkCheckBoxController = TextEditingController();
+  TextEditingController _lightbulbCheckBoxController = TextEditingController();
+  TextEditingController _doorCheckBoxController = TextEditingController();
+  TextEditingController _otherCheckBoxController = TextEditingController();
+
+  // จำนวน
+  TextEditingController _tapCountController = TextEditingController();
+  TextEditingController _toiletbowlCountController = TextEditingController();
+  TextEditingController _bidetCheckCountController = TextEditingController();
+  TextEditingController _urinalCheckCountController = TextEditingController();
+  TextEditingController _sinkCheckCountController = TextEditingController();
+  TextEditingController _lightbulbCheckCountController =
+      TextEditingController();
+  TextEditingController _doorCheckCountController = TextEditingController();
+  TextEditingController _otherCheckCountController = TextEditingController();
+
+  bool? _tapCheckBox = false;
+  bool? _toiletbowlCheckBox = false;
+  bool? _bidetCheckBox = false;
+  bool? _urinalCheckBox = false;
+  bool? _sinkCheckBox = false;
+  bool? _lightbulbCheckBox = false;
+  bool? _doorCheckBox = false;
+  bool? _otherCheckBox = false;
+
+  List<InformRepair>? informrepairs;
+  List<InformRepairDetails>? informRepairDetails;
+  bool? isDataLoaded = false;
+  InformRepair? informRepairs;
+  InformRepair? informRepair;
+  List<Building>? buildings;
+  String? roomname;
+  String? roomfloor;
+  String? roomposition;
+  Building? building;
+  List<Room>? rooms;
+  Room? room;
+  List<String> roomNames = [];
+  List<String> roomfloors = [];
+  List<String> roompositions = [];
+  late final String username;
+  String informtype = "ห้องน้ำ";
+  String statusinform = "ยังไม่ได้ดำเนินการ";
+  String statusinformdetails = "เสีย";
+  String? informrepair_idvar;
+  final ImagePicker imagePicker = ImagePicker();
+  List<XFile> imageFileList = [];
+  List<String> imageFileNames = [];
+  String? buildingId = '';
+  int selectedImageCount = 0;
+
+  List<File> _selectedImages = [];
+  void _addImageForEquipment(String equipmentId) async {
+    final List<XFile>? selectedImages = await imagePicker.pickMultiImage();
+    if (selectedImages != null && selectedImages.isNotEmpty) {
+      if (equipmentImages.containsKey(equipmentId)) {
+        equipmentImages[equipmentId]!.addAll(selectedImages);
+      } else {
+        equipmentImages[equipmentId] = selectedImages;
+      }
+      setState(() {});
+    }
+  }
+
+  Future<void> _uploadImages() async {
+    if (_selectedImages.isNotEmpty) {
+      final uri = Uri.parse(baseURL + '/review_pictures/uploadMultiple');
+      final request = http.MultipartRequest('POST', uri);
+
+      for (final image in _selectedImages) {
+        final file = await http.MultipartFile.fromPath(
+          'files',
+          image.path,
+          filename: image.path.split('/').last,
+        );
+        request.files.add(file);
+      }
+
+      final response = await request.send();
+
+      if (response.statusCode == 200) {
+        print('รูปภาพถูกอัพโหลดและข้อมูลถูกบันทึกเรียบร้อย');
+        // เพิ่มโค้ดหลังการอัพโหลดสำเร็จ
+      } else {
+        print('เกิดข้อผิดพลาดในการอัพโหลดและบันทึกไฟล์');
+        // เพิ่มโค้ดหลังการอัพโหลดไม่สำเร็จ
+      }
+    }
+  }
+
+  Future<void> fetchRoomNames() async {
+    var url = Uri.parse(baseURL + '/rooms/listAllDistinctRoomNames');
+    final response = await http.post(url, headers: headers);
+
+    if (response.statusCode == 200) {
+      final data = json.decode(response.body);
+      setState(() {
+        roomNames = List<String>.from(data);
+      });
+    } else {
+      throw Exception('Failed to load room names');
+    }
+  }
+
+  Future<void> fetchRoomfloors() async {
+    var url = Uri.parse(baseURL + '/rooms/listAllDistinctRoomfloor');
+    final response = await http.post(url, headers: headers);
+
+    if (response.statusCode == 200) {
+      final data = json.decode(response.body);
+      setState(() {
+        roomfloors = List<String>.from(data);
+      });
+    } else {
+      throw Exception('Failed to load room names');
+    }
+  }
+
+  Future<void> fetchRoompositions() async {
+    var url = Uri.parse(baseURL + '/rooms/listAllDistinctRoomposition');
+    final response = await http.post(url, headers: headers);
+
+    if (response.statusCode == 200) {
+      final data = json.decode(response.body);
+      setState(() {
+        roompositions = List<String>.from(data);
+      });
+    } else {
+      throw Exception('Failed to load room names');
+    }
+  }
+
+  Future<void> fetchRoomByBuilding(String building_id) async {
+    var url = Uri.parse(baseURL + '/rooms/listAllByBuilding/${building_id}');
+    final response = await http.post(url, headers: headers);
+
+    if (response.statusCode == 200) {
+      final data = json.decode(response.body);
+      setState(() {
+        roompositions = List<String>.from(data);
+      });
+    } else {
+      throw Exception('Failed to load room names');
+    }
+  }
+
+  final InformRepairController informrepairController =
+      InformRepairController();
+
+  void fetchInformRepairs() async {
+    informrepairs = await informrepairController.listAllInformRepairs();
     print({informrepairs?[0].informrepair_id});
-    // print(informRepairs?.defectiveequipment);
+    print(
+        "getInform ปัจจุบัน : ${informrepairs?[informrepairs!.length - 1].informrepair_id}");
+    print(
+        "getInform +1 : ${(informrepairs?[informrepairs!.length - 1].informrepair_id ?? 0) + 1}");
+
     setState(() {
       isDataLoaded = true;
     });
   }
 
-  // void fetchgetListInform(int informrepair_id) async {
-  //   informRepair = await informrepairController.getInform(informrepair_id);
-  //   textEditingController.text = informRepair?.informdetails ?? '';
-  //   _dropdowninformtype = informRepair?.informtype ?? '';
-  //   print("textEditingControllerrr:${textEditingController.text}");
-  //   print("id : ${informrepair_id}");
-  //   print("informdetails : ${informRepair!.informdetails}");
-  //   print("textEditingController:${textEditingController.text}");
+  void listAllInformRepairDetails() async {
+    informRepairDetails =
+        await informRepairDetailsController.listAllInformRepairDetails();
+    // print({informdetails?[0].informdetails_id});
+    if (informrepairs != null && informrepairs!.isNotEmpty) {
+      print("Informrepair ID: ${informrepairs![0].informrepair_id}");
+      print(
+          "getInform ปัจจุบัน : ${informrepairs![informrepairs!.length - 1].informrepair_id}");
+      print(
+          "getInform +1 : ${informrepairs![informrepairs!.length - 1].informrepair_id! + 1}");
+    } else {
+      print("Informrepairs เป็น null หรือว่าง");
+    }
 
-  //   setState(() {
-  //     isDataLoaded = true;
-  //   });
-  // }
+    setState(() {
+      isDataLoaded = true;
+    });
+  }
+
+  void listAllBuildings() async {
+    buildings =
+        (await informrepairController.listAllBuildings()).cast<Building>();
+    print("listAllBuildings : ${buildings?[0].building_id}");
+    setState(() {
+      isDataLoaded = true;
+    });
+  }
+
+  List<String>? Floor = [];
+  void findfloorByIdbuilding_id(String building_id) async {
+    Floor = await informrepairController.findfloorByIdbuilding_id(building_id);
+    if (Floor != null && Floor!.isNotEmpty) {
+      for (var i = 0; i < Floor!.length; i++) {
+        print("Floor $i: ${Floor![i]}");
+      }
+    }
+    setState(() {
+      isDataLoaded = true;
+    });
+  }
+
+  List<String>? Position = [];
+  void findpositionByIdbuilding_id(String building_id, String floor) async {
+    Position = await informrepairController.findpositionByIdbuilding_id(
+        building_id, floor);
+    if (Position != null && Position!.isNotEmpty) {
+      for (var i = 0; i < Position!.length; i++) {
+        print("Floor $i: ${Position![i]}");
+      }
+    }
+    setState(() {
+      isDataLoaded = true;
+    });
+  }
+
+  List<String>? Roomname = [];
+  void findroomnameByIdbuilding_id(
+      String building_id, String floor, String position) async {
+    Roomname = await informrepairController.findroomnameByIdbuilding_id(
+        building_id, floor, position);
+    if (Roomname != null && Roomname!.isNotEmpty) {
+      for (var i = 0; i < Roomname!.length; i++) {
+        print("Floor $i: ${Roomname![i]}");
+      }
+    }
+    setState(() {
+      isDataLoaded = true;
+    });
+  }
+
+  List<String> equipmentIds = [];
+  String? selectedRoomId;
+  List<String>? Room_id = [];
+  List<String> equipmentName = [];
+
+  void findequipmentByIdByAll(String building_id, String floor, String position,
+      String roomname) async {
+    Room_id = await informrepairController.findroom_idByIdByAll(
+        building_id, floor, position, roomname);
+    if (Room_id != null && Room_id!.isNotEmpty) {
+      selectedRoomId = Room_id![0]; // ยกตัวอย่างว่าเลือก index 0
+
+      // เรียกใช้ฟังก์ชันเพื่อดึงข้อมูล equipment_ids
+      equipmentIds = await informrepairController
+          .findequipment_idByIdByroom_id(selectedRoomId);
+
+      for (int i = 0; i < equipmentIds.length; i++) {
+        int? equipmentId = int.tryParse(equipmentIds[i]);
+        if (equipmentId != null) {
+          String name = await informrepairController
+              .findequipmentnameByIdByequipment_id(equipmentId)
+              .then((value) => value.first);
+          equipmentName.add(name);
+        }
+      }
+
+      print("equipmentIds : $equipmentIds");
+      print("equipmentName : $equipmentName");
+    }
+    setState(() {
+      isDataLoaded = true;
+    });
+  }
+
+  List<String>? room_id = [];
+
+  void findrooom_idByIdByAll(String building_id, String floor, String position,
+      String roomname) async {
+    room_id = await informrepairController.findroom_idByIdByAll(
+        building_id, floor, position, roomname);
+    print(" findrooom_idByIdByAll : ${room_id}");
+    setState(() {
+      isDataLoaded = true;
+    });
+  }
+
+  void main() {
+    initializeDateFormatting('th_TH', null).then((_) {});
+  }
+
+  Future<void> initialize() async {
+    isChecked = List.filled(10, false);
+    detailscontrollers = List.generate(10, (index) => TextEditingController());
+    amountcontrollers = List.generate(10, (index) => TextEditingController());
+  }
+
+  List<InformRepairDetails>? informRepairDetail = [];
+  void ViewListInformDetails(int informrepair_id) async {
+    informRepairDetail =
+        await informRepairDetailsController.ViewListInformDetails(
+            informrepair_id);
+    print(
+        "ViewListInformDetails : ${informRepairDetail?[0].informRepair?.informrepair_id}");
+    setState(() {
+      findfloorByIdbuilding_id(informRepairDetail![0]
+          .informRepair!
+          .room!
+          .building!
+          .building_id
+          .toString());
+
+      findpositionByIdbuilding_id(
+          informRepairDetail![0]
+              .informRepair!
+              .room!
+              .building!
+              .building_id
+              .toString(),
+          informRepairDetail![0].informRepair!.room!.floor.toString());
+      findroomnameByIdbuilding_id(
+          informRepairDetail![0]
+              .informRepair!
+              .room!
+              .building!
+              .building_id
+              .toString(),
+          informRepairDetail![0].informRepair!.room!.floor.toString(),
+          informRepairDetail![0].informRepair!.room!.position.toString());
+      findequipmentByIdByAll(
+        informRepairDetail![0]
+            .informRepair!
+            .room!
+            .building!
+            .building_id
+            .toString(),
+        informRepairDetail![0].informRepair!.room!.floor.toString(),
+        informRepairDetail![0].informRepair!.room!.position.toString(),
+        informRepairDetail![0].informRepair!.room!.roomname.toString(),
+      );
+      isDataLoaded = true;
+    });
+  }
 
   @override
   void initState() {
     super.initState();
-    // fetchInformRepairs();
-    fetchInformRepair();
-    // fetchgetListInform(widget.informrepair_id!);
+    fetchInformRepairs();
+    listAllBuildings();
+    fetchRoomNames();
+    fetchRoomfloors();
+    fetchRoompositions();
+
+    // listAllInformRepairDetails();
     DateTime now = DateTime.now();
     formattedDate = DateFormat('dd-MM-yyyy').format(now);
-    // if (informRepair != null) {
-    //   _dropdowninformtype = informRepair!.informtype!;
-    // }
+    // fetchListBuilding();
+    initialize();
+    main();
+    print("user-----------Edit------------${widget.user}");
+    print(
+        "user-----------informrepair_id------------${widget.informrepair_id}");
+    ViewListInformDetails(widget.informrepair_id!);
+
+    // print('user_id----${user_id}');
+    // print('imageFileNames----${imageFileNames}');
   }
 
   @override
@@ -162,7 +440,7 @@ class Form extends State<EditInformRepairs> {
     return Scaffold(
         appBar: AppBar(
           title: Text(
-            "หน้า EditInformRepairToilet",
+            "หน้า EditInformRepairs",
             style: TextStyle(
               color: Color.fromARGB(255, 255, 255, 255),
               fontSize: 21,
@@ -173,38 +451,55 @@ class Form extends State<EditInformRepairs> {
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
         bottomNavigationBar: BottomAppBar(
-          color: Color.fromARGB(255, 245, 59, 59),
-          height: 50,
-          shape: CircularNotchedRectangle(), // รูปร่างของแถบ
+            color: Color.fromARGB(255, 245, 59, 59),
+            height: 50,
+            shape: CircularNotchedRectangle(), // รูปร่างของแถบ
 
-          child: Row(
+            child: Row(
               // mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
-                Expanded(
+                Padding(
+                  padding: EdgeInsets.only(left: 20, top: 0, right: 0),
                   child: IconButton(
-                      icon: Icon(Icons.home),
-                      color: Color.fromARGB(255, 255, 255, 255),
-                      onPressed: () {
-                        Navigator.push(context, MaterialPageRoute(
-                          builder: (context) {
-                            return Home(user: widget.user);
-                          },
-                        ));
-                      }),
+                    icon: Icon(Icons.home),
+                    color: Color.fromARGB(255, 255, 255, 255),
+                    onPressed: () {
+                      Navigator.push(context, MaterialPageRoute(
+                        builder: (context) {
+                          return Home(user: widget.user);
+                        },
+                      ));
+                    },
+                  ),
                 ),
                 Expanded(
-                  child: Text(
-                    "หน้าแรก",
-                    style: TextStyle(
-                      color: Color.fromARGB(255, 255, 255, 255),
-                      fontSize: 12,
-                      fontWeight: FontWeight.w100,
+                  child: GestureDetector(
+                    onTap: () {
+                      Navigator.push(context, MaterialPageRoute(
+                        builder: (context) {
+                          return Home(user: widget.user);
+                        },
+                      ));
+                    },
+                    child: Padding(
+                      padding: EdgeInsets.only(left: 0, top: 0, right: 50),
+                      child: Text(
+                        "หน้าแรก",
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 12,
+                          fontWeight: FontWeight.w100,
+                        ),
+                      ),
                     ),
                   ),
                 ),
-                Expanded(child: Text("                           ")),
                 Expanded(
-                  child: IconButton(
+                    child: Text(" ")), // เพิ่มระยะห่างของข้อความได้ตามต้องการ
+                Expanded(
+                  child: Padding(
+                    padding: EdgeInsets.only(left: 120, top: 0, right: 0),
+                    child: IconButton(
                       icon: Icon(Icons.logout),
                       color: Color.fromARGB(255, 255, 255, 255),
                       onPressed: () {
@@ -213,20 +508,36 @@ class Form extends State<EditInformRepairs> {
                             return Login();
                           },
                         ));
-                      }),
+                      },
+                    ),
+                  ),
                 ),
                 Expanded(
-                  child: Text(
-                    "ออกจากระบบ",
-                    style: TextStyle(
-                      color: Color.fromARGB(255, 255, 255, 255),
-                      fontSize: 12,
-                      fontWeight: FontWeight.w100,
+                  child: GestureDetector(
+                    onTap: () {
+                      // นำทางไปยังหน้าอื่นที่คุณต้องการ
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) {
+                          return Login();
+                        }),
+                      );
+                    },
+                    child: Padding(
+                      padding: EdgeInsets.only(left: 30, top: 0, right: 0),
+                      child: Text(
+                        "ออกจากระบบ",
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 12,
+                          fontWeight: FontWeight.w100,
+                        ),
+                      ),
                     ),
                   ),
                 )
-              ]),
-        ),
+              ],
+            )),
         body: SingleChildScrollView(
           child: Container(
             padding: EdgeInsets.all(16.0),
@@ -261,41 +572,44 @@ class Form extends State<EditInformRepairs> {
                 //     icon: const Icon(Icons.account_circle),
                 //   ),
 
-                Row(
-                  children: [
-                    Expanded(
-                      child: Padding(
-                        padding: EdgeInsets.fromLTRB(10.0, 10, 10.0, 10), //
-                        child: Icon(Icons.list),
+                Padding(
+                  padding: EdgeInsets.only(left: 0, top: 25, right: 0),
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: Padding(
+                          padding: EdgeInsets.fromLTRB(10.0, 10, 10.0, 10), //
+                          child: Icon(Icons.list),
+                        ),
                       ),
-                    ),
-                    Expanded(
-                      child: Padding(
-                        padding: EdgeInsets.fromLTRB(0.0, 0, 5.0, 0), //
-                        child: Text(
-                          "เลขที่แจ้งซ่อม :",
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
+                      Expanded(
+                        child: Padding(
+                          padding: EdgeInsets.only(left: 00, top: 0, right: 0),
+                          child: Text(
+                            "เลขที่แจ้งซ่อม :",
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                    Expanded(
-                      child: Padding(
-                        padding: EdgeInsets.fromLTRB(0.0, 0, 5.0, 0), //
-                        child: Text(
-                          "${informrepairs?[informrepairs!.length - 1].informrepair_id}",
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
+                      Expanded(
+                        child: Padding(
+                          padding: EdgeInsets.fromLTRB(0.0, 0, 5.0, 0), //
+                          child: Text(
+                            "${widget.informrepair_id}",
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
                 Row(
                   children: [
@@ -312,7 +626,7 @@ class Form extends State<EditInformRepairs> {
                     ),
                     Expanded(
                       child: Text(
-                        '$formattedDate',
+                        "$formattedDate",
                         style: TextStyle(
                           color: Colors.black,
                           fontSize: 20,
@@ -324,44 +638,6 @@ class Form extends State<EditInformRepairs> {
                 ),
 
                 //  //--------------------------------------------
-                Row(
-                  children: [
-                    Expanded(child: Icon(Icons.featured_play_list_outlined)),
-                    Expanded(
-                      child: Text(
-                        "ประเภทห้องน้ำ  :",
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                    Expanded(
-                      child: // DropdownButton ประเภทห้องน้ำ-------------------------------------
-                          DropdownButton(
-                        isExpanded: true,
-                        value: _dropdowninformtype,
-                        items: _informtypeList
-                            .map((e) => DropdownMenuItem(
-                                  child: Text(e),
-                                  value: e,
-                                ))
-                            .toList(),
-                        onChanged: (val) {
-                          setState(() {
-                            _dropdowninformtype = val as String;
-                          });
-                        },
-                        icon: const Icon(
-                          Icons.arrow_drop_down_circle,
-                          color: Colors.red,
-                        ),
-                        dropdownColor: Colors.white,
-                      ),
-                    ),
-                  ],
-                ),
                 Row(
                   children: [
                     Expanded(child: Icon(Icons.business)),
@@ -376,19 +652,35 @@ class Form extends State<EditInformRepairs> {
                       ),
                     ),
                     Expanded(
-                      child: // DropdownButton  ประเภทอาคาร-------------------------------------
-                          DropdownButton(
+                      child: DropdownButton<String>(
                         isExpanded: true,
-                        value: _dropdownbuildngname,
-                        items: _buildngnameList
-                            .map((e) => DropdownMenuItem(
-                                  child: Text(e),
-                                  value: e,
-                                ))
-                            .toList(),
+                        value: informRepairDetail?[0]
+                            .roomEquipment!
+                            .room!
+                            .building!
+                            .building_id
+                            .toString(),
+                        items: [
+                          DropdownMenuItem<String>(
+                            child: Text('กรุณาเลือกอาคาร'),
+                            value: '', // หรือค่าว่าง
+                          ),
+                          ...buildings!.map((Building building) {
+                            return DropdownMenuItem<String>(
+                              child: Text(building.buildingname ?? ''),
+                              value: building.building_id.toString(),
+                            );
+                          }).toList(),
+                        ],
                         onChanged: (val) {
                           setState(() {
-                            _dropdownbuildngname = val as String;
+                            buildingId = val;
+                            if (val != '') {
+                              // ตรวจสอบว่าค่าไม่ใช่ค่าว่าง
+                              print("Controller: $buildingId");
+                              fetchRoomByBuilding(buildingId!);
+                              findfloorByIdbuilding_id(buildingId!);
+                            }
                           });
                         },
                         icon: const Icon(
@@ -397,9 +689,10 @@ class Form extends State<EditInformRepairs> {
                         ),
                         dropdownColor: Colors.white,
                       ),
-                    ),
+                    )
                   ],
                 ),
+
                 Row(
                   children: [
                     Expanded(child: Icon(Icons.linear_scale_outlined)),
@@ -414,19 +707,25 @@ class Form extends State<EditInformRepairs> {
                       ),
                     ),
                     Expanded(
-                      child: // DropdownButton  ชั้น-------------------------------------
-                          DropdownButton(
+                      child: DropdownButton<String>(
                         isExpanded: true,
-                        value: _dropdownfloor,
-                        items: _floorList
-                            .map((e) => DropdownMenuItem(
-                                  child: Text(e),
-                                  value: e,
-                                ))
-                            .toList(),
+                        value:
+                            informRepairDetail?[0].roomEquipment!.room!.floor ??
+                                Floor!.first,
+                        items: [
+                          ...Floor!.map((String floor) {
+                            return DropdownMenuItem<String>(
+                              child: Text(floor),
+                              value: floor,
+                            );
+                          }),
+                        ],
                         onChanged: (val) {
                           setState(() {
-                            _dropdownfloor = val as String;
+                            print("Controller: $roomfloor");
+                            roomfloor = val;
+                            findpositionByIdbuilding_id(
+                                buildingId!, roomfloor!);
                           });
                         },
                         icon: const Icon(
@@ -438,9 +737,10 @@ class Form extends State<EditInformRepairs> {
                     ),
                   ],
                 ),
+
                 Row(
                   children: [
-                    Expanded(child: Icon(Icons.location_on)),
+                    Expanded(child: Icon(Icons.linear_scale_outlined)),
                     Expanded(
                       child: Text(
                         "ตำแหน่ง  :",
@@ -451,31 +751,104 @@ class Form extends State<EditInformRepairs> {
                         ),
                       ),
                     ),
-                    Expanded(
-                      child: // DropdownButton  ตำแหน่ง-------------------------------------
-                          DropdownButton(
-                        isExpanded: true,
-                        value: _dropdownposition,
-                        items: _positionList
-                            .map((e) => DropdownMenuItem(
-                                  child: Text(e),
-                                  value: e,
-                                ))
-                            .toList(),
-                        onChanged: (val) {
-                          setState(() {
-                            _dropdownposition = val as String;
-                          });
-                        },
-                        icon: const Icon(
-                          Icons.arrow_drop_down_circle,
-                          color: Colors.red,
+                    if (Position != null && Position!.isNotEmpty) ...{
+                      Expanded(
+                        child: DropdownButton<String>(
+                          isExpanded: true,
+                          value: informRepairDetail?[0]
+                                  .roomEquipment!
+                                  .room!
+                                  .position
+                                  .toString() ??
+                              Position!.first,
+                          items: [
+                            ...Position!.map((String position) {
+                              return DropdownMenuItem<String>(
+                                child: Text(position),
+                                value: position,
+                              );
+                            }),
+                          ],
+                          onChanged: (val) {
+                            setState(() {
+                              print("Controller: $roomposition");
+                              roomposition = val;
+                              findroomnameByIdbuilding_id(
+                                  buildingId!, roomfloor!, roomposition!);
+                            });
+                          },
+                          icon: const Icon(
+                            Icons.arrow_drop_down_circle,
+                            color: Colors.red,
+                          ),
+                          dropdownColor: Colors.white,
                         ),
-                        dropdownColor: Colors.white,
                       ),
-                    ),
+                    } else ...{
+                      Expanded(
+                        child: Text("กรุณาเลือกชั้น"),
+                      ),
+                    },
                   ],
                 ),
+                Row(
+                  children: [
+                    Expanded(child: Icon(Icons.linear_scale_outlined)),
+                    Expanded(
+                      child: Text(
+                        "ประเภทห้องน้ำ  :",
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                    if (Roomname != null && Roomname!.isNotEmpty) ...{
+                      Expanded(
+                        child: DropdownButton<String>(
+                          isExpanded: true,
+                          value: informRepairDetail?[0]
+                                  .roomEquipment!
+                                  .room!
+                                  .roomname
+                                  .toString() ??
+                              Roomname!.first,
+                          items: [
+                            ...Roomname!.map((String roomnames) {
+                              return DropdownMenuItem<String>(
+                                child: Text(roomnames),
+                                value: roomnames,
+                              );
+                            }),
+                          ],
+                          onChanged: (val) {
+                            setState(() {
+                              print("Controller: $roomname");
+                              roomname = val;
+                              findrooom_idByIdByAll(buildingId!, roomfloor!,
+                                  roomposition!, roomname!);
+                              findequipmentByIdByAll(buildingId!, roomfloor!,
+                                  roomposition!, roomname!);
+
+                              equipmentName.clear();
+                            });
+                          },
+                          icon: const Icon(
+                            Icons.arrow_drop_down_circle,
+                            color: Colors.red,
+                          ),
+                          dropdownColor: Colors.white,
+                        ),
+                      ),
+                    } else ...{
+                      Expanded(
+                        child: Text("กรุณาเลือกตำแหน่ง"),
+                      ),
+                    },
+                  ],
+                ),
+
                 //  //---------------------------------------------------------------------------------------------
                 //  //---------------------------------------------------------------------------------------------
                 Row(children: [
@@ -490,67 +863,94 @@ class Form extends State<EditInformRepairs> {
                       ),
                     ),
                   ),
-                  Text(""),
+                  Text("                                "),
                 ]),
-                Row(
-                  children: [
-                    Checkbox(
-                      value: isChecked == 'ก๊อกน้ำ',
-                      onChanged: (bool? value) {
-                        setState(() {
-                          if (value != null && value) {
-                            isChecked = 'ก๊อกน้ำ';
-                          } else {
-                            isChecked = '';
-                          }
-                          print(isChecked);
-                        });
-                      },
-                    ),
-                    Icon(Icons.topic_outlined),
-                    Text('ก๊อกน้ำ'),
-                  ],
-                ),
+                ...buildEquipmentWidgets(),
+
                 Row(// Button Click
                     children: [
                   Expanded(
                     child: ElevatedButton(
                         onPressed: () async {
-                          // //   InformRepair informRepairs = InformRepair();
-                          // var response =
-                          //     await informRepairController.updateInformRepair(
-                          //   informRepair!.informrepair_id as String,
-                          //   _dropdowninformtype ?? "",
-                          //   isChecked,
-                          //   textEditingController.text,
-                          // );
-                          // Navigator.pushReplacement(
-                          //   context,
-                          //   MaterialPageRoute(
-                          //       builder: (_) => ResultInformRepair(
-                          //           informrepair_id:
-                          //               (informRepair?.informrepair_id))),
-                          // );
+                          if (room_id != null && room_id!.isNotEmpty) {
+                            int? roomIdInt = int.tryParse(room_id![0]);
+                            if (roomIdInt != null) {
+                              var response =
+                                  await informRepairController.addInformRepair(
+                                informtype,
+                                statusinform,
+                                user_id,
+                                roomIdInt,
+                              );
+                              List<Map<String, dynamic>> data = [];
+                              Set<String> uniqueImageFileNames = Set();
 
-                          // InformRepair informRepair = InformRepair();
-                          // informRepair.informtype = _dropdowninformtype!;
-                          // informRepair.buildngname = _dropdownbuildngname!;
-                          // informRepair.floor = _dropdownfloor!;
-                          // informRepair.position = _dropdownposition!;
-                          // informRepair.tap = _tapCheckBox!;
-                          // informRepair.toiletbowl = _toiletbowlCheckBox!;
-                          // informRepair.bidet = _bidetCheckBox!;
-                          // informRepair.urinal = _urinalCheckBox!;
-                          // informRepair.sink = _sinkCheckBox!;
-                          // informRepair.lightbulb = _lightbulbCheckBox!;
-                          // informRepair.other = _otherCheckBox!;
+                              // ทำการบันทึกข้อมูลใน dataList
 
-                          // informrepairDetails.informtype = _dropdowninformtype!;
-                          // Navigator.push(context,MaterialPageRoute(builder: (context){
-                          //   return MyResult(informRepair: informRepair,user: widget.user);
-                          // }));
+                              for (int i = 0; i < equipmentIds.length; i++) {
+                                if (isChecked[i]) {
+                                  int? parsedEquipmentId =
+                                      int.tryParse(amountcontrollers[i].text);
+                                  int? parsedEquipmentId2 =
+                                      int.tryParse(equipmentIds[i]);
+                                  var jsonResponse =
+                                      await informRepairDetailsController
+                                          .saveInformRepairDetails(
+                                              parsedEquipmentId ?? 1,
+                                              detailscontrollers[i].text,
+                                              ((informrepairs?[informrepairs!
+                                                                  .length -
+                                                              1]
+                                                          .informrepair_id ??
+                                                      0) +
+                                                  1),
+                                              parsedEquipmentId2 ?? 0,
+                                              roomIdInt);
 
-                          // Navigator.pushNamed(context, '/one');
+                                  for (int j = 0;
+                                      j < imageFileNames.length;
+                                      j++) {
+                                    if (isChecked[j]) {
+                                      if (int.tryParse(equipmentIds[j]) ==
+                                          parsedEquipmentId2) {
+                                        data.add({
+                                          "informPicturesList": [
+                                            {"pictureUrl": imageFileNames[j]}
+                                          ],
+                                          "equipment_id":
+                                              int.tryParse(equipmentIds[j]) ??
+                                                  0,
+                                          "room_id": roomIdInt,
+                                          "informrepair_id": jsonResponse[0]
+                                                  ["informrepairid"]
+                                              ["informrepair_id"],
+                                        });
+                                      }
+                                    }
+                                  }
+                                }
+                              }
+
+                              List<Inform_Pictures> savedInformPictures =
+                                  await InformRepair_PicturesController
+                                      .saveInform_Pictures(data);
+
+                              Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (_) => ResultInformRepair(
+                                        informrepair_id: ((informrepairs?[
+                                                        informrepairs!.length -
+                                                            1]
+                                                    .informrepair_id ??
+                                                0) +
+                                            1),
+                                        user: widget.user)),
+                              );
+                            } else {
+                              // Handle the case where room_id is empty or null.
+                            }
+                          }
                         },
                         style: ElevatedButton.styleFrom(
                           primary: Color.fromARGB(
@@ -575,19 +975,12 @@ class Form extends State<EditInformRepairs> {
                   Expanded(
                     child: ElevatedButton(
                         onPressed: () async {
-                          // var response = await informController.addInformRepair(todoHeaderTextController.text);
-
-                          // informrepairDetails.informtype = _dropdowninformtype!;
-                          Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
-                                builder: (_) => ResultInformRepair(
-                                    informrepair_id:
-                                        (informRepair?.informrepair_id),
-                                    user: widget.user)),
-                          );
-
-                          // Navigator.pushNamed(context, '/one');
+                          Navigator.push(context,
+                              MaterialPageRoute(builder: (context) {
+                            return ResultInformRepair(
+                                informrepair_id: widget.informrepair_id,
+                                user: widget.user);
+                          }));
                         },
                         style: ElevatedButton.styleFrom(
                           primary: Color.fromARGB(
@@ -614,5 +1007,150 @@ class Form extends State<EditInformRepairs> {
             ),
           ),
         ));
+  }
+
+  Map<String, bool> checkboxStates = {};
+  Map<String, String> detailsMap = {};
+  Map<String, int> amountMap = {};
+  List<String> checkedEquipmentIds = [];
+  List<String> checkedDetails = [];
+  List<String> listdetails = [];
+  List<String> amountLists = [];
+  Map<String, List<XFile>> equipmentImages = {};
+
+  List<bool> isChecked = [];
+  List<TextEditingController> detailscontrollers = [];
+  List<TextEditingController> amountcontrollers = [];
+  List<Widget> buildEquipmentWidgets() {
+    List<Widget> widgets = [];
+
+    for (int index = 0; index < equipmentIds.length; index++) {
+      final equipmentId = equipmentIds[index];
+      widgets.add(
+        CheckboxListTile(
+          controlAffinity: ListTileControlAffinity.leading,
+          title: Text(equipmentName[index]),
+          value: isChecked[index],
+          onChanged: (bool? value) {
+            setState(() {
+              isChecked[index] = value ?? false;
+              if (value == true) {
+                detailscontrollers[index].text = '';
+                amountcontrollers[index].text = '';
+              }
+            });
+          },
+        ),
+      );
+
+      widgets.add(
+        Visibility(
+          visible:
+              isChecked[index], // Control visibility based on checkbox state
+          child: Column(
+            children: [
+              TextFormField(
+                controller: detailscontrollers[index],
+                decoration: const InputDecoration(
+                  hintText: 'Enter details',
+                ),
+                onChanged: (value) {
+                  setState(() {
+                    detailscontrollers[index].text = value;
+                  });
+                  print(detailscontrollers[index].text);
+                },
+              ),
+              TextFormField(
+                controller: amountcontrollers[index],
+                decoration: const InputDecoration(
+                  hintText: 'Enter amount',
+                ),
+                onChanged: (value) {
+                  setState(() {
+                    amountcontrollers[index].text = value;
+                  });
+                  print(amountcontrollers[index].text);
+                },
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  // เรียกฟังก์ชันเพิ่มรูป
+                  // _addImageForEquipment(equipmentIds[index]);
+                  _addImageForEquipment(equipmentId);
+                  _uploadImages();
+                  print('imageFileNames----${imageFileNames}');
+                },
+                child: Text('เพิ่มรูปภาพ'),
+              ),
+              GridView.builder(
+                shrinkWrap: true,
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 3,
+                ),
+                itemCount: equipmentImages[equipmentId]?.length ?? 0,
+                itemBuilder: (BuildContext context, int imageIndex) {
+                  final image = equipmentImages[equipmentId]![imageIndex];
+                  final imagePath = image.path; // Get the image file path
+                  final imageName =
+                      imagePath.split('/').last; // Get the image file name
+
+                  if (!imageFileNames.contains(imageName)) {
+                    imageFileNames.add(imageName);
+                  }
+                  // Add the image name to the list
+
+                  return Padding(
+                    padding: const EdgeInsets.all(2),
+                    child: Stack(
+                      children: [
+                        Image.file(File(imagePath)), // Display the image
+                        Positioned(
+                          bottom: 0,
+                          left: 0,
+                          right: 79,
+                          child: Container(
+                            color: Colors.black.withOpacity(0.7),
+                            padding: EdgeInsets.all(5.0),
+                            child: Text(
+                              imageName, // Display the image name
+                              style: TextStyle(color: Colors.white),
+                            ),
+                          ),
+                        ),
+                        Positioned(
+                          top: 0,
+                          right: 30,
+                          child: IconButton(
+                            icon: Icon(
+                              Icons.highlight_remove_sharp,
+                              color: Colors.red,
+                            ),
+                            onPressed: () {
+                              // Remove the image from the equipmentImages map
+                              setState(() {
+                                equipmentImages[equipmentId]!
+                                    .removeAt(imageIndex);
+                              });
+
+                              // Remove the image name from the imageFileNames list
+                              String fileNameToRemove =
+                                  imageFileNames[imageIndex];
+                              imageFileNames.removeWhere(
+                                  (fileName) => fileName == fileNameToRemove);
+                            },
+                          ),
+                        ),
+                      ],
+                    ),
+                  );
+                },
+              )
+            ],
+          ),
+        ),
+      );
+    }
+    return widgets;
   }
 }
