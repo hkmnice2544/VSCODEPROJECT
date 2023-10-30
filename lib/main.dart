@@ -23,8 +23,8 @@ class MainApp extends StatelessWidget {
   Widget build(BuildContext context) {
     SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
     return MaterialApp(
-      // home: Login(),
-      home: EditInformRepairs(user: 1001, informrepair_id: 10016),
+      home: Login(),
+      // home: EditInformRepairs(user: 1001, informrepair_id: 10016),
       //  home: const MyHomePage(title: 'Flutter Demo Home Page'),
       theme: ThemeData(
         primarySwatch: Colors.orange,

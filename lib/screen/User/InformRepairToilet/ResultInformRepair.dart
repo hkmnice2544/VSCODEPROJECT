@@ -199,8 +199,7 @@ class _ViewResultState extends State<ResultInformRepair> {
             backgroundColor: Colors.white,
             body: isDataLoaded == false
                 ? CircularProgressIndicator()
-                : //คือตัวหมนุๆ
-                SingleChildScrollView(
+                : SingleChildScrollView(
                     padding: const EdgeInsets.fromLTRB(10, 20, 0, 0),
                     child: Center(
                       child: Column(children: [

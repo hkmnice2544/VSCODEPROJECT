@@ -538,55 +538,330 @@ class Form extends State<EditInformRepairs> {
                 )
               ],
             )),
-        body: SingleChildScrollView(
-          child: Container(
-            padding: EdgeInsets.all(16.0),
-            child: Center(
-              child: Column(children: [
-                Text(
-                  "แก้ไขแจ้งซ่อมห้องน้ำ",
-                  style: TextStyle(
-                    color: Color.fromARGB(255, 7, 94, 53),
-                    fontSize: 40,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                Image.asset(
-                  'images/InformRepairToilet.png',
-                  fit: BoxFit.cover,
-                  width: 220,
-                  alignment: Alignment.center,
-                ),
-
-                // CustomTextFormField(
-                //     controller: informtypeTextController,
-                //     hintText: "ประเภทห้องน้ำ",
-                //     maxLength: 50,
-                //     validator: (value) {
-                //       if (value!.isNotEmpty) {
-                //         return null;
-                //       } else {
-                //         return "กรุณากรอกประเภทห้องน้ำ";
-                //       }
-                //     },
-                //     icon: const Icon(Icons.account_circle),
-                //   ),
-
-                Padding(
-                  padding: EdgeInsets.only(left: 0, top: 25, right: 0),
-                  child: Row(
-                    children: [
-                      Expanded(
-                        child: Padding(
-                          padding: EdgeInsets.fromLTRB(10.0, 10, 10.0, 10), //
-                          child: Icon(Icons.list),
+        body: isDataLoaded == false
+            ? CircularProgressIndicator()
+            : SingleChildScrollView(
+                child: Container(
+                  padding: EdgeInsets.all(16.0),
+                  child: Center(
+                    child: Column(children: [
+                      Text(
+                        "แก้ไขแจ้งซ่อมห้องน้ำ",
+                        style: TextStyle(
+                          color: Color.fromARGB(255, 7, 94, 53),
+                          fontSize: 40,
+                          fontWeight: FontWeight.bold,
                         ),
                       ),
-                      Expanded(
-                        child: Padding(
-                          padding: EdgeInsets.only(left: 00, top: 0, right: 0),
+                      Image.asset(
+                        'images/InformRepairToilet.png',
+                        fit: BoxFit.cover,
+                        width: 220,
+                        alignment: Alignment.center,
+                      ),
+
+                      // CustomTextFormField(
+                      //     controller: informtypeTextController,
+                      //     hintText: "ประเภทห้องน้ำ",
+                      //     maxLength: 50,
+                      //     validator: (value) {
+                      //       if (value!.isNotEmpty) {
+                      //         return null;
+                      //       } else {
+                      //         return "กรุณากรอกประเภทห้องน้ำ";
+                      //       }
+                      //     },
+                      //     icon: const Icon(Icons.account_circle),
+                      //   ),
+
+                      Padding(
+                        padding: EdgeInsets.only(left: 0, top: 25, right: 0),
+                        child: Row(
+                          children: [
+                            Expanded(
+                              child: Padding(
+                                padding:
+                                    EdgeInsets.fromLTRB(10.0, 10, 10.0, 10), //
+                                child: Icon(Icons.list),
+                              ),
+                            ),
+                            Expanded(
+                              child: Padding(
+                                padding:
+                                    EdgeInsets.only(left: 00, top: 0, right: 0),
+                                child: Text(
+                                  "เลขที่แจ้งซ่อม :",
+                                  style: TextStyle(
+                                    color: Colors.black,
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ),
+                            ),
+                            Expanded(
+                              child: Padding(
+                                padding: EdgeInsets.fromLTRB(0.0, 0, 5.0, 0), //
+                                child: Text(
+                                  "${widget.informrepair_id}",
+                                  style: TextStyle(
+                                    color: Colors.black,
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Row(
+                        children: [
+                          Expanded(child: Icon(Icons.date_range)),
+                          Expanded(
+                            child: Text(
+                              "วันที่แจ้งซ่อม  :",
+                              style: TextStyle(
+                                color: Colors.black,
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                          Expanded(
+                            child: Text(
+                              "$formattedDate",
+                              style: TextStyle(
+                                color: Colors.black,
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+
+                      //  //--------------------------------------------
+                      Row(
+                        children: [
+                          Expanded(child: Icon(Icons.business)),
+                          Expanded(
+                            child: Text(
+                              "อาคาร  :",
+                              style: TextStyle(
+                                color: Colors.black,
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                          Expanded(
+                            child: DropdownButton<String>(
+                              isExpanded: true,
+                              value: informRepairDetail?[0]
+                                  .roomEquipment!
+                                  .room!
+                                  .building!
+                                  .building_id
+                                  .toString(),
+                              items: [
+                                DropdownMenuItem<String>(
+                                  child: Text('กรุณาเลือกอาคาร'),
+                                  value: '', // หรือค่าว่าง
+                                ),
+                                ...buildings!.map((Building building) {
+                                  return DropdownMenuItem<String>(
+                                    child: Text(building.buildingname ?? ''),
+                                    value: building.building_id.toString(),
+                                  );
+                                }).toList(),
+                              ],
+                              onChanged: (val) {
+                                setState(() {
+                                  buildingId = val;
+                                  if (val != '') {
+                                    // ตรวจสอบว่าค่าไม่ใช่ค่าว่าง
+                                    print("Controller: $buildingId");
+                                    fetchRoomByBuilding(buildingId!);
+                                    findfloorByIdbuilding_id(buildingId!);
+                                  }
+                                });
+                              },
+                              icon: const Icon(
+                                Icons.arrow_drop_down_circle,
+                                color: Colors.red,
+                              ),
+                              dropdownColor: Colors.white,
+                            ),
+                          )
+                        ],
+                      ),
+
+                      Row(
+                        children: [
+                          Expanded(child: Icon(Icons.linear_scale_outlined)),
+                          Expanded(
+                            child: Text(
+                              "ชั้น  :",
+                              style: TextStyle(
+                                color: Colors.black,
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                          Expanded(
+                            child: DropdownButton<String>(
+                              isExpanded: true,
+                              value: informRepairDetail?[0]
+                                      .roomEquipment!
+                                      .room!
+                                      .floor ??
+                                  Floor!.first,
+                              items: [
+                                ...Floor!.map((String floor) {
+                                  return DropdownMenuItem<String>(
+                                    child: Text(floor),
+                                    value: floor,
+                                  );
+                                }),
+                              ],
+                              onChanged: (val) {
+                                setState(() {
+                                  print("Controller: $roomfloor");
+                                  roomfloor = val;
+                                  findpositionByIdbuilding_id(
+                                      buildingId!, roomfloor!);
+                                });
+                              },
+                              icon: const Icon(
+                                Icons.arrow_drop_down_circle,
+                                color: Colors.red,
+                              ),
+                              dropdownColor: Colors.white,
+                            ),
+                          ),
+                        ],
+                      ),
+
+                      Row(
+                        children: [
+                          Expanded(child: Icon(Icons.linear_scale_outlined)),
+                          Expanded(
+                            child: Text(
+                              "ตำแหน่ง  :",
+                              style: TextStyle(
+                                color: Colors.black,
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                          if (Position != null && Position!.isNotEmpty) ...{
+                            Expanded(
+                              child: DropdownButton<String>(
+                                isExpanded: true,
+                                value: informRepairDetail?[0]
+                                        .roomEquipment!
+                                        .room!
+                                        .position
+                                        .toString() ??
+                                    Position!.first,
+                                items: [
+                                  ...Position!.map((String position) {
+                                    return DropdownMenuItem<String>(
+                                      child: Text(position),
+                                      value: position,
+                                    );
+                                  }),
+                                ],
+                                onChanged: (val) {
+                                  setState(() {
+                                    print("Controller: $roomposition");
+                                    roomposition = val;
+                                    findroomnameByIdbuilding_id(
+                                        buildingId!, roomfloor!, roomposition!);
+                                  });
+                                },
+                                icon: const Icon(
+                                  Icons.arrow_drop_down_circle,
+                                  color: Colors.red,
+                                ),
+                                dropdownColor: Colors.white,
+                              ),
+                            ),
+                          } else ...{
+                            Expanded(
+                              child: Text("กรุณาเลือกชั้น"),
+                            ),
+                          },
+                        ],
+                      ),
+                      Row(
+                        children: [
+                          Expanded(child: Icon(Icons.linear_scale_outlined)),
+                          Expanded(
+                            child: Text(
+                              "ประเภทห้องน้ำ  :",
+                              style: TextStyle(
+                                color: Colors.black,
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                          if (Roomname != null && Roomname!.isNotEmpty) ...{
+                            Expanded(
+                              child: DropdownButton<String>(
+                                isExpanded: true,
+                                value: informRepairDetail?[0]
+                                        .roomEquipment!
+                                        .room!
+                                        .roomname
+                                        .toString() ??
+                                    Roomname!.first,
+                                items: [
+                                  ...Roomname!.map((String roomnames) {
+                                    return DropdownMenuItem<String>(
+                                      child: Text(roomnames),
+                                      value: roomnames,
+                                    );
+                                  }),
+                                ],
+                                onChanged: (val) {
+                                  setState(() {
+                                    print("Controller: $roomname");
+                                    roomname = val;
+                                    findrooom_idByIdByAll(buildingId!,
+                                        roomfloor!, roomposition!, roomname!);
+                                    findequipmentByIdByAll(buildingId!,
+                                        roomfloor!, roomposition!, roomname!);
+
+                                    equipmentName.clear();
+                                  });
+                                },
+                                icon: const Icon(
+                                  Icons.arrow_drop_down_circle,
+                                  color: Colors.red,
+                                ),
+                                dropdownColor: Colors.white,
+                              ),
+                            ),
+                          } else ...{
+                            Expanded(
+                              child: Text("กรุณาเลือกตำแหน่ง"),
+                            ),
+                          },
+                        ],
+                      ),
+
+                      //  //---------------------------------------------------------------------------------------------
+                      //  //---------------------------------------------------------------------------------------------
+                      Row(children: [
+                        Expanded(child: Icon(Icons.topic_outlined)),
+                        Expanded(
                           child: Text(
-                            "เลขที่แจ้งซ่อม :",
+                            "อุปกรณ์ชำรุด",
                             style: TextStyle(
                               color: Colors.black,
                               fontSize: 20,
@@ -594,419 +869,157 @@ class Form extends State<EditInformRepairs> {
                             ),
                           ),
                         ),
-                      ),
-                      Expanded(
-                        child: Padding(
-                          padding: EdgeInsets.fromLTRB(0.0, 0, 5.0, 0), //
-                          child: Text(
-                            "${widget.informrepair_id}",
-                            style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                Row(
-                  children: [
-                    Expanded(child: Icon(Icons.date_range)),
-                    Expanded(
-                      child: Text(
-                        "วันที่แจ้งซ่อม  :",
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                    Expanded(
-                      child: Text(
-                        "$formattedDate",
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
+                        Text("                                "),
+                      ]),
+                      ...buildEquipmentWidgets(),
 
-                //  //--------------------------------------------
-                Row(
-                  children: [
-                    Expanded(child: Icon(Icons.business)),
-                    Expanded(
-                      child: Text(
-                        "อาคาร  :",
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                    Expanded(
-                      child: DropdownButton<String>(
-                        isExpanded: true,
-                        value: informRepairDetail?[0]
-                            .roomEquipment!
-                            .room!
-                            .building!
-                            .building_id
-                            .toString(),
-                        items: [
-                          DropdownMenuItem<String>(
-                            child: Text('กรุณาเลือกอาคาร'),
-                            value: '', // หรือค่าว่าง
-                          ),
-                          ...buildings!.map((Building building) {
-                            return DropdownMenuItem<String>(
-                              child: Text(building.buildingname ?? ''),
-                              value: building.building_id.toString(),
-                            );
-                          }).toList(),
-                        ],
-                        onChanged: (val) {
-                          setState(() {
-                            buildingId = val;
-                            if (val != '') {
-                              // ตรวจสอบว่าค่าไม่ใช่ค่าว่าง
-                              print("Controller: $buildingId");
-                              fetchRoomByBuilding(buildingId!);
-                              findfloorByIdbuilding_id(buildingId!);
-                            }
-                          });
-                        },
-                        icon: const Icon(
-                          Icons.arrow_drop_down_circle,
-                          color: Colors.red,
-                        ),
-                        dropdownColor: Colors.white,
-                      ),
-                    )
-                  ],
-                ),
+                      Row(// Button Click
+                          children: [
+                        Expanded(
+                          child: ElevatedButton(
+                              onPressed: () async {
+                                if (room_id != null && room_id!.isNotEmpty) {
+                                  int? roomIdInt = int.tryParse(room_id![0]);
+                                  if (roomIdInt != null) {
+                                    var response = await informRepairController
+                                        .addInformRepair(
+                                      informtype,
+                                      statusinform,
+                                      user_id,
+                                      roomIdInt,
+                                    );
+                                    List<Map<String, dynamic>> data = [];
+                                    Set<String> uniqueImageFileNames = Set();
 
-                Row(
-                  children: [
-                    Expanded(child: Icon(Icons.linear_scale_outlined)),
-                    Expanded(
-                      child: Text(
-                        "ชั้น  :",
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                    Expanded(
-                      child: DropdownButton<String>(
-                        isExpanded: true,
-                        value:
-                            informRepairDetail?[0].roomEquipment!.room!.floor ??
-                                Floor!.first,
-                        items: [
-                          ...Floor!.map((String floor) {
-                            return DropdownMenuItem<String>(
-                              child: Text(floor),
-                              value: floor,
-                            );
-                          }),
-                        ],
-                        onChanged: (val) {
-                          setState(() {
-                            print("Controller: $roomfloor");
-                            roomfloor = val;
-                            findpositionByIdbuilding_id(
-                                buildingId!, roomfloor!);
-                          });
-                        },
-                        icon: const Icon(
-                          Icons.arrow_drop_down_circle,
-                          color: Colors.red,
-                        ),
-                        dropdownColor: Colors.white,
-                      ),
-                    ),
-                  ],
-                ),
+                                    // ทำการบันทึกข้อมูลใน dataList
 
-                Row(
-                  children: [
-                    Expanded(child: Icon(Icons.linear_scale_outlined)),
-                    Expanded(
-                      child: Text(
-                        "ตำแหน่ง  :",
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                    if (Position != null && Position!.isNotEmpty) ...{
-                      Expanded(
-                        child: DropdownButton<String>(
-                          isExpanded: true,
-                          value: informRepairDetail?[0]
-                                  .roomEquipment!
-                                  .room!
-                                  .position
-                                  .toString() ??
-                              Position!.first,
-                          items: [
-                            ...Position!.map((String position) {
-                              return DropdownMenuItem<String>(
-                                child: Text(position),
-                                value: position,
-                              );
-                            }),
-                          ],
-                          onChanged: (val) {
-                            setState(() {
-                              print("Controller: $roomposition");
-                              roomposition = val;
-                              findroomnameByIdbuilding_id(
-                                  buildingId!, roomfloor!, roomposition!);
-                            });
-                          },
-                          icon: const Icon(
-                            Icons.arrow_drop_down_circle,
-                            color: Colors.red,
-                          ),
-                          dropdownColor: Colors.white,
-                        ),
-                      ),
-                    } else ...{
-                      Expanded(
-                        child: Text("กรุณาเลือกชั้น"),
-                      ),
-                    },
-                  ],
-                ),
-                Row(
-                  children: [
-                    Expanded(child: Icon(Icons.linear_scale_outlined)),
-                    Expanded(
-                      child: Text(
-                        "ประเภทห้องน้ำ  :",
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                    if (Roomname != null && Roomname!.isNotEmpty) ...{
-                      Expanded(
-                        child: DropdownButton<String>(
-                          isExpanded: true,
-                          value: informRepairDetail?[0]
-                                  .roomEquipment!
-                                  .room!
-                                  .roomname
-                                  .toString() ??
-                              Roomname!.first,
-                          items: [
-                            ...Roomname!.map((String roomnames) {
-                              return DropdownMenuItem<String>(
-                                child: Text(roomnames),
-                                value: roomnames,
-                              );
-                            }),
-                          ],
-                          onChanged: (val) {
-                            setState(() {
-                              print("Controller: $roomname");
-                              roomname = val;
-                              findrooom_idByIdByAll(buildingId!, roomfloor!,
-                                  roomposition!, roomname!);
-                              findequipmentByIdByAll(buildingId!, roomfloor!,
-                                  roomposition!, roomname!);
+                                    for (int i = 0;
+                                        i < equipmentIds.length;
+                                        i++) {
+                                      if (isChecked[i]) {
+                                        int? parsedEquipmentId = int.tryParse(
+                                            amountcontrollers[i].text);
+                                        int? parsedEquipmentId2 =
+                                            int.tryParse(equipmentIds[i]);
+                                        var jsonResponse =
+                                            await informRepairDetailsController
+                                                .saveInformRepairDetails(
+                                                    parsedEquipmentId ?? 1,
+                                                    detailscontrollers[i].text,
+                                                    ((informrepairs?[informrepairs!
+                                                                        .length -
+                                                                    1]
+                                                                .informrepair_id ??
+                                                            0) +
+                                                        1),
+                                                    parsedEquipmentId2 ?? 0,
+                                                    roomIdInt);
 
-                              equipmentName.clear();
-                            });
-                          },
-                          icon: const Icon(
-                            Icons.arrow_drop_down_circle,
-                            color: Colors.red,
-                          ),
-                          dropdownColor: Colors.white,
-                        ),
-                      ),
-                    } else ...{
-                      Expanded(
-                        child: Text("กรุณาเลือกตำแหน่ง"),
-                      ),
-                    },
-                  ],
-                ),
+                                        for (int j = 0;
+                                            j < imageFileNames.length;
+                                            j++) {
+                                          if (isChecked[j]) {
+                                            if (int.tryParse(equipmentIds[j]) ==
+                                                parsedEquipmentId2) {
+                                              data.add({
+                                                "informPicturesList": [
+                                                  {
+                                                    "pictureUrl":
+                                                        imageFileNames[j]
+                                                  }
+                                                ],
+                                                "equipment_id": int.tryParse(
+                                                        equipmentIds[j]) ??
+                                                    0,
+                                                "room_id": roomIdInt,
+                                                "informrepair_id":
+                                                    jsonResponse[0]
+                                                            ["informrepairid"]
+                                                        ["informrepair_id"],
+                                              });
+                                            }
+                                          }
+                                        }
+                                      }
+                                    }
 
-                //  //---------------------------------------------------------------------------------------------
-                //  //---------------------------------------------------------------------------------------------
-                Row(children: [
-                  Expanded(child: Icon(Icons.topic_outlined)),
-                  Expanded(
-                    child: Text(
-                      "อุปกรณ์ชำรุด",
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
-                  Text("                                "),
-                ]),
-                ...buildEquipmentWidgets(),
+                                    List<Inform_Pictures> savedInformPictures =
+                                        await InformRepair_PicturesController
+                                            .saveInform_Pictures(data);
 
-                Row(// Button Click
-                    children: [
-                  Expanded(
-                    child: ElevatedButton(
-                        onPressed: () async {
-                          if (room_id != null && room_id!.isNotEmpty) {
-                            int? roomIdInt = int.tryParse(room_id![0]);
-                            if (roomIdInt != null) {
-                              var response =
-                                  await informRepairController.addInformRepair(
-                                informtype,
-                                statusinform,
-                                user_id,
-                                roomIdInt,
-                              );
-                              List<Map<String, dynamic>> data = [];
-                              Set<String> uniqueImageFileNames = Set();
-
-                              // ทำการบันทึกข้อมูลใน dataList
-
-                              for (int i = 0; i < equipmentIds.length; i++) {
-                                if (isChecked[i]) {
-                                  int? parsedEquipmentId =
-                                      int.tryParse(amountcontrollers[i].text);
-                                  int? parsedEquipmentId2 =
-                                      int.tryParse(equipmentIds[i]);
-                                  var jsonResponse =
-                                      await informRepairDetailsController
-                                          .saveInformRepairDetails(
-                                              parsedEquipmentId ?? 1,
-                                              detailscontrollers[i].text,
-                                              ((informrepairs?[informrepairs!
-                                                                  .length -
-                                                              1]
+                                    Navigator.pushReplacement(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (_) => ResultInformRepair(
+                                              informrepair_id: ((informrepairs?[
+                                                              informrepairs!
+                                                                      .length -
+                                                                  1]
                                                           .informrepair_id ??
                                                       0) +
                                                   1),
-                                              parsedEquipmentId2 ?? 0,
-                                              roomIdInt);
-
-                                  for (int j = 0;
-                                      j < imageFileNames.length;
-                                      j++) {
-                                    if (isChecked[j]) {
-                                      if (int.tryParse(equipmentIds[j]) ==
-                                          parsedEquipmentId2) {
-                                        data.add({
-                                          "informPicturesList": [
-                                            {"pictureUrl": imageFileNames[j]}
-                                          ],
-                                          "equipment_id":
-                                              int.tryParse(equipmentIds[j]) ??
-                                                  0,
-                                          "room_id": roomIdInt,
-                                          "informrepair_id": jsonResponse[0]
-                                                  ["informrepairid"]
-                                              ["informrepair_id"],
-                                        });
-                                      }
-                                    }
+                                              user: widget.user)),
+                                    );
+                                  } else {
+                                    // Handle the case where room_id is empty or null.
                                   }
                                 }
-                              }
-
-                              List<Inform_Pictures> savedInformPictures =
-                                  await InformRepair_PicturesController
-                                      .saveInform_Pictures(data);
-
-                              Navigator.pushReplacement(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (_) => ResultInformRepair(
-                                        informrepair_id: ((informrepairs?[
-                                                        informrepairs!.length -
-                                                            1]
-                                                    .informrepair_id ??
-                                                0) +
-                                            1),
-                                        user: widget.user)),
-                              );
-                            } else {
-                              // Handle the case where room_id is empty or null.
-                            }
-                          }
-                        },
-                        style: ElevatedButton.styleFrom(
-                          primary: Color.fromARGB(
-                              255, 234, 112, 5), // สีพื้นหลังของปุ่ม
-                          textStyle: TextStyle(
-                              color: Color.fromARGB(
-                                  255, 255, 255, 255)), // สีข้อความภายในปุ่ม
-                          padding: EdgeInsets.symmetric(
-                              horizontal: 40,
-                              vertical: 20), // การจัดพื้นที่รอบข้างปุ่ม
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(
-                                10), // กำหนดรูปร่างของปุ่ม (ในที่นี้เป็นรูปแบบมน)
-                          ),
+                              },
+                              style: ElevatedButton.styleFrom(
+                                primary: Color.fromARGB(
+                                    255, 234, 112, 5), // สีพื้นหลังของปุ่ม
+                                textStyle: TextStyle(
+                                    color: Color.fromARGB(255, 255, 255,
+                                        255)), // สีข้อความภายในปุ่ม
+                                padding: EdgeInsets.symmetric(
+                                    horizontal: 40,
+                                    vertical: 20), // การจัดพื้นที่รอบข้างปุ่ม
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(
+                                      10), // กำหนดรูปร่างของปุ่ม (ในที่นี้เป็นรูปแบบมน)
+                                ),
+                              ),
+                              child: Text(
+                                'ยืนยัน',
+                                style: TextStyle(
+                                    color: Color.fromARGB(255, 255, 255, 255)),
+                              )),
                         ),
-                        child: Text(
-                          'ยืนยัน',
-                          style: TextStyle(
-                              color: Color.fromARGB(255, 255, 255, 255)),
-                        )),
-                  ),
-                  Expanded(
-                    child: ElevatedButton(
-                        onPressed: () async {
-                          Navigator.push(context,
-                              MaterialPageRoute(builder: (context) {
-                            return ResultInformRepair(
-                                informrepair_id: widget.informrepair_id,
-                                user: widget.user);
-                          }));
-                        },
-                        style: ElevatedButton.styleFrom(
-                          primary: Color.fromARGB(
-                              255, 234, 112, 5), // สีพื้นหลังของปุ่ม
-                          textStyle: TextStyle(
-                              color: Color.fromARGB(
-                                  255, 255, 255, 255)), // สีข้อความภายในปุ่ม
-                          padding: EdgeInsets.symmetric(
-                              horizontal: 40,
-                              vertical: 20), // การจัดพื้นที่รอบข้างปุ่ม
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(
-                                10), // กำหนดรูปร่างของปุ่ม (ในที่นี้เป็นรูปแบบมน)
-                          ),
+                        Expanded(
+                          child: ElevatedButton(
+                              onPressed: () async {
+                                Navigator.push(context,
+                                    MaterialPageRoute(builder: (context) {
+                                  return ResultInformRepair(
+                                      informrepair_id: widget.informrepair_id,
+                                      user: widget.user);
+                                }));
+                              },
+                              style: ElevatedButton.styleFrom(
+                                primary: Color.fromARGB(
+                                    255, 234, 112, 5), // สีพื้นหลังของปุ่ม
+                                textStyle: TextStyle(
+                                    color: Color.fromARGB(255, 255, 255,
+                                        255)), // สีข้อความภายในปุ่ม
+                                padding: EdgeInsets.symmetric(
+                                    horizontal: 40,
+                                    vertical: 20), // การจัดพื้นที่รอบข้างปุ่ม
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(
+                                      10), // กำหนดรูปร่างของปุ่ม (ในที่นี้เป็นรูปแบบมน)
+                                ),
+                              ),
+                              child: Text(
+                                'ยกเลิก',
+                                style: TextStyle(
+                                    color: Color.fromARGB(255, 255, 255, 255)),
+                              )),
                         ),
-                        child: Text(
-                          'ยกเลิก',
-                          style: TextStyle(
-                              color: Color.fromARGB(255, 255, 255, 255)),
-                        )),
+                      ]),
+                    ]),
                   ),
-                ]),
-              ]),
-            ),
-          ),
-        ));
+                ),
+              ));
   }
 
   Map<String, bool> checkboxStates = {};

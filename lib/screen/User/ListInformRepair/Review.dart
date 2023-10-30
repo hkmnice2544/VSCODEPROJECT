@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'dart:typed_data';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutterr/constant/constant_value.dart';
@@ -18,6 +19,7 @@ import '../../Login.dart';
 import 'ListInformRepair.dart';
 import 'Rating.dart';
 import 'package:http/http.dart' as http;
+import 'package:animated_toggle_switch/animated_toggle_switch.dart';
 
 class Reviews extends StatefulWidget {
   final int? report_id;
@@ -40,6 +42,7 @@ class _MyWidgetState extends State<Reviews> {
   Review? review;
   bool? isDataLoaded = false;
   ReportRepair? reportRepair;
+  bool forIos = false;
 
   final ReviewController reviewController = ReviewController();
   final ReportController reportController = ReportController();
@@ -52,6 +55,9 @@ class _MyWidgetState extends State<Reviews> {
   List<File> _selectedImages = [];
   User? users;
   late String storeduser;
+  bool isOn = false;
+  int value = 0;
+  bool positive = true;
 
   Review_PicturesController review_picturesController =
       Review_PicturesController();
@@ -475,35 +481,144 @@ class _MyWidgetState extends State<Reviews> {
                         ),
                       ),
                     ),
+
                     Expanded(
-                      child: Row(
-                        children: [
-                          Checkbox(
-                            value: reviewer == 'ไม่ประสงคอออกนาม',
-                            onChanged: (bool? value) {
-                              setState(() {
-                                if (value != null && value) {
-                                  reviewer = 'ไม่ประสงคอออกนาม';
+                      child: AnimatedToggleSwitch<bool>.dual(
+                        current: positive,
+                        first: false,
+                        second: true,
+                        borderWidth: 5.0,
+                        height: 55,
+                        onChanged: (b) {
+                          if (b != null) {
+                            setState(() {
+                              positive = b;
+                              if (b) {
+                                reviewer = 'ไม่ประสงค์ออกนาม';
+                              } else {
+                                if (users != null && users!.firstname != null) {
+                                  reviewer = users!.firstname! +
+                                      " " +
+                                      users!.lastname!;
                                 } else {
-                                  if (users != null &&
-                                      users!.firstname != null) {
-                                    reviewer = users!.firstname! +
-                                        " " +
-                                        users!.lastname!;
-                                  } else {
-                                    reviewer =
-                                        ''; // Set to an empty string if the user's first name is not available
-                                  }
+                                  reviewer = '';
                                 }
-                                print(reviewer);
-                              });
-                            },
-                            shape: CircleBorder(),
+                              }
+                              print(reviewer);
+                            });
+                          }
+                        },
+                        iconBuilder: (value) => value
+                            ? Icon(
+                                Icons.no_accounts_sharp,
+                                color: Color.fromARGB(255, 118, 0,
+                                    0), // สีของ Icon เมื่อเป็น "on"
+                              )
+                            : Icon(
+                                Icons.supervised_user_circle_rounded,
+                                color: const Color.fromARGB(255, 3, 54,
+                                    6), // สีของ Icon เมื่อเป็น "off"
+                              ),
+                        textBuilder: (value) => Center(
+                          child: Text(
+                            value ? reviewer : reviewer,
+                            style: TextStyle(
+                              color: value
+                                  ? Color.fromARGB(255, 118, 0, 0)
+                                  : const Color.fromARGB(255, 3, 54, 6),
+                            ),
                           ),
-                          Text(reviewer),
-                        ],
+                        ),
                       ),
                     )
+                    // CupertinoSwitch(
+                    //   activeColor: Color.fromARGB(255, 251, 217, 149),
+                    //   thumbColor: Color.fromARGB(255, 219, 85, 12),
+                    //   trackColor: Colors.black12,
+                    //   value: forIos,
+                    //   onChanged: (bool? value) {
+                    //     if (value != null) {
+                    //       setState(() {
+                    //         forIos = value;
+                    //         if (value) {
+                    //           reviewer = 'ไม่ประสงคอออกนาม';
+                    //         } else {
+                    //           if (users != null && users!.firstname != null) {
+                    //             reviewer =
+                    //                 users!.firstname! + " " + users!.lastname!;
+                    //           } else {
+                    //             reviewer = '';
+                    //           }
+                    //         }
+                    //         print(reviewer);
+                    //       });
+                    //     }
+                    //   },
+                    // ),
+                    // SizedBox(height: 20),
+                    // Text(
+                    //   '$reviewer', // แสดงค่า reviewer ด้วย Text
+                    //   style: TextStyle(fontSize: 15),
+                    // ),
+                    // Expanded(
+                    //   child: Row(
+                    //     children: [
+                    //       Checkbox(
+                    //         value: reviewer == 'ไม่ประสงคอออกนาม',
+                    //         onChanged: (bool? value) {
+                    //           setState(() {
+                    //             if (value != null && value) {
+                    //               reviewer = 'ไม่ประสงคอออกนาม';
+                    //             } else {
+                    //               if (users != null &&
+                    //                   users!.firstname != null) {
+                    //                 reviewer = users!.firstname! +
+                    //                     " " +
+                    //                     users!.lastname!;
+                    //               } else {
+                    //                 reviewer =
+                    //                     ''; // Set to an empty string if the user's first name is not available
+                    //               }
+                    //             }
+                    //             print(reviewer);
+                    //           });
+                    //         },
+                    //         shape: CircleBorder(),
+                    //       ),
+                    //       Text(reviewer),
+                    //     ],
+                    //   ),
+                    // )
+
+                    // Expanded(
+                    //   child: Row(
+                    //     children: [
+                    //       Checkbox(
+                    //         value: reviewer == 'ไม่ประสงคอออกนาม',
+                    //         onChanged: (bool? value) {
+                    //           setState(() {
+                    //             if (value != null && value) {
+                    //               reviewer = 'ไม่ประสงคอออกนาม';
+                    //             } else {
+                    //               if (users != null &&
+                    //                   users!.firstname != null) {
+                    //                 reviewer = users!.firstname! +
+                    //                     " " +
+                    //                     users!.lastname!;
+                    //               } else {
+                    //                 reviewer =
+                    //                     ''; // Set to an empty string if the user's first name is not available
+                    //               }
+                    //             }
+                    //             print(reviewer);
+                    //           });
+                    //         },
+                    //         shape: CircleBorder(),
+                    //       ),
+                    //       Text(reviewer),
+                    //     ],
+                    //   ),
+                    // )
                   ],
                 ),
               ],
