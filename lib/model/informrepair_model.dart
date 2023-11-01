@@ -15,8 +15,7 @@ class InformRepair {
   String formattedInformDate() {
     if (informdate != null) {
       final thailandLocale = const Locale('th', 'TH');
-      final outputFormat =
-          DateFormat('dd-MM-yyyy HH:mm', thailandLocale.toString());
+      final outputFormat = DateFormat('dd-MM-yyyy', thailandLocale.toString());
       return outputFormat.format(informdate!);
     } else {
       return 'N/A';

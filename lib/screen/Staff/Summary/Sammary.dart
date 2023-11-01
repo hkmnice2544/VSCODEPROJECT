@@ -71,11 +71,6 @@ class Form extends State<Summary> {
   void _updateFilteredInformRepairs() {
     setState(() {
       filteredInformRepairs = informRepairs!.where((informRepair) {
-        // ตรวจสอบสถานะ (ถ้าเลือกสถานะเท่านั้น)
-        bool statusCondition =
-            _selectedStatus == null || _selectedStatus == informRepair.status;
-
-        // ตรวจสอบว่าวันที่เริ่มต้นและสิ้นสุดอยู่ในช่วงของวันที่ใน informRepair
         bool dateCondition = true;
 
         if (_startDate != null && _endDate != null) {
@@ -96,7 +91,10 @@ class Form extends State<Summary> {
                   informRepair.informdate!.isBefore(endDateEndOfDay);
         }
 
-        return statusCondition && dateCondition;
+        bool statusCondition =
+            _selectedStatus == null || _selectedStatus == informRepair.status;
+
+        return dateCondition && statusCondition;
       }).toList();
     });
   }
@@ -110,14 +108,10 @@ class Form extends State<Summary> {
     );
 
     if (pickedStartDate != null) {
-      // ตั้งค่า _startDate เป็น null ก่อนเพื่อป้องกันความผิดพลาด
-      setState(() {
-        _startDate = null;
-      });
-
       setState(() {
         _startDate = pickedStartDate;
       });
+
       _updateFilteredInformRepairs();
     }
   }
@@ -131,11 +125,6 @@ class Form extends State<Summary> {
     );
 
     if (pickedEndDate != null) {
-      // ตั้งค่า _endDate เป็น null ก่อนเพื่อป้องกันความผิดพลาด
-      setState(() {
-        _endDate = null;
-      });
-
       setState(() {
         _endDate = pickedEndDate;
       });
@@ -200,6 +189,8 @@ class Form extends State<Summary> {
     main();
     print("getDate : ${informRepairs?[0].informdate}");
     DateTime date = DateTime.now(); // รูปแบบข้อความจากฐานข้อมูล
+    _startDate = date;
+    _endDate = date;
     // DateTime parsedDate = inputFormat.parse(informRepair!.informdate);
     informRepairs?.sort((a, b) {
       if (a.informdate == null && b.informdate == null) {
@@ -319,6 +310,71 @@ class Form extends State<Summary> {
                 child: Padding(
                   padding: EdgeInsets.fromLTRB(0.0, 0, 0, 0),
                   child: Text(
+                    "วันที่เริ่มต้น :",
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+              ),
+              Expanded(
+                child: ElevatedButton(
+                  onPressed: () {
+                    setState(() {
+                      _selectStartDate(context);
+                    });
+
+                    _updateFilteredInformRepairs();
+                  },
+                  child: Text(
+                    _startDate != null
+                        ? "${_startDate!.day}/${_startDate!.month}/${_startDate!.year}"
+                        : "เลือกวันที่เริ่มต้น",
+                  ),
+                ),
+              ),
+            ],
+          ),
+          Row(
+            children: [
+              Expanded(
+                child: Padding(
+                  padding: EdgeInsets.fromLTRB(0.0, 0, 0, 0),
+                  child: Text(
+                    "วันที่สิ้นสุด :",
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+              ),
+              Expanded(
+                child: ElevatedButton(
+                  onPressed: () {
+                    setState(() {
+                      _selectEndDate(context);
+                    });
+                    _updateFilteredInformRepairs();
+                  },
+                  child: Text(
+                    _endDate != null
+                        ? "${_endDate!.day}/${_endDate!.month}/${_endDate!.year}"
+                        : "เลือกวันที่สิ้นสุด",
+                  ),
+                ),
+              ),
+            ],
+          ),
+          Row(
+            children: [
+              Expanded(
+                child: Padding(
+                  padding: EdgeInsets.fromLTRB(0.0, 0, 0, 0),
+                  child: Text(
                     "สถานะ :",
                     style: TextStyle(
                       color: Colors.black,
@@ -353,74 +409,16 @@ class Form extends State<Summary> {
               ),
             ],
           ),
-          Row(
-            children: [
-              Expanded(
-                child: Padding(
-                  padding: EdgeInsets.fromLTRB(0.0, 0, 0, 0),
-                  child: Text(
-                    "วันที่เริ่มต้น :",
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-              ),
-              Expanded(
-                child: ElevatedButton(
-                  onPressed: () {
-                    _selectStartDate(context);
-                  },
-                  child: Text(
-                    _startDate != null
-                        ? "${_startDate!.day}/${_startDate!.month}/${_startDate!.year}"
-                        : "เลือกวันที่เริ่มต้น",
-                  ),
-                ),
-              ),
-            ],
-          ),
-          Row(
-            children: [
-              Expanded(
-                child: Padding(
-                  padding: EdgeInsets.fromLTRB(0.0, 0, 0, 0),
-                  child: Text(
-                    "วันที่สิ้นสุด :",
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-              ),
-              Expanded(
-                child: ElevatedButton(
-                  onPressed: () {
-                    _selectEndDate(context);
-                  },
-                  child: Text(
-                    _endDate != null
-                        ? "${_endDate!.day}/${_endDate!.month}/${_endDate!.year}"
-                        : "เลือกวันที่สิ้นสุด",
-                  ),
-                ),
-              ),
-            ],
-          ),
           Expanded(
             child: isDataLoaded == false
                 ? CircularProgressIndicator()
                 : ListView.builder(
-                    itemCount: _selectedStatus != null
+                    itemCount: _startDate != null
                         ? filteredInformRepairs.length
                         : (informRepairs?.length ?? 0),
                     scrollDirection: Axis.vertical,
                     itemBuilder: (context, index) {
-                      final informRepair = _selectedStatus != null
+                      final informRepair = _startDate != null
                           ? filteredInformRepairs[index]
                           : informRepairs![index];
                       return Card(

@@ -151,14 +151,18 @@ class _ReportInformState extends State<ReportInform> {
     });
   }
 
+  String formattedCurrentDate() {
+    final thailandLocale = const Locale('th', 'TH');
+    final outputFormat = DateFormat('dd-MM-yyyy', thailandLocale.toString());
+    final now = DateTime.now();
+    return outputFormat.format(now);
+  }
+
   @override
   void initState() {
     super.initState();
     listAllReportRepairs();
     getInform(widget.informrepair_id!);
-    DateTime now = DateTime.now();
-    formattedDate = DateFormat('yyyy-MM-dd' ' HH:mm:ss.000').format(now);
-
     print("informrepair_id${widget.informrepair_id}");
     print("room_id${widget.room_id}");
     print("equipment_id${widget.equipment_id}");
@@ -353,7 +357,7 @@ class _ReportInformState extends State<ReportInform> {
                 ),
                 Expanded(
                   child: Text(
-                    "${informRepair?.informdate ?? 'N/A'}",
+                    "${informRepair?.formattedInformDate() ?? 'N/A'}",
                     style: TextStyle(
                       color: Colors.black,
                       fontSize: 20,
@@ -377,7 +381,7 @@ class _ReportInformState extends State<ReportInform> {
                 ),
                 Expanded(
                   child: Text(
-                    "$formattedDate",
+                    formattedCurrentDate(),
                     style: TextStyle(
                       color: Colors.black,
                       fontSize: 20,
@@ -391,7 +395,7 @@ class _ReportInformState extends State<ReportInform> {
             Row(
               children: [
                 Text(
-                  "รายละเอียด",
+                  "ผลการแจ้งซ่อม",
                   style: TextStyle(
                     color: Colors.black,
                     fontSize: 20,
@@ -403,7 +407,7 @@ class _ReportInformState extends State<ReportInform> {
             TextField(
               controller: detailsTextController,
               decoration: InputDecoration(
-                labelText: 'รายละเอียด',
+                labelText: 'ผลการแจ้งซ่อม',
               ),
               onChanged: (value) {},
             ),

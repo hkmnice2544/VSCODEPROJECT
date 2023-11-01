@@ -121,7 +121,7 @@ class _listAllInformRepairsState extends State<listReviewResult> {
                                 ),
                                 Expanded(
                                   child: Text(
-                                    "${reviews?[index].reviewdate}",
+                                    "${reviews?[index].formattedreviewdateDate()}",
                                     style: const TextStyle(
                                         fontFamily: 'Itim', fontSize: 22),
                                   ),

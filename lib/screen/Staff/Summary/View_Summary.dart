@@ -6,7 +6,6 @@ import 'package:flutterr/screen/Staff/Summary/Sammary.dart';
 import 'package:flutterr/screen/User/ListInformRepair/ListInformRepair.dart';
 import '../../../controller/informrepair_controller.dart';
 import '../../../model/informrepair_model.dart';
-import '../../Home.dart';
 import '../../Login.dart';
 
 class View_Summary extends StatefulWidget {

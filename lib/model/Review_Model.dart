@@ -18,18 +18,13 @@ class Review {
     this.comment,
     this.report_id,
   });
-  String formattedReviewDate(DateTime? reviewDate) {
-    if (reviewDate != null) {
+  String formattedreviewdateDate() {
+    if (reviewdate != null) {
       final thailandLocale = const Locale('th', 'TH');
-      final outputFormat =
-          DateFormat('dd-MM-yyyy HH:mm', thailandLocale.toString());
-
-      // แปลง DateTime เป็นสตริงและตัด 'Z' ออก
-      final dateString = outputFormat.format(reviewDate).replaceAll('Z', '');
-
-      return dateString;
+      final outputFormat = DateFormat('dd-MM-yyyy', thailandLocale.toString());
+      return outputFormat.format(reviewdate!);
     } else {
-      return 'N/A'; // หรือข้อความที่คุณต้องการให้แสดงถ้าไม่มีวันที่
+      return 'N/A';
     }
   }
 

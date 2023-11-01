@@ -893,55 +893,55 @@ class Form extends State<EditInformRepairs> {
 
                                     // ทำการบันทึกข้อมูลใน dataList
 
-                                    for (int i = 0;
-                                        i < equipmentIds.length;
-                                        i++) {
-                                      if (isChecked[i]) {
-                                        int? parsedEquipmentId = int.tryParse(
-                                            amountcontrollers[i].text);
-                                        int? parsedEquipmentId2 =
-                                            int.tryParse(equipmentIds[i]);
-                                        var jsonResponse =
-                                            await informRepairDetailsController
-                                                .saveInformRepairDetails(
-                                                    parsedEquipmentId ?? 1,
-                                                    detailscontrollers[i].text,
-                                                    ((informrepairs?[informrepairs!
-                                                                        .length -
-                                                                    1]
-                                                                .informrepair_id ??
-                                                            0) +
-                                                        1),
-                                                    parsedEquipmentId2 ?? 0,
-                                                    roomIdInt);
+                                    // for (int i = 0;
+                                    //     i < equipmentIds.length;
+                                    //     i++) {
+                                    //   if (isChecked[i]) {
+                                    //     int? parsedEquipmentId = int.tryParse(
+                                    //         amountcontrollers[i].text);
+                                    //     int? parsedEquipmentId2 =
+                                    //         int.tryParse(equipmentIds[i]);
+                                    //     var jsonResponse =
+                                    //         await informRepairDetailsController
+                                    //             .saveInformRepairDetails(
+                                    //                 parsedEquipmentId ?? 1,
+                                    //                 detailscontrollers[i].text,
+                                    //                 ((informrepairs?[informrepairs!
+                                    //                                     .length -
+                                    //                                 1]
+                                    //                             .informrepair_id ??
+                                    //                         0) +
+                                    //                     1),
+                                    //                 parsedEquipmentId2 ?? 0,
+                                    //                 roomIdInt);
 
-                                        for (int j = 0;
-                                            j < imageFileNames.length;
-                                            j++) {
-                                          if (isChecked[j]) {
-                                            if (int.tryParse(equipmentIds[j]) ==
-                                                parsedEquipmentId2) {
-                                              data.add({
-                                                "informPicturesList": [
-                                                  {
-                                                    "pictureUrl":
-                                                        imageFileNames[j]
-                                                  }
-                                                ],
-                                                "equipment_id": int.tryParse(
-                                                        equipmentIds[j]) ??
-                                                    0,
-                                                "room_id": roomIdInt,
-                                                "informrepair_id":
-                                                    jsonResponse[0]
-                                                            ["informrepairid"]
-                                                        ["informrepair_id"],
-                                              });
-                                            }
-                                          }
-                                        }
-                                      }
-                                    }
+                                    //     for (int j = 0;
+                                    //         j < imageFileNames.length;
+                                    //         j++) {
+                                    //       if (isChecked[j]) {
+                                    //         if (int.tryParse(equipmentIds[j]) ==
+                                    //             parsedEquipmentId2) {
+                                    //           data.add({
+                                    //             "informPicturesList": [
+                                    //               {
+                                    //                 "pictureUrl":
+                                    //                     imageFileNames[j]
+                                    //               }
+                                    //             ],
+                                    //             "equipment_id": int.tryParse(
+                                    //                     equipmentIds[j]) ??
+                                    //                 0,
+                                    //             "room_id": roomIdInt,
+                                    //             "informrepair_id":
+                                    //                 jsonResponse[0]
+                                    //                         ["informrepairid"]
+                                    //                     ["informrepair_id"],
+                                    //           });
+                                    //         }
+                                    //       }
+                                    //     }
+                                    //   }
+                                    // }
 
                                     List<Inform_Pictures> savedInformPictures =
                                         await InformRepair_PicturesController

@@ -205,7 +205,7 @@ class _ViewResultState extends State<View_Completed> {
                 ),
                 Expanded(
                   child: Text(
-                    "${reportRepair?.informRepairDetails?.informRepair?.informdate}",
+                    "${reportRepair?.informRepairDetails?.informRepair?.formattedInformDate()}",
                     style: TextStyle(
                       color: Colors.black,
                       fontSize: 20,

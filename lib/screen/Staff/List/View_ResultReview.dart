@@ -146,189 +146,191 @@ class _ViewResultState extends State<ViewResultReview> {
 
           // isDataLoaded == false?
           // CircularProgressIndicator() : //คือตัวหมนุๆ
-          Padding(
-        padding: const EdgeInsets.fromLTRB(10, 20, 0, 0),
-        child: Center(
-          child: Column(children: [
-            Center(
-              child: Text(
-                "รายละเอียด",
-                style: TextStyle(
-                  color: Color.fromARGB(255, 7, 94, 53),
-                  fontSize: 40,
-                  fontWeight: FontWeight.bold,
+          SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(10, 20, 0, 0),
+          child: Center(
+            child: Column(children: [
+              Center(
+                child: Text(
+                  "รายละเอียด",
+                  style: TextStyle(
+                    color: Color.fromARGB(255, 7, 94, 53),
+                    fontSize: 40,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ),
-            ),
-            Image.asset(
-              'images/View_Inform.png',
-              // fit: BoxFit.cover,
-              width: 220,
-              alignment: Alignment.center,
-            ),
-            Row(
-              children: [
-                Expanded(
-                  child: Text(
-                    "เลขที่แจ้งซ่อม  :",
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-                Expanded(
-                  child: Text(
-                    "${review?.review_id}",
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-              ],
-            ),
-            Row(
-              children: [
-                Expanded(
-                  child: Text(
-                    "วันที่รีวิว  :",
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-                Expanded(
-                  child: Text(
-                    "${review?.reviewdate}",
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-              ],
-            ),
-            //  Row(
-            //   children: [
-            //     Expanded(
-            //       child: Text(
-            //         "อุปกรณ์   :",
-            //         style: TextStyle(
-            //           color: Colors.black,
-            //           fontSize: 20,
-            //           fontWeight: FontWeight.bold,
-            //         ),
-            //       ),
-            //     ),
-            //     Expanded(
-            //       child: Text(
-            //         "${review?.repairscore}",
-            //         style: TextStyle(
-            //           color: Colors.black,
-            //           fontSize: 20,
-            //           fontWeight: FontWeight.bold,
-            //         ),
-            //       ),
-            //     ),
-            //   ],
-            // ),
-            Row(
-              children: [
-                Expanded(
-                  child: Text(
-                    "คะแนนรีวิว   :",
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-                Expanded(
-                  child: Text(
-                    "${review?.repairscore}",
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-              ],
-            ),
-            Row(
-              children: [
-                Expanded(
-                  child: Text(
-                    "ความคิดเห็น   :",
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-                Expanded(
-                  child: Text(
-                    "${review?.comment}",
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-              ],
-            ),
-            Row(
-              children: [
-                Expanded(
-                  child: Text(
-                    "ผู้รีวิว   :",
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-                Expanded(
-                  child: Text(
-                    "${review?.reviewer}",
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-              ],
-            ),
-            Wrap(
-              spacing: 8.0, // ระยะห่างระหว่างรูปภาพในแนวนอน
-              runSpacing: 8.0, // ระยะห่างระหว่างรูปภาพในแนวดิ่ง
-              children: List.generate(
-                review_picture.length,
-                (index) {
-                  return Container(
-                    width: 200,
-                    height: 350,
-                    child: Image.network(
-                      baseURL +
-                          '/report_pictures/image/${review_picture[index]}',
-                      fit: BoxFit.cover,
-                    ),
-                  );
-                },
+              Image.asset(
+                'images/View_Inform.png',
+                // fit: BoxFit.cover,
+                width: 220,
+                alignment: Alignment.center,
               ),
-            ),
-          ]),
+              Row(
+                children: [
+                  Expanded(
+                    child: Text(
+                      "เลขที่แจ้งซ่อม  :",
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                  Expanded(
+                    child: Text(
+                      "${review?.review_id}",
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              Row(
+                children: [
+                  Expanded(
+                    child: Text(
+                      "วันที่รีวิว  :",
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                  Expanded(
+                    child: Text(
+                      "${review?.formattedreviewdateDate()}",
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              //  Row(
+              //   children: [
+              //     Expanded(
+              //       child: Text(
+              //         "อุปกรณ์   :",
+              //         style: TextStyle(
+              //           color: Colors.black,
+              //           fontSize: 20,
+              //           fontWeight: FontWeight.bold,
+              //         ),
+              //       ),
+              //     ),
+              //     Expanded(
+              //       child: Text(
+              //         "${review?.repairscore}",
+              //         style: TextStyle(
+              //           color: Colors.black,
+              //           fontSize: 20,
+              //           fontWeight: FontWeight.bold,
+              //         ),
+              //       ),
+              //     ),
+              //   ],
+              // ),
+              Row(
+                children: [
+                  Expanded(
+                    child: Text(
+                      "คะแนนรีวิว   :",
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                  Expanded(
+                    child: Text(
+                      "${review?.repairscore}",
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              Row(
+                children: [
+                  Expanded(
+                    child: Text(
+                      "ความคิดเห็น   :",
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                  Expanded(
+                    child: Text(
+                      "${review?.comment}",
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              Row(
+                children: [
+                  Expanded(
+                    child: Text(
+                      "ผู้รีวิว   :",
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                  Expanded(
+                    child: Text(
+                      "${review?.reviewer}",
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              Wrap(
+                spacing: 8.0, // ระยะห่างระหว่างรูปภาพในแนวนอน
+                runSpacing: 8.0, // ระยะห่างระหว่างรูปภาพในแนวดิ่ง
+                children: List.generate(
+                  review_picture.length,
+                  (index) {
+                    return Container(
+                      width: 200,
+                      height: 350,
+                      child: Image.network(
+                        baseURL +
+                            '/review_pictures/image/${review_picture[index]}',
+                        fit: BoxFit.cover,
+                      ),
+                    );
+                  },
+                ),
+              ),
+            ]),
+          ),
         ),
       ),
       floatingActionButton: Row(

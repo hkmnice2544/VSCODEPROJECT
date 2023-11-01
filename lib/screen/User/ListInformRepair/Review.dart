@@ -413,6 +413,7 @@ class _MyWidgetState extends State<Reviews> {
                             _selectImages();
                             _uploadImages();
                             print('imageFileNames----${imageFileNames}');
+                            print('_selectedImages----${_selectedImages}');
                           }),
                     ),
                   ],

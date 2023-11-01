@@ -147,203 +147,205 @@ class _ViewResultState extends State<ViewCompleted> {
 
           // isDataLoaded == false?
           // CircularProgressIndicator() : //คือตัวหมนุๆ
-          Padding(
-        padding: const EdgeInsets.fromLTRB(10, 20, 0, 0),
-        child: Center(
-          child: Column(children: [
-            Center(
-              child: Text(
-                "รายละเอียดผลการซ่อม",
-                style: TextStyle(
-                  color: Color.fromARGB(255, 7, 94, 53),
-                  fontSize: 40,
-                  fontWeight: FontWeight.bold,
+          SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(10, 20, 0, 0),
+          child: Center(
+            child: Column(children: [
+              Center(
+                child: Text(
+                  "รายละเอียดผลการซ่อม",
+                  style: TextStyle(
+                    color: Color.fromARGB(255, 7, 94, 53),
+                    fontSize: 40,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ),
-            ),
-            Center(
-              child: Text(
-                "รายละเอียดผลการซ่อม",
+              Center(
+                child: Text(
+                  "รายละเอียดผลการซ่อม",
+                ),
               ),
-            ),
-            Image.asset(
-              'images/View_Inform.png',
-              // fit: BoxFit.cover,
-              width: 220,
-              alignment: Alignment.center,
-            ),
-            Row(
-              children: [
-                Expanded(
-                  child: Text(
-                    "เลขที่แจ้งซ่อม  :",
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-                Expanded(
-                  child: Text(
-                    "${reportRepair?.informRepairDetails?.informRepair?.informrepair_id}",
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-              ],
-            ),
-            Row(
-              children: [
-                Expanded(
-                  child: Text(
-                    "วันที่แจ้งซ่อม  :",
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-                Expanded(
-                  child: Text(
-                    "${reportRepair?.informRepairDetails?.informRepair?.informdate}",
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-              ],
-            ),
-            Row(
-              children: [
-                Expanded(
-                  child: Text(
-                    "รายละเอียด",
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-                Expanded(
-                  child: Text(
-                    "${reportRepair?.details}",
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-              ],
-            ),
-            Row(
-              children: [
-                Expanded(
-                  child: Text(
-                    "ผู้ซ่อม   :",
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-                Expanded(
-                  child: Text(
-                    "${reportRepair?.repairer}",
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-              ],
-            ),
-            Row(
-              children: [
-                Expanded(
-                  child: Text(
-                    "สถานะ   :",
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-                Expanded(
-                  child: Text(
-                    "${reportRepair?.informRepairDetails?.informRepair?.status}",
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-              ],
-            ),
-            Wrap(
-              spacing: 8.0, // ระยะห่างระหว่างรูปภาพในแนวนอน
-              runSpacing: 8.0, // ระยะห่างระหว่างรูปภาพในแนวดิ่ง
-              children: List.generate(
-                report_picture.length,
-                (index) {
-                  return Container(
-                    width: 200,
-                    height: 350,
-                    child: Image.network(
-                      baseURL +
-                          '/report_pictures/image/${report_picture[index]}',
-                      fit: BoxFit.cover,
-                    ),
-                  );
-                },
+              Image.asset(
+                'images/View_Inform.png',
+                // fit: BoxFit.cover,
+                width: 220,
+                alignment: Alignment.center,
               ),
-            ),
-            Padding(
-              padding: const EdgeInsets.fromLTRB(0, 20, 0, 0),
-              child: Row(
+              Row(
                 children: [
                   Expanded(
-                    child: ElevatedButton(
-                      onPressed: () {
-                        Navigator.push(context, MaterialPageRoute(
-                          builder: (context) {
-                            return ListInformRepair(user: widget.user);
-                          },
-                        ));
-                      },
-                      style: ElevatedButton.styleFrom(
-                        primary: Color.fromARGB(255, 234, 112, 5),
-                        textStyle: TextStyle(
-                            color: Color.fromARGB(255, 255, 255, 255)),
-                        padding:
-                            EdgeInsets.symmetric(horizontal: 40, vertical: 20),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10),
-                        ),
+                    child: Text(
+                      "เลขที่แจ้งซ่อม  :",
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
                       ),
-                      child: Text(
-                        'ย้อนกลับ',
-                        style: TextStyle(
-                            color: Color.fromARGB(255, 255, 255, 255)),
+                    ),
+                  ),
+                  Expanded(
+                    child: Text(
+                      "${reportRepair?.informRepairDetails?.informRepair?.informrepair_id}",
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
                       ),
                     ),
                   ),
                 ],
               ),
-            ),
-          ]),
+              Row(
+                children: [
+                  Expanded(
+                    child: Text(
+                      "วันที่แจ้งซ่อม  :",
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                  Expanded(
+                    child: Text(
+                      "${reportRepair?.informRepairDetails?.informRepair?.informdate}",
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              Row(
+                children: [
+                  Expanded(
+                    child: Text(
+                      "รายละเอียด",
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                  Expanded(
+                    child: Text(
+                      "${reportRepair?.details}",
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              Row(
+                children: [
+                  Expanded(
+                    child: Text(
+                      "ผู้ซ่อม   :",
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                  Expanded(
+                    child: Text(
+                      "${reportRepair?.repairer}",
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              Row(
+                children: [
+                  Expanded(
+                    child: Text(
+                      "สถานะ   :",
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                  Expanded(
+                    child: Text(
+                      "${reportRepair?.informRepairDetails?.informRepair?.status}",
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              Wrap(
+                spacing: 8.0, // ระยะห่างระหว่างรูปภาพในแนวนอน
+                runSpacing: 8.0, // ระยะห่างระหว่างรูปภาพในแนวดิ่ง
+                children: List.generate(
+                  report_picture.length,
+                  (index) {
+                    return Container(
+                      width: 200,
+                      height: 350,
+                      child: Image.network(
+                        baseURL +
+                            '/report_pictures/image/${report_picture[index]}',
+                        fit: BoxFit.cover,
+                      ),
+                    );
+                  },
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.fromLTRB(0, 20, 0, 0),
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: ElevatedButton(
+                        onPressed: () {
+                          Navigator.push(context, MaterialPageRoute(
+                            builder: (context) {
+                              return ListInformRepair(user: widget.user);
+                            },
+                          ));
+                        },
+                        style: ElevatedButton.styleFrom(
+                          primary: Color.fromARGB(255, 234, 112, 5),
+                          textStyle: TextStyle(
+                              color: Color.fromARGB(255, 255, 255, 255)),
+                          padding: EdgeInsets.symmetric(
+                              horizontal: 40, vertical: 20),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                        ),
+                        child: Text(
+                          'ย้อนกลับ',
+                          style: TextStyle(
+                              color: Color.fromARGB(255, 255, 255, 255)),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ]),
+          ),
         ),
       ),
     ));

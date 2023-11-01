@@ -234,7 +234,7 @@ class _ViewResultState extends State<ViewNewInform> {
                       ),
                       Expanded(
                         child: Text(
-                          "${informDetails != null && informDetails.isNotEmpty ? informDetails[0].informRepair?.informdate ?? 'N/A' : 'N/A'}",
+                          "${informDetails != null && informDetails.isNotEmpty ? informDetails[0].informRepair?.formattedInformDate() ?? 'N/A' : 'N/A'}",
                           style: TextStyle(
                             color: Colors.black,
                             fontSize: 20,

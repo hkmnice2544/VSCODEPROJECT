@@ -142,7 +142,7 @@ class NewInform extends State<listNewItem> {
                                   ),
                                   Expanded(
                                     child: Text(
-                                      "${informRepairList?[index].informdate}",
+                                      "${informRepairList?[index].formattedInformDate()}",
                                       style: const TextStyle(
                                           fontFamily: 'Itim', fontSize: 22),
                                     ),

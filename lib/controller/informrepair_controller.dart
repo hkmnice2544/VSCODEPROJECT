@@ -336,22 +336,17 @@ class InformRepairController {
     }
   }
 
-  // Future<List<Room>>
-  //     findlistRoomByIdBybuilding_id() async {
-  //   final response = await http.post(Uri.parse((baseURL +
-  //       '/informrepairdetails/ListInformDetailsGroupbyinformrepair_id')));
-  //   if (response.statusCode == 200) {
-  //     final List<dynamic> jsonData = json.decode(response.body);
-  //     List<Room> detailsList = [];
+  Future findlistRoomByIdBybuilding_id(
+      int? building_id, String roomtype) async {
+    var url = Uri.parse(baseURL +
+        '/rooms/findlistRoomByIdBybuilding_id/$building_id/$roomtype');
 
-  //     for (final dynamic data in jsonData) {
-  //       final details = Room.fromJsonToRoom(data);
-  //       detailsList.add(details);
-  //     }
+    http.Response response = await http.post(url, headers: headers, body: null);
+    print("ข้อมูลที่ได้คือ : " + response.body);
 
-  //     return detailsList;
-  //   } else {
-  //     throw Exception('Failed to load data');
-  //   }
-  // }
+    List<dynamic> jsonMap = json.decode(response.body);
+    List<Room>? room =
+        await jsonMap.map((e) => Room.fromJsonToRoom(e)).toList();
+    return room;
+  }
 }

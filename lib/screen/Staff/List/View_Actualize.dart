@@ -191,7 +191,7 @@ class _ViewViewActualizeState extends State<ViewActualize> {
                 ),
                 Expanded(
                   child: Text(
-                    "${informRepair?.informdate}",
+                    "${informRepair?.formattedInformDate()}",
                     style: TextStyle(
                       color: Colors.black,
                       fontSize: 20,

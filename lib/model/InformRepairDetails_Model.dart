@@ -5,6 +5,7 @@ class InformRepairDetails {
   int? informdetails_id;
   int? amount;
   String? details;
+  String? pictures;
   InformRepair? informRepair;
   RoomEquipment? roomEquipment;
 
@@ -12,6 +13,7 @@ class InformRepairDetails {
       {this.informdetails_id,
       this.amount,
       this.details,
+      this.pictures,
       this.informRepair,
       this.roomEquipment});
 
@@ -32,6 +34,7 @@ class InformRepairDetails {
       'informdetails_id': informdetails_id,
       'amount': amount,
       'details': details,
+      'pictures': pictures,
       'informRepair': informRepair,
       'roomEquipment': roomEquipment,
     };

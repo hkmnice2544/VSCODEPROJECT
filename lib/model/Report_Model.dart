@@ -23,18 +23,23 @@ class ReportRepair {
       this.statusdate,
       this.informRepairDetails});
 
-  String formattedReviewDate(DateTime? enddate) {
-    if (enddate != null) {
+  String formattedInformDate() {
+    if (reportdate != null) {
       final thailandLocale = const Locale('th', 'TH');
-      final outputFormat =
-          DateFormat('dd-MM-yyyy HH:mm', thailandLocale.toString());
-
-      // แปลง DateTime เป็นสตริงและตัด 'Z' ออก
-      final dateString = outputFormat.format(enddate).replaceAll('Z', '');
-
-      return dateString;
+      final outputFormat = DateFormat('dd-MM-yyyy', thailandLocale.toString());
+      return outputFormat.format(reportdate!);
     } else {
-      return 'N/A'; // หรือข้อความที่คุณต้องการให้แสดงถ้าไม่มีวันที่
+      return 'N/A';
+    }
+  }
+
+  String formattedstatusdateDate() {
+    if (statusdate != null) {
+      final thailandLocale = const Locale('th', 'TH');
+      final outputFormat = DateFormat('dd-MM-yyyy', thailandLocale.toString());
+      return outputFormat.format(statusdate!);
+    } else {
+      return 'N/A';
     }
   }
 

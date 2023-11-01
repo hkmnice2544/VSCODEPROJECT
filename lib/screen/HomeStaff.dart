@@ -370,12 +370,12 @@ class _HomeStaffState extends State<HomeStaff> {
                         padding:
                             EdgeInsets.only(left: 435, top: 110, right: 20),
                         onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(builder: (context) {
-                              return ListInformRepair(user: widget.user);
-                            }),
-                          );
+                          // Navigator.push(
+                          //   context,
+                          //   MaterialPageRoute(builder: (context) {
+                          //     return ListInformRepair(user: widget.user);
+                          //   }),
+                          // );
                         },
                       ),
                     ),

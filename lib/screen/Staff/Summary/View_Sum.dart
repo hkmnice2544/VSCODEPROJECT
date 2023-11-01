@@ -249,7 +249,7 @@ class _ViewResultState extends State<View_Sum> {
                 ),
                 Expanded(
                   child: Text(
-                    "${informDetails != null && informDetails.isNotEmpty ? informDetails[0].informRepair?.informdate ?? 'N/A' : 'Loading...'}",
+                    "${informDetails != null && informDetails.isNotEmpty ? informDetails[0].informRepair?.formattedInformDate() ?? 'N/A' : 'Loading...'}",
                     style: TextStyle(
                       color: Colors.black,
                       fontSize: 20,
@@ -393,7 +393,7 @@ class _ViewResultState extends State<View_Sum> {
                 ),
                 Expanded(
                   child: Text(
-                    "${results != null && results.isNotEmpty ? results[0]?.reportdate ?? 'ยังไม่มีข้อมูล' : 'ยังไม่มีข้อมูล'}",
+                    "${results != null && results.isNotEmpty ? results[0]?.formattedInformDate() ?? 'ยังไม่มีข้อมูล' : 'ยังไม่มีข้อมูล'}",
                     style: TextStyle(
                       color: Colors.black,
                       fontSize: 20,

@@ -6,7 +6,7 @@ import 'package:http/http.dart' as http;
 class InformRepairDetailsController {
   InformRepairDetails? informRepairDetails;
 
-  Future saveInformRepairDetails(int amount, String details,
+  Future saveInformRepairDetails(int amount, String details, String pictures,
       int informrepair_id, int equipment_id, int room_id) async {
     final url = Uri.parse('$baseURL/informrepairdetails/add');
 
@@ -17,6 +17,7 @@ class InformRepairDetailsController {
       {
         "amount": amount,
         "details": details,
+        "pictures": pictures,
         "informrepair_id": informrepair_id,
         "equipment_id": equipment_id,
         "room_id": room_id

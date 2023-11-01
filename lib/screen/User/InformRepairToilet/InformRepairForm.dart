@@ -125,23 +125,30 @@ class Form extends State<InformRepairForm> {
   List<String> imageFileNames = [];
   String? buildingId = '';
   int selectedImageCount = 0;
+  String RoomType = "ห้องน้ำ";
+  String? selectedRoom;
 
   List<File> _selectedImages = [];
   void _addImageForEquipment(String equipmentId) async {
     final List<XFile>? selectedImages = await imagePicker.pickMultiImage();
     if (selectedImages != null && selectedImages.isNotEmpty) {
       if (equipmentImages.containsKey(equipmentId)) {
+        selectedImageCount += selectedImages.length;
         equipmentImages[equipmentId]!.addAll(selectedImages);
+        _selectedImages.addAll(selectedImages.map((image) => File(image.path)));
       } else {
         equipmentImages[equipmentId] = selectedImages;
+        _selectedImages.addAll(selectedImages.map((image) => File(image.path)));
       }
+
+      await _uploadImages(); // เรียก _uploadImages ทันทีหลังจากเลือกรูปภาพ
       setState(() {});
     }
   }
 
   Future<void> _uploadImages() async {
     if (_selectedImages.isNotEmpty) {
-      final uri = Uri.parse(baseURL + '/review_pictures/uploadMultiple');
+      final uri = Uri.parse(baseURL + '/informrepairdetails/uploadMultiple');
       final request = http.MultipartRequest('POST', uri);
 
       for (final image in _selectedImages) {
@@ -312,30 +319,24 @@ class Form extends State<InformRepairForm> {
   List<String>? Room_id = [];
   List<String> equipmentName = [];
 
-  void findequipmentByIdByAll(String building_id, String floor, String position,
-      String roomname) async {
-    Room_id = await informrepairController.findroom_idByIdByAll(
-        building_id, floor, position, roomname);
-    if (Room_id != null && Room_id!.isNotEmpty) {
-      selectedRoomId = Room_id![0]; // ยกตัวอย่างว่าเลือก index 0
+  void findequipmentByIdByAll(String selectedRoom) async {
+    // เรียกใช้ฟังก์ชันเพื่อดึงข้อมูล equipment_ids
+    equipmentIds = await informrepairController
+        .findequipment_idByIdByroom_id(selectedRoom);
 
-      // เรียกใช้ฟังก์ชันเพื่อดึงข้อมูล equipment_ids
-      equipmentIds = await informrepairController
-          .findequipment_idByIdByroom_id(selectedRoomId);
-
-      for (int i = 0; i < equipmentIds.length; i++) {
-        int? equipmentId = int.tryParse(equipmentIds[i]);
-        if (equipmentId != null) {
-          String name = await informrepairController
-              .findequipmentnameByIdByequipment_id(equipmentId)
-              .then((value) => value.first);
-          equipmentName.add(name);
-        }
+    for (int i = 0; i < equipmentIds.length; i++) {
+      int? equipmentId = int.tryParse(equipmentIds[i]);
+      if (equipmentId != null) {
+        String name = await informrepairController
+            .findequipmentnameByIdByequipment_id(equipmentId)
+            .then((value) => value.first);
+        equipmentName.add(name);
       }
-
-      print("equipmentIds : $equipmentIds");
-      print("equipmentName : $equipmentName");
     }
+
+    print("equipmentIds : $equipmentIds");
+    print("equipmentName : $equipmentName");
+
     setState(() {
       isDataLoaded = true;
     });
@@ -363,6 +364,15 @@ class Form extends State<InformRepairForm> {
     amountcontrollers = List.generate(10, (index) => TextEditingController());
   }
 
+  void findlistRoomByIdBybuilding_id(int building_id, String roomtype) async {
+    rooms = await informrepairController.findlistRoomByIdBybuilding_id(
+        building_id, roomtype);
+    print("ViewListInformDetails : ${rooms?[0].room_id}");
+    setState(() {
+      isDataLoaded = true;
+    });
+  }
+
   @override
   void initState() {
     super.initState();
@@ -378,6 +388,8 @@ class Form extends State<InformRepairForm> {
     initialize();
     main();
     print("user----------Inform-------------${widget.user}");
+
+    // findlistRoomByIdBybuilding_id(1001, RoomType);
 
     // print('user_id----${user_id}');
     // print('imageFileNames----${imageFileNames}');
@@ -625,8 +637,20 @@ class Form extends State<InformRepairForm> {
                                   if (val != '') {
                                     // ตรวจสอบว่าค่าไม่ใช่ค่าว่าง
                                     print("Controller: $buildingId");
-                                    fetchRoomByBuilding(buildingId!);
-                                    findfloorByIdbuilding_id(buildingId!);
+
+                                    // แปลง buildingId จาก String เป็น int
+                                    int? intBuildingId =
+                                        int.tryParse(buildingId!);
+
+                                    if (intBuildingId != null) {
+                                      // fetchRoomByBuilding(buildingId!);
+                                      // findfloorByIdbuilding_id(buildingId!);
+                                      findlistRoomByIdBybuilding_id(
+                                          intBuildingId, RoomType);
+                                    } else {
+                                      // กรณีที่ไม่สามารถแปลง String เป็น int ได้
+                                      print("Invalid buildingId format");
+                                    }
                                   }
                                 });
                               },
@@ -639,13 +663,13 @@ class Form extends State<InformRepairForm> {
                           )
                         ],
                       ),
-
+                      //  //--------------------------------------------
                       Row(
                         children: [
                           Expanded(child: Icon(Icons.linear_scale_outlined)),
                           Expanded(
                             child: Text(
-                              "ชั้น  :",
+                              "ห้อง  :",
                               style: TextStyle(
                                 color: Colors.black,
                                 fontSize: 20,
@@ -653,142 +677,208 @@ class Form extends State<InformRepairForm> {
                               ),
                             ),
                           ),
-                          if (Floor != null && Floor!.isNotEmpty) ...{
+                          if (rooms != null && rooms!.isNotEmpty) ...{
                             Expanded(
                               child: DropdownButton<String>(
                                 isExpanded: true,
-                                value: roomfloor ?? Floor!.first,
+                                value: selectedRoom ??
+                                    rooms!.first.room_id
+                                        .toString(), // ใช้ตัวแปร selectedRoom เพื่อกำหนดค่าเริ่มต้น
                                 items: [
-                                  ...Floor!.map((String floor) {
+                                  ...rooms!.map((Room room) {
                                     return DropdownMenuItem<String>(
-                                      child: Text(floor),
-                                      value: floor,
+                                      child: Text("ห้อง " +
+                                          room.room_id.toString() +
+                                          " ชั้น " +
+                                          room.floor.toString() +
+                                          " ตำแหน่ง " +
+                                          room.position.toString() +
+                                          " " +
+                                          room.roomname
+                                              .toString()), // หรือเลือกฟิลด์ที่คุณต้องการแสดง
+                                      value: room.room_id
+                                          .toString(), // ใช้ค่าของห้องเป็นค่า value
                                     );
                                   }),
                                 ],
                                 onChanged: (val) {
                                   setState(() {
-                                    print("Controller: $roomfloor");
-                                    roomfloor = val;
-                                    findpositionByIdbuilding_id(
-                                        buildingId!, roomfloor!);
-                                  });
-                                },
-                                icon: const Icon(
-                                  Icons.arrow_drop_down_circle,
-                                  color: Colors.red,
-                                ),
-                                dropdownColor: Colors.white,
-                              ),
-                            ),
-                          } else ...{
-                            Expanded(
-                              child: Text("กรุณาเลือกอาคาร"),
-                            ),
-                          },
-                        ],
-                      ),
-
-                      Row(
-                        children: [
-                          Expanded(child: Icon(Icons.linear_scale_outlined)),
-                          Expanded(
-                            child: Text(
-                              "ตำแหน่ง  :",
-                              style: TextStyle(
-                                color: Colors.black,
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ),
-                          if (Position != null && Position!.isNotEmpty) ...{
-                            Expanded(
-                              child: DropdownButton<String>(
-                                isExpanded: true,
-                                value: roomposition ?? Position!.first,
-                                items: [
-                                  ...Position!.map((String position) {
-                                    return DropdownMenuItem<String>(
-                                      child: Text(position),
-                                      value: position,
-                                    );
-                                  }),
-                                ],
-                                onChanged: (val) {
-                                  setState(() {
-                                    print("Controller: $roomposition");
-                                    roomposition = val;
-                                    findroomnameByIdbuilding_id(
-                                        buildingId!, roomfloor!, roomposition!);
-                                  });
-                                },
-                                icon: const Icon(
-                                  Icons.arrow_drop_down_circle,
-                                  color: Colors.red,
-                                ),
-                                dropdownColor: Colors.white,
-                              ),
-                            ),
-                          } else ...{
-                            Expanded(
-                              child: Text("กรุณาเลือกชั้น"),
-                            ),
-                          },
-                        ],
-                      ),
-                      Row(
-                        children: [
-                          Expanded(child: Icon(Icons.linear_scale_outlined)),
-                          Expanded(
-                            child: Text(
-                              "ประเภทห้องน้ำ  :",
-                              style: TextStyle(
-                                color: Colors.black,
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ),
-                          if (Roomname != null && Roomname!.isNotEmpty) ...{
-                            Expanded(
-                              child: DropdownButton<String>(
-                                isExpanded: true,
-                                value: roomname ?? Roomname!.first,
-                                items: [
-                                  ...Roomname!.map((String roomnames) {
-                                    return DropdownMenuItem<String>(
-                                      child: Text(roomnames),
-                                      value: roomnames,
-                                    );
-                                  }),
-                                ],
-                                onChanged: (val) {
-                                  setState(() {
-                                    print("Controller: $roomname");
-                                    roomname = val;
-                                    findrooom_idByIdByAll(buildingId!,
-                                        roomfloor!, roomposition!, roomname!);
-                                    findequipmentByIdByAll(buildingId!,
-                                        roomfloor!, roomposition!, roomname!);
-
+                                    print("Selected Room: $val");
+                                    selectedRoom = val;
+                                    findequipmentByIdByAll(selectedRoom!);
                                     equipmentName.clear();
+                                    // findrooom_idByIdByAll(buildingId!,
+                                    //     roomfloor!, roomposition!, roomname!);
+                                    // findequipmentByIdByAll(buildingId!,
+                                    //     roomfloor!, roomposition!, roomname!);
+                                    // ทำอะไรก็ตามที่คุณต้องการเมื่อเลือกห้อง
                                   });
                                 },
-                                icon: const Icon(
-                                  Icons.arrow_drop_down_circle,
-                                  color: Colors.red,
-                                ),
-                                dropdownColor: Colors.white,
+                                // คุณอาจเพิ่มตรวจสอบ null ถ้ามีความจำเป็น
+                                // icon: const Icon(
+                                //   Icons.arrow_drop_down_circle,
+                                //   color: Colors.red,
+                                // ),
+                                // dropdownColor: Colors.white,
                               ),
                             ),
                           } else ...{
                             Expanded(
-                              child: Text("กรุณาเลือกตำแหน่ง"),
+                              child: Text("กรุณาเลือกห้อง"),
                             ),
                           },
                         ],
                       ),
+
+                      // Row(
+                      //   children: [
+                      //     Expanded(child: Icon(Icons.linear_scale_outlined)),
+                      //     Expanded(
+                      //       child: Text(
+                      //         "ชั้น  :",
+                      //         style: TextStyle(
+                      //           color: Colors.black,
+                      //           fontSize: 20,
+                      //           fontWeight: FontWeight.bold,
+                      //         ),
+                      //       ),
+                      //     ),
+                      //     if (Floor != null && Floor!.isNotEmpty) ...{
+                      //       Expanded(
+                      //         child: DropdownButton<String>(
+                      //           isExpanded: true,
+                      //           value: roomfloor ?? Floor!.first,
+                      //           items: [
+                      //             ...Floor!.map((String floor) {
+                      //               return DropdownMenuItem<String>(
+                      //                 child: Text(floor),
+                      //                 value: floor,
+                      //               );
+                      //             }),
+                      //           ],
+                      //           onChanged: (val) {
+                      //             setState(() {
+                      //               print("Controller: $roomfloor");
+                      //               roomfloor = val;
+                      //               findpositionByIdbuilding_id(
+                      //                   buildingId!, roomfloor!);
+                      //             });
+                      //           },
+                      //           icon: const Icon(
+                      //             Icons.arrow_drop_down_circle,
+                      //             color: Colors.red,
+                      //           ),
+                      //           dropdownColor: Colors.white,
+                      //         ),
+                      //       ),
+                      //     } else ...{
+                      //       Expanded(
+                      //         child: Text("กรุณาเลือกอาคาร"),
+                      //       ),
+                      //     },
+                      //   ],
+                      // ),
+
+                      // Row(
+                      //   children: [
+                      //     Expanded(child: Icon(Icons.linear_scale_outlined)),
+                      //     Expanded(
+                      //       child: Text(
+                      //         "ตำแหน่ง  :",
+                      //         style: TextStyle(
+                      //           color: Colors.black,
+                      //           fontSize: 20,
+                      //           fontWeight: FontWeight.bold,
+                      //         ),
+                      //       ),
+                      //     ),
+                      //     if (Position != null && Position!.isNotEmpty) ...{
+                      //       Expanded(
+                      //         child: DropdownButton<String>(
+                      //           isExpanded: true,
+                      //           value: roomposition ?? Position!.first,
+                      //           items: [
+                      //             ...Position!.map((String position) {
+                      //               return DropdownMenuItem<String>(
+                      //                 child: Text(position),
+                      //                 value: position,
+                      //               );
+                      //             }),
+                      //           ],
+                      //           onChanged: (val) {
+                      //             setState(() {
+                      //               print("Controller: $roomposition");
+                      //               roomposition = val;
+                      //               // findroomnameByIdbuilding_id(
+                      //               //     buildingId!, roomfloor!, roomposition!);
+                      //             });
+                      //           },
+                      //           icon: const Icon(
+                      //             Icons.arrow_drop_down_circle,
+                      //             color: Colors.red,
+                      //           ),
+                      //           dropdownColor: Colors.white,
+                      //         ),
+                      //       ),
+                      //     } else ...{
+                      //       Expanded(
+                      //         child: Text("กรุณาเลือกชั้น"),
+                      //       ),
+                      //     },
+                      //   ],
+                      // ),
+                      // Row(
+                      //   children: [
+                      //     Expanded(child: Icon(Icons.linear_scale_outlined)),
+                      //     Expanded(
+                      //       child: Text(
+                      //         "ประเภทห้องน้ำ  :",
+                      //         style: TextStyle(
+                      //           color: Colors.black,
+                      //           fontSize: 20,
+                      //           fontWeight: FontWeight.bold,
+                      //         ),
+                      //       ),
+                      //     ),
+                      //     if (Roomname != null && Roomname!.isNotEmpty) ...{
+                      //       Expanded(
+                      //         child: DropdownButton<String>(
+                      //           isExpanded: true,
+                      //           value: roomname ?? Roomname!.first,
+                      //           items: [
+                      //             ...Roomname!.map((String roomnames) {
+                      //               return DropdownMenuItem<String>(
+                      //                 child: Text(roomnames),
+                      //                 value: roomnames,
+                      //               );
+                      //             }),
+                      //           ],
+                      //           onChanged: (val) {
+                      //             setState(() {
+                      //               print("Controller: $roomname");
+                      //               roomname = val;
+                      //               findrooom_idByIdByAll(buildingId!,
+                      //                   roomfloor!, roomposition!, roomname!);
+                      //               findequipmentByIdByAll(buildingId!,
+                      //                   roomfloor!, roomposition!, roomname!);
+
+                      //               equipmentName.clear();
+                      //             });
+                      //           },
+                      //           icon: const Icon(
+                      //             Icons.arrow_drop_down_circle,
+                      //             color: Colors.red,
+                      //           ),
+                      //           dropdownColor: Colors.white,
+                      //         ),
+                      //       ),
+                      //     } else ...{
+                      //       Expanded(
+                      //         child: Text("กรุณาเลือกตำแหน่ง"),
+                      //       ),
+                      //     },
+                      //   ],
+                      // ),
 
                       //  //---------------------------------------------------------------------------------------------
                       //  //---------------------------------------------------------------------------------------------
@@ -813,15 +903,17 @@ class Form extends State<InformRepairForm> {
                         Expanded(
                           child: ElevatedButton(
                               onPressed: () async {
-                                if (room_id != null && room_id!.isNotEmpty) {
-                                  int? roomIdInt = int.tryParse(room_id![0]);
-                                  if (roomIdInt != null) {
+                                int? selectedrooom =
+                                    int.tryParse(selectedRoom!);
+                                if (selectedRoom != null &&
+                                    selectedRoom!.isNotEmpty) {
+                                  if (selectedrooom != null) {
                                     var response = await informRepairController
                                         .addInformRepair(
                                       informtype,
                                       statusinform,
                                       user_id,
-                                      roomIdInt,
+                                      selectedrooom!,
                                     );
                                     List<Map<String, dynamic>> data = [];
                                     Set<String> uniqueImageFileNames = Set();
@@ -836,51 +928,38 @@ class Form extends State<InformRepairForm> {
                                             amountcontrollers[i].text);
                                         int? parsedEquipmentId2 =
                                             int.tryParse(equipmentIds[i]);
-                                        var jsonResponse =
-                                            await informRepairDetailsController
-                                                .saveInformRepairDetails(
-                                                    parsedEquipmentId ?? 1,
-                                                    detailscontrollers[i].text,
-                                                    ((informrepairs?[informrepairs!
-                                                                        .length -
-                                                                    1]
-                                                                .informrepair_id ??
-                                                            0) +
-                                                        1),
-                                                    parsedEquipmentId2 ?? 0,
-                                                    roomIdInt);
-
                                         for (int j = 0;
                                             j < imageFileNames.length;
                                             j++) {
                                           if (isChecked[j]) {
                                             if (int.tryParse(equipmentIds[j]) ==
                                                 parsedEquipmentId2) {
-                                              data.add({
-                                                "informPicturesList": [
-                                                  {
-                                                    "pictureUrl":
-                                                        imageFileNames[j]
-                                                  }
-                                                ],
-                                                "equipment_id": int.tryParse(
-                                                        equipmentIds[j]) ??
-                                                    0,
-                                                "room_id": roomIdInt,
-                                                "informrepair_id":
-                                                    jsonResponse[0]
-                                                            ["informrepairid"]
-                                                        ["informrepair_id"],
-                                              });
+                                              var jsonResponse =
+                                                  await informRepairDetailsController
+                                                      .saveInformRepairDetails(
+                                                          parsedEquipmentId ??
+                                                              1,
+                                                          detailscontrollers[i]
+                                                              .text,
+                                                          imageFileNames[j],
+                                                          ((informrepairs?[informrepairs!
+                                                                              .length -
+                                                                          1]
+                                                                      .informrepair_id ??
+                                                                  0) +
+                                                              1),
+                                                          parsedEquipmentId2 ??
+                                                              0,
+                                                          selectedrooom!);
                                             }
                                           }
                                         }
                                       }
                                     }
 
-                                    List<Inform_Pictures> savedInformPictures =
-                                        await InformRepair_PicturesController
-                                            .saveInform_Pictures(data);
+                                    // List<Inform_Pictures> savedInformPictures =
+                                    //     await InformRepair_PicturesController
+                                    //         .saveInform_Pictures(data);
 
                                     Navigator.pushReplacement(
                                       context,
@@ -1026,6 +1105,7 @@ class Form extends State<InformRepairForm> {
                   _addImageForEquipment(equipmentId);
                   _uploadImages();
                   print('imageFileNames----${imageFileNames}');
+                  print("--_selectedImages-------------${_selectedImages}");
                 },
                 child: Text('เพิ่มรูปภาพ'),
               ),
@@ -1036,21 +1116,27 @@ class Form extends State<InformRepairForm> {
                 ),
                 itemCount: equipmentImages[equipmentId]?.length ?? 0,
                 itemBuilder: (BuildContext context, int imageIndex) {
-                  final image = equipmentImages[equipmentId]![imageIndex];
-                  final imagePath = image.path; // Get the image file path
-                  final imageName =
-                      imagePath.split('/').last; // Get the image file name
-
-                  if (!imageFileNames.contains(imageName)) {
-                    imageFileNames.add(imageName);
-                  }
+                  // final image = equipmentImages[equipmentId]![imageIndex];
+                  // final imagePath = image.path; // Get the image file path
+                  // final filename =
+                  //     imagePath.split('/').last; // Get the image file name
+                  String fileName = equipmentImages[equipmentId]![imageIndex]
+                      .path
+                      .split('/')
+                      .last;
+                  imageFileNames.add(fileName); // เพิ่มชื่อไฟล์ลงใน List
+                  // if (!imageFileNames.contains(filename)) {
+                  //   imageFileNames.add(filename);
+                  // }
                   // Add the image name to the list
 
                   return Padding(
                     padding: const EdgeInsets.all(2),
                     child: Stack(
                       children: [
-                        Image.file(File(imagePath)), // Display the image
+                        Image.file(File(
+                            equipmentImages[equipmentId]![imageIndex]
+                                .path)), // Display the image
                         Positioned(
                           bottom: 0,
                           left: 0,
@@ -1059,7 +1145,7 @@ class Form extends State<InformRepairForm> {
                             color: Colors.black.withOpacity(0.7),
                             padding: EdgeInsets.all(5.0),
                             child: Text(
-                              imageName, // Display the image name
+                              fileName, // Display the image name
                               style: TextStyle(color: Colors.white),
                             ),
                           ),
