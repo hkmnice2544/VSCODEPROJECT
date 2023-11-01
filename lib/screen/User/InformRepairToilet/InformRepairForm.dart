@@ -320,7 +320,6 @@ class Form extends State<InformRepairForm> {
   List<String> equipmentName = [];
 
   void findequipmentByIdByAll(String selectedRoom) async {
-    // เรียกใช้ฟังก์ชันเพื่อดึงข้อมูล equipment_ids
     equipmentIds = await informrepairController
         .findequipment_idByIdByroom_id(selectedRoom);
 
