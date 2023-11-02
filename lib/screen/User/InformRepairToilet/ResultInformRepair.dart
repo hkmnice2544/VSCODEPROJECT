@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutterr/constant/constant_value.dart';
 import 'package:flutterr/controller/informrepair_pictures_controller.dart';
 import 'package:flutterr/controller/informrepairdetails_controller.dart';
+import 'package:flutterr/controller/login_controller.dart';
 import 'package:flutterr/model/InformRepairDetails_Model.dart';
+import 'package:flutterr/model/User_Model.dart';
 import 'package:flutterr/model/inform_pictures_model.dart';
 import 'package:flutterr/screen/User/InformRepairToilet/EditInformRepair.dart';
 import 'package:flutterr/screen/User/ListInformRepair/ListInformRepair.dart';
@@ -27,6 +29,7 @@ class _ViewResultState extends State<ResultInformRepair> {
       InformRepairDetailsController();
   InformRepair_PicturesController informRepair_PicturesController =
       InformRepair_PicturesController();
+  LoginController loginController = LoginController();
 
   InformRepair? informRepair;
   List<InformRepair>? informrepairs;
@@ -36,6 +39,8 @@ class _ViewResultState extends State<ResultInformRepair> {
   bool? isDataLoaded = false;
   String formattedDate = '';
   DateTime informdate = DateTime.now();
+
+  User? users;
 
   void fetchlistAllInformRepairDetails() async {
     informRepairDetails =
@@ -105,9 +110,20 @@ class _ViewResultState extends State<ResultInformRepair> {
   //   });
   // }
 
+  void getLoginById(int user) async {
+    users = await loginController.getLoginById(user);
+    print("getuser : ${user}");
+    print("getuserfirstname : ${users?.firstname}");
+    setState(() {
+      isDataLoaded = true;
+    });
+  }
+
   @override
   void initState() {
     super.initState();
+    getLoginById(widget.user!);
+
     fetchlistAllInformRepairDetails();
     if (widget.informrepair_id != null) {
       getInform(widget.informrepair_id!);
@@ -120,687 +136,758 @@ class _ViewResultState extends State<ResultInformRepair> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-        child: Scaffold(
-            appBar: AppBar(
-              title: Text(
-                "หน้า รายละเอียดการแจ้งซ่อม",
+    // หลังจากโหลดข้อมูล username เสร็จแล้วให้แสดงหน้า Home ตามปกติ
+    return Scaffold(
+      endDrawer: Drawer(
+        child: Container(
+          color: Color.fromARGB(255, 255, 255, 255),
+          child: ListView(
+            children: [
+              DrawerHeader(
+                child: Image.asset(
+                  'images/User.png',
+                  width: 80,
+                  height: 80,
+                ),
+              ),
+              Text(
+                'User',
+                textAlign: TextAlign.center,
                 style: GoogleFonts.prompt(
                   textStyle: TextStyle(
-                    color: Color.fromARGB(255, 255, 255, 255),
-                    fontSize: 21,
+                    color: Color.fromARGB(255, 0, 0, 0),
+                    fontSize: 30,
+                    fontWeight: FontWeight.bold,
                   ),
                 ),
               ),
-              backgroundColor: Colors.red,
-              leading: IconButton(
-                icon: Icon(Icons.arrow_back),
-                onPressed: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) {
-                    return ListInformRepair();
-                  }));
-                },
-              ),
-            ),
-            bottomNavigationBar: BottomAppBar(
-              color: Color.fromARGB(255, 245, 59, 59),
-              height: 50,
-              shape: CircularNotchedRectangle(), // รูปร่างของแถบ
-
-              child: Row(
-                  // mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    Expanded(
-                      child: IconButton(
-                          icon: Icon(Icons.home),
-                          color: Color.fromARGB(255, 255, 255, 255),
-                          onPressed: () {
-                            Navigator.push(context, MaterialPageRoute(
-                              builder: (context) {
-                                var username;
-                                return Home(user: widget.user);
-                              },
-                            ));
-                          }),
-                    ),
-                    Expanded(
-                      child: Text(
-                        "หน้าแรก",
-                        style: GoogleFonts.prompt(
-                          textStyle: TextStyle(
-                            color: Color.fromARGB(255, 255, 255, 255),
-                            fontSize: 14,
-                            fontWeight: FontWeight.bold,
-                          ),
+              Row(
+                children: [
+                  Expanded(
+                    child: ListTile(
+                        leading: Icon(
+                          Icons.face_2,
+                          color: Colors.red,
                         ),
-                      ),
-                    ),
-                    Expanded(child: Text("                           ")),
-                    Expanded(
-                      child: IconButton(
-                          icon: Icon(Icons.logout),
-                          color: Color.fromARGB(255, 255, 255, 255),
-                          onPressed: () {
-                            Navigator.push(context, MaterialPageRoute(
-                              builder: (context) {
-                                return Login();
-                              },
-                            ));
-                          }),
-                    ),
-                    Expanded(
-                      child: Text(
-                        "ออกจากระบบ",
-                        style: GoogleFonts.prompt(
-                          textStyle: TextStyle(
-                            color: Color.fromARGB(255, 255, 255, 255),
-                            fontSize: 14,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ),
-                    )
-                  ]),
-            ),
-            backgroundColor: Colors.white,
-            body: isDataLoaded == false
-                ? CircularProgressIndicator()
-                : SingleChildScrollView(
-                    padding: const EdgeInsets.fromLTRB(10, 20, 0, 0),
-                    child: Center(
-                      child: Column(children: [
-                        Center(
-                          child: Text(
-                            "รายละเอียด",
-                            style: GoogleFonts.prompt(
-                              textStyle: TextStyle(
-                                color: Color.fromARGB(255, 7, 94, 53),
-                                fontSize: 40,
-                                fontWeight: FontWeight.bold,
-                              ),
+                        title: Text(
+                          '${users?.firstname}',
+                          style: GoogleFonts.prompt(
+                            textStyle: TextStyle(
+                              color: Color.fromARGB(255, 0, 0, 0),
+                              fontSize: 20,
                             ),
                           ),
-                        ),
-                        Image.asset(
-                          'images/View_Inform.png',
-                          // fit: BoxFit.cover,
-                          width: 220,
-                          alignment: Alignment.center,
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.all(20.0),
+                        )),
+                  ),
+                  Expanded(
+                      child: Text(
+                    '${users?.lastname}',
+                    style: GoogleFonts.prompt(
+                      textStyle: TextStyle(
+                        color: Color.fromARGB(255, 0, 0, 0),
+                        fontSize: 20,
+                      ),
+                    ),
+                  )),
+                ],
+              ),
+              ListTile(
+                  leading: Icon(
+                    Icons.business,
+                    color: Colors.red,
+                  ),
+                  title: Text(
+                    '${users?.usertype}',
+                    style: GoogleFonts.prompt(
+                      textStyle: TextStyle(
+                        color: Color.fromARGB(255, 0, 0, 0),
+                        fontSize: 20,
+                      ),
+                    ),
+                  )),
+              ListTile(
+                  leading: Icon(
+                    Icons.email_outlined,
+                    color: Colors.red,
+                  ),
+                  title: Text(
+                    '${users?.username}',
+                    style: GoogleFonts.prompt(
+                      textStyle: TextStyle(
+                        color: Color.fromARGB(255, 0, 0, 0),
+                        fontSize: 20,
+                      ),
+                    ),
+                  )),
+              ListTile(
+                  leading: Icon(
+                    Icons.password,
+                    color: Colors.red,
+                  ),
+                  title: Text(
+                    '${users?.password}',
+                    style: GoogleFonts.prompt(
+                      textStyle: TextStyle(
+                        color: Color.fromARGB(255, 0, 0, 0),
+                        fontSize: 20,
+                      ),
+                    ),
+                  )),
+            ],
+          ),
+        ),
+      ),
+      appBar: AppBar(
+        title: Text(''), // ลบ title ทิ้ง
+        leading: Padding(
+          padding: EdgeInsets.only(left: 30, top: 0, right: 0),
+          child: IconButton(
+            icon: Transform.scale(
+              scale: 7.0,
+              child: Image.asset(
+                'images/MJU_LOGO.png',
+                width: 50,
+                height: 50,
+              ),
+            ),
+            onPressed: () {
+              // กระบวนการที่ต้องการเมื่อคลิกรูปภาพ
+            },
+          ),
+        ),
+        iconTheme: IconThemeData(
+          size: 35,
+        ),
+        flexibleSpace: Image.asset('images/Top2.png', fit: BoxFit.cover),
+        toolbarHeight: 135,
+        automaticallyImplyLeading: false,
+        elevation: 0.0,
+        actions: [
+          Padding(
+            padding: EdgeInsets.only(left: 0, top: 55, right: 15),
+            child: Text(
+              // "หัสยา ขาวใหม่",
+              '${users?.firstname} ${users?.lastname}',
+              style: GoogleFonts.prompt(
+                textStyle: TextStyle(
+                  color: Color.fromARGB(255, 0, 0, 0),
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+          ),
+          Padding(
+            padding: EdgeInsets.only(left: 0, top: 0, right: 10),
+            child: Image.asset(
+              'images/profile-user.png',
+              width: 30,
+              height: 30,
+            ),
+          ),
+          Builder(builder: (context) {
+            return IconButton(
+              onPressed: () {
+                Scaffold.of(context).openEndDrawer(); // เปิด Drawer ด้านซ้าย
+              },
+              icon: const Icon(Icons.menu),
+              color: Color.fromARGB(255, 0, 0, 0),
+            );
+          }),
+        ],
+      ),
+      bottomNavigationBar: BottomAppBar(
+        color: Color.fromARGB(255, 245, 59, 59),
+        height: 50,
+        shape: CircularNotchedRectangle(), // รูปร่างของแถบ
+
+        child: Row(
+            // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              Expanded(
+                child: IconButton(
+                    icon: Icon(Icons.home),
+                    color: Color.fromARGB(255, 255, 255, 255),
+                    onPressed: () {
+                      Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) =>
+                                Home(user: widget.user), // หน้า A
+                          ));
+                    }),
+              ),
+              Expanded(
+                child: Text(
+                  "หน้าแรก",
+                  style: GoogleFonts.prompt(
+                    textStyle: TextStyle(
+                      color: Color.fromRGBO(255, 255, 255, 1),
+                      fontSize: 14,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+              ),
+              Expanded(child: Text("         ")),
+              Expanded(
+                child: IconButton(
+                    icon: Icon(Icons.logout),
+                    color: Color.fromARGB(255, 255, 255, 255),
+                    onPressed: () {
+                      Navigator.push(context, MaterialPageRoute(
+                        builder: (context) {
+                          return Login();
+                        },
+                      ));
+                    }),
+              ),
+              Expanded(
+                child: Text(
+                  "ออกจากระบบ",
+                  style: GoogleFonts.prompt(
+                    textStyle: TextStyle(
+                      color: Color.fromRGBO(255, 255, 255, 1),
+                      fontSize: 14,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+              )
+            ]),
+      ),
+      backgroundColor: Colors.white,
+      body: isDataLoaded == false
+          ? CircularProgressIndicator()
+          : SingleChildScrollView(
+              child: Center(
+              child: Column(children: [
+                Center(
+                  child: Text(
+                    "รายละเอียด",
+                    style: GoogleFonts.prompt(
+                      textStyle: TextStyle(
+                        color: Color.fromARGB(255, 7, 94, 53),
+                        fontSize: 40,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                ),
+                Image.asset(
+                  'images/View_Inform.png',
+                  // fit: BoxFit.cover,
+                  width: 220,
+                  alignment: Alignment.center,
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(20.0),
+                  child: Container(
+                    width: 390,
+                    height: 220,
+                    child: Stack(
+                      children: [
+                        Positioned(
+                          left: 0,
+                          top: 0,
                           child: Container(
                             width: 390,
                             height: 220,
-                            child: Stack(
-                              children: [
-                                Positioned(
-                                  left: 0,
-                                  top: 0,
-                                  child: Container(
-                                    width: 390,
-                                    height: 220,
-                                    decoration: ShapeDecoration(
-                                      color: Colors.white,
-                                      shape: RoundedRectangleBorder(
-                                        side: BorderSide(
-                                            width: 1, color: Color(0xFFF0573D)),
-                                        borderRadius: BorderRadius.circular(11),
-                                      ),
-                                      shadows: [
-                                        BoxShadow(
-                                          color: Color(0x3F000000),
-                                          blurRadius: 4,
-                                          offset: Offset(0, 4),
-                                          spreadRadius: 0,
-                                        )
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                                Positioned(
-                                  left: 50,
-                                  top: 11,
-                                  child: SizedBox(
-                                    width: 450,
-                                    height: 27,
-                                    child: Text.rich(
-                                      TextSpan(
-                                        children: [
-                                          WidgetSpan(
-                                            child: Icon(Icons.list,
-                                                color: const Color.fromARGB(
-                                                    255, 0, 0, 0)),
-                                          ),
-                                          WidgetSpan(
-                                            child: SizedBox(
-                                                width:
-                                                    25), // ระยะห่าง 10 พิกเซลระหว่าง TextSpan
-                                          ),
-                                          TextSpan(
-                                            text: 'เลขที่แจ้งซ่อม :',
-                                            style: GoogleFonts.prompt(
-                                              textStyle: TextStyle(
-                                                color: Color.fromARGB(
-                                                    255, 0, 0, 0),
-                                                fontSize: 20,
-                                              ),
-                                            ),
-                                          ),
-                                          WidgetSpan(
-                                            child: SizedBox(
-                                                width:
-                                                    15), // ระยะห่าง 10 พิกเซลระหว่าง TextSpan
-                                          ),
-                                          TextSpan(
-                                            text:
-                                                '${informDetails != null && informDetails.isNotEmpty ? informDetails[0].informRepair?.informrepair_id ?? 'N/A' : 'N/A'}',
-                                            style: GoogleFonts.prompt(
-                                              textStyle: TextStyle(
-                                                color: Color.fromARGB(
-                                                    255, 0, 0, 0),
-                                                fontSize: 20,
-                                              ),
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                Positioned(
-                                  left: 50,
-                                  top: 50,
-                                  child: SizedBox(
-                                    width: 450,
-                                    height: 27,
-                                    child: Text.rich(
-                                      TextSpan(
-                                        children: [
-                                          WidgetSpan(
-                                            child: Icon(Icons.date_range,
-                                                color: const Color.fromARGB(
-                                                    255, 0, 0, 0)),
-                                          ),
-                                          WidgetSpan(
-                                            child: SizedBox(
-                                                width:
-                                                    25), // ระยะห่าง 10 พิกเซลระหว่าง TextSpan
-                                          ),
-                                          TextSpan(
-                                            text: 'วันที่แจ้งซ่อม  :',
-                                            style: GoogleFonts.prompt(
-                                              textStyle: TextStyle(
-                                                color: Color.fromARGB(
-                                                    255, 0, 0, 0),
-                                                fontSize: 20,
-                                              ),
-                                            ),
-                                          ),
-                                          WidgetSpan(
-                                            child: SizedBox(
-                                                width:
-                                                    15), // ระยะห่าง 10 พิกเซลระหว่าง TextSpan
-                                          ),
-                                          TextSpan(
-                                            text:
-                                                '${informDetails != null && informDetails.isNotEmpty ? informDetails[0].informRepair?.formattedInformDate() ?? 'N/A' : 'N/A'}',
-                                            style: GoogleFonts.prompt(
-                                              textStyle: TextStyle(
-                                                color: Color.fromARGB(
-                                                    255, 0, 0, 0),
-                                                fontSize: 20,
-                                              ),
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                Positioned(
-                                  left: 50,
-                                  top: 90,
-                                  child: SizedBox(
-                                    width: 450,
-                                    height: 90,
-                                    child: Text.rich(
-                                      TextSpan(
-                                        children: [
-                                          WidgetSpan(
-                                            child: Icon(Icons.ballot_outlined,
-                                                color: const Color.fromARGB(
-                                                    255, 0, 0, 0)),
-                                          ),
-                                          WidgetSpan(
-                                            child: SizedBox(
-                                                width:
-                                                    25), // ระยะห่าง 10 พิกเซลระหว่าง TextSpan
-                                          ),
-                                          TextSpan(
-                                            text: 'ประเภทห้องน้ำ  :',
-                                            style: GoogleFonts.prompt(
-                                              textStyle: TextStyle(
-                                                color: Color.fromARGB(
-                                                    255, 0, 0, 0),
-                                                fontSize: 20,
-                                              ),
-                                            ),
-                                          ),
-                                          WidgetSpan(
-                                            child: SizedBox(
-                                                width:
-                                                    10), // ระยะห่าง 10 พิกเซลระหว่าง TextSpan
-                                          ),
-                                          TextSpan(
-                                            text:
-                                                '${informDetails != null && informDetails.isNotEmpty ? informDetails[0].roomEquipment?.room?.roomname ?? 'N/A' : 'N/A'}',
-                                            style: GoogleFonts.prompt(
-                                              textStyle: TextStyle(
-                                                color: Color.fromARGB(
-                                                    255, 0, 0, 0),
-                                                fontSize: 20,
-                                              ),
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                Positioned(
-                                  left: 50,
-                                  top: 130,
-                                  child: SizedBox(
-                                    width: 450,
-                                    height: 90,
-                                    child: Text.rich(
-                                      TextSpan(
-                                        children: [
-                                          WidgetSpan(
-                                            child: Icon(Icons.business,
-                                                color: const Color.fromARGB(
-                                                    255, 0, 0, 0)),
-                                          ),
-                                          WidgetSpan(
-                                            child: SizedBox(
-                                                width:
-                                                    25), // ระยะห่าง 10 พิกเซลระหว่าง TextSpan
-                                          ),
-                                          TextSpan(
-                                            text: 'ชั้น   ',
-                                            style: GoogleFonts.prompt(
-                                              textStyle: TextStyle(
-                                                color: Color.fromARGB(
-                                                    255, 0, 0, 0),
-                                                fontSize: 20,
-                                              ),
-                                            ),
-                                          ),
-                                          WidgetSpan(
-                                            child: SizedBox(
-                                                width:
-                                                    10), // ระยะห่าง 10 พิกเซลระหว่าง TextSpan
-                                          ),
-                                          TextSpan(
-                                            text:
-                                                '${informDetails != null && informDetails.isNotEmpty ? informDetails[0].roomEquipment?.room?.floor ?? 'N/A' : 'N/A'}',
-                                            style: GoogleFonts.prompt(
-                                              textStyle: TextStyle(
-                                                color: Color.fromARGB(
-                                                    255, 0, 0, 0),
-                                                fontSize: 20,
-                                              ),
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                Positioned(
-                                  left: 50,
-                                  top: 170,
-                                  child: SizedBox(
-                                    width: 450,
-                                    height: 90,
-                                    child: Text.rich(
-                                      TextSpan(
-                                        children: [
-                                          WidgetSpan(
-                                            child: Icon(Icons.place_outlined,
-                                                color: const Color.fromARGB(
-                                                    255, 0, 0, 0)),
-                                          ),
-                                          WidgetSpan(
-                                            child: SizedBox(
-                                                width:
-                                                    25), // ระยะห่าง 10 พิกเซลระหว่าง TextSpan
-                                          ),
-                                          TextSpan(
-                                            text: 'ตำแหน่ง   :',
-                                            style: GoogleFonts.prompt(
-                                              textStyle: TextStyle(
-                                                color: Color.fromARGB(
-                                                    255, 0, 0, 0),
-                                                fontSize: 20,
-                                              ),
-                                            ),
-                                          ),
-                                          WidgetSpan(
-                                            child: SizedBox(
-                                                width:
-                                                    10), // ระยะห่าง 10 พิกเซลระหว่าง TextSpan
-                                          ),
-                                          TextSpan(
-                                            text:
-                                                '${informDetails != null && informDetails.isNotEmpty ? informDetails[0].roomEquipment?.room?.position ?? 'N/A' : 'N/A'}',
-                                            style: GoogleFonts.prompt(
-                                              textStyle: TextStyle(
-                                                color: Color.fromARGB(
-                                                    255, 0, 0, 0),
-                                                fontSize: 20,
-                                              ),
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                ),
+                            decoration: ShapeDecoration(
+                              color: Colors.white,
+                              shape: RoundedRectangleBorder(
+                                side: BorderSide(
+                                    width: 1, color: Color(0xFFF0573D)),
+                                borderRadius: BorderRadius.circular(11),
+                              ),
+                              shadows: [
+                                BoxShadow(
+                                  color: Color(0x3F000000),
+                                  blurRadius: 4,
+                                  offset: Offset(0, 4),
+                                  spreadRadius: 0,
+                                )
                               ],
                             ),
                           ),
                         ),
-                        Row(
-                          children: [
-                            Text(
-                              "อุปกรณ์ชำรุด",
-                              style: GoogleFonts.prompt(
-                                textStyle: TextStyle(
-                                  color: Color.fromARGB(255, 0, 0, 0),
-                                  fontSize: 20,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                        // Row(
-                        //   children: [
-                        //     Text(
-                        //       "-----------------------------------------------------------------------",
-                        //       style: GoogleFonts.prompt(
-                        //         textStyle: TextStyle(
-                        //           color: Color.fromARGB(255, 0, 0, 0),
-                        //           fontSize: 20,
-                        //         ),
-                        //       ),
-                        //     ),
-                        //   ],
-                        // ),
-                        ListView.builder(
-                          shrinkWrap:
-                              true, // ตั้งค่า shrinkWrap เป็น true เพื่อให้ ListView ย่อเข้าตัวเมื่อมีเนื้อหาน้อย
-                          itemCount: informDetails.length,
-                          itemBuilder: (context, index) {
-                            return Card(
-                                elevation: 5,
-                                shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(10)),
-                                child: ListTile(
-                                    title: Column(
-                                        mainAxisSize: MainAxisSize.max,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                      Row(children: [
-                                        Expanded(
-                                          child: Text(
-                                            "อุปกรณ์ :",
-                                            style: GoogleFonts.prompt(
-                                              textStyle: TextStyle(
-                                                color: Color.fromARGB(
-                                                    255, 0, 0, 0),
-                                                fontSize: 22,
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                        Expanded(
-                                          child: Text(
-                                            "${informDetails?[index].roomEquipment?.equipment?.equipmentname}",
-                                            style: GoogleFonts.prompt(
-                                              textStyle: TextStyle(
-                                                color: Color.fromARGB(
-                                                    255, 0, 0, 0),
-                                                fontSize: 22,
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                      ]),
-                                      Row(children: [
-                                        Expanded(
-                                          child: Text(
-                                            "รายละเอียด :",
-                                            style: GoogleFonts.prompt(
-                                              textStyle: TextStyle(
-                                                color: Color.fromARGB(
-                                                    255, 0, 0, 0),
-                                                fontSize: 22,
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                        Expanded(
-                                          child: Text(
-                                            "${informDetails?[index].details}",
-                                            style: GoogleFonts.prompt(
-                                              textStyle: TextStyle(
-                                                color: Color.fromARGB(
-                                                    255, 0, 0, 0),
-                                                fontSize: 22,
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                      ]),
-                                      Wrap(
-                                        spacing:
-                                            8.0, // ระยะห่างระหว่างรูปภาพในแนวนอน
-                                        runSpacing:
-                                            8.0, // ระยะห่างระหว่างรูปภาพในแนวดิ่ง
-                                        children: List.generate(
-                                          Inform_pictures.length,
-                                          (index) {
-                                            return Container(
-                                              width: 200,
-                                              height: 350,
-                                              child: Image.network(
-                                                baseURL +
-                                                    '/inform_pictures/get/${Inform_pictures[index]}',
-                                                fit: BoxFit.cover,
-                                              ),
-                                            );
-                                          },
-                                        ),
-                                      ),
-                                    ])));
-                          },
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.fromLTRB(0, 20, 0, 0),
-                          child: Row(// Button Click
-                              children: [
-                            Expanded(
-                              child: ElevatedButton(
-                                onPressed: () {
-                                  showDialog(
-                                    context: context,
-                                    builder: (BuildContext context) {
-                                      return AlertDialog(
-                                        title: Text('Confirmation'),
-                                        content: Text('ยืนยันสำเร็จ'),
-                                        actions: <Widget>[
-                                          TextButton(
-                                              child: Text('OK'),
-                                              onPressed: () {
-                                                Navigator.of(context).pop();
-                                                Navigator.push(context,
-                                                    MaterialPageRoute(
-                                                  builder: (context) {
-                                                    return ListInformRepair(
-                                                      user: widget.user,
-                                                    );
-                                                  },
-                                                ));
-                                              }),
-                                        ],
-                                      );
-                                    },
-                                  );
-                                },
-                                style: ElevatedButton.styleFrom(
-                                  primary: Color.fromARGB(
-                                      255, 234, 112, 5), // สีพื้นหลังของปุ่ม
-                                  textStyle: TextStyle(
-                                      color: Color.fromARGB(255, 255, 255,
-                                          255)), // สีข้อความภายในปุ่ม
-                                  padding: EdgeInsets.symmetric(
-                                      horizontal: 40,
-                                      vertical: 20), // การจัดพื้นที่รอบข้างปุ่ม
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(
-                                        10), // กำหนดรูปร่างของปุ่ม (ในที่นี้เป็นรูปแบบมน)
+                        Positioned(
+                          left: 50,
+                          top: 11,
+                          child: SizedBox(
+                            width: 450,
+                            height: 27,
+                            child: Text.rich(
+                              TextSpan(
+                                children: [
+                                  WidgetSpan(
+                                    child: Icon(Icons.list,
+                                        color:
+                                            const Color.fromARGB(255, 0, 0, 0)),
                                   ),
-                                ),
-                                child: Text(
-                                  'ยืนยัน',
-                                  style: GoogleFonts.prompt(
-                                    textStyle: TextStyle(
-                                      color: Color.fromARGB(255, 255, 255, 255),
-                                    ),
+                                  WidgetSpan(
+                                    child: SizedBox(
+                                        width:
+                                            25), // ระยะห่าง 10 พิกเซลระหว่าง TextSpan
                                   ),
-                                ),
-                              ),
-                            ),
-                            Expanded(
-                              child: ElevatedButton(
-                                  onPressed: () {
-                                    // EditInformRepairs editInformRepair =
-                                    //     EditInformRepairs();
-                                    // informRepair.informtype = _dropdowninformtype!;
-                                    // informRepair.buildngname = _dropdownbuildngname!;
-                                    // informRepair.floor = _dropdownfloor!;
-                                    // informRepair.position = _dropdownposition!;
-                                    // informRepair.tap = _tapCheckBox!;
-                                    // informRepair.toiletbowl = _toiletbowlCheckBox!;
-                                    // informRepair.bidet = _bidetCheckBox!;
-                                    // informRepair.urinal = _urinalCheckBox!;
-                                    // informRepair.sink = _sinkCheckBox!;
-                                    // informRepair.lightbulb = _lightbulbCheckBox!;
-                                    // informRepair.other = _otherCheckBox!;
-
-                                    // informrepairDetails.informtype = _dropdowninformtype!;
-
-                                    Navigator.pushReplacement(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (_) => EditInformRepairs(
-                                              informrepair_id: (informRepair
-                                                  ?.informrepair_id),
-                                              user: widget.user)),
-                                    );
-
-                                    // Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => EditInformRepairs(informrerair_id: informrepairs?[index].informrepair_id)));
-
-                                    // Navigator.pushNamed(context, '/one');
-                                  },
-                                  style: ElevatedButton.styleFrom(
-                                    primary: Color.fromARGB(
-                                        255, 234, 112, 5), // สีพื้นหลังของปุ่ม
-                                    textStyle: TextStyle(
-                                        color: Color.fromARGB(255, 255, 255,
-                                            255)), // สีข้อความภายในปุ่ม
-                                    padding: EdgeInsets.symmetric(
-                                        horizontal: 40,
-                                        vertical:
-                                            20), // การจัดพื้นที่รอบข้างปุ่ม
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(
-                                          10), // กำหนดรูปร่างของปุ่ม (ในที่นี้เป็นรูปแบบมน)
-                                    ),
-                                  ),
-                                  child: Text(
-                                    'แก้ไข',
+                                  TextSpan(
+                                    text: 'เลขที่แจ้งซ่อม :',
                                     style: GoogleFonts.prompt(
                                       textStyle: TextStyle(
-                                        color:
-                                            Color.fromARGB(255, 255, 255, 255),
+                                        color: Color.fromARGB(255, 0, 0, 0),
+                                        fontSize: 20,
                                       ),
                                     ),
-                                  )),
-                            ),
-                            Expanded(
-                              child: ElevatedButton(
-                                onPressed: () {
-                                  showDialog(
-                                    context: context,
-                                    builder: (BuildContext context) {
-                                      return AlertDialog(
-                                        title: Text('Confirmation'),
-                                        content: Text('ยืนยันการยกเลิก'),
-                                        actions: <Widget>[
-                                          TextButton(
-                                            child: Text('OK'),
-                                            onPressed: () async {
-                                              var informRepairId = informRepair
-                                                      ?.informrepair_id ??
-                                                  0; // 0 เป็นค่าเริ่มต้นที่ไม่เป็น null
-                                              var response =
-                                                  await informController
-                                                      .deleteInformRepair(
-                                                          informRepairId);
-                                              if (response ==
-                                                  "Deleted successfully") {
-                                                Navigator.push(context,
-                                                    MaterialPageRoute(
-                                                        builder: (context) {
-                                                  return Home(
-                                                      user: widget.user);
-                                                }));
-                                              }
-                                            },
-                                          ),
-                                        ],
-                                      );
-                                    },
-                                  );
-                                },
-                                style: ElevatedButton.styleFrom(
-                                  primary: Color.fromARGB(255, 234, 112, 5),
-                                  textStyle: TextStyle(
-                                      color:
-                                          Color.fromARGB(255, 255, 255, 255)),
-                                  padding: EdgeInsets.symmetric(
-                                      horizontal: 40, vertical: 20),
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(10),
                                   ),
-                                ),
-                                child: Text(
-                                  'ยกเลิก',
-                                  style: GoogleFonts.prompt(
-                                    textStyle: TextStyle(
-                                      color: Color.fromARGB(255, 255, 255, 255),
+                                  WidgetSpan(
+                                    child: SizedBox(
+                                        width:
+                                            15), // ระยะห่าง 10 พิกเซลระหว่าง TextSpan
+                                  ),
+                                  TextSpan(
+                                    text:
+                                        '${informDetails != null && informDetails.isNotEmpty ? informDetails[0].informRepair?.informrepair_id ?? 'N/A' : 'N/A'}',
+                                    style: GoogleFonts.prompt(
+                                      textStyle: TextStyle(
+                                        color: Color.fromARGB(255, 0, 0, 0),
+                                        fontSize: 20,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                        Positioned(
+                          left: 50,
+                          top: 50,
+                          child: SizedBox(
+                            width: 450,
+                            height: 27,
+                            child: Text.rich(
+                              TextSpan(
+                                children: [
+                                  WidgetSpan(
+                                    child: Icon(Icons.date_range,
+                                        color:
+                                            const Color.fromARGB(255, 0, 0, 0)),
+                                  ),
+                                  WidgetSpan(
+                                    child: SizedBox(
+                                        width:
+                                            25), // ระยะห่าง 10 พิกเซลระหว่าง TextSpan
+                                  ),
+                                  TextSpan(
+                                    text: 'วันที่แจ้งซ่อม  :',
+                                    style: GoogleFonts.prompt(
+                                      textStyle: TextStyle(
+                                        color: Color.fromARGB(255, 0, 0, 0),
+                                        fontSize: 20,
+                                      ),
+                                    ),
+                                  ),
+                                  WidgetSpan(
+                                    child: SizedBox(
+                                        width:
+                                            15), // ระยะห่าง 10 พิกเซลระหว่าง TextSpan
+                                  ),
+                                  TextSpan(
+                                    text:
+                                        '${informDetails != null && informDetails.isNotEmpty ? informDetails[0].informRepair?.formattedInformDate() ?? 'N/A' : 'N/A'}',
+                                    style: GoogleFonts.prompt(
+                                      textStyle: TextStyle(
+                                        color: Color.fromARGB(255, 0, 0, 0),
+                                        fontSize: 20,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                        Positioned(
+                          left: 50,
+                          top: 90,
+                          child: SizedBox(
+                            width: 450,
+                            height: 90,
+                            child: Text.rich(
+                              TextSpan(
+                                children: [
+                                  WidgetSpan(
+                                    child: Icon(Icons.ballot_outlined,
+                                        color:
+                                            const Color.fromARGB(255, 0, 0, 0)),
+                                  ),
+                                  WidgetSpan(
+                                    child: SizedBox(
+                                        width:
+                                            25), // ระยะห่าง 10 พิกเซลระหว่าง TextSpan
+                                  ),
+                                  TextSpan(
+                                    text: 'ประเภทห้องน้ำ  :',
+                                    style: GoogleFonts.prompt(
+                                      textStyle: TextStyle(
+                                        color: Color.fromARGB(255, 0, 0, 0),
+                                        fontSize: 20,
+                                      ),
+                                    ),
+                                  ),
+                                  WidgetSpan(
+                                    child: SizedBox(
+                                        width:
+                                            10), // ระยะห่าง 10 พิกเซลระหว่าง TextSpan
+                                  ),
+                                  TextSpan(
+                                    text:
+                                        '${informDetails != null && informDetails.isNotEmpty ? informDetails[0].roomEquipment?.room?.roomname ?? 'N/A' : 'N/A'}',
+                                    style: GoogleFonts.prompt(
+                                      textStyle: TextStyle(
+                                        color: Color.fromARGB(255, 0, 0, 0),
+                                        fontSize: 20,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                        Positioned(
+                          left: 50,
+                          top: 130,
+                          child: SizedBox(
+                            width: 450,
+                            height: 90,
+                            child: Text.rich(
+                              TextSpan(
+                                children: [
+                                  WidgetSpan(
+                                    child: Icon(Icons.business,
+                                        color:
+                                            const Color.fromARGB(255, 0, 0, 0)),
+                                  ),
+                                  WidgetSpan(
+                                    child: SizedBox(
+                                        width:
+                                            25), // ระยะห่าง 10 พิกเซลระหว่าง TextSpan
+                                  ),
+                                  TextSpan(
+                                    text: 'ชั้น   ',
+                                    style: GoogleFonts.prompt(
+                                      textStyle: TextStyle(
+                                        color: Color.fromARGB(255, 0, 0, 0),
+                                        fontSize: 20,
+                                      ),
+                                    ),
+                                  ),
+                                  WidgetSpan(
+                                    child: SizedBox(
+                                        width:
+                                            10), // ระยะห่าง 10 พิกเซลระหว่าง TextSpan
+                                  ),
+                                  TextSpan(
+                                    text:
+                                        '${informDetails != null && informDetails.isNotEmpty ? informDetails[0].roomEquipment?.room?.floor ?? 'N/A' : 'N/A'}',
+                                    style: GoogleFonts.prompt(
+                                      textStyle: TextStyle(
+                                        color: Color.fromARGB(255, 0, 0, 0),
+                                        fontSize: 20,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                        Positioned(
+                          left: 50,
+                          top: 170,
+                          child: SizedBox(
+                            width: 450,
+                            height: 90,
+                            child: Text.rich(
+                              TextSpan(
+                                children: [
+                                  WidgetSpan(
+                                    child: Icon(Icons.place_outlined,
+                                        color:
+                                            const Color.fromARGB(255, 0, 0, 0)),
+                                  ),
+                                  WidgetSpan(
+                                    child: SizedBox(
+                                        width:
+                                            25), // ระยะห่าง 10 พิกเซลระหว่าง TextSpan
+                                  ),
+                                  TextSpan(
+                                    text: 'ตำแหน่ง   :',
+                                    style: GoogleFonts.prompt(
+                                      textStyle: TextStyle(
+                                        color: Color.fromARGB(255, 0, 0, 0),
+                                        fontSize: 20,
+                                      ),
+                                    ),
+                                  ),
+                                  WidgetSpan(
+                                    child: SizedBox(
+                                        width:
+                                            10), // ระยะห่าง 10 พิกเซลระหว่าง TextSpan
+                                  ),
+                                  TextSpan(
+                                    text:
+                                        '${informDetails != null && informDetails.isNotEmpty ? informDetails[0].roomEquipment?.room?.position ?? 'N/A' : 'N/A'}',
+                                    style: GoogleFonts.prompt(
+                                      textStyle: TextStyle(
+                                        color: Color.fromARGB(255, 0, 0, 0),
+                                        fontSize: 20,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                Row(
+                  children: [
+                    Text(
+                      "อุปกรณ์ชำรุด",
+                      style: GoogleFonts.prompt(
+                        textStyle: TextStyle(
+                          color: Color.fromARGB(255, 0, 0, 0),
+                          fontSize: 20,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                // Row(
+                //   children: [
+                //     Text(
+                //       "-----------------------------------------------------------------------",
+                //       style: GoogleFonts.prompt(
+                //         textStyle: TextStyle(
+                //           color: Color.fromARGB(255, 0, 0, 0),
+                //           fontSize: 20,
+                //         ),
+                //       ),
+                //     ),
+                //   ],
+                // ),
+                ListView.builder(
+                  shrinkWrap:
+                      true, // ตั้งค่า shrinkWrap เป็น true เพื่อให้ ListView ย่อเข้าตัวเมื่อมีเนื้อหาน้อย
+                  itemCount: informDetails.length,
+                  itemBuilder: (context, index) {
+                    return Card(
+                        elevation: 5,
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10)),
+                        child: ListTile(
+                            title: Column(
+                                mainAxisSize: MainAxisSize.max,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                              Row(children: [
+                                Expanded(
+                                  child: Text(
+                                    "อุปกรณ์ :",
+                                    style: GoogleFonts.prompt(
+                                      textStyle: TextStyle(
+                                        color: Color.fromARGB(255, 0, 0, 0),
+                                        fontSize: 22,
+                                      ),
                                     ),
                                   ),
                                 ),
+                                Expanded(
+                                  child: Text(
+                                    "${informDetails?[index].roomEquipment?.equipment?.equipmentname}",
+                                    style: GoogleFonts.prompt(
+                                      textStyle: TextStyle(
+                                        color: Color.fromARGB(255, 0, 0, 0),
+                                        fontSize: 22,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ]),
+                              Row(children: [
+                                Expanded(
+                                  child: Text(
+                                    "รายละเอียด :",
+                                    style: GoogleFonts.prompt(
+                                      textStyle: TextStyle(
+                                        color: Color.fromARGB(255, 0, 0, 0),
+                                        fontSize: 22,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                Expanded(
+                                  child: Text(
+                                    "${informDetails?[index].details}",
+                                    style: GoogleFonts.prompt(
+                                      textStyle: TextStyle(
+                                        color: Color.fromARGB(255, 0, 0, 0),
+                                        fontSize: 22,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ]),
+                              Wrap(
+                                spacing: 8.0, // ระยะห่างระหว่างรูปภาพในแนวนอน
+                                runSpacing:
+                                    8.0, // ระยะห่างระหว่างรูปภาพในแนวดิ่ง
+                                children: List.generate(
+                                  Inform_pictures.length,
+                                  (index) {
+                                    return Container(
+                                      width: 200,
+                                      height: 350,
+                                      child: Image.network(
+                                        baseURL +
+                                            '/inform_pictures/get/${Inform_pictures[index]}',
+                                        fit: BoxFit.cover,
+                                      ),
+                                    );
+                                  },
+                                ),
                               ),
-                            ),
-                          ]),
-                        ),
-                      ]),
-                    ))));
+                            ])));
+                  },
+                ),
+              ]),
+            )),
+      floatingActionButton: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Container(
+              width: 120, // Set the width of the button here
+              child: FloatingActionButton.extended(
+                label: Text(
+                  "ยืนยัน",
+                  style: GoogleFonts.prompt(
+                    textStyle: TextStyle(
+                      color: Color.fromARGB(255, 255, 255, 255),
+                      fontSize: 14,
+                    ),
+                  ),
+                ),
+                onPressed: () {
+                  showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return AlertDialog(
+                        title: Text('Confirmation'),
+                        content: Text('ยืนยันสำเร็จ'),
+                        actions: <Widget>[
+                          TextButton(
+                              child: Text('OK'),
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                                Navigator.push(context, MaterialPageRoute(
+                                  builder: (context) {
+                                    return ListInformRepair(
+                                      user: widget.user,
+                                    );
+                                  },
+                                ));
+                              }),
+                        ],
+                      );
+                    },
+                  );
+                },
+              ),
+            ),
+          ),
+          Container(
+            width: 120, // Set the width of the button here
+            child: FloatingActionButton.extended(
+              label: Text(
+                "แก้ไข",
+                style: GoogleFonts.prompt(
+                  textStyle: TextStyle(
+                    color: Color.fromARGB(255, 255, 255, 255),
+                    fontSize: 14,
+                  ),
+                ),
+              ),
+              onPressed: () {
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                      builder: (_) => EditInformRepairs(
+                          informrepair_id: (informRepair?.informrepair_id),
+                          user: widget.user)),
+                );
+
+                // Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => EditInformRepairs(informrerair_id: informrepairs?[index].informrepair_id)));
+
+                // Navigator.pushNamed(context, '/one');
+              },
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Container(
+              width: 120, // Set the width of the button here
+              child: FloatingActionButton.extended(
+                label: Text(
+                  "ยกเลิก",
+                  style: GoogleFonts.prompt(
+                    textStyle: TextStyle(
+                      color: Color.fromARGB(255, 255, 255, 255),
+                      fontSize: 14,
+                    ),
+                  ),
+                ),
+                onPressed: () {
+                  showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return AlertDialog(
+                        title: Text('Confirmation'),
+                        content: Text('ยืนยันการยกเลิก'),
+                        actions: <Widget>[
+                          TextButton(
+                            child: Text('OK'),
+                            onPressed: () async {
+                              var informRepairId =
+                                  informRepair?.informrepair_id ??
+                                      0; // 0 เป็นค่าเริ่มต้นที่ไม่เป็น null
+                              var response = await informController
+                                  .deleteInformRepair(informRepairId);
+                              if (response == "Deleted successfully") {
+                                Navigator.push(context,
+                                    MaterialPageRoute(builder: (context) {
+                                  return Home(user: widget.user);
+                                }));
+                              }
+                            },
+                          ),
+                        ],
+                      );
+                    },
+                  );
+                },
+              ),
+            ),
+          ),
+        ],
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+    );
   }
 }
