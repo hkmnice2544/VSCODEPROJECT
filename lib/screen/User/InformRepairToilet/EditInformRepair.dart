@@ -70,37 +70,6 @@ class Form extends State<EditInformRepairs> {
   int equip_id = 1002;
   int user_id = 1001;
 
-  Color backgroundColor = Colors.white;
-  // รายละเอียด
-  TextEditingController _tapCheckBoxController = TextEditingController();
-  TextEditingController _toiletbowlBoxController = TextEditingController();
-  TextEditingController _bidetCheckBoxController = TextEditingController();
-  TextEditingController _urinalCheckBoxController = TextEditingController();
-  TextEditingController _sinkCheckBoxController = TextEditingController();
-  TextEditingController _lightbulbCheckBoxController = TextEditingController();
-  TextEditingController _doorCheckBoxController = TextEditingController();
-  TextEditingController _otherCheckBoxController = TextEditingController();
-
-  // จำนวน
-  TextEditingController _tapCountController = TextEditingController();
-  TextEditingController _toiletbowlCountController = TextEditingController();
-  TextEditingController _bidetCheckCountController = TextEditingController();
-  TextEditingController _urinalCheckCountController = TextEditingController();
-  TextEditingController _sinkCheckCountController = TextEditingController();
-  TextEditingController _lightbulbCheckCountController =
-      TextEditingController();
-  TextEditingController _doorCheckCountController = TextEditingController();
-  TextEditingController _otherCheckCountController = TextEditingController();
-
-  bool? _tapCheckBox = false;
-  bool? _toiletbowlCheckBox = false;
-  bool? _bidetCheckBox = false;
-  bool? _urinalCheckBox = false;
-  bool? _sinkCheckBox = false;
-  bool? _lightbulbCheckBox = false;
-  bool? _doorCheckBox = false;
-  bool? _otherCheckBox = false;
-
   List<InformRepair>? informrepairs;
   List<InformRepairDetails>? informRepairDetails;
   bool? isDataLoaded = false;
@@ -168,77 +137,8 @@ class Form extends State<EditInformRepairs> {
     }
   }
 
-  Future<void> fetchRoomNames() async {
-    var url = Uri.parse(baseURL + '/rooms/listAllDistinctRoomNames');
-    final response = await http.post(url, headers: headers);
-
-    if (response.statusCode == 200) {
-      final data = json.decode(response.body);
-      setState(() {
-        roomNames = List<String>.from(data);
-      });
-    } else {
-      throw Exception('Failed to load room names');
-    }
-  }
-
-  Future<void> fetchRoomfloors() async {
-    var url = Uri.parse(baseURL + '/rooms/listAllDistinctRoomfloor');
-    final response = await http.post(url, headers: headers);
-
-    if (response.statusCode == 200) {
-      final data = json.decode(response.body);
-      setState(() {
-        roomfloors = List<String>.from(data);
-      });
-    } else {
-      throw Exception('Failed to load room names');
-    }
-  }
-
-  Future<void> fetchRoompositions() async {
-    var url = Uri.parse(baseURL + '/rooms/listAllDistinctRoomposition');
-    final response = await http.post(url, headers: headers);
-
-    if (response.statusCode == 200) {
-      final data = json.decode(response.body);
-      setState(() {
-        roompositions = List<String>.from(data);
-      });
-    } else {
-      throw Exception('Failed to load room names');
-    }
-  }
-
-  Future<void> fetchRoomByBuilding(String building_id) async {
-    var url = Uri.parse(baseURL + '/rooms/listAllByBuilding/${building_id}');
-    final response = await http.post(url, headers: headers);
-
-    if (response.statusCode == 200) {
-      final data = json.decode(response.body);
-      setState(() {
-        roompositions = List<String>.from(data);
-      });
-    } else {
-      throw Exception('Failed to load room names');
-    }
-  }
-
   final InformRepairController informrepairController =
       InformRepairController();
-
-  void fetchInformRepairs() async {
-    informrepairs = await informrepairController.listAllInformRepairs();
-    print({informrepairs?[0].informrepair_id});
-    print(
-        "getInform ปัจจุบัน : ${informrepairs?[informrepairs!.length - 1].informrepair_id}");
-    print(
-        "getInform +1 : ${(informrepairs?[informrepairs!.length - 1].informrepair_id ?? 0) + 1}");
-
-    setState(() {
-      // isDataLoaded = true;
-    });
-  }
 
   void listAllInformRepairDetails() async {
     informRepairDetails =
@@ -260,53 +160,12 @@ class Form extends State<EditInformRepairs> {
   }
 
   void listAllBuildings() async {
-    buildings =
+    List<Building?> buildingsList = [];
+    buildingsList =
         (await informrepairController.listAllBuildings()).cast<Building>();
-    print("listAllBuildings : ${buildings?[0].building_id}");
+    print("listAllBuildings : ${buildingsList[0]!.building_id}");
     setState(() {
-      // isDataLoaded = true;
-    });
-  }
-
-  List<String>? Floor = [];
-  void findfloorByIdbuilding_id(String building_id) async {
-    Floor = await informrepairController.findfloorByIdbuilding_id(building_id);
-    if (Floor != null && Floor!.isNotEmpty) {
-      for (var i = 0; i < Floor!.length; i++) {
-        print("Floor $i: ${Floor![i]}");
-      }
-    }
-    setState(() {
-      // isDataLoaded = true;
-    });
-  }
-
-  List<String>? Position = [];
-  void findpositionByIdbuilding_id(String building_id, String floor) async {
-    Position = await informrepairController.findpositionByIdbuilding_id(
-        building_id, floor);
-    if (Position != null && Position!.isNotEmpty) {
-      for (var i = 0; i < Position!.length; i++) {
-        print("Floor $i: ${Position![i]}");
-      }
-    }
-    setState(() {
-      // isDataLoaded = true;
-    });
-  }
-
-  List<String>? Roomname = [];
-  void findroomnameByIdbuilding_id(
-      String building_id, String floor, String position) async {
-    Roomname = await informrepairController.findroomnameByIdbuilding_id(
-        building_id, floor, position);
-    if (Roomname != null && Roomname!.isNotEmpty) {
-      for (var i = 0; i < Roomname!.length; i++) {
-        print("Floor $i: ${Roomname![i]}");
-      }
-    }
-    setState(() {
-      // isDataLoaded = true;
+      buildings = buildingsList.cast<Building>();
     });
   }
 
@@ -346,16 +205,6 @@ class Form extends State<EditInformRepairs> {
 
   List<String>? room_id = [];
 
-  void findrooom_idByIdByAll(String building_id, String floor, String position,
-      String roomname) async {
-    room_id = await informrepairController.findroom_idByIdByAll(
-        building_id, floor, position, roomname);
-    print(" findrooom_idByIdByAll : ${room_id}");
-    setState(() {
-      // isDataLoaded = true;
-    });
-  }
-
   void main() {
     initializeDateFormatting('th_TH', null).then((_) {});
   }
@@ -377,58 +226,14 @@ class Form extends State<EditInformRepairs> {
   }
 
   List<InformRepairDetails>? informRepairDetail = [];
-  void ViewListInformDetails(int informrepair_id) async {
+  void ViewListInformDetails() async {
     informRepairDetail =
         await informRepairDetailsController.ViewListInformDetails(
-            informrepair_id);
-    print(
-        "ViewListInformDetails : ${informRepairDetail?[0].roomEquipment!.room!.room_id.toString()}");
-    print(
-        "ViewListInformDetails : ${informRepairDetail?[1].roomEquipment!.room!.room_id.toString()}");
+            widget.informrepair_id!);
+    findlistRoomByIdBybuilding_id(
+        informRepairDetail![0].informRepair!.room!.building!.building_id as int,
+        RoomType.toString());
     setState(() {
-      findfloorByIdbuilding_id(informRepairDetail![0]
-          .informRepair!
-          .room!
-          .building!
-          .building_id
-          .toString());
-
-      findpositionByIdbuilding_id(
-          informRepairDetail![0]
-              .informRepair!
-              .room!
-              .building!
-              .building_id
-              .toString(),
-          informRepairDetail![0].informRepair!.room!.floor.toString());
-      findroomnameByIdbuilding_id(
-          informRepairDetail![0]
-              .informRepair!
-              .room!
-              .building!
-              .building_id
-              .toString(),
-          informRepairDetail![0].informRepair!.room!.floor.toString(),
-          informRepairDetail![0].informRepair!.room!.position.toString());
-      findequipmentByIdByAll(
-        informRepairDetail![0]
-            .informRepair!
-            .room!
-            .building!
-            .building_id
-            .toString(),
-        informRepairDetail![0].informRepair!.room!.floor.toString(),
-        informRepairDetail![0].informRepair!.room!.position.toString(),
-        informRepairDetail![0].informRepair!.room!.roomname.toString(),
-      );
-
-      print(
-          "building_id : ${informRepairDetail![0].informRepair!.room!.building!.building_id.toString()}");
-      print("Roomname : ${RoomType.toString()}");
-      findlistRoomByIdBybuilding_id(
-          informRepairDetail![0].informRepair!.room!.building!.building_id
-              as int,
-          RoomType.toString());
       selectedRoom =
           informRepairDetail?[0].roomEquipment!.room!.room_id.toString();
       buildingId = informRepairDetail?[0]
@@ -437,6 +242,11 @@ class Form extends State<EditInformRepairs> {
           .building!
           .building_id
           .toString();
+    });
+  }
+
+  void fetchInformRepairs() async {
+    setState(() {
       isDataLoaded = true;
     });
   }
@@ -446,9 +256,6 @@ class Form extends State<EditInformRepairs> {
     super.initState();
     fetchInformRepairs();
     listAllBuildings();
-    fetchRoomNames();
-    fetchRoomfloors();
-    fetchRoompositions();
 
     // listAllInformRepairDetails();
     DateTime now = DateTime.now();
@@ -459,7 +266,7 @@ class Form extends State<EditInformRepairs> {
     print("user-----------Edit------------${widget.user}");
     print(
         "user-----------informrepair_id------------${widget.informrepair_id}");
-    ViewListInformDetails(widget.informrepair_id!);
+    ViewListInformDetails();
 
     // print('user_id----${user_id}');
     // print('imageFileNames----${imageFileNames}');
@@ -692,11 +499,11 @@ class Form extends State<EditInformRepairs> {
                               items: [
                                 DropdownMenuItem<String>(
                                   child: Text('กรุณาเลือกอาคาร'),
-                                  value: '', // หรือค่าว่าง
+                                  value: '',
                                 ),
-                                ...buildings!.map((Building building) {
+                                ...buildings!.map((Building? building) {
                                   return DropdownMenuItem<String>(
-                                    child: Text(building.buildingname ?? ''),
+                                    child: Text(building!.buildingname ?? ''),
                                     value: building.building_id.toString(),
                                   );
                                 }).toList(),
@@ -704,13 +511,11 @@ class Form extends State<EditInformRepairs> {
                               onChanged: (val) {
                                 setState(() {
                                   buildingId = val;
+                                  selectedRoom = '';
                                   if (val != '') {
-                                    // ตรวจสอบว่าค่าไม่ใช่ค่าว่าง
                                     print("Controller: $buildingId");
-                                    fetchRoomByBuilding(buildingId!);
                                     findlistRoomByIdBybuilding_id(
-                                        buildingId as int, RoomType);
-                                    findfloorByIdbuilding_id(buildingId!);
+                                        int.parse(val!), RoomType);
                                   }
                                 });
                               },
@@ -724,55 +529,58 @@ class Form extends State<EditInformRepairs> {
                         ],
                       ),
 
-                      Row(
-                        children: [
-                          Expanded(child: Icon(Icons.business)),
-                          Expanded(
-                            child: Text(
-                              "ห้อง  :",
-                              style: TextStyle(
-                                color: Colors.black,
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ),
-                          Expanded(
-                            child: DropdownButton<String>(
-                              isExpanded: true,
-                              value: selectedRoom,
-                              items: [
-                                DropdownMenuItem<String>(
-                                  child: Text('กรุณาเลือกห้อง'),
-                                  value: '', // หรือค่าว่าง
+                      Container(
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Expanded(child: Icon(Icons.business)),
+                            Expanded(
+                              child: Text(
+                                "ห้อง  :",
+                                style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.bold,
                                 ),
-                                ...rooms!.map((Room room) {
-                                  return DropdownMenuItem<String>(
-                                    child: Text("ห้อง " +
-                                        room.room_id.toString() +
-                                        " ชั้น " +
-                                        room.floor.toString() +
-                                        " ตำแหน่ง " +
-                                        room.position.toString() +
-                                        " " +
-                                        room.roomname.toString()),
-                                    value: room.room_id.toString(),
-                                  );
-                                }).toList(),
-                              ],
-                              onChanged: (val) {
-                                setState(() {
-                                  selectedRoom = val;
-                                });
-                              },
-                              icon: const Icon(
-                                Icons.arrow_drop_down_circle,
-                                color: Colors.red,
                               ),
-                              dropdownColor: Colors.white,
                             ),
-                          )
-                        ],
+                            Expanded(
+                              child: DropdownButton<String>(
+                                isExpanded: true,
+                                value: selectedRoom,
+                                items: [
+                                  DropdownMenuItem<String>(
+                                    child: Text('กรุณาเลือกห้อง'),
+                                    value: '', // หรือค่าว่าง
+                                  ),
+                                  ...rooms!.map((Room? room) {
+                                    return DropdownMenuItem<String>(
+                                      child: Text("ห้อง " +
+                                          room!.room_id.toString() +
+                                          " ชั้น " +
+                                          room.floor.toString() +
+                                          " ตำแหน่ง " +
+                                          room.position.toString() +
+                                          " " +
+                                          room.roomname.toString()),
+                                      value: room.room_id.toString(),
+                                    );
+                                  }).toList(),
+                                ],
+                                onChanged: (val) {
+                                  setState(() {
+                                    selectedRoom = val;
+                                  });
+                                },
+                                icon: const Icon(
+                                  Icons.arrow_drop_down_circle,
+                                  color: Colors.red,
+                                ),
+                                dropdownColor: Colors.white,
+                              ),
+                            )
+                          ],
+                        ),
                       ),
                       //  //---------------------------------------------------------------------------------------------
                       //  //---------------------------------------------------------------------------------------------
