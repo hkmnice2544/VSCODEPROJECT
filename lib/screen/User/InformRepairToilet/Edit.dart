@@ -545,19 +545,22 @@ class _MyWidgetState extends State<MyEdit> {
       );
 
       if (isEquipmentChecked) {
+        // Checkbox ถูกเลือก
         widgets.add(
           Column(
             children: [
               TextFormField(
-                controller: detailscontrollers[index],
                 decoration: const InputDecoration(
                   hintText: 'Enter details',
                 ),
+                initialValue: "555",
                 onChanged: (value) {
                   setState(() {
                     detailsMap[equipmentId] = value;
                   });
                 },
+
+                // ตรวจสอบว่าควรกำหนดค่าเริ่มต้นหรือไม่
               ),
               TextFormField(
                 controller: amountcontrollers[index],

@@ -26,7 +26,7 @@ class MainApp extends StatelessWidget {
     return MaterialApp(
       // home: Login(),
       // home: EditInformRepairs(user: 1001, informrepair_id: 10001),
-      home: MyEdit(user: 1001, informrepair_id: 10002),
+      home: MyEdit(user: 1001, informrepair_id: 10001),
       //  home: const MyHomePage(title: 'Flutter Demo Home Page'),
       theme: ThemeData(
         primarySwatch: Colors.orange,
