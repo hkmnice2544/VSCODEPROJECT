@@ -7,6 +7,7 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../constant/constant_value.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class Login extends StatefulWidget {
   @override
@@ -183,7 +184,7 @@ class _LoginState extends State<Login> {
                           BoxShadow(
                             color: Colors.grey.withOpacity(0.5), // สีของเงา
                             spreadRadius: 5, // รัศมีการกระจายของเงา
-                            blurRadius: 7, // ความคมชัดของเงา
+                            blurRadius: 2, // ความคมชัดของเงา
                             offset: Offset(0, 3), // ตำแหน่งเงา
                           ),
                         ],
@@ -191,17 +192,19 @@ class _LoginState extends State<Login> {
                     ),
                   ),
                   Positioned(
-                    left: 150,
+                    left: 160,
                     top: 20,
                     child: SizedBox(
                       width: 800,
                       height: 50,
                       child: Text(
-                        "เข้าสู่ระบบ",
-                        style: TextStyle(
-                          color: Color.fromARGB(255, 7, 94, 53),
-                          fontSize: 45,
-                          fontWeight: FontWeight.bold,
+                        'เข้าสู่ระบบ',
+                        style: GoogleFonts.prompt(
+                          textStyle: TextStyle(
+                            color: Color.fromARGB(255, 7, 94, 53),
+                            fontSize: 45,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
                       ),
                     ),
@@ -317,8 +320,12 @@ class _LoginState extends State<Login> {
                         ),
                         child: Text(
                           'เข้าสู่ระบบ',
-                          style: TextStyle(
-                              color: Color.fromARGB(255, 255, 255, 255)),
+                          style: GoogleFonts.prompt(
+                            textStyle: TextStyle(
+                              color: Color.fromARGB(255, 255, 255, 255),
+                              fontSize: 16,
+                            ),
+                          ),
                         )),
                   ),
                 ],

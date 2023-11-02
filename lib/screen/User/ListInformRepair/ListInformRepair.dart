@@ -5,6 +5,7 @@ import '../../Home.dart';
 import '../../Login.dart';
 import 'List_InformCompleted.dart';
 import 'List_NewItem.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class ListInformRepair extends StatefulWidget {
   final int? user;
@@ -30,6 +31,7 @@ class _ListInformRepairState extends State<ListInformRepair> {
             ),
             backgroundColor: Colors.red,
             bottom: TabBar(
+              unselectedLabelColor: Colors.blue, // สีของแถบที่ไม่ได้เลือก
               indicatorColor: Colors.white,
               indicatorWeight: 5,
               tabs: [
@@ -88,14 +90,14 @@ class _ListInformRepairState extends State<ListInformRepair> {
                         }),
                   ),
                   Expanded(
-                    child: Text(
-                      "หน้าแรก",
-                      style: TextStyle(
-                        color: Color.fromARGB(255, 255, 255, 255),
-                        fontSize: 12,
-                        fontWeight: FontWeight.w100,
-                      ),
-                    ),
+                    child: Text("หน้าแรก",
+                        style: GoogleFonts.prompt(
+                          textStyle: TextStyle(
+                            color: Color.fromRGBO(255, 255, 255, 1),
+                            fontSize: 14,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        )),
                   ),
                   Expanded(child: Text("                           ")),
                   Expanded(
@@ -111,14 +113,14 @@ class _ListInformRepairState extends State<ListInformRepair> {
                         }),
                   ),
                   Expanded(
-                    child: Text(
-                      "ออกจากระบบ",
-                      style: TextStyle(
-                        color: Color.fromARGB(255, 255, 255, 255),
-                        fontSize: 12,
-                        fontWeight: FontWeight.w100,
-                      ),
-                    ),
+                    child: Text("ออกจากระบบ",
+                        style: GoogleFonts.prompt(
+                          textStyle: TextStyle(
+                            color: Color.fromRGBO(255, 255, 255, 1),
+                            fontSize: 14,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        )),
                   )
                 ]),
           ),

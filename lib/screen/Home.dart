@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutterr/controller/login_controller.dart';
 import 'package:flutterr/model/User_Model.dart';
 import 'package:flutterr/screen/Login.dart';
 import 'package:flutterr/screen/User/InformRepairToilet/InformRepairForm.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-
+import 'package:google_fonts/google_fonts.dart';
 import 'User/ListInformRepair/ListInformRepair.dart';
 
 class Home extends StatefulWidget {
@@ -59,7 +57,13 @@ class _HomeState extends State<Home> {
                 Text(
                   'User',
                   textAlign: TextAlign.center,
-                  style: TextStyle(fontSize: 30),
+                  style: GoogleFonts.prompt(
+                    textStyle: TextStyle(
+                      color: Color.fromARGB(255, 0, 0, 0),
+                      fontSize: 30,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
                 ),
                 Row(
                   children: [
@@ -71,13 +75,23 @@ class _HomeState extends State<Home> {
                           ),
                           title: Text(
                             '${users?.firstname}',
-                            style: TextStyle(fontSize: 20),
+                            style: GoogleFonts.prompt(
+                              textStyle: TextStyle(
+                                color: Color.fromARGB(255, 0, 0, 0),
+                                fontSize: 20,
+                              ),
+                            ),
                           )),
                     ),
                     Expanded(
                         child: Text(
                       '${users?.lastname}',
-                      style: TextStyle(fontSize: 20),
+                      style: GoogleFonts.prompt(
+                        textStyle: TextStyle(
+                          color: Color.fromARGB(255, 85, 58, 58),
+                          fontSize: 20,
+                        ),
+                      ),
                     )),
                   ],
                 ),
@@ -88,7 +102,12 @@ class _HomeState extends State<Home> {
                     ),
                     title: Text(
                       '${users?.usertype}',
-                      style: TextStyle(fontSize: 20),
+                      style: GoogleFonts.prompt(
+                        textStyle: TextStyle(
+                          color: Color.fromARGB(255, 0, 0, 0),
+                          fontSize: 20,
+                        ),
+                      ),
                     )),
                 ListTile(
                     leading: Icon(
@@ -97,7 +116,12 @@ class _HomeState extends State<Home> {
                     ),
                     title: Text(
                       '${users?.username}',
-                      style: TextStyle(fontSize: 20),
+                      style: GoogleFonts.prompt(
+                        textStyle: TextStyle(
+                          color: Color.fromARGB(255, 0, 0, 0),
+                          fontSize: 20,
+                        ),
+                      ),
                     )),
                 ListTile(
                     leading: Icon(
@@ -106,7 +130,12 @@ class _HomeState extends State<Home> {
                     ),
                     title: Text(
                       '${users?.password}',
-                      style: TextStyle(fontSize: 20),
+                      style: GoogleFonts.prompt(
+                        textStyle: TextStyle(
+                          color: Color.fromARGB(255, 0, 0, 0),
+                          fontSize: 20,
+                        ),
+                      ),
                     )),
               ],
             ),
@@ -143,10 +172,12 @@ class _HomeState extends State<Home> {
               child: Text(
                 // "หัสยา ขาวใหม่",
                 '${users?.firstname} ${users?.lastname}',
-                style: TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
-                  color: Color.fromARGB(255, 0, 0, 0),
+                style: GoogleFonts.prompt(
+                  textStyle: TextStyle(
+                    color: Color.fromARGB(255, 0, 0, 0),
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ),
             ),
@@ -168,36 +199,6 @@ class _HomeState extends State<Home> {
               );
             }),
           ],
-
-          // leading: Container(
-          // // padding: EdgeInsets.only(left: 10, top: 2, right: 120.0),
-          // alignment: Alignment.centerLeft,
-          // child: Image.asset(
-          // 'images/MJU_LOGO.png',
-          // fit: BoxFit.cover,
-          // ),
-          // ),
-
-          // actions: <Widget>[
-          //   Text("หัสยา ขาวใหม่",style: TextStyle(color: Color.fromARGB(255, 255, 255, 255),)),
-          //    Icon(
-          //     Icons.supervised_user_circle,
-          //     ),
-
-          //    IconButton(
-          //     onPressed: () {
-          //     },
-          //     icon: const Icon(Icons.menu)),
-          // ],
-
-          // automaticallyImplyLeading: false,
-          // leading: IconButton(
-          //         icon: const Icon(Icons.menu),
-          //         color: Color.fromARGB(255, 255, 255, 255),
-          //         onPressed: () {}
-          //     ),
-          //   title: Text("หัสยา ขาวใหม่",style: TextStyle(color: Color.fromARGB(255, 255, 255, 255),)),
-          //   backgroundColor: Colors.red,
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
         bottomNavigationBar: BottomAppBar(
@@ -233,10 +234,12 @@ class _HomeState extends State<Home> {
                   },
                   child: Text(
                     "ออกจากระบบ",
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 12,
-                      fontWeight: FontWeight.w100,
+                    style: GoogleFonts.prompt(
+                      textStyle: TextStyle(
+                        color: Color.fromRGBO(255, 255, 255, 1),
+                        fontSize: 14,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ),
                 )
@@ -247,14 +250,19 @@ class _HomeState extends State<Home> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               // Text('Welcome, ${widget.username}'),
-              const Padding(
+
+              Padding(
                 padding: EdgeInsets.only(left: 45, top: 10, right: 0),
-                child: Text(
-                  "กรุณาเลือกรายการ",
-                  style: TextStyle(
-                    color: Color.fromRGBO(7, 94, 53, 1),
-                    fontSize: 40,
-                    fontWeight: FontWeight.bold,
+                child: Align(
+                  child: Text(
+                    'กรุณาเลือกรายการ',
+                    style: GoogleFonts.prompt(
+                      textStyle: TextStyle(
+                        color: Color.fromRGBO(7, 94, 53, 1),
+                        fontSize: 45,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
                   ),
                 ),
               ),
