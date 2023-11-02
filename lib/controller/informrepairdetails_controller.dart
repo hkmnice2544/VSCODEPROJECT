@@ -147,4 +147,22 @@ class InformRepairDetailsController {
       throw Exception('Failed to load data');
     }
   }
+
+  Future<List<String>> findequipment_idByIdByinformrepair_id(
+      String? informrepair_id) async {
+    var url = Uri.parse(baseURL +
+        '/informrepairdetails/findequipment_idByIdByinformrepair_id/$informrepair_id');
+
+    http.Response response = await http.post(url, headers: headers, body: null);
+    print("ข้อมูลที่ได้คือ : " + response.body);
+
+    if (response.statusCode == 200) {
+      List<String> equipment_id =
+          (json.decode(response.body) as List).cast<String>();
+
+      return equipment_id;
+    } else {
+      throw Exception("ไม่สามารถดึงข้อมูลได้");
+    }
+  }
 }

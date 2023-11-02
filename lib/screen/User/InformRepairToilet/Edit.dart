@@ -35,6 +35,7 @@ class _MyWidgetState extends State<MyEdit> {
   final ImagePicker imagePicker = ImagePicker();
   List<XFile> imageFileList = [];
   List<String> imageFileNames = [];
+  List<bool> isChecked = [];
 
   InformRepairController informrepairController = InformRepairController();
   InformRepairDetailsController informRepairDetailsController =
@@ -81,6 +82,7 @@ class _MyWidgetState extends State<MyEdit> {
 
   List<String> equipmentIds = [];
   String? selectedRoomId;
+  String? roomIds;
   List<String>? Room_id = [];
   List<String> equipmentName = [];
 
@@ -126,6 +128,23 @@ class _MyWidgetState extends State<MyEdit> {
     });
   }
 
+  List<String>? quipment_idcheked = [];
+
+  void findequipment_idByIdByinformrepair_id(String informrepair_id) async {
+    quipment_idcheked = await informRepairDetailsController
+        .findequipment_idByIdByinformrepair_id(informrepair_id);
+    print(" quipment_idcheked : ${quipment_idcheked}");
+    setState(() {
+      isDataLoaded = true;
+    });
+  }
+
+  // void findEquipmentCheckedStatus() {
+  //   // isChecked = equipmentIds.map((equipmentId) {
+  //   //   return quipment_idcheked!.contains(equipmentId);
+  //   // }).toList();
+  // }
+
   List<InformRepairDetails>? informRepairDetail = [];
   void ViewListInformDetails() async {
     informRepairDetail =
@@ -134,6 +153,9 @@ class _MyWidgetState extends State<MyEdit> {
     findlistRoomByIdBybuilding_id(
         informRepairDetail![0].informRepair!.room!.building!.building_id as int,
         RoomType.toString());
+
+    findequipmentByIdByAll(
+        informRepairDetail![0].informRepair!.room!.room_id.toString());
     setState(() {
       selectedRoom =
           informRepairDetail?[0].roomEquipment!.room!.room_id.toString();
@@ -143,6 +165,9 @@ class _MyWidgetState extends State<MyEdit> {
           .building!
           .building_id
           .toString();
+      roomIds = informRepairDetail![0].informRepair!.room!.room_id.toString();
+      print(" roomIds : ${roomIds}");
+      print(" selectedRoom : ${selectedRoom}");
     });
   }
 
@@ -153,9 +178,18 @@ class _MyWidgetState extends State<MyEdit> {
   }
 
   Future<void> initialize() async {
-    isChecked = List.filled(10, false);
-    detailscontrollers = List.generate(10, (index) => TextEditingController());
-    amountcontrollers = List.generate(10, (index) => TextEditingController());
+    informRepairDetail =
+        await informRepairDetailsController.ViewListInformDetails(
+            widget.informrepair_id!);
+    selectedRoom =
+        informRepairDetail?[0].roomEquipment!.room!.room_id.toString();
+    equipmentIds = await informrepairController
+        .findequipment_idByIdByroom_id(selectedRoom.toString());
+    isChecked = List.generate(equipmentIds.length, (index) => false);
+    detailscontrollers =
+        List.generate(equipmentIds.length, (index) => TextEditingController());
+    amountcontrollers =
+        List.generate(equipmentIds.length, (index) => TextEditingController());
   }
 
   @override
@@ -164,9 +198,9 @@ class _MyWidgetState extends State<MyEdit> {
     listAllBuildings();
     ViewListInformDetails();
     fetchInformRepairs();
-    print(buildingId);
+    findequipment_idByIdByinformrepair_id(widget.informrepair_id.toString());
     initialize();
-    findequipmentByIdByAll("101");
+    // findEquipmentCheckedStatus();
   }
 
   @override
@@ -481,7 +515,6 @@ class _MyWidgetState extends State<MyEdit> {
   List<String> amountLists = [];
   Map<String, List<XFile>> equipmentImages = {};
 
-  List<bool> isChecked = [];
   List<TextEditingController> detailscontrollers = [];
   List<TextEditingController> amountcontrollers = [];
   List<Widget> buildEquipmentWidgets() {
@@ -489,28 +522,31 @@ class _MyWidgetState extends State<MyEdit> {
 
     for (int index = 0; index < equipmentIds.length; index++) {
       final equipmentId = equipmentIds[index];
+      final bool isEquipmentChecked = quipment_idcheked!.contains(equipmentId);
+
       widgets.add(
         CheckboxListTile(
           controlAffinity: ListTileControlAffinity.leading,
           title: Text(equipmentName[index]),
-          value: isChecked[index],
+          value: isEquipmentChecked,
           onChanged: (bool? value) {
             setState(() {
-              isChecked[index] = value ?? false;
-              if (value == true) {
-                detailscontrollers[index].text = '';
-                amountcontrollers[index].text = '';
+              if (value != null) {
+                if (value) {
+                  quipment_idcheked!.add(equipmentId);
+                } else {
+                  quipment_idcheked!.remove(equipmentId);
+                }
               }
+              isChecked[index] = value ?? false;
             });
           },
         ),
       );
 
-      widgets.add(
-        Visibility(
-          visible:
-              isChecked[index], // Control visibility based on checkbox state
-          child: Column(
+      if (isEquipmentChecked) {
+        widgets.add(
+          Column(
             children: [
               TextFormField(
                 controller: detailscontrollers[index],
@@ -519,9 +555,8 @@ class _MyWidgetState extends State<MyEdit> {
                 ),
                 onChanged: (value) {
                   setState(() {
-                    detailscontrollers[index].text = value;
+                    detailsMap[equipmentId] = value;
                   });
-                  print(detailscontrollers[index].text);
                 },
               ),
               TextFormField(
@@ -531,15 +566,12 @@ class _MyWidgetState extends State<MyEdit> {
                 ),
                 onChanged: (value) {
                   setState(() {
-                    amountcontrollers[index].text = value;
+                    amountMap[equipmentId] = int.tryParse(value) ?? 0;
                   });
-                  print(amountcontrollers[index].text);
                 },
               ),
               ElevatedButton(
                 onPressed: () {
-                  // เรียกฟังก์ชันเพิ่มรูป
-                  // _addImageForEquipment(equipmentIds[index]);
                   _addImageForEquipment(equipmentId);
                   _uploadImages();
                   print('imageFileNames----${imageFileNames}');
@@ -554,20 +586,18 @@ class _MyWidgetState extends State<MyEdit> {
                 itemCount: equipmentImages[equipmentId]?.length ?? 0,
                 itemBuilder: (BuildContext context, int imageIndex) {
                   final image = equipmentImages[equipmentId]![imageIndex];
-                  final imagePath = image.path; // Get the image file path
-                  final imageName =
-                      imagePath.split('/').last; // Get the image file name
+                  final imagePath = image.path;
+                  final imageName = imagePath.split('/').last;
 
                   if (!imageFileNames.contains(imageName)) {
                     imageFileNames.add(imageName);
                   }
-                  // Add the image name to the list
 
                   return Padding(
                     padding: const EdgeInsets.all(2),
                     child: Stack(
                       children: [
-                        Image.file(File(imagePath)), // Display the image
+                        Image.file(File(imagePath)),
                         Positioned(
                           bottom: 0,
                           left: 0,
@@ -576,7 +606,7 @@ class _MyWidgetState extends State<MyEdit> {
                             color: Colors.black.withOpacity(0.7),
                             padding: EdgeInsets.all(5.0),
                             child: Text(
-                              imageName, // Display the image name
+                              imageName,
                               style: TextStyle(color: Colors.white),
                             ),
                           ),
@@ -590,13 +620,11 @@ class _MyWidgetState extends State<MyEdit> {
                               color: Colors.red,
                             ),
                             onPressed: () {
-                              // Remove the image from the equipmentImages map
                               setState(() {
                                 equipmentImages[equipmentId]!
                                     .removeAt(imageIndex);
                               });
 
-                              // Remove the image name from the imageFileNames list
                               String fileNameToRemove =
                                   imageFileNames[imageIndex];
                               imageFileNames.removeWhere(
@@ -611,8 +639,8 @@ class _MyWidgetState extends State<MyEdit> {
               )
             ],
           ),
-        ),
-      );
+        );
+      }
     }
     return widgets;
   }
