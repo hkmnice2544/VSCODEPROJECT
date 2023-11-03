@@ -4,6 +4,7 @@ import '../../../controller/report_controller.dart';
 import '../../../model/Report_Model.dart';
 import 'Review.dart';
 import 'View_Completed.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class InformCompleted extends StatefulWidget {
   final int? user; // สร้างตัวแปรเพื่อเก็บชื่อผู้ใช้
@@ -87,82 +88,106 @@ class _MyWidgetState extends State<InformCompleted> {
                               children: [
                                 Row(children: [
                                   Expanded(
-                                    child: Text(
-                                      "เลขที่รายงานผล",
-                                      style: const TextStyle(
-                                          fontFamily: 'Itim', fontSize: 20),
-                                    ),
+                                    child: Text("เลขที่รายงานผล",
+                                        style: GoogleFonts.prompt(
+                                          textStyle: TextStyle(
+                                            color: Color.fromRGBO(0, 0, 0, 1),
+                                            fontSize: 20,
+                                          ),
+                                        )),
                                   ),
                                   Expanded(
                                     child: Text(
-                                      "${reportRepair?[index].report_id}",
-                                      style: const TextStyle(
-                                          fontFamily: 'Itim', fontSize: 20),
-                                    ),
-                                  ),
-                                ]),
-                                Row(children: [
-                                  Expanded(
-                                    child: Text(
-                                      "เลขที่แจ้งซ่อม",
-                                      style: const TextStyle(
-                                          fontFamily: 'Itim', fontSize: 20),
-                                    ),
-                                  ),
-                                  Expanded(
-                                    child: Text(
-                                      "${reportRepair?[index].informRepairDetails?.informRepair?.informrepair_id}",
-                                      style: const TextStyle(
-                                          fontFamily: 'Itim', fontSize: 20),
-                                    ),
+                                        "${reportRepair?[index].report_id}",
+                                        style: GoogleFonts.prompt(
+                                          textStyle: TextStyle(
+                                            color: Color.fromRGBO(0, 0, 0, 1),
+                                            fontSize: 20,
+                                          ),
+                                        )),
                                   ),
                                 ]),
                                 Row(children: [
                                   Expanded(
-                                    child: Text(
-                                      "วันที่รายงานผล",
-                                      style: const TextStyle(
-                                          fontFamily: 'Itim', fontSize: 20),
-                                    ),
+                                    child: Text("เลขที่แจ้งซ่อม",
+                                        style: GoogleFonts.prompt(
+                                          textStyle: TextStyle(
+                                            color: Color.fromRGBO(0, 0, 0, 1),
+                                            fontSize: 20,
+                                          ),
+                                        )),
                                   ),
                                   Expanded(
                                     child: Text(
-                                      "${reportRepair?[index].formattedInformDate()}",
-                                      style: const TextStyle(
-                                          fontFamily: 'Itim', fontSize: 20),
-                                    ),
-                                  ),
-                                ]),
-                                Row(children: [
-                                  Expanded(
-                                    child: Text(
-                                      "อุปกรณ์",
-                                      style: const TextStyle(
-                                          fontFamily: 'Itim', fontSize: 20),
-                                    ),
-                                  ),
-                                  Expanded(
-                                    child: Text(
-                                      "${reportRepair?[index].informRepairDetails?.roomEquipment?.equipment?.equipmentname}",
-                                      style: const TextStyle(
-                                          fontFamily: 'Itim', fontSize: 20),
-                                    ),
+                                        "${reportRepair?[index].informRepairDetails?.informRepair?.informrepair_id}",
+                                        style: GoogleFonts.prompt(
+                                          textStyle: TextStyle(
+                                            color: Color.fromRGBO(0, 0, 0, 1),
+                                            fontSize: 20,
+                                          ),
+                                        )),
                                   ),
                                 ]),
                                 Row(children: [
                                   Expanded(
-                                    child: Text(
-                                      "สถานะ",
-                                      style: const TextStyle(
-                                          fontFamily: 'Itim', fontSize: 20),
-                                    ),
+                                    child: Text("วันที่รายงานผล",
+                                        style: GoogleFonts.prompt(
+                                          textStyle: TextStyle(
+                                            color: Color.fromRGBO(0, 0, 0, 1),
+                                            fontSize: 20,
+                                          ),
+                                        )),
                                   ),
                                   Expanded(
                                     child: Text(
-                                      "${reportRepair?[index].status}",
-                                      style: const TextStyle(
-                                          fontFamily: 'Itim', fontSize: 20),
-                                    ),
+                                        "${reportRepair?[index].formattedInformDate()}",
+                                        style: GoogleFonts.prompt(
+                                          textStyle: TextStyle(
+                                            color: Color.fromRGBO(0, 0, 0, 1),
+                                            fontSize: 20,
+                                          ),
+                                        )),
+                                  ),
+                                ]),
+                                // Row(children: [
+                                //   Expanded(
+                                //     child: Text(
+                                //       "อุปกรณ์",
+                                //        style: GoogleFonts.prompt(
+                                //           textStyle: TextStyle(
+                                //             color: Color.fromRGBO(0, 0, 0, 1),
+                                //             fontSize: 20,
+                                //           ),
+                                //         )
+                                //     ),
+                                //   ),
+                                //   Expanded(
+                                //     child: Text(
+                                //       "${reportRepair?[index].informRepairDetails?.roomEquipment?.equipment?.equipmentname}",
+                                //       style: const TextStyle(
+                                //           fontFamily: 'Itim', fontSize: 20),
+                                //     ),
+                                //   ),
+                                // ]),
+                                Row(children: [
+                                  Expanded(
+                                    child: Text("สถานะ",
+                                        style: GoogleFonts.prompt(
+                                          textStyle: TextStyle(
+                                            color: Color.fromRGBO(0, 0, 0, 1),
+                                            fontSize: 20,
+                                          ),
+                                        )),
+                                  ),
+                                  Expanded(
+                                    child: Text(
+                                        "${reportRepair?[index].status}",
+                                        style: GoogleFonts.prompt(
+                                          textStyle: TextStyle(
+                                            color: Color.fromRGBO(0, 0, 0, 1),
+                                            fontSize: 20,
+                                          ),
+                                        )),
                                   ),
                                 ]),
                               ],
@@ -179,7 +204,12 @@ class _MyWidgetState extends State<InformCompleted> {
                                               user: widget.user,
                                             )));
                               },
-                              child: Text('ประเมิน'),
+                              child: Text('ประเมิน',
+                                  style: GoogleFonts.prompt(
+                                    textStyle: TextStyle(
+                                      color: Color.fromRGBO(255, 255, 255, 1),
+                                    ),
+                                  )),
                             ),
                             onTap: () {
                               WidgetsBinding.instance!

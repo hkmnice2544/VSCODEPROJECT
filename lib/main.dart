@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutterr/screen/Login.dart';
-import 'package:flutterr/screen/User/InformRepairToilet/Edit.dart';
 import 'package:flutterr/screen/User/InformRepairToilet/EditInformRepair.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:flutter/services.dart';

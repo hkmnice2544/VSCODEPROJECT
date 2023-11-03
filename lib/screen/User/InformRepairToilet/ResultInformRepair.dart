@@ -384,7 +384,7 @@ class _ViewResultState extends State<ResultInformRepair> {
                   padding: const EdgeInsets.all(20.0),
                   child: Container(
                     width: 390,
-                    height: 220,
+                    height: 250,
                     child: Stack(
                       children: [
                         Positioned(
@@ -392,7 +392,7 @@ class _ViewResultState extends State<ResultInformRepair> {
                           top: 0,
                           child: Container(
                             width: 390,
-                            height: 220,
+                            height: 250,
                             decoration: ShapeDecoration(
                               color: Colors.white,
                               shape: RoundedRectangleBorder(
@@ -575,6 +575,54 @@ class _ViewResultState extends State<ResultInformRepair> {
                                             25), // ระยะห่าง 10 พิกเซลระหว่าง TextSpan
                                   ),
                                   TextSpan(
+                                    text: 'อาคาร   ',
+                                    style: GoogleFonts.prompt(
+                                      textStyle: TextStyle(
+                                        color: Color.fromARGB(255, 0, 0, 0),
+                                        fontSize: 20,
+                                      ),
+                                    ),
+                                  ),
+                                  WidgetSpan(
+                                    child: SizedBox(
+                                        width:
+                                            10), // ระยะห่าง 10 พิกเซลระหว่าง TextSpan
+                                  ),
+                                  TextSpan(
+                                    text:
+                                        '${informDetails != null && informDetails.isNotEmpty ? informDetails[0].roomEquipment?.room?.building?.buildingname ?? 'N/A' : 'N/A'}',
+                                    style: GoogleFonts.prompt(
+                                      textStyle: TextStyle(
+                                        color: Color.fromARGB(255, 0, 0, 0),
+                                        fontSize: 20,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                        Positioned(
+                          left: 50,
+                          top: 170,
+                          child: SizedBox(
+                            width: 450,
+                            height: 90,
+                            child: Text.rich(
+                              TextSpan(
+                                children: [
+                                  WidgetSpan(
+                                    child: Icon(Icons.bento_outlined,
+                                        color:
+                                            const Color.fromARGB(255, 0, 0, 0)),
+                                  ),
+                                  WidgetSpan(
+                                    child: SizedBox(
+                                        width:
+                                            25), // ระยะห่าง 10 พิกเซลระหว่าง TextSpan
+                                  ),
+                                  TextSpan(
                                     text: 'ชั้น   ',
                                     style: GoogleFonts.prompt(
                                       textStyle: TextStyle(
@@ -605,7 +653,7 @@ class _ViewResultState extends State<ResultInformRepair> {
                         ),
                         Positioned(
                           left: 50,
-                          top: 170,
+                          top: 210,
                           child: SizedBox(
                             width: 450,
                             height: 90,

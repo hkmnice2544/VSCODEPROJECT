@@ -5,6 +5,7 @@ import 'package:flutterr/screen/User/ListInformRepair/View_NewItem.dart';
 import '../../../Model/Report_Model.dart';
 import '../../../controller/informrepair_controller.dart';
 import '../../../model/informrepair_model.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class listNewItem extends StatefulWidget {
   final int? user; // สร้างตัวแปรเพื่อเก็บชื่อผู้ใช้
@@ -118,50 +119,65 @@ class NewInform extends State<listNewItem> {
                               children: [
                                 Row(children: [
                                   Expanded(
-                                    child: Text(
-                                      "เลขที่แจ้งซ่อม",
-                                      style: const TextStyle(
-                                          fontFamily: 'Itim', fontSize: 22),
-                                    ),
+                                    child: Text("เลขที่แจ้งซ่อม",
+                                        style: GoogleFonts.prompt(
+                                          textStyle: TextStyle(
+                                            color: Color.fromRGBO(0, 0, 0, 1),
+                                            fontSize: 20,
+                                          ),
+                                        )),
                                   ),
                                   Expanded(
                                     child: Text(
-                                      "${informRepairList?[index].informrepair_id}",
-                                      style: const TextStyle(
-                                          fontFamily: 'Itim', fontSize: 22),
-                                    ),
-                                  ),
-                                ]),
-                                Row(children: [
-                                  Expanded(
-                                    child: Text(
-                                      "วันที่แจ้งซ่อม",
-                                      style: const TextStyle(
-                                          fontFamily: 'Itim', fontSize: 22),
-                                    ),
-                                  ),
-                                  Expanded(
-                                    child: Text(
-                                      "${informRepairList?[index].formattedInformDate()}",
-                                      style: const TextStyle(
-                                          fontFamily: 'Itim', fontSize: 22),
-                                    ),
+                                        "${informRepairList?[index].informrepair_id}",
+                                        style: GoogleFonts.prompt(
+                                          textStyle: TextStyle(
+                                            color: Color.fromRGBO(0, 0, 0, 1),
+                                            fontSize: 20,
+                                          ),
+                                        )),
                                   ),
                                 ]),
                                 Row(children: [
                                   Expanded(
-                                    child: Text(
-                                      "สถานะ ",
-                                      style: const TextStyle(
-                                          fontFamily: 'Itim', fontSize: 22),
-                                    ),
+                                    child: Text("วันที่แจ้งซ่อม",
+                                        style: GoogleFonts.prompt(
+                                          textStyle: TextStyle(
+                                            color: Color.fromRGBO(0, 0, 0, 1),
+                                            fontSize: 20,
+                                          ),
+                                        )),
                                   ),
                                   Expanded(
                                     child: Text(
-                                      "${informRepairList?[index].status}",
-                                      style: const TextStyle(
-                                          fontFamily: 'Itim', fontSize: 22),
-                                    ),
+                                        "${informRepairList?[index].formattedInformDate()}",
+                                        style: GoogleFonts.prompt(
+                                          textStyle: TextStyle(
+                                            color: Color.fromRGBO(0, 0, 0, 1),
+                                            fontSize: 20,
+                                          ),
+                                        )),
+                                  ),
+                                ]),
+                                Row(children: [
+                                  Expanded(
+                                    child: Text("สถานะ ",
+                                        style: GoogleFonts.prompt(
+                                          textStyle: TextStyle(
+                                            color: Color.fromRGBO(0, 0, 0, 1),
+                                            fontSize: 20,
+                                          ),
+                                        )),
+                                  ),
+                                  Expanded(
+                                    child: Text(
+                                        "${informRepairList?[index].status}",
+                                        style: GoogleFonts.prompt(
+                                          textStyle: TextStyle(
+                                            color: Color.fromRGBO(0, 0, 0, 1),
+                                            fontSize: 20,
+                                          ),
+                                        )),
                                   ),
                                 ]),
                               ],

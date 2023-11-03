@@ -25,10 +25,12 @@ class _ListInformRepairState extends State<ListInformRepair> {
         length: 3,
         child: Scaffold(
           appBar: AppBar(
-            title: Text(
-              "ListInformRepair",
-              style: TextStyle(color: Color.fromARGB(255, 255, 255, 255)),
-            ),
+            title: Text("ListInformRepair",
+                style: GoogleFonts.prompt(
+                  textStyle: TextStyle(
+                    color: Color.fromRGBO(255, 255, 255, 1),
+                  ),
+                )),
             backgroundColor: Colors.red,
             bottom: TabBar(
               unselectedLabelColor: Colors.blue, // สีของแถบที่ไม่ได้เลือก
@@ -42,7 +44,14 @@ class _ListInformRepairState extends State<ListInformRepair> {
                   ),
                   child: Text(
                     'รายการใหม่',
-                    style: TextStyle(color: Colors.white),
+                    style: GoogleFonts.prompt(
+                      textStyle: TextStyle(
+                        color: Color.fromARGB(255, 255, 255, 255),
+                        fontWeight: FontWeight.bold,
+                        fontSize: 18,
+                        decoration: TextDecoration.none,
+                      ),
+                    ),
                   ),
                 ),
                 Tab(
@@ -52,7 +61,14 @@ class _ListInformRepairState extends State<ListInformRepair> {
                   ),
                   child: Text(
                     'ตรวจสอบสถานะ',
-                    style: TextStyle(color: Colors.white),
+                    style: GoogleFonts.prompt(
+                      textStyle: TextStyle(
+                        color: Color.fromARGB(255, 255, 255, 255),
+                        fontWeight: FontWeight.bold,
+                        fontSize: 18,
+                        decoration: TextDecoration.none,
+                      ),
+                    ),
                   ),
                 ),
                 Tab(
@@ -62,7 +78,14 @@ class _ListInformRepairState extends State<ListInformRepair> {
                   ),
                   child: Text(
                     'รีวิว',
-                    style: TextStyle(color: Colors.white),
+                    style: GoogleFonts.prompt(
+                      textStyle: TextStyle(
+                        color: Color.fromARGB(255, 255, 255, 255),
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                        decoration: TextDecoration.none,
+                      ),
+                    ),
                   ),
                 ),
               ],

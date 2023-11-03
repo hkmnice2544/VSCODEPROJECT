@@ -6,6 +6,7 @@ import '../../../model/informrepair_model.dart';
 import '../../Home.dart';
 import '../../Login.dart';
 import 'ListInformRepair.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class View_NewItem extends StatefulWidget {
   final int? informrepair_id;
@@ -99,10 +100,12 @@ class _ViewResultState extends State<View_NewItem> {
       appBar: AppBar(
         title: Text(
           "หน้า รายละเอียดการแจ้งซ่อม",
-          style: TextStyle(
+          style: GoogleFonts.prompt(
+            textStyle: TextStyle(
               color: Color.fromARGB(255, 255, 255, 255),
               fontSize: 21,
-              fontWeight: FontWeight.w100),
+            ),
+          ),
         ),
         backgroundColor: Colors.red,
         leading: IconButton(
@@ -138,10 +141,12 @@ class _ViewResultState extends State<View_NewItem> {
               Expanded(
                 child: Text(
                   "หน้าแรก",
-                  style: TextStyle(
-                    color: Color.fromARGB(255, 255, 255, 255),
-                    fontSize: 12,
-                    fontWeight: FontWeight.w100,
+                  style: GoogleFonts.prompt(
+                    textStyle: TextStyle(
+                      color: Color.fromRGBO(255, 255, 255, 1),
+                      fontSize: 14,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                 ),
               ),
@@ -161,10 +166,12 @@ class _ViewResultState extends State<View_NewItem> {
               Expanded(
                 child: Text(
                   "ออกจากระบบ",
-                  style: TextStyle(
-                    color: Color.fromARGB(255, 255, 255, 255),
-                    fontSize: 12,
-                    fontWeight: FontWeight.w100,
+                  style: GoogleFonts.prompt(
+                    textStyle: TextStyle(
+                      color: Color.fromRGBO(255, 255, 255, 1),
+                      fontSize: 14,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                 ),
               )
@@ -181,10 +188,12 @@ class _ViewResultState extends State<View_NewItem> {
                   Center(
                     child: Text(
                       "รายละเอียด",
-                      style: TextStyle(
-                        color: Color.fromARGB(255, 7, 94, 53),
-                        fontSize: 40,
-                        fontWeight: FontWeight.bold,
+                      style: GoogleFonts.prompt(
+                        textStyle: TextStyle(
+                          color: Color.fromARGB(255, 7, 94, 53),
+                          fontSize: 40,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                     ),
                   ),
@@ -194,191 +203,338 @@ class _ViewResultState extends State<View_NewItem> {
                     width: 220,
                     alignment: Alignment.center,
                   ),
-                  Row(
-                    children: [
-                      Expanded(
-                        child: Text(
-                          "เลขที่แจ้งซ่อม  :",
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
+                  Padding(
+                    padding: const EdgeInsets.all(20.0),
+                    child: Container(
+                      width: 390,
+                      height: 250,
+                      child: Stack(
+                        children: [
+                          Positioned(
+                            left: 0,
+                            top: 0,
+                            child: Container(
+                              width: 390,
+                              height: 250,
+                              decoration: ShapeDecoration(
+                                color: Colors.white,
+                                shape: RoundedRectangleBorder(
+                                  side: BorderSide(
+                                      width: 1, color: Color(0xFFF0573D)),
+                                  borderRadius: BorderRadius.circular(11),
+                                ),
+                                shadows: [
+                                  BoxShadow(
+                                    color: Color(0x3F000000),
+                                    blurRadius: 4,
+                                    offset: Offset(0, 4),
+                                    spreadRadius: 0,
+                                  )
+                                ],
+                              ),
+                            ),
                           ),
-                        ),
-                      ),
-                      Expanded(
-                        child: Text(
-                          "${informDetails != null && informDetails.isNotEmpty ? informDetails[0].informRepair?.informrepair_id ?? 'N/A' : 'N/A'}",
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
+                          Positioned(
+                            left: 50,
+                            top: 11,
+                            child: SizedBox(
+                              width: 450,
+                              height: 27,
+                              child: Text.rich(
+                                TextSpan(
+                                  children: [
+                                    WidgetSpan(
+                                      child: Icon(Icons.list,
+                                          color: const Color.fromARGB(
+                                              255, 0, 0, 0)),
+                                    ),
+                                    WidgetSpan(
+                                      child: SizedBox(
+                                          width:
+                                              25), // ระยะห่าง 10 พิกเซลระหว่าง TextSpan
+                                    ),
+                                    TextSpan(
+                                      text: 'เลขที่แจ้งซ่อม :',
+                                      style: GoogleFonts.prompt(
+                                        textStyle: TextStyle(
+                                          color: Color.fromARGB(255, 0, 0, 0),
+                                          fontSize: 20,
+                                        ),
+                                      ),
+                                    ),
+                                    WidgetSpan(
+                                      child: SizedBox(
+                                          width:
+                                              15), // ระยะห่าง 10 พิกเซลระหว่าง TextSpan
+                                    ),
+                                    TextSpan(
+                                      text:
+                                          '${informDetails != null && informDetails.isNotEmpty ? informDetails[0].informRepair?.informrepair_id ?? 'N/A' : 'N/A'}',
+                                      style: GoogleFonts.prompt(
+                                        textStyle: TextStyle(
+                                          color: Color.fromARGB(255, 0, 0, 0),
+                                          fontSize: 20,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
                           ),
-                        ),
-                      ),
-                    ],
-                  ),
-                  Row(
-                    children: [
-                      Expanded(
-                        child: Text(
-                          "วันที่แจ้งซ่อม  :",
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
+                          Positioned(
+                            left: 50,
+                            top: 50,
+                            child: SizedBox(
+                              width: 450,
+                              height: 27,
+                              child: Text.rich(
+                                TextSpan(
+                                  children: [
+                                    WidgetSpan(
+                                      child: Icon(Icons.date_range,
+                                          color: const Color.fromARGB(
+                                              255, 0, 0, 0)),
+                                    ),
+                                    WidgetSpan(
+                                      child: SizedBox(
+                                          width:
+                                              25), // ระยะห่าง 10 พิกเซลระหว่าง TextSpan
+                                    ),
+                                    TextSpan(
+                                      text: 'วันที่แจ้งซ่อม  :',
+                                      style: GoogleFonts.prompt(
+                                        textStyle: TextStyle(
+                                          color: Color.fromARGB(255, 0, 0, 0),
+                                          fontSize: 20,
+                                        ),
+                                      ),
+                                    ),
+                                    WidgetSpan(
+                                      child: SizedBox(
+                                          width:
+                                              15), // ระยะห่าง 10 พิกเซลระหว่าง TextSpan
+                                    ),
+                                    TextSpan(
+                                      text:
+                                          '${informDetails != null && informDetails.isNotEmpty ? informDetails[0].informRepair?.formattedInformDate() ?? 'N/A' : 'N/A'}',
+                                      style: GoogleFonts.prompt(
+                                        textStyle: TextStyle(
+                                          color: Color.fromARGB(255, 0, 0, 0),
+                                          fontSize: 20,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
                           ),
-                        ),
-                      ),
-                      Expanded(
-                        child: Text(
-                          "${informDetails != null && informDetails.isNotEmpty ? informDetails[0].informRepair?.informdate ?? 'N/A' : 'N/A'}",
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
+                          Positioned(
+                            left: 50,
+                            top: 90,
+                            child: SizedBox(
+                              width: 450,
+                              height: 90,
+                              child: Text.rich(
+                                TextSpan(
+                                  children: [
+                                    WidgetSpan(
+                                      child: Icon(Icons.ballot_outlined,
+                                          color: const Color.fromARGB(
+                                              255, 0, 0, 0)),
+                                    ),
+                                    WidgetSpan(
+                                      child: SizedBox(
+                                          width:
+                                              25), // ระยะห่าง 10 พิกเซลระหว่าง TextSpan
+                                    ),
+                                    TextSpan(
+                                      text: 'ประเภทห้องน้ำ  :',
+                                      style: GoogleFonts.prompt(
+                                        textStyle: TextStyle(
+                                          color: Color.fromARGB(255, 0, 0, 0),
+                                          fontSize: 20,
+                                        ),
+                                      ),
+                                    ),
+                                    WidgetSpan(
+                                      child: SizedBox(
+                                          width:
+                                              10), // ระยะห่าง 10 พิกเซลระหว่าง TextSpan
+                                    ),
+                                    TextSpan(
+                                      text:
+                                          '${informDetails != null && informDetails.isNotEmpty ? informDetails[0].roomEquipment?.room?.roomname ?? 'N/A' : 'N/A'}',
+                                      style: GoogleFonts.prompt(
+                                        textStyle: TextStyle(
+                                          color: Color.fromARGB(255, 0, 0, 0),
+                                          fontSize: 20,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
                           ),
-                        ),
-                      ),
-                    ],
-                  ),
-                  Row(
-                    children: [
-                      Expanded(
-                        child: Text(
-                          "ประเภทห้องน้ำ   :",
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
+                          Positioned(
+                            left: 50,
+                            top: 130,
+                            child: SizedBox(
+                              width: 450,
+                              height: 90,
+                              child: Text.rich(
+                                TextSpan(
+                                  children: [
+                                    WidgetSpan(
+                                      child: Icon(Icons.business,
+                                          color: const Color.fromARGB(
+                                              255, 0, 0, 0)),
+                                    ),
+                                    WidgetSpan(
+                                      child: SizedBox(
+                                          width:
+                                              25), // ระยะห่าง 10 พิกเซลระหว่าง TextSpan
+                                    ),
+                                    TextSpan(
+                                      text: 'อาคาร   ',
+                                      style: GoogleFonts.prompt(
+                                        textStyle: TextStyle(
+                                          color: Color.fromARGB(255, 0, 0, 0),
+                                          fontSize: 20,
+                                        ),
+                                      ),
+                                    ),
+                                    WidgetSpan(
+                                      child: SizedBox(
+                                          width:
+                                              10), // ระยะห่าง 10 พิกเซลระหว่าง TextSpan
+                                    ),
+                                    TextSpan(
+                                      text:
+                                          '${informDetails != null && informDetails.isNotEmpty ? informDetails[0].roomEquipment?.room?.building?.buildingname ?? 'N/A' : 'N/A'}',
+                                      style: GoogleFonts.prompt(
+                                        textStyle: TextStyle(
+                                          color: Color.fromARGB(255, 0, 0, 0),
+                                          fontSize: 20,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
                           ),
-                        ),
-                      ),
-                      Expanded(
-                        child: Text(
-                          "${informDetails != null && informDetails.isNotEmpty ? informDetails[0].roomEquipment?.room?.roomname ?? 'N/A' : 'N/A'}",
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
+                          Positioned(
+                            left: 50,
+                            top: 170,
+                            child: SizedBox(
+                              width: 450,
+                              height: 90,
+                              child: Text.rich(
+                                TextSpan(
+                                  children: [
+                                    WidgetSpan(
+                                      child: Icon(Icons.bento_outlined,
+                                          color: const Color.fromARGB(
+                                              255, 0, 0, 0)),
+                                    ),
+                                    WidgetSpan(
+                                      child: SizedBox(
+                                          width:
+                                              25), // ระยะห่าง 10 พิกเซลระหว่าง TextSpan
+                                    ),
+                                    TextSpan(
+                                      text: 'ชั้น   ',
+                                      style: GoogleFonts.prompt(
+                                        textStyle: TextStyle(
+                                          color: Color.fromARGB(255, 0, 0, 0),
+                                          fontSize: 20,
+                                        ),
+                                      ),
+                                    ),
+                                    WidgetSpan(
+                                      child: SizedBox(
+                                          width:
+                                              10), // ระยะห่าง 10 พิกเซลระหว่าง TextSpan
+                                    ),
+                                    TextSpan(
+                                      text:
+                                          '${informDetails != null && informDetails.isNotEmpty ? informDetails[0].roomEquipment?.room?.floor ?? 'N/A' : 'N/A'}',
+                                      style: GoogleFonts.prompt(
+                                        textStyle: TextStyle(
+                                          color: Color.fromARGB(255, 0, 0, 0),
+                                          fontSize: 20,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
                           ),
-                        ),
-                      ),
-                    ],
-                  ),
-                  Row(
-                    children: [
-                      Expanded(
-                        child: Text(
-                          "อาคาร   :",
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
+                          Positioned(
+                            left: 50,
+                            top: 210,
+                            child: SizedBox(
+                              width: 450,
+                              height: 90,
+                              child: Text.rich(
+                                TextSpan(
+                                  children: [
+                                    WidgetSpan(
+                                      child: Icon(Icons.place_outlined,
+                                          color: const Color.fromARGB(
+                                              255, 0, 0, 0)),
+                                    ),
+                                    WidgetSpan(
+                                      child: SizedBox(
+                                          width:
+                                              25), // ระยะห่าง 10 พิกเซลระหว่าง TextSpan
+                                    ),
+                                    TextSpan(
+                                      text: 'ตำแหน่ง   :',
+                                      style: GoogleFonts.prompt(
+                                        textStyle: TextStyle(
+                                          color: Color.fromARGB(255, 0, 0, 0),
+                                          fontSize: 20,
+                                        ),
+                                      ),
+                                    ),
+                                    WidgetSpan(
+                                      child: SizedBox(
+                                          width:
+                                              10), // ระยะห่าง 10 พิกเซลระหว่าง TextSpan
+                                    ),
+                                    TextSpan(
+                                      text:
+                                          '${informDetails != null && informDetails.isNotEmpty ? informDetails[0].roomEquipment?.room?.position ?? 'N/A' : 'N/A'}',
+                                      style: GoogleFonts.prompt(
+                                        textStyle: TextStyle(
+                                          color: Color.fromARGB(255, 0, 0, 0),
+                                          fontSize: 20,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
                           ),
-                        ),
+                        ],
                       ),
-                      Expanded(
-                        child: Text(
-                          // informRepair?.rooms != null
-                          //     ? informRepair!.rooms!
-                          //         .map((room) =>
-                          //             room.building?.buildingname ??
-                          //             'N/A') // ดึงข้อมูลอาคารจากอ็อบเจกต์ Room
-                          //         .join(', ')
-                          //     : 'N/A',
-                          "${informDetails != null && informDetails.isNotEmpty ? informDetails[0].roomEquipment?.room?.building?.buildingname ?? 'N/A' : 'N/A'}",
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                  Row(
-                    children: [
-                      Expanded(
-                        child: Text(
-                          "ชั้น   :",
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ),
-                      Expanded(
-                        child: Text(
-                          // informRepair?.rooms != null
-                          //     ? informRepair!.rooms!
-                          //         .map((room) =>
-                          //             room.floor ??
-                          //             'N/A') // ดึงประเภทห้องน้ำจากอ็อบเจกต์ Room
-                          //         .join(', ')
-                          //     : 'N/A',
-                          "${informDetails != null && informDetails.isNotEmpty ? informDetails[0].roomEquipment?.room?.floor ?? 'N/A' : 'N/A'}",
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                  Row(
-                    children: [
-                      Expanded(
-                        child: Text(
-                          "ตำแหน่ง   :",
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ),
-                      Expanded(
-                        child: Text(
-                          // informRepair?.rooms != null
-                          //     ? informRepair!.rooms!
-                          //         .map((room) =>
-                          //             room.position ??
-                          //             'N/A') // ดึงประเภทห้องน้ำจากอ็อบเจกต์ Room
-                          //         .join(', ')
-                          //     : 'N/A',
-                          "${informDetails != null && informDetails.isNotEmpty ? informDetails[0].roomEquipment?.room?.position ?? 'N/A' : 'N/A'}",
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ),
-                    ],
+                    ),
                   ),
                   Row(
                     children: [
                       Text(
                         "อุปกรณ์ชำรุด",
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ],
-                  ),
-                  Row(
-                    children: [
-                      Text(
-                        "-----------------------------------",
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
+                        style: GoogleFonts.prompt(
+                          textStyle: TextStyle(
+                            color: Color.fromARGB(255, 0, 0, 0),
+                            fontSize: 20,
+                          ),
                         ),
                       ),
                     ],
@@ -401,15 +557,23 @@ class _ViewResultState extends State<View_NewItem> {
                                   Expanded(
                                     child: Text(
                                       "อุปกรณ์ :",
-                                      style: const TextStyle(
-                                          fontFamily: 'Itim', fontSize: 22),
+                                      style: GoogleFonts.prompt(
+                                        textStyle: TextStyle(
+                                          color: Color.fromARGB(255, 0, 0, 0),
+                                          fontSize: 20,
+                                        ),
+                                      ),
                                     ),
                                   ),
                                   Expanded(
                                     child: Text(
                                       "${informDetails?[index].roomEquipment?.equipment?.equipmentname}",
-                                      style: const TextStyle(
-                                          fontFamily: 'Itim', fontSize: 22),
+                                      style: GoogleFonts.prompt(
+                                        textStyle: TextStyle(
+                                          color: Color.fromARGB(255, 0, 0, 0),
+                                          fontSize: 20,
+                                        ),
+                                      ),
                                     ),
                                   ),
                                 ]),
@@ -417,59 +581,62 @@ class _ViewResultState extends State<View_NewItem> {
                                   Expanded(
                                     child: Text(
                                       "รายละเอียด :",
-                                      style: const TextStyle(
-                                          fontFamily: 'Itim', fontSize: 22),
+                                      style: GoogleFonts.prompt(
+                                        textStyle: TextStyle(
+                                          color: Color.fromARGB(255, 0, 0, 0),
+                                          fontSize: 20,
+                                        ),
+                                      ),
                                     ),
                                   ),
                                   Expanded(
                                     child: Text(
                                       "${informDetails?[index].details}",
-                                      style: const TextStyle(
-                                          fontFamily: 'Itim', fontSize: 22),
+                                      style: GoogleFonts.prompt(
+                                        textStyle: TextStyle(
+                                          color: Color.fromARGB(255, 0, 0, 0),
+                                          fontSize: 20,
+                                        ),
+                                      ),
                                     ),
                                   ),
                                 ]),
                               ])));
                     },
                   ),
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(0, 20, 0, 0),
-                    child: Row(
-                      // Button Click
-                      children: [
-                        Expanded(
-                          child: ElevatedButton(
-                            onPressed: () async {
-                              Navigator.pushReplacement(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (_) =>
-                                        ListInformRepair(user: widget.user)),
-                              );
-                            },
-                            style: ElevatedButton.styleFrom(
-                              primary: Color.fromARGB(255, 234, 112, 5),
-                              textStyle: TextStyle(
-                                  color: Color.fromARGB(255, 255, 255, 255)),
-                              padding: EdgeInsets.symmetric(
-                                  horizontal: 40, vertical: 20),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(10),
-                              ),
-                            ),
-                            child: Text(
-                              'ย้อนกลับ',
-                              style: TextStyle(
-                                  color: Color.fromARGB(255, 255, 255, 255)),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
                 ]),
               ),
             ),
+      floatingActionButton: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Container(
+              width: 120, // Set the width of the button here
+              child: FloatingActionButton.extended(
+                label: Text(
+                  "ย้อนกลับ",
+                  style: GoogleFonts.prompt(
+                    textStyle: TextStyle(
+                      color: Color.fromARGB(255, 255, 255, 255),
+                      fontSize: 14,
+                    ),
+                  ),
+                ),
+                onPressed: () async {
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                        builder: (_) => ListInformRepair(user: widget.user)),
+                  );
+                },
+              ),
+            ),
+          ),
+        ],
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     ));
   }
 }
