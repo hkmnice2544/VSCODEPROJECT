@@ -167,6 +167,21 @@ class NewInform extends State<listCheckStatus> {
                                 ]),
                               ],
                             ),
+                            leading: informRepairList?[index].status ==
+                                    "ยังไม่ได้ดำเนินการ"
+                                ? Icon(Icons.warning,
+                                    color: Colors
+                                        .red) // สร้าง Icon แสดงสถานะ "ยังไม่ได้ดำเนินการ" ในสีแดง
+                                : informRepairList?[index].status == "เสร็จสิ้น"
+                                    ? Icon(Icons.check,
+                                        color: Colors
+                                            .green) // สร้าง Icon แสดงสถานะ "เสร็จสิ้น" ในสีเขียว
+                                    : informRepairList?[index].status ==
+                                            "กำลังดำเนินการ"
+                                        ? Icon(Icons.update,
+                                            color: Colors
+                                                .blue) // สร้าง Icon แสดงสถานะ "กำลังดำเนินการ" ในสีฟ้า
+                                        : null, // ถ้าสถานะไม่ใช่ทั้ง "ยังไม่ได้ดำเนินการ", "เสร็จสิ้น", หรือ "กำลังดำเนินการ" ให้ไม่แสด Icon
 
                             onTap: () {
                               WidgetsBinding.instance!
