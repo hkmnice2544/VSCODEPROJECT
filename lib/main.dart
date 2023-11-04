@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutterr/screen/Login.dart';
 import 'package:flutterr/screen/User/InformRepairToilet/Edit.dart';
-import 'package:flutterr/screen/User/InformRepairToilet/EditInformRepair.dart';
-import 'package:flutterr/screen/User/ListInformRepair/View_NewItem.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
