@@ -165,4 +165,40 @@ class InformRepairDetailsController {
       throw Exception("ไม่สามารถดึงข้อมูลได้");
     }
   }
+
+  Future<List<String>> finddetailsByIdByinformrepair_id(
+      String? informrepair_id) async {
+    var url = Uri.parse(baseURL +
+        '/informrepairdetails/finddetailsByIdByinformrepair_id/$informrepair_id');
+
+    http.Response response = await http.post(url, headers: headers, body: null);
+    print("ข้อมูลที่ได้คือ : " + response.body);
+
+    if (response.statusCode == 200) {
+      List<String> equipment_id =
+          (json.decode(response.body) as List).cast<String>();
+
+      return equipment_id;
+    } else {
+      throw Exception("ไม่สามารถดึงข้อมูลได้");
+    }
+  }
+
+  Future<List<String>> findamountByIdByinformrepair_id(
+      String? informrepair_id) async {
+    var url = Uri.parse(baseURL +
+        '/informrepairdetails/findamountByIdByinformrepair_id/$informrepair_id');
+
+    http.Response response = await http.post(url, headers: headers, body: null);
+    print("ข้อมูลที่ได้คือ : " + response.body);
+
+    if (response.statusCode == 200) {
+      List<String> equipment_id =
+          (json.decode(response.body) as List).cast<String>();
+
+      return equipment_id;
+    } else {
+      throw Exception("ไม่สามารถดึงข้อมูลได้");
+    }
+  }
 }

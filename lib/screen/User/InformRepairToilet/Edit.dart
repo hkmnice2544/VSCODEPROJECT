@@ -139,6 +139,28 @@ class _MyWidgetState extends State<MyEdit> {
     });
   }
 
+  List<String>? details_idcheked = [];
+
+  void finddetailsByIdByinformrepair_id(String informrepair_id) async {
+    details_idcheked = await informRepairDetailsController
+        .finddetailsByIdByinformrepair_id(informrepair_id);
+    print(" details_idcheked : ${details_idcheked}");
+    setState(() {
+      isDataLoaded = true;
+    });
+  }
+
+  List<String>? amount_idcheked = [];
+
+  void findamountByIdByinformrepair_id(String informrepair_id) async {
+    amount_idcheked = await informRepairDetailsController
+        .findamountByIdByinformrepair_id(informrepair_id);
+    print(" amount_idcheked : ${amount_idcheked}");
+    setState(() {
+      isDataLoaded = true;
+    });
+  }
+
   // void findEquipmentCheckedStatus() {
   //   // isChecked = equipmentIds.map((equipmentId) {
   //   //   return quipment_idcheked!.contains(equipmentId);
@@ -199,6 +221,8 @@ class _MyWidgetState extends State<MyEdit> {
     ViewListInformDetails();
     fetchInformRepairs();
     findequipment_idByIdByinformrepair_id(widget.informrepair_id.toString());
+    finddetailsByIdByinformrepair_id(widget.informrepair_id.toString());
+    findamountByIdByinformrepair_id(widget.informrepair_id.toString());
     initialize();
     // findEquipmentCheckedStatus();
   }
@@ -377,6 +401,16 @@ class _MyWidgetState extends State<MyEdit> {
                               ),
                             ),
                           ),
+                          Expanded(
+                            child: Text(
+                              "",
+                              style: TextStyle(
+                                color: Colors.black,
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
                         ],
                       ),
 
@@ -514,6 +548,8 @@ class _MyWidgetState extends State<MyEdit> {
   List<String> listdetails = [];
   List<String> amountLists = [];
   Map<String, List<XFile>> equipmentImages = {};
+  List<String> detailsList = ["ก๊อกน้ำเสีย", "สายชำระเสีย"];
+  List<String> amountList = ["1", "2"];
 
   List<TextEditingController> detailscontrollers = [];
   List<TextEditingController> amountcontrollers = [];
@@ -522,6 +558,7 @@ class _MyWidgetState extends State<MyEdit> {
 
     for (int index = 0; index < equipmentIds.length; index++) {
       final equipmentId = equipmentIds[index];
+
       final bool isEquipmentChecked = quipment_idcheked!.contains(equipmentId);
 
       widgets.add(
@@ -553,20 +590,18 @@ class _MyWidgetState extends State<MyEdit> {
                 decoration: const InputDecoration(
                   hintText: 'Enter details',
                 ),
-                initialValue: "555",
+                initialValue: details_idcheked?[index],
                 onChanged: (value) {
                   setState(() {
                     detailsMap[equipmentId] = value;
                   });
                 },
-
-                // ตรวจสอบว่าควรกำหนดค่าเริ่มต้นหรือไม่
               ),
               TextFormField(
-                controller: amountcontrollers[index],
                 decoration: const InputDecoration(
                   hintText: 'Enter amount',
                 ),
+                initialValue: amount_idcheked?[index],
                 onChanged: (value) {
                   setState(() {
                     amountMap[equipmentId] = int.tryParse(value) ?? 0;

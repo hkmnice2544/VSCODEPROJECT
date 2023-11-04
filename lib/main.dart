@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutterr/screen/Login.dart';
+import 'package:flutterr/screen/User/InformRepairToilet/Edit.dart';
 import 'package:flutterr/screen/User/InformRepairToilet/EditInformRepair.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:flutter/services.dart';
@@ -22,8 +23,8 @@ class MainApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       // home: Login(),
-      home: EditInformRepairs(user: 1001, informrepair_id: 10001),
-      // home: MyEdit(user: 1001, informrepair_id: 10001),
+      // home: EditInformRepairs(user: 1001, informrepair_id: 10001),
+      home: MyEdit(user: 1001, informrepair_id: 10004),
       // home: const MyHomePage(title: 'Flutter Demo Home Page'),
       theme: ThemeData(
         primarySwatch: Colors.orange,
