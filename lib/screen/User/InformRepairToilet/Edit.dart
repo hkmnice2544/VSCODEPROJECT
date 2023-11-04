@@ -631,107 +631,92 @@ class _MyWidgetState extends State<MyEdit> {
                 gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 3,
                 ),
-                itemCount: 1, // ให้แสดงเพียงรูปภาพเดียว
+                itemCount: equipmentImages[equipmentId]?.length ?? 0,
                 itemBuilder: (BuildContext context, int imageIndex) {
-                  final imagesForEquipment = getImagesForEquipment(equipmentId);
-
-                  if (imageIndex < imagesForEquipment.length) {
-                    final imageName = imagesForEquipment[imageIndex];
-                    final imagePath =
-                        '$baseURL/informrepairdetails/image/$imageName';
-                    inform_pictures.add(imageName);
-
-                    //       final image = equipmentImages[equipmentId]![imageIndex];
-                    // final imagePath = image.path;
-                    // final imageName = imagePath.split('/').last;
-
-                    // if (!inform_pictures.contains(imageName)) {
-                    //   inform_pictures.add(imageName);
-                    // }
-
-                    return Padding(
-                      padding: const EdgeInsets.all(2),
-                      child: Stack(
-                        children: [
-                          Image.network(imagePath),
-                          Positioned(
-                            bottom: 0,
-                            left: 0,
-                            right: 79,
-                            child: Container(
-                              color: Colors.black.withOpacity(0.7),
-                              padding: EdgeInsets.all(5.0),
-                              child: Text(
-                                imageName,
-                                style: TextStyle(color: Colors.white),
-                              ),
+                  String fileName = equipmentImages[equipmentId]![imageIndex]
+                      .path
+                      .split('/')
+                      .last;
+                  imageFileNames.add(fileName); // เพิ่มชื่อไฟล์ลงใน List
+                  return Padding(
+                    padding: const EdgeInsets.all(2),
+                    child: Stack(
+                      children: [
+                        Image.file(File(
+                            equipmentImages[equipmentId]![imageIndex]
+                                .path)), // Display the image
+                        Positioned(
+                          bottom: 0,
+                          left: 0,
+                          right: 79,
+                          child: Container(
+                            color: Colors.black.withOpacity(0.7),
+                            padding: EdgeInsets.all(5.0),
+                            child: Text(
+                              fileName, // Display the image name
+                              style: TextStyle(color: Colors.white),
                             ),
                           ),
-                          Positioned(
-                            top: 0,
-                            right: 30,
-                            child: IconButton(
-                              icon: Icon(
-                                Icons.highlight_remove_sharp,
-                                color: Colors.red,
-                              ),
-                              onPressed: () {
-                                setState(() {
-                                  final equipmentImagesList =
-                                      equipmentImages[equipmentId];
-                                  if (equipmentImagesList != null &&
-                                      imageIndex < equipmentImagesList.length) {
-                                    equipmentImagesList.removeAt(imageIndex);
-                                  }
-
-                                  if (imageIndex < imageFileNames.length) {
-                                    String fileNameToRemove =
-                                        imageFileNames[imageIndex];
-                                    imageFileNames.remove(fileNameToRemove);
-                                  }
-                                });
-                              },
+                        ),
+                        Positioned(
+                          top: 0,
+                          right: 30,
+                          child: IconButton(
+                            icon: Icon(
+                              Icons.highlight_remove_sharp,
+                              color: Colors.red,
                             ),
+                            onPressed: () {
+                              // Remove the image from the equipmentImages map
+                              setState(() {
+                                equipmentImages[equipmentId]!
+                                    .removeAt(imageIndex);
+                              });
+
+                              // Remove the image name from the imageFileNames list
+                              String fileNameToRemove =
+                                  imageFileNames[imageIndex];
+                              imageFileNames.removeWhere(
+                                  (fileName) => fileName == fileNameToRemove);
+                            },
                           ),
-                        ],
-                      ),
-                    );
-                  } else {
-                    return Container(); // หากไม่มีรูปภาพสำหรับอุปกรณ์นี้
-                  }
+                        ),
+                      ],
+                    ),
+                  );
                 },
               ),
-              // Wrap(
-              //   spacing: 8.0, // ระยะห่างระหว่างรูปภาพในแนวนอน
-              //   runSpacing: 8.0, // ระยะห่างระหว่างรูปภาพในแนวดิ่ง
-              //   children: List.generate(
-              //     1,
-              //     (index) {
-              //       final informPicture = inform_pictures.firstWhere(
-              //         (inform) {
-              //           final parts = inform.split(',');
-              //           return parts.length == 2 && parts[0] == equipmentId;
-              //         },
-              //         orElse: () => "",
-              //       );
+              Wrap(
+                spacing: 8.0, // ระยะห่างระหว่างรูปภาพในแนวนอน
+                runSpacing: 8.0, // ระยะห่างระหว่างรูปภาพในแนวดิ่ง
+                children: List.generate(
+                  1,
+                  (index) {
+                    final informPicture = pictures!.firstWhere(
+                      (inform) {
+                        final parts = inform.split(',');
+                        return parts.length == 2 && parts[0] == equipmentId;
+                      },
+                      orElse: () => "",
+                    );
 
-              //       if (informPicture != null) {
-              //         final parts = informPicture.split(',');
-              //         final imageName = parts[1];
-              //         return Container(
-              //           width: 200,
-              //           height: 350,
-              //           child: Image.network(
-              //             baseURL + '/report_pictures/image/$imageName',
-              //             fit: BoxFit.cover,
-              //           ),
-              //         );
-              //       } else {
-              //         return Container(); // หากไม่พบข้อมูลรูปภาพสำหรับอุปกรณ์นี้
-              //       }
-              //     },
-              //   ),
-              // )
+                    if (informPicture != null) {
+                      final parts = informPicture.split(',');
+                      final imageName = parts[1];
+                      return Container(
+                        width: 200,
+                        height: 350,
+                        child: Image.network(
+                          baseURL + '/informrepairdetails/image/$imageName',
+                          fit: BoxFit.cover,
+                        ),
+                      );
+                    } else {
+                      return Container(); // หากไม่พบข้อมูลรูปภาพสำหรับอุปกรณ์นี้
+                    }
+                  },
+                ),
+              )
             ],
           ),
         );
