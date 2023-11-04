@@ -631,9 +631,9 @@ class _MyWidgetState extends State<MyEdit> {
                           ),
                           iconStyleData: const IconStyleData(
                             icon: Icon(
-                              Icons.arrow_forward_ios_outlined,
+                              Icons.keyboard_arrow_down_outlined,
                             ),
-                            iconSize: 18,
+                            iconSize: 30,
                             iconEnabledColor:
                                 Color.fromARGB(255, 255, 255, 255),
                             iconDisabledColor: Colors.grey,
@@ -641,6 +641,118 @@ class _MyWidgetState extends State<MyEdit> {
                           dropdownStyleData: DropdownStyleData(
                             maxHeight: 200,
                             width: 380,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(14),
+                              color: Colors.redAccent,
+                            ),
+                            offset: const Offset(-20, 0),
+                            scrollbarTheme: ScrollbarThemeData(
+                              radius: const Radius.circular(40),
+                              thickness: MaterialStateProperty.all(6),
+                              thumbVisibility: MaterialStateProperty.all(true),
+                            ),
+                          ),
+                          menuItemStyleData: const MenuItemStyleData(
+                            height: 40,
+                            padding: EdgeInsets.only(left: 14, right: 14),
+                          ),
+                        ),
+                      ),
+
+                      DropdownButtonHideUnderline(
+                        child: DropdownButton2<String>(
+                          isExpanded: true,
+                          hint: const Row(
+                            children: [
+                              Icon(
+                                Icons.business,
+                                size: 30,
+                                color: Color.fromARGB(255, 255, 255, 255),
+                              ),
+                              SizedBox(
+                                width: 15,
+                              ),
+                              Expanded(
+                                child: Text(
+                                  'กรุณาเลือกห้อง',
+                                  style: TextStyle(
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.bold,
+                                    color: Color.fromARGB(255, 255, 255, 255),
+                                  ),
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                              ),
+                            ],
+                          ),
+                          value: selectedRoom,
+                          items: [
+                            ...rooms.map((Room? room) {
+                              return DropdownMenuItem<String>(
+                                child: Row(
+                                  children: [
+                                    Icon(
+                                      Icons
+                                          .business, // ใส่ไอคอนที่คุณต้องการที่นี่
+                                      color: const Color.fromARGB(
+                                          255, 255, 255, 255), // สีของไอคอน
+                                      size: 24, // ขนาดของไอคอน
+                                    ),
+                                    SizedBox(
+                                        width:
+                                            10), // ระยะห่างระหว่างไอคอนและข้อความ
+                                    Text(
+                                      "ห้อง " +
+                                          room!.room_id.toString() +
+                                          " ชั้น " +
+                                          room.floor.toString() +
+                                          " ตำแหน่ง " +
+                                          room.position.toString() +
+                                          " " +
+                                          room.roomname.toString(),
+                                      style: const TextStyle(
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.white,
+                                      ),
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                                  ],
+                                ),
+                                value: room.room_id.toString(),
+                              );
+                            }).toList(),
+                          ],
+                          onChanged: (val) {
+                            setState(() {
+                              selectedRoom = val;
+                            });
+                          },
+                          buttonStyleData: ButtonStyleData(
+                            height: 60,
+                            width: 450,
+                            padding: const EdgeInsets.only(left: 14, right: 14),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(14),
+                              border: Border.all(
+                                color: const Color.fromARGB(66, 255, 255, 255),
+                              ),
+                              color: Colors.redAccent,
+                            ),
+                            elevation: 2,
+                          ),
+                          iconStyleData: const IconStyleData(
+                            icon: Icon(
+                              Icons.keyboard_arrow_down_outlined,
+                            ),
+                            iconSize: 30,
+                            iconEnabledColor:
+                                Color.fromARGB(255, 255, 255, 255),
+                            iconDisabledColor: Colors.grey,
+                          ),
+                          dropdownStyleData: DropdownStyleData(
+                            maxHeight: 200,
+                            width: 420,
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(14),
                               color: Colors.redAccent,
