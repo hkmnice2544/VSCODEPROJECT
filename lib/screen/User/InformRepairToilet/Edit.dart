@@ -13,6 +13,7 @@ import '../../../model/Room_Model.dart';
 import '../../Home.dart';
 import '../../Login.dart';
 import 'package:http/http.dart' as http;
+import 'package:dropdown_button2/dropdown_button2.dart';
 
 class MyEdit extends StatefulWidget {
   final int? user;
@@ -35,6 +36,8 @@ class _MyWidgetState extends State<MyEdit> {
   List<XFile> imageFileList = [];
   List<String> imageFileNames = [];
   List<bool> isChecked = [];
+
+  String? selectedValue;
 
   InformRepairController informrepairController = InformRepairController();
   InformRepairDetailsController informRepairDetailsController =
@@ -544,6 +547,118 @@ class _MyWidgetState extends State<MyEdit> {
                         ),
                         Text("                                "),
                       ]),
+
+                      DropdownButtonHideUnderline(
+                        child: DropdownButton2<String>(
+                          isExpanded: true,
+                          hint: const Row(
+                            children: [
+                              Icon(
+                                Icons.business,
+                                size: 30,
+                                color: Color.fromARGB(255, 255, 255, 255),
+                              ),
+                              SizedBox(
+                                width: 15,
+                              ),
+                              Expanded(
+                                child: Text(
+                                  'กรุณาเลือกอาคาร',
+                                  style: TextStyle(
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.bold,
+                                    color: Color.fromARGB(255, 255, 255, 255),
+                                  ),
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                              ),
+                            ],
+                          ),
+                          value: buildingId,
+                          items: [
+                            ...buildings.map((Building? building) {
+                              return DropdownMenuItem<String>(
+                                value: building!.building_id.toString(),
+                                child: Row(
+                                  children: [
+                                    Icon(
+                                      Icons
+                                          .business, // ใส่ไอคอนที่คุณต้องการที่นี่
+                                      color: const Color.fromARGB(
+                                          255, 255, 255, 255), // สีของไอคอน
+                                      size: 24, // ขนาดของไอคอน
+                                    ),
+                                    SizedBox(
+                                        width:
+                                            10), // ระยะห่างระหว่างไอคอนและข้อความ
+                                    Text(
+                                      building.buildingname ?? '',
+                                      style: const TextStyle(
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.white,
+                                      ),
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                                  ],
+                                ),
+                              );
+                            }),
+                          ],
+                          onChanged: (val) {
+                            setState(() {
+                              buildingId = val;
+                              selectedRoom = '';
+                              if (val != '') {
+                                print("Controller: $buildingId");
+                                findlistRoomByIdBybuilding_id(
+                                    int.parse(val!), RoomType);
+                              }
+                            });
+                          },
+                          buttonStyleData: ButtonStyleData(
+                            height: 60,
+                            width: 380,
+                            padding: const EdgeInsets.only(left: 14, right: 14),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(14),
+                              border: Border.all(
+                                color: const Color.fromARGB(66, 255, 255, 255),
+                              ),
+                              color: Colors.redAccent,
+                            ),
+                            elevation: 2,
+                          ),
+                          iconStyleData: const IconStyleData(
+                            icon: Icon(
+                              Icons.arrow_forward_ios_outlined,
+                            ),
+                            iconSize: 18,
+                            iconEnabledColor:
+                                Color.fromARGB(255, 255, 255, 255),
+                            iconDisabledColor: Colors.grey,
+                          ),
+                          dropdownStyleData: DropdownStyleData(
+                            maxHeight: 200,
+                            width: 380,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(14),
+                              color: Colors.redAccent,
+                            ),
+                            offset: const Offset(-20, 0),
+                            scrollbarTheme: ScrollbarThemeData(
+                              radius: const Radius.circular(40),
+                              thickness: MaterialStateProperty.all(6),
+                              thumbVisibility: MaterialStateProperty.all(true),
+                            ),
+                          ),
+                          menuItemStyleData: const MenuItemStyleData(
+                            height: 40,
+                            padding: EdgeInsets.only(left: 14, right: 14),
+                          ),
+                        ),
+                      ),
+
                       ...buildEquipmentWidgets(),
                     ]),
                   ),
@@ -631,92 +746,107 @@ class _MyWidgetState extends State<MyEdit> {
                 gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 3,
                 ),
-                itemCount: equipmentImages[equipmentId]?.length ?? 0,
+                itemCount: 1, // ให้แสดงเพียงรูปภาพเดียว
                 itemBuilder: (BuildContext context, int imageIndex) {
-                  String fileName = equipmentImages[equipmentId]![imageIndex]
-                      .path
-                      .split('/')
-                      .last;
-                  imageFileNames.add(fileName); // เพิ่มชื่อไฟล์ลงใน List
-                  return Padding(
-                    padding: const EdgeInsets.all(2),
-                    child: Stack(
-                      children: [
-                        Image.file(File(
-                            equipmentImages[equipmentId]![imageIndex]
-                                .path)), // Display the image
-                        Positioned(
-                          bottom: 0,
-                          left: 0,
-                          right: 79,
-                          child: Container(
-                            color: Colors.black.withOpacity(0.7),
-                            padding: EdgeInsets.all(5.0),
-                            child: Text(
-                              fileName, // Display the image name
-                              style: TextStyle(color: Colors.white),
-                            ),
-                          ),
-                        ),
-                        Positioned(
-                          top: 0,
-                          right: 30,
-                          child: IconButton(
-                            icon: Icon(
-                              Icons.highlight_remove_sharp,
-                              color: Colors.red,
-                            ),
-                            onPressed: () {
-                              // Remove the image from the equipmentImages map
-                              setState(() {
-                                equipmentImages[equipmentId]!
-                                    .removeAt(imageIndex);
-                              });
+                  final imagesForEquipment = getImagesForEquipment(equipmentId);
 
-                              // Remove the image name from the imageFileNames list
-                              String fileNameToRemove =
-                                  imageFileNames[imageIndex];
-                              imageFileNames.removeWhere(
-                                  (fileName) => fileName == fileNameToRemove);
-                            },
+                  if (imageIndex < imagesForEquipment.length) {
+                    final imageName = imagesForEquipment[imageIndex];
+                    final imagePath =
+                        '$baseURL/informrepairdetails/image/$imageName';
+                    inform_pictures.add(imageName);
+
+                    //       final image = equipmentImages[equipmentId]![imageIndex];
+                    // final imagePath = image.path;
+                    // final imageName = imagePath.split('/').last;
+
+                    // if (!inform_pictures.contains(imageName)) {
+                    //   inform_pictures.add(imageName);
+                    // }
+
+                    return Padding(
+                      padding: const EdgeInsets.all(2),
+                      child: Stack(
+                        children: [
+                          Image.network(imagePath),
+                          Positioned(
+                            bottom: 0,
+                            left: 0,
+                            right: 79,
+                            child: Container(
+                              color: Colors.black.withOpacity(0.7),
+                              padding: EdgeInsets.all(5.0),
+                              child: Text(
+                                imageName,
+                                style: TextStyle(color: Colors.white),
+                              ),
+                            ),
                           ),
-                        ),
-                      ],
-                    ),
-                  );
+                          Positioned(
+                            top: 0,
+                            right: 30,
+                            child: IconButton(
+                              icon: Icon(
+                                Icons.highlight_remove_sharp,
+                                color: Colors.red,
+                              ),
+                              onPressed: () {
+                                setState(() {
+                                  final equipmentImagesList =
+                                      equipmentImages[equipmentId];
+                                  if (equipmentImagesList != null &&
+                                      imageIndex < equipmentImagesList.length) {
+                                    equipmentImagesList.removeAt(imageIndex);
+                                  }
+
+                                  if (imageIndex < imageFileNames.length) {
+                                    String fileNameToRemove =
+                                        imageFileNames[imageIndex];
+                                    imageFileNames.remove(fileNameToRemove);
+                                  }
+                                });
+                              },
+                            ),
+                          ),
+                        ],
+                      ),
+                    );
+                  } else {
+                    return Container(); // หากไม่มีรูปภาพสำหรับอุปกรณ์นี้
+                  }
                 },
               ),
-              Wrap(
-                spacing: 8.0, // ระยะห่างระหว่างรูปภาพในแนวนอน
-                runSpacing: 8.0, // ระยะห่างระหว่างรูปภาพในแนวดิ่ง
-                children: List.generate(
-                  1,
-                  (index) {
-                    final informPicture = pictures!.firstWhere(
-                      (inform) {
-                        final parts = inform.split(',');
-                        return parts.length == 2 && parts[0] == equipmentId;
-                      },
-                      orElse: () => "",
-                    );
+              // Wrap(
+              //   spacing: 8.0, // ระยะห่างระหว่างรูปภาพในแนวนอน
+              //   runSpacing: 8.0, // ระยะห่างระหว่างรูปภาพในแนวดิ่ง
+              //   children: List.generate(
+              //     1,
+              //     (index) {
+              //       final informPicture = inform_pictures.firstWhere(
+              //         (inform) {
+              //           final parts = inform.split(',');
+              //           return parts.length == 2 && parts[0] == equipmentId;
+              //         },
+              //         orElse: () => "",
+              //       );
 
-                    if (informPicture != null) {
-                      final parts = informPicture.split(',');
-                      final imageName = parts[1];
-                      return Container(
-                        width: 200,
-                        height: 350,
-                        child: Image.network(
-                          baseURL + '/informrepairdetails/image/$imageName',
-                          fit: BoxFit.cover,
-                        ),
-                      );
-                    } else {
-                      return Container(); // หากไม่พบข้อมูลรูปภาพสำหรับอุปกรณ์นี้
-                    }
-                  },
-                ),
-              )
+              //       if (informPicture != null) {
+              //         final parts = informPicture.split(',');
+              //         final imageName = parts[1];
+              //         return Container(
+              //           width: 200,
+              //           height: 350,
+              //           child: Image.network(
+              //             baseURL + '/report_pictures/image/$imageName',
+              //             fit: BoxFit.cover,
+              //           ),
+              //         );
+              //       } else {
+              //         return Container(); // หากไม่พบข้อมูลรูปภาพสำหรับอุปกรณ์นี้
+              //       }
+              //     },
+              //   ),
+              // )
             ],
           ),
         );
