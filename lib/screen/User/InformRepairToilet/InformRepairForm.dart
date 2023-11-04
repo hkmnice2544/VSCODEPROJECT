@@ -1020,14 +1020,14 @@ class Form extends State<InformRepairForm> {
                     Padding(
                       padding: const EdgeInsets.all(10.0),
                       child: Container(
-                        width: 390,
+                        width: 450,
                         height: 50,
                         child: Stack(children: [
                           Positioned(
                             left: 0,
                             top: 0,
                             child: Container(
-                              width: 390,
+                              width: 450,
                               height: 50,
                               decoration: ShapeDecoration(
                                 color: Colors.white,
@@ -1048,30 +1048,30 @@ class Form extends State<InformRepairForm> {
                             ),
                           ),
                           Positioned(
-                            left: 50,
+                            left: 20,
                             top: 11,
                             child: SizedBox(
-                              width: 450,
+                              width: 400,
                               height: 27,
                               child: Text.rich(
                                 TextSpan(
                                   children: [
                                     WidgetSpan(
-                                      child: Icon(Icons.topic_outlined,
+                                      child: Icon(Icons.build,
                                           color: const Color.fromARGB(
                                               255, 0, 0, 0)),
                                     ),
                                     WidgetSpan(
                                       child: SizedBox(
                                           width:
-                                              25), // ระยะห่าง 10 พิกเซลระหว่าง TextSpan
+                                              10), // ระยะห่าง 10 พิกเซลระหว่าง TextSpan
                                     ),
                                     TextSpan(
                                       text: 'อุปกรณ์ชำรุด',
                                       style: GoogleFonts.prompt(
                                         textStyle: TextStyle(
                                           color: Color.fromARGB(255, 0, 0, 0),
-                                          fontSize: 20,
+                                          fontSize: 18,
                                         ),
                                       ),
                                     ),
@@ -1222,22 +1222,28 @@ class Form extends State<InformRepairForm> {
 
     for (int index = 0; index < equipmentIds.length; index++) {
       final equipmentId = equipmentIds[index];
-      widgets.add(
-        CheckboxListTile(
-          controlAffinity: ListTileControlAffinity.leading,
-          title: Text(equipmentName[index]),
-          value: isChecked[index],
-          onChanged: (bool? value) {
-            setState(() {
-              isChecked[index] = value ?? false;
-              if (value == true) {
-                detailscontrollers[index].text = '';
-                amountcontrollers[index].text = '';
-              }
-            });
-          },
+      widgets.add(CheckboxListTile(
+        controlAffinity: ListTileControlAffinity.leading,
+        title: Text(
+          equipmentName[index],
+          style: GoogleFonts.prompt(
+            textStyle: TextStyle(
+              color: Color.fromARGB(255, 0, 0, 0),
+              fontSize: 16,
+            ),
+          ),
         ),
-      );
+        value: isChecked[index],
+        onChanged: (bool? value) {
+          setState(() {
+            isChecked[index] = value ?? false;
+            if (value == true) {
+              detailscontrollers[index].text = '';
+              amountcontrollers[index].text = '';
+            }
+          });
+        },
+      ));
 
       widgets.add(
         Visibility(
