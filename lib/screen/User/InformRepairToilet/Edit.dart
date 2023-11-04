@@ -429,109 +429,109 @@ class _MyWidgetState extends State<MyEdit> {
                       ),
 
                       //  //--------------------------------------------
-                      Row(
-                        children: [
-                          Expanded(child: Icon(Icons.business)),
-                          Expanded(
-                            child: Text(
-                              "อาคาร  :",
-                              style: TextStyle(
-                                color: Colors.black,
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ),
-                          Expanded(
-                            child: DropdownButton<String>(
-                              isExpanded: true,
-                              value: buildingId,
-                              items: [
-                                DropdownMenuItem<String>(
-                                  child: Text('กรุณาเลือกอาคาร'),
-                                  value: '',
-                                ),
-                                ...buildings.map((Building? building) {
-                                  return DropdownMenuItem<String>(
-                                    child: Text(building!.buildingname ?? ''),
-                                    value: building.building_id.toString(),
-                                  );
-                                }).toList(),
-                              ],
-                              onChanged: (val) {
-                                setState(() {
-                                  buildingId = val;
-                                  selectedRoom = '';
-                                  if (val != '') {
-                                    print("Controller: $buildingId");
-                                    findlistRoomByIdBybuilding_id(
-                                        int.parse(val!), RoomType);
-                                  }
-                                });
-                              },
-                              icon: const Icon(
-                                Icons.arrow_drop_down_circle,
-                                color: Colors.red,
-                              ),
-                              dropdownColor: Colors.white,
-                            ),
-                          )
-                        ],
-                      ),
+                      // Row(
+                      //   children: [
+                      //     Expanded(child: Icon(Icons.business)),
+                      //     Expanded(
+                      //       child: Text(
+                      //         "อาคาร  :",
+                      //         style: TextStyle(
+                      //           color: Colors.black,
+                      //           fontSize: 20,
+                      //           fontWeight: FontWeight.bold,
+                      //         ),
+                      //       ),
+                      //     ),
+                      //     Expanded(
+                      //       child: DropdownButton<String>(
+                      //         isExpanded: true,
+                      //         value: buildingId,
+                      //         items: [
+                      //           DropdownMenuItem<String>(
+                      //             child: Text('กรุณาเลือกอาคาร'),
+                      //             value: '',
+                      //           ),
+                      //           ...buildings.map((Building? building) {
+                      //             return DropdownMenuItem<String>(
+                      //               child: Text(building!.buildingname ?? ''),
+                      //               value: building.building_id.toString(),
+                      //             );
+                      //           }).toList(),
+                      //         ],
+                      //         onChanged: (val) {
+                      //           setState(() {
+                      //             buildingId = val;
+                      //             selectedRoom = '';
+                      //             if (val != '') {
+                      //               print("Controller: $buildingId");
+                      //               findlistRoomByIdBybuilding_id(
+                      //                   int.parse(val!), RoomType);
+                      //             }
+                      //           });
+                      //         },
+                      //         icon: const Icon(
+                      //           Icons.arrow_drop_down_circle,
+                      //           color: Colors.red,
+                      //         ),
+                      //         dropdownColor: Colors.white,
+                      //       ),
+                      //     )
+                      //   ],
+                      // ),
 
-                      Container(
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            Expanded(child: Icon(Icons.business)),
-                            Expanded(
-                              child: Text(
-                                "ห้อง  :",
-                                style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ),
-                            Expanded(
-                              child: DropdownButton<String>(
-                                isExpanded: true,
-                                value: selectedRoom,
-                                items: [
-                                  DropdownMenuItem<String>(
-                                    child: Text('กรุณาเลือกห้อง'),
-                                    value: '', // หรือค่าว่าง
-                                  ),
-                                  ...rooms.map((Room? room) {
-                                    return DropdownMenuItem<String>(
-                                      child: Text("ห้อง " +
-                                          room!.room_id.toString() +
-                                          " ชั้น " +
-                                          room.floor.toString() +
-                                          " ตำแหน่ง " +
-                                          room.position.toString() +
-                                          " " +
-                                          room.roomname.toString()),
-                                      value: room.room_id.toString(),
-                                    );
-                                  }).toList(),
-                                ],
-                                onChanged: (val) {
-                                  setState(() {
-                                    selectedRoom = val;
-                                  });
-                                },
-                                icon: const Icon(
-                                  Icons.arrow_drop_down_circle,
-                                  color: Colors.red,
-                                ),
-                                dropdownColor: Colors.white,
-                              ),
-                            )
-                          ],
-                        ),
-                      ),
+                      // Container(
+                      //   child: Row(
+                      //     mainAxisAlignment: MainAxisAlignment.start,
+                      //     children: [
+                      //       Expanded(child: Icon(Icons.business)),
+                      //       Expanded(
+                      //         child: Text(
+                      //           "ห้อง  :",
+                      //           style: TextStyle(
+                      //             color: Colors.black,
+                      //             fontSize: 20,
+                      //             fontWeight: FontWeight.bold,
+                      //           ),
+                      //         ),
+                      //       ),
+                      //       Expanded(
+                      //         child: DropdownButton<String>(
+                      //           isExpanded: true,
+                      //           value: selectedRoom,
+                      //           items: [
+                      //             DropdownMenuItem<String>(
+                      //               child: Text('กรุณาเลือกห้อง'),
+                      //               value: '', // หรือค่าว่าง
+                      //             ),
+                      //             ...rooms.map((Room? room) {
+                      //               return DropdownMenuItem<String>(
+                      //                 child: Text("ห้อง " +
+                      //                     room!.room_id.toString() +
+                      //                     " ชั้น " +
+                      //                     room.floor.toString() +
+                      //                     " ตำแหน่ง " +
+                      //                     room.position.toString() +
+                      //                     " " +
+                      //                     room.roomname.toString()),
+                      //                 value: room.room_id.toString(),
+                      //               );
+                      //             }).toList(),
+                      //           ],
+                      //           onChanged: (val) {
+                      //             setState(() {
+                      //               selectedRoom = val;
+                      //             });
+                      //           },
+                      //           icon: const Icon(
+                      //             Icons.arrow_drop_down_circle,
+                      //             color: Colors.red,
+                      //           ),
+                      //           dropdownColor: Colors.white,
+                      //         ),
+                      //       )
+                      //     ],
+                      //   ),
+                      // ),
 
                       Row(children: [
                         Expanded(child: Icon(Icons.topic_outlined)),
@@ -576,9 +576,19 @@ class _MyWidgetState extends State<MyEdit> {
                           ),
                           value: buildingId,
                           items: [
+                            DropdownMenuItem<String>(
+                              child: Text(
+                                'กรุณาเลือกอาคาร',
+                                style: const TextStyle(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.white,
+                                ),
+                              ),
+                              value: '', // หรือค่าว่าง
+                            ),
                             ...buildings.map((Building? building) {
                               return DropdownMenuItem<String>(
-                                value: building!.building_id.toString(),
                                 child: Row(
                                   children: [
                                     Icon(
@@ -592,7 +602,7 @@ class _MyWidgetState extends State<MyEdit> {
                                         width:
                                             10), // ระยะห่างระหว่างไอคอนและข้อความ
                                     Text(
-                                      building.buildingname ?? '',
+                                      building!.buildingname ?? '',
                                       style: const TextStyle(
                                         fontSize: 14,
                                         fontWeight: FontWeight.bold,
@@ -602,8 +612,9 @@ class _MyWidgetState extends State<MyEdit> {
                                     ),
                                   ],
                                 ),
+                                value: building!.building_id.toString(),
                               );
-                            }),
+                            }).toList(),
                           ],
                           onChanged: (val) {
                             setState(() {
@@ -687,6 +698,17 @@ class _MyWidgetState extends State<MyEdit> {
                           ),
                           value: selectedRoom,
                           items: [
+                            DropdownMenuItem<String>(
+                              child: Text(
+                                'กรุณาเลือกห้อง',
+                                style: TextStyle(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.bold,
+                                  color: Color.fromARGB(255, 255, 255, 255),
+                                ),
+                              ),
+                              value: '', // หรือค่าว่าง
+                            ),
                             ...rooms.map((Room? room) {
                               return DropdownMenuItem<String>(
                                 child: Row(
