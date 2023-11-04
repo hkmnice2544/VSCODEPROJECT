@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutterr/screen/Login.dart';
 import 'package:flutterr/screen/User/InformRepairToilet/Edit.dart';
 import 'package:flutterr/screen/User/InformRepairToilet/EditInformRepair.dart';
+import 'package:flutterr/screen/User/ListInformRepair/View_NewItem.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -22,6 +23,7 @@ class MainApp extends StatelessWidget {
     SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
     return MaterialApp(
       debugShowCheckedModeBanner: false,
+      // home: View_NewItem(user: 1001, informrepair_id: 10001),
       // home: Login(),
       // home: EditInformRepairs(user: 1001, informrepair_id: 10001),
       home: MyEdit(user: 1001, informrepair_id: 10004),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutterr/constant/constant_value.dart';
 import 'package:flutterr/controller/informrepairdetails_controller.dart';
 import 'package:flutterr/model/InformRepairDetails_Model.dart';
 import '../../../controller/informrepair_controller.dart';
@@ -11,6 +12,7 @@ import 'package:google_fonts/google_fonts.dart';
 class View_NewItem extends StatefulWidget {
   final int? informrepair_id;
   final int? user;
+
   const View_NewItem({super.key, this.informrepair_id, this.user});
 
   @override
@@ -67,6 +69,45 @@ class _ViewResultState extends State<View_NewItem> {
     });
   }
 
+  List<String>? pictures = [];
+
+  void findpicturesByIdByinformrepair_id(String informrepair_id) async {
+    pictures = await informRepairDetailsController
+        .findpicturesByIdByinformrepair_id(informrepair_id);
+    print(" pictures : ${pictures}");
+    setState(() {
+      isDataLoaded = true;
+    });
+  }
+
+  List<String> equipmentIds = [];
+  String? selectedRoomId;
+  String? roomIds;
+  List<String>? Room_id = [];
+  List<String> equipmentName = [];
+
+  void findequipmentByIdByAll(String selectedRoom) async {
+    equipmentIds =
+        await informController.findequipment_idByIdByroom_id(selectedRoom);
+
+    for (int i = 0; i < equipmentIds.length; i++) {
+      int? equipmentId = int.tryParse(equipmentIds[i]);
+      if (equipmentId != null) {
+        String name = await informController
+            .findequipmentnameByIdByequipment_id(equipmentId)
+            .then((value) => value.first);
+        equipmentName.add(name);
+      }
+    }
+
+    print("equipmentIds : $equipmentIds");
+    print("equipmentName : $equipmentName");
+
+    setState(() {
+      isDataLoaded = true;
+    });
+  }
+
   List<InformRepairDetails> informDetails = [];
 
   Future getInformDetails(int informrepair_id) async {
@@ -91,6 +132,9 @@ class _ViewResultState extends State<View_NewItem> {
     getListInformRepairDetails();
     getInformDetails(widget.informrepair_id!);
     ViewListInformDetails(widget.informrepair_id!);
+    findpicturesByIdByinformrepair_id(widget.informrepair_id.toString());
+    print(" pictures : ${pictures}");
+    List<String> equipmentIds = ["1001", "1002"];
   }
 
   @override
@@ -121,7 +165,6 @@ class _ViewResultState extends State<View_NewItem> {
         color: Color.fromARGB(255, 245, 59, 59),
         height: 50,
         shape: CircularNotchedRectangle(), // รูปร่างของแถบ
-
         child: Row(
             // mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
@@ -601,6 +644,41 @@ class _ViewResultState extends State<View_NewItem> {
                                     ),
                                   ),
                                 ]),
+                                Wrap(
+                                  spacing: 8.0, // ระยะห่างระหว่างรูปภาพในแนวนอน
+                                  runSpacing:
+                                      8.0, // ระยะห่างระหว่างรูปภาพในแนวดิ่ง
+                                  children: List.generate(
+                                    1,
+                                    (index) {
+                                      final informPicture =
+                                          pictures!.firstWhere(
+                                        (inform) {
+                                          final parts = inform.split(',');
+                                          return parts.length == 2 &&
+                                              parts[0] == "1002";
+                                        },
+                                        orElse: () => "",
+                                      );
+
+                                      if (informPicture != null) {
+                                        final parts = informPicture.split(',');
+                                        final imageName = parts[1];
+                                        return Container(
+                                          width: 200,
+                                          height: 350,
+                                          child: Image.network(
+                                            baseURL +
+                                                '/informrepairdetails/image/$imageName',
+                                            fit: BoxFit.cover,
+                                          ),
+                                        );
+                                      } else {
+                                        return Container(); // หากไม่พบข้อมูลรูปภาพสำหรับอุปกรณ์นี้
+                                      }
+                                    },
+                                  ),
+                                )
                               ])));
                     },
                   ),
