@@ -59,7 +59,7 @@ class _HomeState extends State<Home> {
                   textAlign: TextAlign.center,
                   style: GoogleFonts.prompt(
                     textStyle: TextStyle(
-                      color: Color.fromARGB(255, 0, 0, 0),
+                      color: Color.fromRGBO(7, 94, 53, 1),
                       fontSize: 30,
                       fontWeight: FontWeight.bold,
                     ),

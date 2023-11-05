@@ -4,6 +4,7 @@ import '../../../Model/informrepair_model.dart';
 import '../../../controller/review_controller.dart';
 import '../../../model/Review_Model.dart';
 import 'View_ResultReview.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class listReviewResult extends StatefulWidget {
   final int? user;
@@ -97,50 +98,83 @@ class _listAllInformRepairsState extends State<listReviewResult> {
                             children: [
                               Row(children: [
                                 Expanded(
-                                  child: Text(
-                                    "เลขที่แจ้งซ่อม",
-                                    style: const TextStyle(
-                                        fontFamily: 'Itim', fontSize: 22),
-                                  ),
+                                  child: Text("เลขที่แจ้งซ่อม",
+                                      style: GoogleFonts.prompt(
+                                        textStyle: TextStyle(
+                                          color: Color.fromRGBO(0, 0, 0, 1),
+                                          fontSize: 20,
+                                        ),
+                                      )),
                                 ),
                                 Expanded(
-                                  child: Text(
-                                    "${reviews?[index].review_id}",
-                                    style: const TextStyle(
-                                        fontFamily: 'Itim', fontSize: 22),
-                                  ),
-                                ),
-                              ]),
-                              Row(children: [
-                                Expanded(
-                                  child: Text(
-                                    "วันที่รีวิว",
-                                    style: const TextStyle(
-                                        fontFamily: 'Itim', fontSize: 22),
-                                  ),
-                                ),
-                                Expanded(
-                                  child: Text(
-                                    "${reviews?[index].formattedreviewdateDate()}",
-                                    style: const TextStyle(
-                                        fontFamily: 'Itim', fontSize: 22),
-                                  ),
+                                  child: Text("${reviews?[index].review_id}",
+                                      style: GoogleFonts.prompt(
+                                        textStyle: TextStyle(
+                                          color: Color.fromRGBO(0, 0, 0, 1),
+                                          fontSize: 20,
+                                        ),
+                                      )),
                                 ),
                               ]),
                               Row(children: [
                                 Expanded(
-                                  child: Text(
-                                    "ความคิดเห็น ",
-                                    style: const TextStyle(
-                                        fontFamily: 'Itim', fontSize: 22),
-                                  ),
+                                  child: Text("วันที่รีวิว",
+                                      style: GoogleFonts.prompt(
+                                        textStyle: TextStyle(
+                                          color: Color.fromRGBO(0, 0, 0, 1),
+                                          fontSize: 20,
+                                        ),
+                                      )),
                                 ),
                                 Expanded(
                                   child: Text(
-                                    "${reviews?[index].comment}",
-                                    style: const TextStyle(
-                                        fontFamily: 'Itim', fontSize: 22),
-                                  ),
+                                      "${reviews?[index].formattedreviewdateDate()}",
+                                      style: GoogleFonts.prompt(
+                                        textStyle: TextStyle(
+                                          color: Color.fromRGBO(0, 0, 0, 1),
+                                          fontSize: 20,
+                                        ),
+                                      )),
+                                ),
+                              ]),
+                              Row(children: [
+                                Expanded(
+                                  child: Text("ความคิดเห็น ",
+                                      style: GoogleFonts.prompt(
+                                        textStyle: TextStyle(
+                                          color: Color.fromRGBO(0, 0, 0, 1),
+                                          fontSize: 20,
+                                        ),
+                                      )),
+                                ),
+                                Expanded(
+                                  child: Text("${reviews?[index].comment}",
+                                      style: GoogleFonts.prompt(
+                                        textStyle: TextStyle(
+                                          color: Color.fromRGBO(0, 0, 0, 1),
+                                          fontSize: 20,
+                                        ),
+                                      )),
+                                ),
+                              ]),
+                              Row(children: [
+                                Expanded(
+                                  child: Text("ผู้แจ้ง ",
+                                      style: GoogleFonts.prompt(
+                                        textStyle: TextStyle(
+                                          color: Color.fromRGBO(0, 0, 0, 1),
+                                          fontSize: 20,
+                                        ),
+                                      )),
+                                ),
+                                Expanded(
+                                  child: Text("${reviews?[index].reviewer} ",
+                                      style: GoogleFonts.prompt(
+                                        textStyle: TextStyle(
+                                          color: Color.fromRGBO(0, 0, 0, 1),
+                                          fontSize: 20,
+                                        ),
+                                      )),
                                 ),
                               ]),
                             ],

@@ -6,6 +6,7 @@ import '../../../controller/informrepair_controller.dart';
 import '../../../model/informrepair_model.dart';
 import 'ReportInform.dart';
 import 'View_NewInform.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class listNewInform extends StatefulWidget {
   final int? user;
@@ -103,26 +104,26 @@ class NewInform extends State<listNewInform> {
           : Column(children: [
               Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: TextField(
-                  decoration: InputDecoration(
-                    labelText: 'ค้นหาเลขที่แจ้งซ่อม',
-                    prefixIcon: Icon(Icons.search),
-                  ),
-                  onChanged: (value) {
-                    setState(() {
-                      searchQuery = value;
-                      if (searchQuery.isNotEmpty) {
-                        informRepairList = informrepairs
-                            ?.where((informrepair) =>
-                                informrepair.informrepair_id.toString() ==
-                                searchQuery)
-                            .toList();
-                      } else {
-                        informRepairDetailsList = null; // เมื่อค่าค้นหาเป็นว่าง
-                      }
-                    });
-                  },
-                ),
+                // child: TextField(
+                //   decoration: InputDecoration(
+                //     labelText: 'ค้นหาเลขที่แจ้งซ่อม',
+                //     prefixIcon: Icon(Icons.search),
+                //   ),
+                //   onChanged: (value) {
+                //     setState(() {
+                //       searchQuery = value;
+                //       if (searchQuery.isNotEmpty) {
+                //         informRepairList = informrepairs
+                //             ?.where((informrepair) =>
+                //                 informrepair.informrepair_id.toString() ==
+                //                 searchQuery)
+                //             .toList();
+                //       } else {
+                //         informRepairDetailsList = null; // เมื่อค่าค้นหาเป็นว่าง
+                //       }
+                //     });
+                //   },
+                // ),
               ),
               Expanded(
                 child: ListView.builder(
@@ -153,50 +154,86 @@ class NewInform extends State<listNewInform> {
                             children: [
                               Row(children: [
                                 Expanded(
-                                  child: Text(
-                                    "เลขที่แจ้งซ่อม",
-                                    style: const TextStyle(
-                                        fontFamily: 'Itim', fontSize: 22),
-                                  ),
+                                  child: Text("เลขที่แจ้งซ่อม",
+                                      style: GoogleFonts.prompt(
+                                        textStyle: TextStyle(
+                                          color: Color.fromRGBO(0, 0, 0, 1),
+                                          fontSize: 20,
+                                        ),
+                                      )),
                                 ),
                                 Expanded(
                                   child: Text(
-                                    "${informRepairDetailsList?[index].informRepair?.informrepair_id}",
-                                    style: const TextStyle(
-                                        fontFamily: 'Itim', fontSize: 22),
-                                  ),
-                                ),
-                              ]),
-                              Row(children: [
-                                Expanded(
-                                  child: Text(
-                                    "วันที่แจ้งซ่อม",
-                                    style: const TextStyle(
-                                        fontFamily: 'Itim', fontSize: 22),
-                                  ),
-                                ),
-                                Expanded(
-                                  child: Text(
-                                    "${informRepairDetailsList?[index].informRepair?.formattedInformDate()}",
-                                    style: const TextStyle(
-                                        fontFamily: 'Itim', fontSize: 22),
-                                  ),
+                                      "${informRepairDetailsList?[index].informRepair?.informrepair_id}",
+                                      style: GoogleFonts.prompt(
+                                        textStyle: TextStyle(
+                                          color: Color.fromRGBO(0, 0, 0, 1),
+                                          fontSize: 20,
+                                        ),
+                                      )),
                                 ),
                               ]),
                               Row(children: [
                                 Expanded(
-                                  child: Text(
-                                    "สถานะ ",
-                                    style: const TextStyle(
-                                        fontFamily: 'Itim', fontSize: 22),
-                                  ),
+                                  child: Text("วันที่แจ้งซ่อม",
+                                      style: GoogleFonts.prompt(
+                                        textStyle: TextStyle(
+                                          color: Color.fromRGBO(0, 0, 0, 1),
+                                          fontSize: 20,
+                                        ),
+                                      )),
                                 ),
                                 Expanded(
                                   child: Text(
-                                    "${informRepairDetailsList?[index].informRepair?.status}",
-                                    style: const TextStyle(
-                                        fontFamily: 'Itim', fontSize: 22),
-                                  ),
+                                      "${informRepairDetailsList?[index].informRepair?.formattedInformDate()}",
+                                      style: GoogleFonts.prompt(
+                                        textStyle: TextStyle(
+                                          color: Color.fromRGBO(0, 0, 0, 1),
+                                          fontSize: 20,
+                                        ),
+                                      )),
+                                ),
+                              ]),
+                              Row(children: [
+                                Expanded(
+                                  child: Text("สถานะ ",
+                                      style: GoogleFonts.prompt(
+                                        textStyle: TextStyle(
+                                          color: Color.fromRGBO(0, 0, 0, 1),
+                                          fontSize: 20,
+                                        ),
+                                      )),
+                                ),
+                                Expanded(
+                                  child: Text(
+                                      "${informRepairDetailsList?[index].informRepair?.status}",
+                                      style: GoogleFonts.prompt(
+                                        textStyle: TextStyle(
+                                          color: Color.fromRGBO(0, 0, 0, 1),
+                                          fontSize: 20,
+                                        ),
+                                      )),
+                                ),
+                              ]),
+                              Row(children: [
+                                Expanded(
+                                  child: Text("ผู้แจ้ง ",
+                                      style: GoogleFonts.prompt(
+                                        textStyle: TextStyle(
+                                          color: Color.fromRGBO(0, 0, 0, 1),
+                                          fontSize: 20,
+                                        ),
+                                      )),
+                                ),
+                                Expanded(
+                                  child: Text(
+                                      "${informRepairList?[index].user?.firstname} ${informRepairList?[index].user!.lastname}",
+                                      style: GoogleFonts.prompt(
+                                        textStyle: TextStyle(
+                                          color: Color.fromRGBO(0, 0, 0, 1),
+                                          fontSize: 20,
+                                        ),
+                                      )),
                                 ),
                               ]),
                             ],
@@ -228,8 +265,28 @@ class NewInform extends State<listNewInform> {
                                 ),
                               );
                             },
-                            child: Text('รายงานผล'),
+                            child: Text('รายงานผล',
+                                style: GoogleFonts.prompt(
+                                  textStyle: TextStyle(
+                                    color: Color.fromRGBO(0, 0, 0, 1),
+                                  ),
+                                )),
                           ),
+                          leading: informRepairList?[index].status ==
+                                  "ยังไม่ได้ดำเนินการ"
+                              ? Icon(Icons.warning,
+                                  color: Colors
+                                      .red) // สร้าง Icon แสดงสถานะ "ยังไม่ได้ดำเนินการ" ในสีแดง
+                              : informRepairList?[index].status == "เสร็จสิ้น"
+                                  ? Icon(Icons.check,
+                                      color: Colors
+                                          .green) // สร้าง Icon แสดงสถานะ "เสร็จสิ้น" ในสีเขียว
+                                  : informRepairList?[index].status ==
+                                          "กำลังดำเนินการ"
+                                      ? Icon(Icons.update,
+                                          color: Colors
+                                              .blue) // สร้าง Icon แสดงสถานะ "กำลังดำเนินการ" ในสีฟ้า
+                                      : null, // ถ้าสถานะไม่ใช่ทั้ง "ยังไม่ได้ดำเนินการ", "เสร็จสิ้น", หรือ "กำลังดำเนินการ" ให้ไม่แสด Icon
 
                           onTap: () {
                             WidgetsBinding.instance!.addPostFrameCallback((_) {

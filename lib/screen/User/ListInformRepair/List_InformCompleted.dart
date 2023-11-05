@@ -169,6 +169,28 @@ class _MyWidgetState extends State<InformCompleted> {
                                 //     ),
                                 //   ),
                                 // ]),
+
+                                Row(children: [
+                                  Expanded(
+                                    child: Text("ผู้แจ้ง ",
+                                        style: GoogleFonts.prompt(
+                                          textStyle: TextStyle(
+                                            color: Color.fromRGBO(0, 0, 0, 1),
+                                            fontSize: 20,
+                                          ),
+                                        )),
+                                  ),
+                                  Expanded(
+                                    child: Text(
+                                        "${reportRepair?[index].informRepairDetails?.informRepair?.user?.firstname} ${reportRepair?[index].informRepairDetails?.informRepair?.user?.lastname}",
+                                        style: GoogleFonts.prompt(
+                                          textStyle: TextStyle(
+                                            color: Color.fromRGBO(0, 0, 0, 1),
+                                            fontSize: 20,
+                                          ),
+                                        )),
+                                  ),
+                                ]),
                                 Row(children: [
                                   Expanded(
                                     child: Text("สถานะ",

@@ -3,6 +3,7 @@ import 'package:flutter/src/widgets/framework.dart';
 import '../../../controller/report_controller.dart';
 import '../../../model/Report_Model.dart';
 import 'View_Completed.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class ListCompleted extends StatefulWidget {
   final int? user;
@@ -87,70 +88,126 @@ class _MyWidgetState extends State<ListCompleted> {
                               children: [
                                 Row(children: [
                                   Expanded(
-                                    child: Text(
-                                      "เลขที่รายงานผล",
-                                      style: const TextStyle(
-                                          fontFamily: 'Itim', fontSize: 20),
-                                    ),
+                                    child: Text("เลขที่รายงานผล",
+                                        style: GoogleFonts.prompt(
+                                          textStyle: TextStyle(
+                                            color: Color.fromRGBO(0, 0, 0, 1),
+                                            fontSize: 20,
+                                          ),
+                                        )),
                                   ),
                                   Expanded(
                                     child: Text(
-                                      "${reportRepair?[index].report_id}",
-                                      style: const TextStyle(
-                                          fontFamily: 'Itim', fontSize: 20),
-                                    ),
-                                  ),
-                                ]),
-                                Row(children: [
-                                  Expanded(
-                                    child: Text(
-                                      "เลขที่แจ้งซ่อม",
-                                      style: const TextStyle(
-                                          fontFamily: 'Itim', fontSize: 20),
-                                    ),
-                                  ),
-                                  Expanded(
-                                    child: Text(
-                                      "${reportRepair?[index].informRepairDetails?.informRepair?.informrepair_id}",
-                                      style: const TextStyle(
-                                          fontFamily: 'Itim', fontSize: 20),
-                                    ),
+                                        "${reportRepair?[index].report_id}",
+                                        style: GoogleFonts.prompt(
+                                          textStyle: TextStyle(
+                                            color: Color.fromRGBO(0, 0, 0, 1),
+                                            fontSize: 20,
+                                          ),
+                                        )),
                                   ),
                                 ]),
                                 Row(children: [
                                   Expanded(
-                                    child: Text(
-                                      "วันที่รายงานผล",
-                                      style: const TextStyle(
-                                          fontFamily: 'Itim', fontSize: 20),
-                                    ),
+                                    child: Text("เลขที่แจ้งซ่อม",
+                                        style: GoogleFonts.prompt(
+                                          textStyle: TextStyle(
+                                            color: Color.fromRGBO(0, 0, 0, 1),
+                                            fontSize: 20,
+                                          ),
+                                        )),
                                   ),
                                   Expanded(
                                     child: Text(
-                                      "${reportRepair?[index].formattedInformDate()}",
-                                      style: const TextStyle(
-                                          fontFamily: 'Itim', fontSize: 20),
-                                    ),
+                                        "${reportRepair?[index].informRepairDetails?.informRepair?.informrepair_id}",
+                                        style: GoogleFonts.prompt(
+                                          textStyle: TextStyle(
+                                            color: Color.fromRGBO(0, 0, 0, 1),
+                                            fontSize: 20,
+                                          ),
+                                        )),
                                   ),
                                 ]),
                                 Row(children: [
                                   Expanded(
-                                    child: Text(
-                                      "สถานะ",
-                                      style: const TextStyle(
-                                          fontFamily: 'Itim', fontSize: 20),
-                                    ),
+                                    child: Text("วันที่รายงานผล",
+                                        style: GoogleFonts.prompt(
+                                          textStyle: TextStyle(
+                                            color: Color.fromRGBO(0, 0, 0, 1),
+                                            fontSize: 20,
+                                          ),
+                                        )),
                                   ),
                                   Expanded(
                                     child: Text(
-                                      "${reportRepair?[index].status}",
-                                      style: const TextStyle(
-                                          fontFamily: 'Itim', fontSize: 20),
-                                    ),
+                                        "${reportRepair?[index].formattedInformDate()}",
+                                        style: GoogleFonts.prompt(
+                                          textStyle: TextStyle(
+                                            color: Color.fromRGBO(0, 0, 0, 1),
+                                            fontSize: 20,
+                                          ),
+                                        )),
+                                  ),
+                                ]),
+                                Row(children: [
+                                  Expanded(
+                                    child: Text("ผู้แจ้ง ",
+                                        style: GoogleFonts.prompt(
+                                          textStyle: TextStyle(
+                                            color: Color.fromRGBO(0, 0, 0, 1),
+                                            fontSize: 20,
+                                          ),
+                                        )),
+                                  ),
+                                  Expanded(
+                                    child: Text(
+                                        "${reportRepair?[index].informRepairDetails?.informRepair?.user?.firstname} ${reportRepair?[index].informRepairDetails?.informRepair?.user?.lastname}",
+                                        style: GoogleFonts.prompt(
+                                          textStyle: TextStyle(
+                                            color: Color.fromRGBO(0, 0, 0, 1),
+                                            fontSize: 20,
+                                          ),
+                                        )),
+                                  ),
+                                ]),
+                                Row(children: [
+                                  Expanded(
+                                    child: Text("สถานะ",
+                                        style: GoogleFonts.prompt(
+                                          textStyle: TextStyle(
+                                            color: Color.fromRGBO(0, 0, 0, 1),
+                                            fontSize: 20,
+                                          ),
+                                        )),
+                                  ),
+                                  Expanded(
+                                    child: Text(
+                                        "${reportRepair?[index].status}",
+                                        style: GoogleFonts.prompt(
+                                          textStyle: TextStyle(
+                                            color: Color.fromRGBO(0, 0, 0, 1),
+                                            fontSize: 20,
+                                          ),
+                                        )),
                                   ),
                                 ]),
                               ],
                             ),
+                            leading: reportRepair?[index].status ==
+                                    "ยังไม่ได้ดำเนินการ"
+                                ? Icon(Icons.warning,
+                                    color: Colors
+                                        .red) // สร้าง Icon แสดงสถานะ "ยังไม่ได้ดำเนินการ" ในสีแดง
+                                : reportRepair?[index].status == "เสร็จสิ้น"
+                                    ? Icon(Icons.check,
+                                        color: Colors
+                                            .green) // สร้าง Icon แสดงสถานะ "เสร็จสิ้น" ในสีเขียว
+                                    : reportRepair?[index].status ==
+                                            "กำลังดำเนินการ"
+                                        ? Icon(Icons.update,
+                                            color: Colors
+                                                .blue) // สร้าง Icon แสดงสถานะ "กำลังดำเนินการ" ในสีฟ้า
+                                        : null, // ถ้าสถานะไม่ใช่ทั้ง "ยังไม่ได้ดำเนินการ", "เสร็จสิ้น", หรือ "กำลังดำเนินการ" ให้ไม่แสด Icon
 
                             onTap: () {
                               WidgetsBinding.instance!

@@ -180,6 +180,27 @@ class NewInform extends State<listNewItem> {
                                         )),
                                   ),
                                 ]),
+                                Row(children: [
+                                  Expanded(
+                                    child: Text("ผู้แจ้ง ",
+                                        style: GoogleFonts.prompt(
+                                          textStyle: TextStyle(
+                                            color: Color.fromRGBO(0, 0, 0, 1),
+                                            fontSize: 20,
+                                          ),
+                                        )),
+                                  ),
+                                  Expanded(
+                                    child: Text(
+                                        "${informRepairList?[index].user?.firstname} ${informRepairList?[index].user!.lastname}",
+                                        style: GoogleFonts.prompt(
+                                          textStyle: TextStyle(
+                                            color: Color.fromRGBO(0, 0, 0, 1),
+                                            fontSize: 20,
+                                          ),
+                                        )),
+                                  ),
+                                ]),
                               ],
                             ),
                             leading: informRepairList?[index].status ==

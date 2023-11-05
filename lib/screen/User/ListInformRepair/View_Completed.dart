@@ -177,294 +177,133 @@ class _ViewResultState extends State<ViewCompleted> {
                 alignment: Alignment.center,
               ),
               Padding(
-                padding: const EdgeInsets.all(20.0),
+                padding: const EdgeInsets.all(15.0),
                 child: Container(
-                  width: 390,
-                  height: 220,
+                  width: 432,
+                  height: 160,
                   child: Stack(
                     children: [
                       Positioned(
                         left: 0,
                         top: 0,
                         child: Container(
-                          width: 390,
-                          height: 220,
+                          width: 419,
+                          height: 160,
                           decoration: ShapeDecoration(
-                            color: Colors.white,
+                            color: Color.fromARGB(32, 41, 111, 29),
                             shape: RoundedRectangleBorder(
-                              side: BorderSide(
-                                  width: 1, color: Color(0xFFF0573D)),
-                              borderRadius: BorderRadius.circular(11),
-                            ),
-                            shadows: [
-                              BoxShadow(
-                                color: Color(0x3F000000),
-                                blurRadius: 4,
-                                offset: Offset(0, 4),
-                                spreadRadius: 0,
-                              )
-                            ],
-                          ),
-                        ),
-                      ),
-                      Positioned(
-                        left: 50,
-                        top: 11,
-                        child: SizedBox(
-                          width: 450,
-                          height: 27,
-                          child: Text.rich(
-                            TextSpan(
-                              children: [
-                                WidgetSpan(
-                                  child: Icon(Icons.list,
-                                      color:
-                                          const Color.fromARGB(255, 0, 0, 0)),
-                                ),
-                                WidgetSpan(
-                                  child: SizedBox(
-                                      width:
-                                          25), // ระยะห่าง 10 พิกเซลระหว่าง TextSpan
-                                ),
-                                TextSpan(
-                                  text: 'เลขที่แจ้งซ่อม :',
-                                  style: GoogleFonts.prompt(
-                                    textStyle: TextStyle(
-                                      color: Color.fromARGB(255, 0, 0, 0),
-                                      fontSize: 20,
-                                    ),
-                                  ),
-                                ),
-                                WidgetSpan(
-                                  child: SizedBox(
-                                      width:
-                                          15), // ระยะห่าง 10 พิกเซลระหว่าง TextSpan
-                                ),
-                                TextSpan(
-                                  text:
-                                      '${reportRepair?.informRepairDetails?.informRepair?.informrepair_id}',
-                                  style: GoogleFonts.prompt(
-                                    textStyle: TextStyle(
-                                      color: Color.fromARGB(255, 0, 0, 0),
-                                      fontSize: 20,
-                                    ),
-                                  ),
-                                ),
-                              ],
+                              borderRadius: BorderRadius.circular(20),
                             ),
                           ),
                         ),
                       ),
                       Positioned(
-                        left: 50,
-                        top: 50,
-                        child: SizedBox(
-                          width: 450,
-                          height: 27,
-                          child: Text.rich(
-                            TextSpan(
-                              children: [
-                                WidgetSpan(
-                                  child: Icon(Icons.date_range,
-                                      color:
-                                          const Color.fromARGB(255, 0, 0, 0)),
+                        left: 210,
+                        top: 23,
+                        child: Transform(
+                          transform: Matrix4.identity()
+                            ..translate(0.0, 0.0)
+                            ..rotateZ(1.57),
+                          child: Container(
+                            width: 120,
+                            decoration: ShapeDecoration(
+                              shape: RoundedRectangleBorder(
+                                side: BorderSide(
+                                  width: 1,
+                                  color: Color.fromARGB(255, 41, 111, 29),
+                                  strokeAlign: BorderSide.strokeAlignCenter,
                                 ),
-                                WidgetSpan(
-                                  child: SizedBox(
-                                      width:
-                                          25), // ระยะห่าง 10 พิกเซลระหว่าง TextSpan
-                                ),
-                                TextSpan(
-                                  text: 'วันที่แจ้งซ่อม  :',
-                                  style: GoogleFonts.prompt(
-                                    textStyle: TextStyle(
-                                      color: Color.fromARGB(255, 0, 0, 0),
-                                      fontSize: 20,
-                                    ),
-                                  ),
-                                ),
-                                WidgetSpan(
-                                  child: SizedBox(
-                                      width:
-                                          15), // ระยะห่าง 10 พิกเซลระหว่าง TextSpan
-                                ),
-                                TextSpan(
-                                  text:
-                                      '${reportRepair?.informRepairDetails?.informRepair?.formattedInformDate()}',
-                                  style: GoogleFonts.prompt(
-                                    textStyle: TextStyle(
-                                      color: Color.fromARGB(255, 0, 0, 0),
-                                      fontSize: 20,
-                                    ),
-                                  ),
-                                ),
-                              ],
+                              ),
                             ),
                           ),
                         ),
                       ),
                       Positioned(
-                        left: 50,
-                        top: 90,
+                        left: 72,
+                        top: 20,
+                        child: Icon(
+                          Icons.favorite, // เปลี่ยนไอคอนตรงนี้
+                          color: Color.fromRGBO(7, 94, 53, 1), // สีไอคอน
+                          size: 60, // ขนาดไอคอน
+                        ),
+                      ),
+                      Positioned(
+                        left: 64,
+                        top: 85,
                         child: SizedBox(
-                          width: 450,
-                          height: 90,
-                          child: Text.rich(
-                            TextSpan(
-                              children: [
-                                WidgetSpan(
-                                  child: Icon(Icons.ballot_outlined,
-                                      color:
-                                          const Color.fromARGB(255, 0, 0, 0)),
-                                ),
-                                WidgetSpan(
-                                  child: SizedBox(
-                                      width:
-                                          25), // ระยะห่าง 10 พิกเซลระหว่าง TextSpan
-                                ),
-                                TextSpan(
-                                  text: 'ผลการแจ้งซ่อม  :',
-                                  style: GoogleFonts.prompt(
-                                    textStyle: TextStyle(
-                                      color: Color.fromARGB(255, 0, 0, 0),
-                                      fontSize: 20,
-                                    ),
-                                  ),
-                                ),
-                                WidgetSpan(
-                                  child: SizedBox(
-                                      width:
-                                          10), // ระยะห่าง 10 พิกเซลระหว่าง TextSpan
-                                ),
-                                TextSpan(
-                                  text: '${reportRepair?.details}',
-                                  style: GoogleFonts.prompt(
-                                    textStyle: TextStyle(
-                                      color: Color.fromARGB(255, 0, 0, 0),
-                                      fontSize: 20,
-                                    ),
-                                  ),
-                                ),
-                              ],
+                          width: 200,
+                          height: 22,
+                          child: Text(
+                            'เลขที่แจ้งซ่อม',
+                            style: GoogleFonts.prompt(
+                              textStyle: TextStyle(
+                                color: Color.fromRGBO(7, 94, 53, 1),
+                                fontSize: 14,
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
                           ),
                         ),
                       ),
                       Positioned(
-                        left: 50,
-                        top: 130,
+                        left: 64,
+                        top: 110,
                         child: SizedBox(
-                          width: 450,
-                          height: 90,
-                          child: Text.rich(
-                            TextSpan(
-                              children: [
-                                WidgetSpan(
-                                  child: Icon(Icons.business,
-                                      color:
-                                          const Color.fromARGB(255, 0, 0, 0)),
-                                ),
-                                WidgetSpan(
-                                  child: SizedBox(
-                                      width:
-                                          25), // ระยะห่าง 10 พิกเซลระหว่าง TextSpan
-                                ),
-                                TextSpan(
-                                  text: 'ผู้ซ่อม   ',
-                                  style: GoogleFonts.prompt(
-                                    textStyle: TextStyle(
-                                      color: Color.fromARGB(255, 0, 0, 0),
-                                      fontSize: 20,
-                                    ),
-                                  ),
-                                ),
-                                WidgetSpan(
-                                  child: SizedBox(
-                                      width:
-                                          10), // ระยะห่าง 10 พิกเซลระหว่าง TextSpan
-                                ),
-                                TextSpan(
-                                  text: '${reportRepair?.repairer}',
-                                  style: GoogleFonts.prompt(
-                                    textStyle: TextStyle(
-                                      color: Color.fromARGB(255, 0, 0, 0),
-                                      fontSize: 20,
-                                    ),
-                                  ),
-                                ),
-                              ],
+                          width: 93,
+                          height: 52,
+                          child: Text(
+                            '${reportRepair?.informRepairDetails?.informRepair?.informrepair_id}',
+                            style: GoogleFonts.prompt(
+                              textStyle: TextStyle(
+                                color: Color.fromARGB(255, 0, 0, 0),
+                                fontSize: 25,
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
                           ),
                         ),
                       ),
                       Positioned(
-                        left: 50,
-                        top: 170,
+                        left: 288,
+                        top: 20,
+                        child: Icon(
+                          Icons.calendar_month_outlined, // เปลี่ยนไอคอนตรงนี้
+                          color: Color.fromRGBO(7, 94, 53, 1), // สีไอคอน
+                          size: 60, // ขนาดไอคอน
+                        ),
+                      ),
+                      Positioned(
+                        left: 279,
+                        top: 85,
                         child: SizedBox(
-                          width: 450,
-                          height: 90,
-                          child: Text.rich(
-                            TextSpan(
-                              children: [
-                                WidgetSpan(
-                                  child: Icon(Icons.bento_outlined,
-                                      color:
-                                          const Color.fromARGB(255, 0, 0, 0)),
-                                ),
-                                WidgetSpan(
-                                  child: SizedBox(
-                                      width:
-                                          25), // ระยะห่าง 10 พิกเซลระหว่าง TextSpan
-                                ),
-                                TextSpan(
-                                  text: 'สถานะ   ',
-                                  style: GoogleFonts.prompt(
-                                    textStyle: TextStyle(
-                                      color: Color.fromARGB(255, 0, 0, 0),
-                                      fontSize: 20,
-                                    ),
-                                  ),
-                                ),
-                                WidgetSpan(
-                                  child: SizedBox(
-                                      width:
-                                          10), // ระยะห่าง 10 พิกเซลระหว่าง TextSpan
-                                ),
-                                TextSpan(
-                                  text:
-                                      '${reportRepair?.informRepairDetails?.informRepair?.status}',
-                                  style: GoogleFonts.prompt(
-                                    textStyle: TextStyle(
-                                      color: Color.fromARGB(255, 0, 0, 0),
-                                      fontSize: 20,
-                                    ),
-                                  ),
-                                ),
-                              ],
+                          width: 81,
+                          height: 22,
+                          child: Text(
+                            'วันที่แจ้งซ่อม',
+                            style: GoogleFonts.prompt(
+                              textStyle: TextStyle(
+                                color: Color.fromRGBO(7, 94, 53, 1),
+                                fontSize: 14,
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
                           ),
                         ),
                       ),
                       Positioned(
-                        left: 50,
-                        top: 170,
+                        left: 252,
+                        top: 110,
                         child: SizedBox(
-                          width: 450,
-                          height: 90,
-                          child: Text.rich(
-                            TextSpan(
-                              children: [
-                                WidgetSpan(
-                                  child: Icon(Icons.bento_outlined,
-                                      color:
-                                          const Color.fromARGB(255, 0, 0, 0)),
-                                ),
-                                WidgetSpan(
-                                  child: SizedBox(
-                                      width:
-                                          25), // ระยะห่าง 10 พิกเซลระหว่าง TextSpan
-                                ),
-                              ],
+                          width: 174,
+                          height: 30,
+                          child: Text(
+                            '${reportRepair?.informRepairDetails?.informRepair?.formattedInformDate()}',
+                            style: GoogleFonts.prompt(
+                              textStyle: TextStyle(
+                                color: Color.fromARGB(255, 0, 0, 0),
+                                fontSize: 25,
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
                           ),
                         ),
@@ -473,22 +312,352 @@ class _ViewResultState extends State<ViewCompleted> {
                   ),
                 ),
               ),
-              Wrap(
-                spacing: 8.0, // ระยะห่างระหว่างรูปภาพในแนวนอน
-                runSpacing: 8.0, // ระยะห่างระหว่างรูปภาพในแนวดิ่ง
-                children: List.generate(
-                  report_picture.length,
-                  (index) {
-                    return Container(
-                      width: 200,
-                      height: 350,
-                      child: Image.network(
-                        baseURL +
-                            '/report_pictures/image/${report_picture[index]}',
-                        fit: BoxFit.cover,
+              Padding(
+                padding: const EdgeInsets.all(15.0),
+                child: Container(
+                  width: 432,
+                  height: 90,
+                  child: Stack(
+                    children: [
+                      Positioned(
+                        left: 0,
+                        top: 0,
+                        child: Container(
+                          width: 419,
+                          height: 90,
+                          decoration: ShapeDecoration(
+                            color: Color.fromARGB(32, 41, 111, 29),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(20),
+                            ),
+                          ),
+                        ),
                       ),
-                    );
-                  },
+                      Positioned(
+                        left: 40,
+                        top: 25,
+                        child: Icon(
+                          Icons.new_releases_outlined, // เปลี่ยนไอคอนตรงนี้
+                          color: Color.fromRGBO(7, 94, 53, 1), // สีไอคอน
+                          size: 40, // ขนาดไอคอน
+                        ),
+                      ),
+                      Positioned(
+                        left: 90,
+                        top: 25,
+                        child: SizedBox(
+                          width: 80,
+                          height: 50,
+                          child: Text(
+                            'ผลการแจ้งซ่อม',
+                            style: GoogleFonts.prompt(
+                              textStyle: TextStyle(
+                                color: Color.fromRGBO(7, 94, 53, 1),
+                                fontSize: 14,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                      Positioned(
+                        left: 210,
+                        top: 25,
+                        child: Transform(
+                          transform: Matrix4.identity()
+                            ..translate(0.0, 0.0)
+                            ..rotateZ(1.57),
+                          child: Container(
+                            width: 40,
+                            decoration: ShapeDecoration(
+                              shape: RoundedRectangleBorder(
+                                side: BorderSide(
+                                  width: 1,
+                                  color: Color.fromARGB(255, 41, 111, 29),
+                                  strokeAlign: BorderSide.strokeAlignCenter,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                      Positioned(
+                        left: 230,
+                        top: 30,
+                        child: SizedBox(
+                          width: 400,
+                          height: 52,
+                          child: Text(
+                            '${reportRepair?.details}',
+                            style: GoogleFonts.prompt(
+                              textStyle: TextStyle(
+                                color: Color.fromARGB(255, 0, 0, 0),
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(15.0),
+                child: Container(
+                  width: 432,
+                  height: 90,
+                  child: Stack(
+                    children: [
+                      Positioned(
+                        left: 0,
+                        top: 0,
+                        child: Container(
+                          width: 419,
+                          height: 90,
+                          decoration: ShapeDecoration(
+                            color: Color.fromARGB(32, 41, 111, 29),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(20),
+                            ),
+                          ),
+                        ),
+                      ),
+                      Positioned(
+                        left: 40,
+                        top: 25,
+                        child: Icon(
+                          Icons.person, // เปลี่ยนไอคอนตรงนี้
+                          color: Color.fromRGBO(7, 94, 53, 1), // สีไอคอน
+                          size: 40, // ขนาดไอคอน
+                        ),
+                      ),
+                      Positioned(
+                        left: 90,
+                        top: 35,
+                        child: SizedBox(
+                          width: 80,
+                          height: 50,
+                          child: Text(
+                            'ผู้ซ่อม',
+                            style: GoogleFonts.prompt(
+                              textStyle: TextStyle(
+                                color: Color.fromRGBO(7, 94, 53, 1),
+                                fontSize: 14,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                      Positioned(
+                        left: 210,
+                        top: 25,
+                        child: Transform(
+                          transform: Matrix4.identity()
+                            ..translate(0.0, 0.0)
+                            ..rotateZ(1.57),
+                          child: Container(
+                            width: 40,
+                            decoration: ShapeDecoration(
+                              shape: RoundedRectangleBorder(
+                                side: BorderSide(
+                                  width: 1,
+                                  color: Color.fromARGB(255, 41, 111, 29),
+                                  strokeAlign: BorderSide.strokeAlignCenter,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                      Positioned(
+                        left: 230,
+                        top: 30,
+                        child: SizedBox(
+                          width: 400,
+                          height: 52,
+                          child: Text(
+                            '${reportRepair?.repairer}',
+                            style: GoogleFonts.prompt(
+                              textStyle: TextStyle(
+                                color: Color.fromARGB(255, 0, 0, 0),
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(15.0),
+                child: Container(
+                  width: 432,
+                  height: 90,
+                  child: Stack(
+                    children: [
+                      Positioned(
+                        left: 0,
+                        top: 0,
+                        child: Container(
+                          width: 419,
+                          height: 90,
+                          decoration: ShapeDecoration(
+                            color: Color.fromARGB(32, 41, 111, 29),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(20),
+                            ),
+                          ),
+                        ),
+                      ),
+                      Positioned(
+                        left: 40,
+                        top: 25,
+                        child: Icon(
+                          Icons.star_outline_sharp, // เปลี่ยนไอคอนตรงนี้
+                          color: Color.fromRGBO(7, 94, 53, 1), // สีไอคอน
+                          size: 40, // ขนาดไอคอน
+                        ),
+                      ),
+                      Positioned(
+                        left: 90,
+                        top: 35,
+                        child: SizedBox(
+                          width: 80,
+                          height: 50,
+                          child: Text(
+                            'สถานะ',
+                            style: GoogleFonts.prompt(
+                              textStyle: TextStyle(
+                                color: Color.fromRGBO(7, 94, 53, 1),
+                                fontSize: 14,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                      Positioned(
+                        left: 210,
+                        top: 25,
+                        child: Transform(
+                          transform: Matrix4.identity()
+                            ..translate(0.0, 0.0)
+                            ..rotateZ(1.57),
+                          child: Container(
+                            width: 40,
+                            decoration: ShapeDecoration(
+                              shape: RoundedRectangleBorder(
+                                side: BorderSide(
+                                  width: 1,
+                                  color: Color.fromARGB(255, 41, 111, 29),
+                                  strokeAlign: BorderSide.strokeAlignCenter,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                      Positioned(
+                        left: 230,
+                        top: 30,
+                        child: SizedBox(
+                          width: 400,
+                          height: 52,
+                          child: Text(
+                            '${reportRepair?.informRepairDetails?.informRepair?.status}',
+                            style: GoogleFonts.prompt(
+                              textStyle: TextStyle(
+                                color: Color.fromARGB(255, 0, 0, 0),
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(15.0),
+                child: Container(
+                  width: 432,
+                  height: 370,
+                  child: Stack(
+                    children: [
+                      Positioned(
+                        left: 0,
+                        top: 0,
+                        child: Container(
+                          width: 419,
+                          height: 500,
+                          decoration: ShapeDecoration(
+                            color: Color.fromARGB(32, 41, 111, 29),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(20),
+                            ),
+                          ),
+                        ),
+                      ),
+                      Positioned(
+                        left: 40,
+                        top: 25,
+                        child: Icon(
+                          Icons
+                              .photo_size_select_actual_outlined, // เปลี่ยนไอคอนตรงนี้
+                          color: Color.fromRGBO(7, 94, 53, 1), // สีไอคอน
+                          size: 40, // ขนาดไอคอน
+                        ),
+                      ),
+                      Positioned(
+                        left: 90,
+                        top: 35,
+                        child: SizedBox(
+                          width: 80,
+                          height: 50,
+                          child: Text(
+                            'รูปภาพ',
+                            style: GoogleFonts.prompt(
+                              textStyle: TextStyle(
+                                color: Color.fromRGBO(7, 94, 53, 1),
+                                fontSize: 14,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                      Positioned(
+                        left: 110,
+                        top: 90,
+                        child: Wrap(
+                          spacing: 8.0, // ระยะห่างระหว่างรูปภาพในแนวนอน
+                          runSpacing: 8.0, // ระยะห่างระหว่างรูปภาพในแนวดิ่ง
+                          children: List.generate(
+                            report_picture.length,
+                            (index) {
+                              return Container(
+                                width: 200,
+                                height: 200,
+                                child: Image.network(
+                                  baseURL +
+                                      '/report_pictures/image/${report_picture[index]}',
+                                  fit: BoxFit.cover,
+                                ),
+                              );
+                            },
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ]),
