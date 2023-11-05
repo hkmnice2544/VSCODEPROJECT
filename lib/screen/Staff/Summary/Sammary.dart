@@ -6,13 +6,12 @@ import 'package:flutterr/screen/Staff/Summary/View_Sum.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-
 import '../../../Model/Building_Model.dart';
 import '../../../controller/informrepair_controller.dart';
 import '../../../model/informrepair_model.dart';
-import '../../Home.dart';
 import '../../Login.dart';
 import 'package:table_calendar/table_calendar.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class Summary extends StatefulWidget {
   final int? user;
@@ -210,10 +209,11 @@ class Form extends State<Summary> {
       appBar: AppBar(
         title: Text(
           "หน้า Sammary",
-          style: TextStyle(
-            color: Color.fromARGB(255, 255, 255, 255),
-            fontSize: 21,
-            fontWeight: FontWeight.w100,
+          style: GoogleFonts.prompt(
+            textStyle: TextStyle(
+              color: Color.fromARGB(255, 255, 255, 255),
+              fontSize: 21,
+            ),
           ),
         ),
         backgroundColor: Colors.red,
@@ -241,10 +241,12 @@ class Form extends State<Summary> {
             Expanded(
               child: Text(
                 "หน้าแรก",
-                style: TextStyle(
-                  color: Color.fromARGB(255, 255, 255, 255),
-                  fontSize: 12,
-                  fontWeight: FontWeight.w100,
+                style: GoogleFonts.prompt(
+                  textStyle: TextStyle(
+                    color: Color.fromRGBO(255, 255, 255, 1),
+                    fontSize: 14,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ),
             ),
@@ -265,10 +267,12 @@ class Form extends State<Summary> {
             Expanded(
               child: Text(
                 "ออกจากระบบ",
-                style: TextStyle(
-                  color: Color.fromARGB(255, 255, 255, 255),
-                  fontSize: 12,
-                  fontWeight: FontWeight.w100,
+                style: GoogleFonts.prompt(
+                  textStyle: TextStyle(
+                    color: Color.fromRGBO(255, 255, 255, 1),
+                    fontSize: 14,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ),
             )
@@ -281,10 +285,12 @@ class Form extends State<Summary> {
             padding: EdgeInsets.all(10.0),
             child: Text(
               "สรุปรายงานการแจ้งซ่อมห้องน้ำ",
-              style: TextStyle(
-                color: Color.fromARGB(255, 7, 94, 53),
-                fontSize: 25,
-                fontWeight: FontWeight.bold,
+              style: GoogleFonts.prompt(
+                textStyle: TextStyle(
+                  color: Color.fromARGB(255, 7, 94, 53),
+                  fontSize: 30,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
             ),
           ),
@@ -298,10 +304,12 @@ class Form extends State<Summary> {
             _selectedYear != null
                 ? "รายงานประจำปี $_selectedYear"
                 : "รายงานประจำปี",
-            style: TextStyle(
-              color: Color.fromARGB(255, 7, 94, 53),
-              fontSize: 22,
-              fontWeight: FontWeight.bold,
+            style: GoogleFonts.prompt(
+              textStyle: TextStyle(
+                color: Color.fromARGB(255, 7, 94, 53),
+                fontSize: 22,
+                fontWeight: FontWeight.bold,
+              ),
             ),
           ),
           Row(
@@ -311,10 +319,12 @@ class Form extends State<Summary> {
                   padding: EdgeInsets.fromLTRB(0.0, 0, 0, 0),
                   child: Text(
                     "วันที่เริ่มต้น :",
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
+                    style: GoogleFonts.prompt(
+                      textStyle: TextStyle(
+                        color: Color.fromARGB(255, 7, 94, 53),
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ),
                 ),
@@ -332,6 +342,12 @@ class Form extends State<Summary> {
                     _startDate != null
                         ? "${_startDate!.day}/${_startDate!.month}/${_startDate!.year}"
                         : "เลือกวันที่เริ่มต้น",
+                    style: GoogleFonts.prompt(
+                      textStyle: TextStyle(
+                        color: Color.fromARGB(255, 0, 0, 0),
+                        fontSize: 20,
+                      ),
+                    ),
                   ),
                 ),
               ),
@@ -344,10 +360,12 @@ class Form extends State<Summary> {
                   padding: EdgeInsets.fromLTRB(0.0, 0, 0, 0),
                   child: Text(
                     "วันที่สิ้นสุด :",
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
+                    style: GoogleFonts.prompt(
+                      textStyle: TextStyle(
+                        color: Color.fromARGB(255, 7, 94, 53),
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ),
                 ),
@@ -364,6 +382,12 @@ class Form extends State<Summary> {
                     _endDate != null
                         ? "${_endDate!.day}/${_endDate!.month}/${_endDate!.year}"
                         : "เลือกวันที่สิ้นสุด",
+                    style: GoogleFonts.prompt(
+                      textStyle: TextStyle(
+                        color: Color.fromARGB(255, 0, 0, 0),
+                        fontSize: 20,
+                      ),
+                    ),
                   ),
                 ),
               ),
@@ -376,10 +400,12 @@ class Form extends State<Summary> {
                   padding: EdgeInsets.fromLTRB(0.0, 0, 0, 0),
                   child: Text(
                     "สถานะ :",
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
+                    style: GoogleFonts.prompt(
+                      textStyle: TextStyle(
+                        color: Color.fromARGB(255, 7, 94, 53),
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ),
                 ),
@@ -430,7 +456,8 @@ class Form extends State<Summary> {
                           leading: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Icon(Icons.account_circle, color: Colors.red),
+                              Icon(Icons.account_circle,
+                                  color: Color.fromARGB(255, 7, 94, 53)),
                             ],
                           ),
                           title: Column(
@@ -442,18 +469,22 @@ class Form extends State<Summary> {
                                   Expanded(
                                     child: Text(
                                       "เลขที่แจ้งซ่อม",
-                                      style: const TextStyle(
-                                        fontFamily: 'Itim',
-                                        fontSize: 22,
+                                      style: GoogleFonts.prompt(
+                                        textStyle: TextStyle(
+                                          color: Color.fromARGB(255, 7, 94, 53),
+                                          fontSize: 20,
+                                        ),
                                       ),
                                     ),
                                   ),
                                   Expanded(
                                     child: Text(
                                       "${informRepair.informrepair_id}",
-                                      style: const TextStyle(
-                                        fontFamily: 'Itim',
-                                        fontSize: 22,
+                                      style: GoogleFonts.prompt(
+                                        textStyle: TextStyle(
+                                          color: Color.fromARGB(255, 0, 0, 0),
+                                          fontSize: 20,
+                                        ),
                                       ),
                                     ),
                                   ),
@@ -464,9 +495,11 @@ class Form extends State<Summary> {
                                   Expanded(
                                     child: Text(
                                       "วันที่แจ้งซ่อม",
-                                      style: const TextStyle(
-                                        fontFamily: 'Itim',
-                                        fontSize: 22,
+                                      style: GoogleFonts.prompt(
+                                        textStyle: TextStyle(
+                                          color: Color.fromARGB(255, 7, 94, 53),
+                                          fontSize: 20,
+                                        ),
                                       ),
                                     ),
                                   ),
@@ -476,9 +509,11 @@ class Form extends State<Summary> {
                                           ? DateFormat('dd/MM/yyyy')
                                               .format(informRepair.informdate!)
                                           : "N/A",
-                                      style: const TextStyle(
-                                        fontFamily: 'Itim',
-                                        fontSize: 22,
+                                      style: GoogleFonts.prompt(
+                                        textStyle: TextStyle(
+                                          color: Color.fromARGB(255, 0, 0, 0),
+                                          fontSize: 20,
+                                        ),
                                       ),
                                     ),
                                   ),
@@ -489,18 +524,22 @@ class Form extends State<Summary> {
                                   Expanded(
                                     child: Text(
                                       "สถานะ",
-                                      style: const TextStyle(
-                                        fontFamily: 'Itim',
-                                        fontSize: 22,
+                                      style: GoogleFonts.prompt(
+                                        textStyle: TextStyle(
+                                          color: Color.fromARGB(255, 7, 94, 53),
+                                          fontSize: 20,
+                                        ),
                                       ),
                                     ),
                                   ),
                                   Expanded(
                                     child: Text(
                                       informRepair.status as String,
-                                      style: const TextStyle(
-                                        fontFamily: 'Itim',
-                                        fontSize: 22,
+                                      style: GoogleFonts.prompt(
+                                        textStyle: TextStyle(
+                                          color: Color.fromARGB(255, 0, 0, 0),
+                                          fontSize: 20,
+                                        ),
                                       ),
                                     ),
                                   ),
