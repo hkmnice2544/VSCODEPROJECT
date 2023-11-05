@@ -1244,14 +1244,26 @@ class Form extends State<InformRepairForm> {
 
       widgets.add(CheckboxListTile(
         controlAffinity: ListTileControlAffinity.leading,
-        title: Text(
-          equipmentName[index],
-          style: GoogleFonts.prompt(
-            textStyle: TextStyle(
-              color: Color.fromARGB(255, 0, 0, 0),
-              fontSize: 16,
+        title: Row(
+          children: [
+            Icon(
+              // Icons.add, //
+              Icons.bookmark_add_outlined,
+              color: Color.fromRGBO(7, 94, 53, 1), // สีของไอคอน
             ),
-          ),
+            Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: Text(
+                equipmentName[index],
+                style: GoogleFonts.prompt(
+                  textStyle: TextStyle(
+                    color: Color.fromARGB(255, 0, 0, 0),
+                    fontSize: 16,
+                  ),
+                ),
+              ),
+            ),
+          ],
         ),
         value: isChecked[index],
         onChanged: (bool? value) {
@@ -1279,7 +1291,7 @@ class Form extends State<InformRepairForm> {
                       child: TextFormField(
                         controller: detailscontrollers[index],
                         decoration: const InputDecoration(
-                          hintText: 'Enter details',
+                          hintText: 'กรุณากรอกรายละเอียด',
                           border: InputBorder.none,
                           filled: true,
                           fillColor: Colors.white,
@@ -1304,7 +1316,7 @@ class Form extends State<InformRepairForm> {
                       child: TextFormField(
                         controller: amountcontrollers[index],
                         decoration: const InputDecoration(
-                          hintText: 'Enter amount',
+                          hintText: 'กรุณากรอกจำนวน',
                           border: InputBorder.none,
                           filled: true,
                           fillColor: Colors.white,
@@ -1329,7 +1341,15 @@ class Form extends State<InformRepairForm> {
                   print('imageFileNames----${imageFileNames}');
                   print("--_selectedImages-------------${_selectedImages}");
                 },
-                child: Text('เพิ่มรูปภาพ'),
+                child: Text(
+                  'อัพโหลดรูปภาพ',
+                  style: GoogleFonts.prompt(
+                    textStyle: TextStyle(
+                      color: Color.fromARGB(255, 0, 0, 0),
+                      fontSize: 16,
+                    ),
+                  ),
+                ),
               ),
               GridView.builder(
                 shrinkWrap: true,
@@ -1399,12 +1419,14 @@ class Form extends State<InformRepairForm> {
                     ),
                   );
                 },
-              )
+              ),
+              Divider(),
             ],
           ),
         ),
       );
     }
+
     return widgets;
   }
 }

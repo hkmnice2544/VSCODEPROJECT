@@ -910,7 +910,18 @@ class _ViewResultState extends State<ResultInformRepair> {
                         content: Text('ยืนยันการยกเลิก'),
                         actions: <Widget>[
                           TextButton(
-                            child: Text('OK'),
+                            child: Row(
+                              children: [
+                                Image.asset(
+                                  'images/profile-user.png', // เปลี่ยนเป็นเส้นทางรูปของคุณ
+                                  width: 200, // ขนาดรูป
+                                  // ขนาดรูป
+                                ),
+                                SizedBox(
+                                    width: 8), // ระยะห่างระหว่างรูปและข้อความ
+                                Text('OK'),
+                              ],
+                            ),
                             onPressed: () async {
                               var informRepairId =
                                   informRepair?.informrepair_id ??
