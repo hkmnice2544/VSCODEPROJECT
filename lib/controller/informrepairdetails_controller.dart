@@ -219,4 +219,23 @@ class InformRepairDetailsController {
       throw Exception("ไม่สามารถดึงข้อมูลได้");
     }
   }
+
+  Future<List<InformRepairDetails>> findByIdByDetails(
+      String? informrepair_id) async {
+    final response = await http.post(Uri.parse((baseURL +
+        '/informrepairdetails/findByIdByDetails/${informrepair_id}')));
+    if (response.statusCode == 200) {
+      final List<dynamic> jsonData = json.decode(response.body);
+      List<InformRepairDetails> detailsList = [];
+
+      for (final dynamic data in jsonData) {
+        final details = InformRepairDetails.fromJsonToInformRepairDetails(data);
+        detailsList.add(details);
+      }
+
+      return detailsList;
+    } else {
+      throw Exception('Failed to load data');
+    }
+  }
 }

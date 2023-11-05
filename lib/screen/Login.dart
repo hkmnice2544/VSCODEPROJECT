@@ -126,77 +126,23 @@ class _LoginState extends State<Login> {
               ),
             ),
           ),
-          Padding(
-            padding: EdgeInsets.only(left: 200, top: 70, right: 16.0),
+          Center(
             child: Container(
-              width: 200,
-              child: Image.asset(
-                'images/MJU_LOGO.png',
-                fit: BoxFit.cover,
-              ),
-            ),
-          ),
-          Padding(
-            padding: EdgeInsets.only(left: 50, top: 300, right: 0),
-            child: Container(
-              width: 1100,
-              height: 1000,
-              child: Stack(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Positioned(
-                    left: 5,
-                    top: 5,
-                    child: Container(
-                      width: 510,
-                      height: 510,
-                      decoration: ShapeDecoration(
-                        color: Color(0xFFEB6727),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(26),
-                        ),
-                        shadows: [
-                          BoxShadow(
-                            color: Color(0x3F000000),
-                            blurRadius: 4,
-                            offset: Offset(0, 4),
-                            spreadRadius: 0,
-                          ),
-                          BoxShadow(
-                            color: Color(0x3F000000),
-                            blurRadius: 4,
-                            offset: Offset(0, 4),
-                            spreadRadius: 0,
-                          )
-                        ],
-                      ),
+                  Container(
+                    width: 200,
+                    child: Image.asset(
+                      'images/MJU_LOGO.png',
+                      fit: BoxFit.cover,
                     ),
                   ),
-                  Positioned(
-                    left: 5,
-                    top: 0,
-                    child: Container(
-                      width: 500,
-                      height: 500,
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(26),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.grey.withOpacity(0.5), // สีของเงา
-                            spreadRadius: 5, // รัศมีการกระจายของเงา
-                            blurRadius: 2, // ความคมชัดของเงา
-                            offset: Offset(0, 3), // ตำแหน่งเงา
-                          ),
-                        ],
-                      ),
-                    ),
+                  SizedBox(
+                    height: 20,
                   ),
-                  Positioned(
-                    left: 160,
-                    top: 20,
+                  Center(
                     child: SizedBox(
-                      width: 800,
-                      height: 50,
                       child: Text(
                         'เข้าสู่ระบบ',
                         style: GoogleFonts.prompt(
@@ -209,6 +155,24 @@ class _LoginState extends State<Login> {
                       ),
                     ),
                   ),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  Text(
+                    "แอปพลิเคชันสำหรับนักศึกษา และ บุคลากร\nคณะวิทยาศาสตร์ มหาวิทยาลัยแม่โจ้",
+                    style: GoogleFonts.prompt(
+                      textStyle: TextStyle(
+                        color: Color.fromARGB(255, 112, 109, 109),
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    textAlign:
+                        TextAlign.center, // กำหนดให้ข้อความอยู่ตรงกลางแนวนอน
+                  ),
+                  SizedBox(
+                    height: 20,
+                  ),
                   Positioned(
                     left: 28,
                     top: 90,
@@ -218,6 +182,9 @@ class _LoginState extends State<Login> {
                       decoration: BoxDecoration(color: Color(0xFFEB6727)),
                     ),
                   ),
+                  SizedBox(
+                    height: 20,
+                  ),
                   Positioned(
                     left: 20,
                     top: 140,
@@ -225,9 +192,9 @@ class _LoginState extends State<Login> {
                       width: 450,
                       height: 60,
                       decoration: BoxDecoration(
-                        color: Colors.white.withOpacity(0.2),
-                        borderRadius: BorderRadius.circular(31.50),
-                        border: Border.all(width: 1, color: Color(0xFFEB6727)),
+                        color: Colors.grey.withOpacity(0.2),
+                        borderRadius: BorderRadius.circular(8),
+                        // border: Border.all(width: 1, color: Color(0xFFEB6727)),
                         boxShadow: [
                           BoxShadow(
                             color: Colors.white.withOpacity(0.2),
@@ -249,6 +216,9 @@ class _LoginState extends State<Login> {
                       ),
                     ),
                   ),
+                  SizedBox(
+                    height: 20,
+                  ),
                   Positioned(
                     left: 20,
                     top: 240,
@@ -256,9 +226,9 @@ class _LoginState extends State<Login> {
                       width: 450,
                       height: 60,
                       decoration: BoxDecoration(
-                        color: Colors.white.withOpacity(0.2),
-                        borderRadius: BorderRadius.circular(31.50),
-                        border: Border.all(width: 1, color: Color(0xFFEB6727)),
+                        color: Colors.grey.withOpacity(0.2),
+                        borderRadius: BorderRadius.circular(8),
+                        // border: Border.all(width: 1, color: Color(0xFFEB6727)),
                         boxShadow: [
                           BoxShadow(
                             color: Colors.white.withOpacity(0.2),
@@ -294,6 +264,9 @@ class _LoginState extends State<Login> {
                       ),
                     ),
                   ),
+                  SizedBox(
+                    height: 20,
+                  ),
                   Positioned(
                     left: 20,
                     top: 340,
@@ -311,11 +284,11 @@ class _LoginState extends State<Login> {
                               color: Color.fromARGB(
                                   255, 255, 255, 255)), // สีข้อความภายในปุ่ม
                           padding: EdgeInsets.symmetric(
-                              horizontal: 200,
-                              vertical: 20), // การจัดพื้นที่รอบข้างปุ่ม
+                              horizontal: 176,
+                              vertical: 14), // การ16จัดพื้นที่รอบข้างปุ่ม
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(
-                                60), // กำหนดรูปร่างของปุ่ม (ในที่นี้เป็นรูปแบบมน)
+                                10), // กำหนดรูปร่างของปุ่ม (ในที่นี้เป็นรูปแบบมน)
                           ),
                         ),
                         child: Text(
@@ -323,11 +296,48 @@ class _LoginState extends State<Login> {
                           style: GoogleFonts.prompt(
                             textStyle: TextStyle(
                               color: Color.fromARGB(255, 255, 255, 255),
-                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 23,
                             ),
                           ),
                         )),
                   ),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  ElevatedButton(
+                    onPressed: () async {},
+                    style: ElevatedButton.styleFrom(
+                      primary: Color.fromARGB(
+                          255, 255, 255, 255), // สีพื้นหลังของปุ่ม
+                      textStyle: TextStyle(
+                        color: Color.fromARGB(
+                            255, 255, 255, 255), // สีข้อความภายในปุ่ม
+                      ),
+                      padding: EdgeInsets.symmetric(
+                        horizontal: 154,
+                        vertical: 14,
+                      ), // การจัดพื้นที่รอบข้างปุ่ม
+                      shape: RoundedRectangleBorder(
+                        borderRadius:
+                            BorderRadius.circular(10), // กำหนดรูปร่างของปุ่ม
+                        side: BorderSide(
+                          color: Color.fromARGB(255, 238, 104, 2), // สีเส้นขอบ
+                          width: 4, // ความหนาขอบ
+                        ),
+                      ),
+                    ),
+                    child: Text(
+                      'กลับสู่หน้าหลัก',
+                      style: GoogleFonts.prompt(
+                        textStyle: TextStyle(
+                          color: Color.fromARGB(255, 238, 104, 2),
+                          fontWeight: FontWeight.bold,
+                          fontSize: 23,
+                        ),
+                      ),
+                    ),
+                  )
                 ],
               ),
             ),

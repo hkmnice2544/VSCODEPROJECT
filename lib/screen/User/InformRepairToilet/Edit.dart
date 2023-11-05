@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutterr/constant/constant_value.dart';
 import 'package:flutterr/model/Building_Model.dart';
+import 'package:flutterr/screen/User/InformRepairToilet/ResultInformRepair.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 
@@ -33,6 +34,7 @@ class _MyWidgetState extends State<MyEdit> {
   List<Building?> buildings = [];
   List<Room?> rooms = [];
   String RoomType = "ห้องน้ำ";
+  String statusinform = "ยังไม่ได้ดำเนินการ";
   Building? building;
   final ImagePicker imagePicker = ImagePicker();
   List<XFile> imageFileList = [];
@@ -132,55 +134,12 @@ class _MyWidgetState extends State<MyEdit> {
     });
   }
 
-  List<String>? quipment_idcheked = [];
-
+  List<InformRepairDetails>? details = [];
   void findequipment_idByIdByinformrepair_id(String informrepair_id) async {
-    quipment_idcheked = await informRepairDetailsController
-        .findequipment_idByIdByinformrepair_id(informrepair_id);
-    print(" quipment_idcheked : ${quipment_idcheked}");
-    setState(() {
-      isDataLoaded = true;
-    });
+    details =
+        await informRepairDetailsController.findByIdByDetails(informrepair_id);
+    setState(() {});
   }
-
-  List<String>? details_idcheked = [];
-
-  void finddetailsByIdByinformrepair_id(String informrepair_id) async {
-    details_idcheked = await informRepairDetailsController
-        .finddetailsByIdByinformrepair_id(informrepair_id);
-    print(" details_idcheked : ${details_idcheked}");
-    setState(() {
-      isDataLoaded = true;
-    });
-  }
-
-  List<String>? amount_idcheked = [];
-
-  void findamountByIdByinformrepair_id(String informrepair_id) async {
-    amount_idcheked = await informRepairDetailsController
-        .findamountByIdByinformrepair_id(informrepair_id);
-    print(" amount_idcheked : ${amount_idcheked}");
-    setState(() {
-      isDataLoaded = true;
-    });
-  }
-
-  List<String>? pictures = [];
-
-  void findpicturesByIdByinformrepair_id(String informrepair_id) async {
-    pictures = await informRepairDetailsController
-        .findpicturesByIdByinformrepair_id(informrepair_id);
-    print(" pictures : ${pictures}");
-    setState(() {
-      isDataLoaded = true;
-    });
-  }
-
-  // void findEquipmentCheckedStatus() {
-  //   // isChecked = equipmentIds.map((equipmentId) {
-  //   //   return quipment_idcheked!.contains(equipmentId);
-  //   // }).toList();
-  // }
 
   List<InformRepairDetails>? informRepairDetail = [];
   void ViewListInformDetails() async {
@@ -236,574 +195,560 @@ class _MyWidgetState extends State<MyEdit> {
     ViewListInformDetails();
     fetchInformRepairs();
     findequipment_idByIdByinformrepair_id(widget.informrepair_id.toString());
-    finddetailsByIdByinformrepair_id(widget.informrepair_id.toString());
-    findamountByIdByinformrepair_id(widget.informrepair_id.toString());
-    findpicturesByIdByinformrepair_id(widget.informrepair_id.toString());
     initialize();
     DateTime now = DateTime.now();
     formattedDate = DateFormat('dd-MM-yyyy').format(now);
-    // findEquipmentCheckedStatus();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: Text(
-            "หน้า EditInformRepairs",
-            style: TextStyle(
-              color: Color.fromARGB(255, 255, 255, 255),
-              fontSize: 21,
-              fontWeight: FontWeight.w100,
-            ),
+      appBar: AppBar(
+        title: Text(
+          "หน้า EditInformRepairs",
+          style: TextStyle(
+            color: Color.fromARGB(255, 255, 255, 255),
+            fontSize: 21,
+            fontWeight: FontWeight.w100,
           ),
-          backgroundColor: Colors.red,
         ),
-        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-        bottomNavigationBar: BottomAppBar(
-            color: Color.fromARGB(255, 245, 59, 59),
-            height: 50,
-            shape: CircularNotchedRectangle(), // รูปร่างของแถบ
+        backgroundColor: Colors.red,
+      ),
+      bottomNavigationBar: BottomAppBar(
+          color: Color.fromARGB(255, 245, 59, 59),
+          height: 50,
+          shape: CircularNotchedRectangle(), // รูปร่างของแถบ
 
-            child: Row(
-              // mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                Padding(
-                  padding: EdgeInsets.only(left: 20, top: 0, right: 0),
+          child: Row(
+            // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              Padding(
+                padding: EdgeInsets.only(left: 20, top: 0, right: 0),
+                child: IconButton(
+                  icon: Icon(Icons.home),
+                  color: Color.fromARGB(255, 255, 255, 255),
+                  onPressed: () {
+                    Navigator.push(context, MaterialPageRoute(
+                      builder: (context) {
+                        return Home(user: widget.user);
+                      },
+                    ));
+                  },
+                ),
+              ),
+              Expanded(
+                child: GestureDetector(
+                  onTap: () {
+                    Navigator.push(context, MaterialPageRoute(
+                      builder: (context) {
+                        return Home(user: widget.user);
+                      },
+                    ));
+                  },
+                  child: Padding(
+                    padding: EdgeInsets.only(left: 0, top: 0, right: 50),
+                    child: Text(
+                      "หน้าแรก",
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 12,
+                        fontWeight: FontWeight.w100,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              Expanded(
+                  child: Text(" ")), // เพิ่มระยะห่างของข้อความได้ตามต้องการ
+              Expanded(
+                child: Padding(
+                  padding: EdgeInsets.only(left: 120, top: 0, right: 0),
                   child: IconButton(
-                    icon: Icon(Icons.home),
+                    icon: Icon(Icons.logout),
                     color: Color.fromARGB(255, 255, 255, 255),
                     onPressed: () {
                       Navigator.push(context, MaterialPageRoute(
                         builder: (context) {
-                          return Home(user: widget.user);
-                        },
-                      ));
-                    },
-                  ),
-                ),
-                Expanded(
-                  child: GestureDetector(
-                    onTap: () {
-                      Navigator.push(context, MaterialPageRoute(
-                        builder: (context) {
-                          return Home(user: widget.user);
-                        },
-                      ));
-                    },
-                    child: Padding(
-                      padding: EdgeInsets.only(left: 0, top: 0, right: 50),
-                      child: Text(
-                        "หน้าแรก",
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 12,
-                          fontWeight: FontWeight.w100,
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-                Expanded(
-                    child: Text(" ")), // เพิ่มระยะห่างของข้อความได้ตามต้องการ
-                Expanded(
-                  child: Padding(
-                    padding: EdgeInsets.only(left: 120, top: 0, right: 0),
-                    child: IconButton(
-                      icon: Icon(Icons.logout),
-                      color: Color.fromARGB(255, 255, 255, 255),
-                      onPressed: () {
-                        Navigator.push(context, MaterialPageRoute(
-                          builder: (context) {
-                            return Login();
-                          },
-                        ));
-                      },
-                    ),
-                  ),
-                ),
-                Expanded(
-                  child: GestureDetector(
-                    onTap: () {
-                      // นำทางไปยังหน้าอื่นที่คุณต้องการ
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) {
                           return Login();
-                        }),
-                      );
+                        },
+                      ));
                     },
-                    child: Padding(
-                      padding: EdgeInsets.only(left: 30, top: 0, right: 0),
-                      child: Text(
-                        "ออกจากระบบ",
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 12,
-                          fontWeight: FontWeight.w100,
-                        ),
+                  ),
+                ),
+              ),
+              Expanded(
+                child: GestureDetector(
+                  onTap: () {
+                    // นำทางไปยังหน้าอื่นที่คุณต้องการ
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) {
+                        return Login();
+                      }),
+                    );
+                  },
+                  child: Padding(
+                    padding: EdgeInsets.only(left: 30, top: 0, right: 0),
+                    child: Text(
+                      "ออกจากระบบ",
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 12,
+                        fontWeight: FontWeight.w100,
                       ),
                     ),
                   ),
-                )
-              ],
-            )),
-        body: isDataLoaded == false
-            ? CircularProgressIndicator()
-            : SingleChildScrollView(
-                child: Container(
-                  padding: EdgeInsets.all(10.0),
-                  child: Center(
-                    child: Column(children: [
-                      Text(
-                        "แก้ไขแจ้งซ่อมห้องน้ำ",
-                        style: TextStyle(
-                          color: Color.fromARGB(255, 7, 94, 53),
-                          fontSize: 40,
-                          fontWeight: FontWeight.bold,
-                        ),
+                ),
+              )
+            ],
+          )),
+      body: isDataLoaded == false
+          ? CircularProgressIndicator()
+          : SingleChildScrollView(
+              child: Container(
+                padding: EdgeInsets.all(10.0),
+                child: Center(
+                  child: Column(children: [
+                    Text(
+                      "แก้ไขแจ้งซ่อมห้องน้ำ",
+                      style: TextStyle(
+                        color: Color.fromARGB(255, 7, 94, 53),
+                        fontSize: 40,
+                        fontWeight: FontWeight.bold,
                       ),
-                      Image.asset(
-                        'images/InformRepairToilet.png',
-                        fit: BoxFit.cover,
-                        width: 220,
-                        alignment: Alignment.center,
-                      ),
+                    ),
+                    Image.asset(
+                      'images/InformRepairToilet.png',
+                      fit: BoxFit.cover,
+                      width: 220,
+                      alignment: Alignment.center,
+                    ),
 
-                      Padding(
-                        padding: const EdgeInsets.all(15.0),
-                        child: Container(
-                          width: 432,
-                          height: 160,
-                          child: Stack(
-                            children: [
-                              Positioned(
-                                left: 0,
-                                top: 0,
-                                child: Container(
-                                  width: 419,
-                                  height: 160,
-                                  decoration: ShapeDecoration(
-                                    color: Color.fromARGB(255, 255, 75, 75),
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(40),
-                                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(15.0),
+                      child: Container(
+                        width: 432,
+                        height: 160,
+                        child: Stack(
+                          children: [
+                            Positioned(
+                              left: 0,
+                              top: 0,
+                              child: Container(
+                                width: 419,
+                                height: 160,
+                                decoration: ShapeDecoration(
+                                  color: Color.fromARGB(255, 255, 75, 75),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(40),
                                   ),
                                 ),
                               ),
-                              Positioned(
-                                left: 210,
-                                top: 23,
-                                child: Transform(
-                                  transform: Matrix4.identity()
-                                    ..translate(0.0, 0.0)
-                                    ..rotateZ(1.57),
-                                  child: Container(
-                                    width: 120,
-                                    decoration: ShapeDecoration(
-                                      shape: RoundedRectangleBorder(
-                                        side: BorderSide(
-                                          width: 1,
-                                          color: Colors.white,
-                                          strokeAlign:
-                                              BorderSide.strokeAlignCenter,
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              Positioned(
-                                left: 72,
-                                top: 20,
-                                child: Icon(
-                                  Icons.favorite, // เปลี่ยนไอคอนตรงนี้
-                                  color: const Color.fromARGB(
-                                      255, 255, 255, 255), // สีไอคอน
-                                  size: 60, // ขนาดไอคอน
-                                ),
-                              ),
-                              Positioned(
-                                left: 64,
-                                top: 85,
-                                child: SizedBox(
-                                  width: 200,
-                                  height: 22,
-                                  child: Text(
-                                    'เลขที่แจ้งซ่อม',
-                                    style: GoogleFonts.prompt(
-                                      textStyle: TextStyle(
-                                        color:
-                                            Color.fromARGB(255, 255, 255, 255),
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              Positioned(
-                                left: 64,
-                                top: 110,
-                                child: SizedBox(
-                                  width: 93,
-                                  height: 52,
-                                  child: Text(
-                                    '${widget.informrepair_id}',
-                                    style: GoogleFonts.prompt(
-                                      textStyle: TextStyle(
-                                        color:
-                                            Color.fromARGB(255, 255, 255, 255),
-                                        fontSize: 25,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              Positioned(
-                                left: 288,
-                                top: 20,
-                                child: Icon(
-                                  Icons
-                                      .calendar_month_outlined, // เปลี่ยนไอคอนตรงนี้
-                                  color: const Color.fromARGB(
-                                      255, 255, 255, 255), // สีไอคอน
-                                  size: 60, // ขนาดไอคอน
-                                ),
-                              ),
-                              Positioned(
-                                left: 279,
-                                top: 85,
-                                child: SizedBox(
-                                  width: 81,
-                                  height: 22,
-                                  child: Text(
-                                    'วันที่แจ้งซ่อม',
-                                    style: GoogleFonts.prompt(
-                                      textStyle: TextStyle(
-                                        color:
-                                            Color.fromARGB(255, 255, 255, 255),
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              Positioned(
-                                left: 252,
-                                top: 110,
-                                child: SizedBox(
-                                  width: 174,
-                                  height: 30,
-                                  child: Text(
-                                    '$formattedDate',
-                                    style: GoogleFonts.prompt(
-                                      textStyle: TextStyle(
-                                        color:
-                                            Color.fromARGB(255, 255, 255, 255),
-                                        fontSize: 25,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-
-                      //  //--------------------------------------------
-
-                      Padding(
-                        padding: const EdgeInsets.all(15.0),
-                        child: DropdownButtonHideUnderline(
-                          child: DropdownButton2<String>(
-                            isExpanded: true,
-                            hint: const Row(
-                              children: [
-                                Icon(
-                                  Icons.business,
-                                  size: 30,
-                                  color: Color.fromARGB(255, 255, 255, 255),
-                                ),
-                                SizedBox(
-                                  width: 15,
-                                ),
-                                Expanded(
-                                  child: Text(
-                                    'กรุณาเลือกอาคาร',
-                                    style: TextStyle(
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.bold,
-                                      color: Color.fromARGB(255, 255, 255, 255),
-                                    ),
-                                    overflow: TextOverflow.ellipsis,
-                                  ),
-                                ),
-                              ],
                             ),
-                            value: buildingId,
-                            items: [
-                              DropdownMenuItem<String>(
+                            Positioned(
+                              left: 210,
+                              top: 23,
+                              child: Transform(
+                                transform: Matrix4.identity()
+                                  ..translate(0.0, 0.0)
+                                  ..rotateZ(1.57),
+                                child: Container(
+                                  width: 120,
+                                  decoration: ShapeDecoration(
+                                    shape: RoundedRectangleBorder(
+                                      side: BorderSide(
+                                        width: 1,
+                                        color: Colors.white,
+                                        strokeAlign:
+                                            BorderSide.strokeAlignCenter,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                            Positioned(
+                              left: 72,
+                              top: 20,
+                              child: Icon(
+                                Icons.favorite, // เปลี่ยนไอคอนตรงนี้
+                                color: const Color.fromARGB(
+                                    255, 255, 255, 255), // สีไอคอน
+                                size: 60, // ขนาดไอคอน
+                              ),
+                            ),
+                            Positioned(
+                              left: 64,
+                              top: 85,
+                              child: SizedBox(
+                                width: 200,
+                                height: 22,
+                                child: Text(
+                                  'เลขที่แจ้งซ่อม',
+                                  style: GoogleFonts.prompt(
+                                    textStyle: TextStyle(
+                                      color: Color.fromARGB(255, 255, 255, 255),
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                            Positioned(
+                              left: 64,
+                              top: 110,
+                              child: SizedBox(
+                                width: 93,
+                                height: 52,
+                                child: Text(
+                                  '${widget.informrepair_id}',
+                                  style: GoogleFonts.prompt(
+                                    textStyle: TextStyle(
+                                      color: Color.fromARGB(255, 255, 255, 255),
+                                      fontSize: 25,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                            Positioned(
+                              left: 288,
+                              top: 20,
+                              child: Icon(
+                                Icons
+                                    .calendar_month_outlined, // เปลี่ยนไอคอนตรงนี้
+                                color: const Color.fromARGB(
+                                    255, 255, 255, 255), // สีไอคอน
+                                size: 60, // ขนาดไอคอน
+                              ),
+                            ),
+                            Positioned(
+                              left: 279,
+                              top: 85,
+                              child: SizedBox(
+                                width: 81,
+                                height: 22,
+                                child: Text(
+                                  'วันที่แจ้งซ่อม',
+                                  style: GoogleFonts.prompt(
+                                    textStyle: TextStyle(
+                                      color: Color.fromARGB(255, 255, 255, 255),
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                            Positioned(
+                              left: 252,
+                              top: 110,
+                              child: SizedBox(
+                                width: 174,
+                                height: 30,
+                                child: Text(
+                                  '$formattedDate',
+                                  style: GoogleFonts.prompt(
+                                    textStyle: TextStyle(
+                                      color: Color.fromARGB(255, 255, 255, 255),
+                                      fontSize: 25,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+
+                    //  //--------------------------------------------
+
+                    Padding(
+                      padding: const EdgeInsets.all(15.0),
+                      child: DropdownButtonHideUnderline(
+                        child: DropdownButton2<String>(
+                          isExpanded: true,
+                          hint: const Row(
+                            children: [
+                              Icon(
+                                Icons.business,
+                                size: 30,
+                                color: Color.fromARGB(255, 255, 255, 255),
+                              ),
+                              SizedBox(
+                                width: 15,
+                              ),
+                              Expanded(
                                 child: Text(
                                   'กรุณาเลือกอาคาร',
-                                  style: GoogleFonts.prompt(
-                                    textStyle: TextStyle(
-                                      color: Color.fromARGB(255, 255, 255, 255),
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.bold,
-                                    ),
+                                  style: TextStyle(
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.bold,
+                                    color: Color.fromARGB(255, 255, 255, 255),
                                   ),
+                                  overflow: TextOverflow.ellipsis,
                                 ),
-                                value: '', // หรือค่าว่าง
                               ),
-                              ...buildings.map((Building? building) {
-                                return DropdownMenuItem<String>(
-                                  child: Row(
-                                    children: [
-                                      Icon(
-                                        Icons
-                                            .business, // ใส่ไอคอนที่คุณต้องการที่นี่
-                                        color: const Color.fromARGB(
-                                            255, 255, 255, 255), // สีของไอคอน
-                                        size: 24, // ขนาดของไอคอน
-                                      ),
-                                      SizedBox(
-                                          width:
-                                              10), // ระยะห่างระหว่างไอคอนและข้อความ
-                                      Text(
-                                        building!.buildingname ?? '',
-                                        style: GoogleFonts.prompt(
-                                          textStyle: TextStyle(
-                                            color: Color.fromARGB(
-                                                255, 255, 255, 255),
-                                            fontSize: 14,
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                        ),
-                                        overflow: TextOverflow.ellipsis,
-                                      ),
-                                    ],
-                                  ),
-                                  value: building!.building_id.toString(),
-                                );
-                              }).toList(),
                             ],
-                            onChanged: (val) {
-                              setState(() {
-                                buildingId = val;
-                                selectedRoom = '';
-                                if (val != '') {
-                                  print("Controller: $buildingId");
-                                  findlistRoomByIdBybuilding_id(
-                                      int.parse(val!), RoomType);
-                                }
-                              });
-                            },
-                            buttonStyleData: ButtonStyleData(
-                              height: 60,
-                              width: 450,
-                              padding:
-                                  const EdgeInsets.only(left: 14, right: 14),
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(14),
-                                border: Border.all(
-                                  color:
-                                      const Color.fromARGB(66, 255, 255, 255),
+                          ),
+                          value: buildingId,
+                          items: [
+                            DropdownMenuItem<String>(
+                              child: Text(
+                                'กรุณาเลือกอาคาร',
+                                style: GoogleFonts.prompt(
+                                  textStyle: TextStyle(
+                                    color: Color.fromARGB(255, 255, 255, 255),
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.bold,
+                                  ),
                                 ),
-                                color: Colors.redAccent,
                               ),
-                              elevation: 2,
+                              value: '', // หรือค่าว่าง
                             ),
-                            iconStyleData: const IconStyleData(
-                              icon: Icon(
-                                Icons.keyboard_arrow_down_outlined,
+                            ...buildings.map((Building? building) {
+                              return DropdownMenuItem<String>(
+                                child: Row(
+                                  children: [
+                                    Icon(
+                                      Icons
+                                          .business, // ใส่ไอคอนที่คุณต้องการที่นี่
+                                      color: const Color.fromARGB(
+                                          255, 255, 255, 255), // สีของไอคอน
+                                      size: 24, // ขนาดของไอคอน
+                                    ),
+                                    SizedBox(
+                                        width:
+                                            10), // ระยะห่างระหว่างไอคอนและข้อความ
+                                    Text(
+                                      building!.buildingname ?? '',
+                                      style: GoogleFonts.prompt(
+                                        textStyle: TextStyle(
+                                          color: Color.fromARGB(
+                                              255, 255, 255, 255),
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                                  ],
+                                ),
+                                value: building!.building_id.toString(),
+                              );
+                            }).toList(),
+                          ],
+                          onChanged: (val) {
+                            setState(() {
+                              buildingId = val;
+                              selectedRoom = '';
+                              if (val != '') {
+                                print("Controller: $buildingId");
+                                findlistRoomByIdBybuilding_id(
+                                    int.parse(val!), RoomType);
+                              }
+                            });
+                          },
+                          buttonStyleData: ButtonStyleData(
+                            height: 60,
+                            width: 450,
+                            padding: const EdgeInsets.only(left: 14, right: 14),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(14),
+                              border: Border.all(
+                                color: const Color.fromARGB(66, 255, 255, 255),
                               ),
-                              iconSize: 30,
-                              iconEnabledColor:
-                                  Color.fromARGB(255, 255, 255, 255),
-                              iconDisabledColor: Colors.grey,
+                              color: Colors.redAccent,
                             ),
-                            dropdownStyleData: DropdownStyleData(
-                              maxHeight: 200,
-                              width: 450,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(14),
-                                color: Colors.redAccent,
-                              ),
-                              offset: const Offset(-20, 0),
-                              scrollbarTheme: ScrollbarThemeData(
-                                radius: const Radius.circular(40),
-                                thickness: MaterialStateProperty.all(6),
-                                thumbVisibility:
-                                    MaterialStateProperty.all(true),
-                              ),
+                            elevation: 2,
+                          ),
+                          iconStyleData: const IconStyleData(
+                            icon: Icon(
+                              Icons.keyboard_arrow_down_outlined,
                             ),
-                            menuItemStyleData: const MenuItemStyleData(
-                              height: 40,
-                              padding: EdgeInsets.only(left: 14, right: 14),
+                            iconSize: 30,
+                            iconEnabledColor:
+                                Color.fromARGB(255, 255, 255, 255),
+                            iconDisabledColor: Colors.grey,
+                          ),
+                          dropdownStyleData: DropdownStyleData(
+                            maxHeight: 200,
+                            width: 450,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(14),
+                              color: Colors.redAccent,
                             ),
+                            offset: const Offset(-20, 0),
+                            scrollbarTheme: ScrollbarThemeData(
+                              radius: const Radius.circular(40),
+                              thickness: MaterialStateProperty.all(6),
+                              thumbVisibility: MaterialStateProperty.all(true),
+                            ),
+                          ),
+                          menuItemStyleData: const MenuItemStyleData(
+                            height: 40,
+                            padding: EdgeInsets.only(left: 14, right: 14),
                           ),
                         ),
                       ),
+                    ),
 
-                      Padding(
-                        padding: const EdgeInsets.all(15.0),
-                        child: DropdownButtonHideUnderline(
-                          child: DropdownButton2<String>(
-                            isExpanded: true,
-                            hint: const Row(
-                              children: [
-                                Icon(
-                                  Icons.business,
-                                  size: 30,
-                                  color: Color.fromARGB(255, 255, 255, 255),
-                                ),
-                                SizedBox(
-                                  width: 15,
-                                ),
-                                Expanded(
-                                  child: Text(
-                                    'กรุณาเลือกห้อง',
-                                    style: TextStyle(
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.bold,
-                                      color: Color.fromARGB(255, 255, 255, 255),
-                                    ),
-                                    overflow: TextOverflow.ellipsis,
-                                  ),
-                                ),
-                              ],
-                            ),
-                            value: selectedRoom,
-                            items: [
-                              DropdownMenuItem<String>(
+                    Padding(
+                      padding: const EdgeInsets.all(15.0),
+                      child: DropdownButtonHideUnderline(
+                        child: DropdownButton2<String>(
+                          isExpanded: true,
+                          hint: const Row(
+                            children: [
+                              Icon(
+                                Icons.business,
+                                size: 30,
+                                color: Color.fromARGB(255, 255, 255, 255),
+                              ),
+                              SizedBox(
+                                width: 15,
+                              ),
+                              Expanded(
                                 child: Text(
                                   'กรุณาเลือกห้อง',
-                                  style: GoogleFonts.prompt(
-                                    textStyle: TextStyle(
-                                      color: Color.fromARGB(255, 255, 255, 255),
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.bold,
-                                    ),
+                                  style: TextStyle(
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.bold,
+                                    color: Color.fromARGB(255, 255, 255, 255),
                                   ),
+                                  overflow: TextOverflow.ellipsis,
                                 ),
-                                value: '', // หรือค่าว่าง
                               ),
-                              ...rooms.map((Room? room) {
-                                return DropdownMenuItem<String>(
-                                  child: Row(
-                                    children: [
-                                      Icon(
-                                        Icons
-                                            .business, // ใส่ไอคอนที่คุณต้องการที่นี่
-                                        color: const Color.fromARGB(
-                                            255, 255, 255, 255), // สีของไอคอน
-                                        size: 24, // ขนาดของไอคอน
-                                      ),
-                                      SizedBox(
-                                          width:
-                                              10), // ระยะห่างระหว่างไอคอนและข้อความ
-                                      Text(
-                                        "ห้อง " +
-                                            room!.room_id.toString() +
-                                            " ชั้น " +
-                                            room.floor.toString() +
-                                            " ตำแหน่ง " +
-                                            room.position.toString() +
-                                            " " +
-                                            room.roomname.toString(),
-                                        style: GoogleFonts.prompt(
-                                          textStyle: TextStyle(
-                                            color: Color.fromARGB(
-                                                255, 255, 255, 255),
-                                            fontSize: 14,
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                        ),
-                                        overflow: TextOverflow.ellipsis,
-                                      ),
-                                    ],
-                                  ),
-                                  value: room.room_id.toString(),
-                                );
-                              }).toList(),
                             ],
-                            onChanged: (val) {
-                              setState(() {
-                                selectedRoom = val;
-                              });
-                            },
-                            buttonStyleData: ButtonStyleData(
-                              height: 60,
-                              width: 450,
-                              padding:
-                                  const EdgeInsets.only(left: 14, right: 14),
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(14),
-                                border: Border.all(
-                                  color:
-                                      const Color.fromARGB(66, 255, 255, 255),
+                          ),
+                          value: selectedRoom,
+                          items: [
+                            DropdownMenuItem<String>(
+                              child: Text(
+                                'กรุณาเลือกห้อง',
+                                style: GoogleFonts.prompt(
+                                  textStyle: TextStyle(
+                                    color: Color.fromARGB(255, 255, 255, 255),
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.bold,
+                                  ),
                                 ),
-                                color: Colors.redAccent,
                               ),
-                              elevation: 2,
+                              value: '', // หรือค่าว่าง
                             ),
-                            iconStyleData: const IconStyleData(
-                              icon: Icon(
-                                Icons.keyboard_arrow_down_outlined,
+                            ...rooms.map((Room? room) {
+                              return DropdownMenuItem<String>(
+                                child: Row(
+                                  children: [
+                                    Icon(
+                                      Icons
+                                          .business, // ใส่ไอคอนที่คุณต้องการที่นี่
+                                      color: const Color.fromARGB(
+                                          255, 255, 255, 255), // สีของไอคอน
+                                      size: 24, // ขนาดของไอคอน
+                                    ),
+                                    SizedBox(
+                                        width:
+                                            10), // ระยะห่างระหว่างไอคอนและข้อความ
+                                    Text(
+                                      "ห้อง " +
+                                          room!.room_id.toString() +
+                                          " ชั้น " +
+                                          room.floor.toString() +
+                                          " ตำแหน่ง " +
+                                          room.position.toString() +
+                                          " " +
+                                          room.roomname.toString(),
+                                      style: GoogleFonts.prompt(
+                                        textStyle: TextStyle(
+                                          color: Color.fromARGB(
+                                              255, 255, 255, 255),
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                                  ],
+                                ),
+                                value: room.room_id.toString(),
+                              );
+                            }).toList(),
+                          ],
+                          onChanged: (val) {
+                            setState(() {
+                              selectedRoom = val;
+                            });
+                          },
+                          buttonStyleData: ButtonStyleData(
+                            height: 60,
+                            width: 450,
+                            padding: const EdgeInsets.only(left: 14, right: 14),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(14),
+                              border: Border.all(
+                                color: const Color.fromARGB(66, 255, 255, 255),
                               ),
-                              iconSize: 30,
-                              iconEnabledColor:
-                                  Color.fromARGB(255, 255, 255, 255),
-                              iconDisabledColor: Colors.grey,
+                              color: Colors.redAccent,
                             ),
-                            dropdownStyleData: DropdownStyleData(
-                              maxHeight: 200,
-                              width: 450,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(14),
-                                color: Colors.redAccent,
-                              ),
-                              offset: const Offset(-20, 0),
-                              scrollbarTheme: ScrollbarThemeData(
-                                radius: const Radius.circular(40),
-                                thickness: MaterialStateProperty.all(6),
-                                thumbVisibility:
-                                    MaterialStateProperty.all(true),
-                              ),
+                            elevation: 2,
+                          ),
+                          iconStyleData: const IconStyleData(
+                            icon: Icon(
+                              Icons.keyboard_arrow_down_outlined,
                             ),
-                            menuItemStyleData: const MenuItemStyleData(
-                              height: 40,
-                              padding: EdgeInsets.only(left: 14, right: 14),
+                            iconSize: 30,
+                            iconEnabledColor:
+                                Color.fromARGB(255, 255, 255, 255),
+                            iconDisabledColor: Colors.grey,
+                          ),
+                          dropdownStyleData: DropdownStyleData(
+                            maxHeight: 200,
+                            width: 450,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(14),
+                              color: Colors.redAccent,
                             ),
+                            offset: const Offset(-20, 0),
+                            scrollbarTheme: ScrollbarThemeData(
+                              radius: const Radius.circular(40),
+                              thickness: MaterialStateProperty.all(6),
+                              thumbVisibility: MaterialStateProperty.all(true),
+                            ),
+                          ),
+                          menuItemStyleData: const MenuItemStyleData(
+                            height: 40,
+                            padding: EdgeInsets.only(left: 14, right: 14),
                           ),
                         ),
                       ),
+                    ),
 
-                      Row(children: [
-                        Expanded(child: Icon(Icons.topic_outlined)),
-                        Expanded(
-                          child: Text(
-                            "อุปกรณ์ชำรุด",
-                            style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
-                            ),
+                    Row(children: [
+                      Expanded(child: Icon(Icons.topic_outlined)),
+                      Expanded(
+                        child: Text(
+                          "อุปกรณ์ชำรุด",
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
                           ),
                         ),
-                        Text("                                "),
-                      ]),
-
-                      ...buildEquipmentWidgets(),
+                      ),
+                      Text("                                "),
                     ]),
-                  ),
+
+                    ...buildEquipmentWidgets(),
+                  ]),
                 ),
-              ));
+              ),
+            ),
+    );
   }
 
   Map<String, bool> checkboxStates = {};
@@ -818,14 +763,20 @@ class _MyWidgetState extends State<MyEdit> {
   Map<String, List<XFile>> equipmentImages = {};
   List<TextEditingController> detailscontrollers = [];
   List<TextEditingController> amountcontrollers = [];
+  List<String> selectedEquipmentIds = [];
+
   List<Widget> buildEquipmentWidgets() {
     List<Widget> widgets = [];
-
+    selectedEquipmentIds =
+        List.generate(equipmentIds.length, (index) => "1001");
+    print("object---------------- $selectedEquipmentIds");
     for (int index = 0; index < equipmentIds.length; index++) {
       final equipmentId = equipmentIds[index];
+      final bool isEquipmentChecked =
+          selectedEquipmentIds[index].contains(equipmentId);
 
-      final bool isEquipmentChecked = quipment_idcheked!.contains(equipmentId);
-
+      // ตรวจสอบและอัปเดตค่า CheckboxListTile ตามต้องการ
+      print("isEquipmentChecked : ${isEquipmentChecked}");
       widgets.add(
         CheckboxListTile(
           controlAffinity: ListTileControlAffinity.leading,
@@ -835,9 +786,9 @@ class _MyWidgetState extends State<MyEdit> {
             setState(() {
               if (value != null) {
                 if (value) {
-                  quipment_idcheked!.add(equipmentId);
+                  selectedEquipmentIds.add(equipmentId);
                 } else {
-                  quipment_idcheked!.remove(equipmentId);
+                  selectedEquipmentIds.remove(equipmentId);
                 }
               }
               isChecked[index] = value ?? false;
@@ -855,7 +806,7 @@ class _MyWidgetState extends State<MyEdit> {
                 decoration: const InputDecoration(
                   hintText: 'Enter details',
                 ),
-                initialValue: details_idcheked?[index],
+                initialValue: details![index].details?[index],
                 onChanged: (value) {
                   setState(() {
                     detailsMap[equipmentId] = value;
@@ -866,7 +817,7 @@ class _MyWidgetState extends State<MyEdit> {
                 decoration: const InputDecoration(
                   hintText: 'Enter amount',
                 ),
-                initialValue: amount_idcheked?[index],
+                initialValue: details![index].amount.toString()[index],
                 onChanged: (value) {
                   setState(() {
                     amountMap[equipmentId] = int.tryParse(value) ?? 0;
@@ -886,122 +837,70 @@ class _MyWidgetState extends State<MyEdit> {
                 gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 3,
                 ),
-                itemCount: 1, // ให้แสดงเพียงรูปภาพเดียว
+                itemCount: equipmentImages[equipmentId]?.length ?? 0,
                 itemBuilder: (BuildContext context, int imageIndex) {
-                  final imagesForEquipment = getImagesForEquipment(equipmentId);
+                  String fileName = equipmentImages[equipmentId]![imageIndex]
+                      .path
+                      .split('/')
+                      .last;
+                  imageFileNames.add(fileName);
 
-                  if (imageIndex < imagesForEquipment.length) {
-                    final imageName = imagesForEquipment[imageIndex];
-                    final imagePath =
-                        '$baseURL/informrepairdetails/image/$imageName';
-                    inform_pictures.add(imageName);
-
-                    //       final image = equipmentImages[equipmentId]![imageIndex];
-                    // final imagePath = image.path;
-                    // final imageName = imagePath.split('/').last;
-
-                    // if (!inform_pictures.contains(imageName)) {
-                    //   inform_pictures.add(imageName);
-                    // }
-
-                    return Padding(
-                      padding: const EdgeInsets.all(2),
-                      child: Stack(
-                        children: [
-                          Image.network(imagePath),
-                          Positioned(
-                            bottom: 0,
-                            left: 0,
-                            right: 79,
-                            child: Container(
-                              color: Colors.black.withOpacity(0.7),
-                              padding: EdgeInsets.all(5.0),
-                              child: Text(
-                                imageName,
-                                style: TextStyle(color: Colors.white),
-                              ),
+                  return Padding(
+                    padding: const EdgeInsets.all(2),
+                    child: Stack(
+                      children: [
+                        Image.file(File(
+                            equipmentImages[equipmentId]![imageIndex]
+                                .path)), // Display the image
+                        Positioned(
+                          bottom: 0,
+                          left: 0,
+                          right: 79,
+                          child: Container(
+                            color: Colors.black.withOpacity(0.7),
+                            padding: EdgeInsets.all(5.0),
+                            child: Text(
+                              fileName, // Display the image name
+                              style: TextStyle(color: Colors.white),
                             ),
                           ),
-                          Positioned(
-                            top: 0,
-                            right: 30,
-                            child: IconButton(
-                              icon: Icon(
-                                Icons.highlight_remove_sharp,
-                                color: Colors.red,
-                              ),
-                              onPressed: () {
-                                setState(() {
-                                  final equipmentImagesList =
-                                      equipmentImages[equipmentId];
-                                  if (equipmentImagesList != null &&
-                                      imageIndex < equipmentImagesList.length) {
-                                    equipmentImagesList.removeAt(imageIndex);
-                                  }
-
-                                  if (imageIndex < imageFileNames.length) {
-                                    String fileNameToRemove =
-                                        imageFileNames[imageIndex];
-                                    imageFileNames.remove(fileNameToRemove);
-                                  }
-                                });
-                              },
+                        ),
+                        Positioned(
+                          top: 0,
+                          right: 30,
+                          child: IconButton(
+                            icon: Icon(
+                              Icons.highlight_remove_sharp,
+                              color: Colors.red,
                             ),
+                            onPressed: () {
+                              setState(() {
+                                final equipmentImagesList =
+                                    equipmentImages[equipmentId];
+                                if (equipmentImagesList != null &&
+                                    imageIndex < equipmentImagesList.length) {
+                                  equipmentImagesList.removeAt(imageIndex);
+                                }
+
+                                if (imageIndex < imageFileNames.length) {
+                                  String fileNameToRemove =
+                                      imageFileNames[imageIndex];
+                                  imageFileNames.remove(fileNameToRemove);
+                                }
+                              });
+                            },
                           ),
-                        ],
-                      ),
-                    );
-                  } else {
-                    return Container(); // หากไม่มีรูปภาพสำหรับอุปกรณ์นี้
-                  }
+                        ),
+                      ],
+                    ),
+                  );
                 },
               ),
-              // Wrap(
-              //   spacing: 8.0, // ระยะห่างระหว่างรูปภาพในแนวนอน
-              //   runSpacing: 8.0, // ระยะห่างระหว่างรูปภาพในแนวดิ่ง
-              //   children: List.generate(
-              //     1,
-              //     (index) {
-              //       final informPicture = inform_pictures.firstWhere(
-              //         (inform) {
-              //           final parts = inform.split(',');
-              //           return parts.length == 2 && parts[0] == equipmentId;
-              //         },
-              //         orElse: () => "",
-              //       );
-
-              //       if (informPicture != null) {
-              //         final parts = informPicture.split(',');
-              //         final imageName = parts[1];
-              //         return Container(
-              //           width: 200,
-              //           height: 350,
-              //           child: Image.network(
-              //             baseURL + '/report_pictures/image/$imageName',
-              //             fit: BoxFit.cover,
-              //           ),
-              //         );
-              //       } else {
-              //         return Container(); // หากไม่พบข้อมูลรูปภาพสำหรับอุปกรณ์นี้
-              //       }
-              //     },
-              //   ),
-              // )
             ],
           ),
         );
       }
     }
     return widgets;
-  }
-
-  List<String> getImagesForEquipment(String equipmentId) {
-    return pictures!.where((image) {
-      final parts = image.split(',');
-      return parts.length == 2 && parts[0] == equipmentId;
-    }).map((image) {
-      final parts = image.split(',');
-      return parts[1];
-    }).toList();
   }
 }

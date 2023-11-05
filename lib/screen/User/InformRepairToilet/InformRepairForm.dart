@@ -638,9 +638,9 @@ class Form extends State<InformRepairForm> {
                                 width: 419,
                                 height: 160,
                                 decoration: ShapeDecoration(
-                                  color: Color.fromARGB(255, 255, 75, 75),
+                                  color: Color.fromARGB(32, 41, 111, 29),
                                   shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(40),
+                                    borderRadius: BorderRadius.circular(20),
                                   ),
                                 ),
                               ),
@@ -658,7 +658,7 @@ class Form extends State<InformRepairForm> {
                                     shape: RoundedRectangleBorder(
                                       side: BorderSide(
                                         width: 1,
-                                        color: Colors.white,
+                                        color: Color.fromARGB(255, 41, 111, 29),
                                         strokeAlign:
                                             BorderSide.strokeAlignCenter,
                                       ),
@@ -672,8 +672,7 @@ class Form extends State<InformRepairForm> {
                               top: 20,
                               child: Icon(
                                 Icons.favorite, // เปลี่ยนไอคอนตรงนี้
-                                color: const Color.fromARGB(
-                                    255, 255, 255, 255), // สีไอคอน
+                                color: Color.fromRGBO(7, 94, 53, 1), // สีไอคอน
                                 size: 60, // ขนาดไอคอน
                               ),
                             ),
@@ -687,7 +686,7 @@ class Form extends State<InformRepairForm> {
                                   'เลขที่แจ้งซ่อม',
                                   style: GoogleFonts.prompt(
                                     textStyle: TextStyle(
-                                      color: Color.fromARGB(255, 255, 255, 255),
+                                      color: Color.fromRGBO(7, 94, 53, 1),
                                       fontSize: 14,
                                       fontWeight: FontWeight.bold,
                                     ),
@@ -705,7 +704,7 @@ class Form extends State<InformRepairForm> {
                                   '${(informrepairs?.isNotEmpty == true ? (informrepairs![informrepairs!.length - 1].informrepair_id ?? 0) + 1 : 1)}',
                                   style: GoogleFonts.prompt(
                                     textStyle: TextStyle(
-                                      color: Color.fromARGB(255, 255, 255, 255),
+                                      color: Color.fromARGB(255, 0, 0, 0),
                                       fontSize: 25,
                                       fontWeight: FontWeight.bold,
                                     ),
@@ -719,8 +718,7 @@ class Form extends State<InformRepairForm> {
                               child: Icon(
                                 Icons
                                     .calendar_month_outlined, // เปลี่ยนไอคอนตรงนี้
-                                color: const Color.fromARGB(
-                                    255, 255, 255, 255), // สีไอคอน
+                                color: Color.fromRGBO(7, 94, 53, 1), // สีไอคอน
                                 size: 60, // ขนาดไอคอน
                               ),
                             ),
@@ -734,7 +732,7 @@ class Form extends State<InformRepairForm> {
                                   'วันที่แจ้งซ่อม',
                                   style: GoogleFonts.prompt(
                                     textStyle: TextStyle(
-                                      color: Color.fromARGB(255, 255, 255, 255),
+                                      color: Color.fromRGBO(7, 94, 53, 1),
                                       fontSize: 14,
                                       fontWeight: FontWeight.bold,
                                     ),
@@ -752,7 +750,7 @@ class Form extends State<InformRepairForm> {
                                   '$formattedDate',
                                   style: GoogleFonts.prompt(
                                     textStyle: TextStyle(
-                                      color: Color.fromARGB(255, 255, 255, 255),
+                                      color: Color.fromARGB(255, 0, 0, 0),
                                       fontSize: 25,
                                       fontWeight: FontWeight.bold,
                                     ),
@@ -815,8 +813,8 @@ class Form extends State<InformRepairForm> {
                                     Icon(
                                       Icons
                                           .business, // ใส่ไอคอนที่คุณต้องการที่นี่
-                                      color: const Color.fromARGB(
-                                          255, 255, 255, 255), // สีของไอคอน
+                                      color: Color.fromARGB(
+                                          255, 255, 253, 253), // สีของไอคอน
                                       size: 24, // ขนาดของไอคอน
                                     ),
                                     SizedBox(
@@ -859,12 +857,12 @@ class Form extends State<InformRepairForm> {
                             width: 450,
                             padding: const EdgeInsets.only(left: 14, right: 14),
                             decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(14),
-                              border: Border.all(
-                                color: const Color.fromARGB(66, 255, 255, 255),
-                              ),
-                              color: Colors.redAccent,
-                            ),
+                                borderRadius: BorderRadius.circular(14),
+                                border: Border.all(
+                                  color:
+                                      const Color.fromARGB(66, 255, 255, 255),
+                                ),
+                                color: Color.fromRGBO(7, 94, 53, 1)),
                             elevation: 2,
                           ),
                           iconStyleData: const IconStyleData(
@@ -881,7 +879,7 @@ class Form extends State<InformRepairForm> {
                             width: 450,
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(14),
-                              color: Colors.redAccent,
+                              color: Color.fromRGBO(62, 119, 94, 1),
                             ),
                             offset: const Offset(-20, 0),
                             scrollbarTheme: ScrollbarThemeData(
@@ -977,7 +975,7 @@ class Form extends State<InformRepairForm> {
                                   color:
                                       const Color.fromARGB(66, 255, 255, 255),
                                 ),
-                                color: Colors.redAccent,
+                                color: Color.fromRGBO(7, 94, 53, 1),
                               ),
                               elevation: 2,
                             ),
@@ -995,7 +993,7 @@ class Form extends State<InformRepairForm> {
                               width: 450,
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(14),
-                                color: Colors.redAccent,
+                                color: Color.fromRGBO(62, 119, 94, 1),
                               ),
                               offset: const Offset(-20, 0),
                               scrollbarTheme: ScrollbarThemeData(
@@ -1018,78 +1016,28 @@ class Form extends State<InformRepairForm> {
                     //  //---------------------------------------------------------------------------------------------
 
                     Padding(
-                      padding: const EdgeInsets.all(10.0),
+                      padding: const EdgeInsets.all(25.0),
                       child: Container(
-                        width: 450,
-                        height: 50,
-                        child: Stack(children: [
-                          Positioned(
-                            left: 0,
-                            top: 0,
-                            child: Container(
-                              width: 450,
-                              height: 50,
-                              decoration: ShapeDecoration(
-                                color: Colors.white,
-                                shape: RoundedRectangleBorder(
-                                  side: BorderSide(
-                                      width: 1, color: Color(0xFFF0573D)),
-                                  borderRadius: BorderRadius.circular(11),
-                                ),
-                                shadows: [
-                                  BoxShadow(
-                                    color: Color(0x3F000000),
-                                    blurRadius: 4,
-                                    offset: Offset(0, 4),
-                                    spreadRadius: 0,
-                                  )
-                                ],
-                              ),
-                            ),
+                        padding: EdgeInsets.all(10), // ระยะห่างขอบของกรอบ
+                        decoration: BoxDecoration(
+                          color: Color.fromARGB(32, 41, 111, 29),
+                          border: Border.all(
+                            color: Color.fromARGB(255, 255, 255, 255), // สีขอบ
+                            width: 2, // ความหนาขอบ
                           ),
-                          Positioned(
-                            left: 20,
-                            top: 11,
-                            child: SizedBox(
-                              width: 400,
-                              height: 27,
-                              child: Text.rich(
-                                TextSpan(
-                                  children: [
-                                    WidgetSpan(
-                                      child: Icon(Icons.build,
-                                          color: const Color.fromARGB(
-                                              255, 0, 0, 0)),
-                                    ),
-                                    WidgetSpan(
-                                      child: SizedBox(
-                                          width:
-                                              10), // ระยะห่าง 10 พิกเซลระหว่าง TextSpan
-                                    ),
-                                    TextSpan(
-                                      text: 'อุปกรณ์ชำรุด',
-                                      style: GoogleFonts.prompt(
-                                        textStyle: TextStyle(
-                                          color: Color.fromARGB(255, 0, 0, 0),
-                                          fontSize: 18,
-                                        ),
-                                      ),
-                                    ),
-                                    WidgetSpan(
-                                      child: SizedBox(
-                                          width:
-                                              15), // ระยะห่าง 10 พิกเซลระหว่าง TextSpan
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ),
-                        ]),
+                          borderRadius:
+                              BorderRadius.circular(10), // กำหนดรัศมีขอบมน
+                        ),
+                        child: Column(
+                          children: [
+                            ...buildEquipmentWidgets(),
+                          ],
+                        ),
                       ),
                     ),
-
-                    ...buildEquipmentWidgets(),
+                    SizedBox(
+                      height: 80,
+                    )
                   ]),
                 ),
               ),
@@ -1102,6 +1050,7 @@ class Form extends State<InformRepairForm> {
             child: Container(
               width: 120, // Set the width of the button here
               child: FloatingActionButton.extended(
+                backgroundColor: Color(0xFFEB6727),
                 label: Text(
                   "ยืนยัน",
                   style: GoogleFonts.prompt(
@@ -1183,6 +1132,7 @@ class Form extends State<InformRepairForm> {
           Container(
             width: 120, // Set the width of the button here
             child: FloatingActionButton.extended(
+              backgroundColor: Color(0xFFEB6727),
               label: Text(
                 "ยกเลิก",
                 style: GoogleFonts.prompt(
@@ -1219,9 +1169,79 @@ class Form extends State<InformRepairForm> {
   List<TextEditingController> amountcontrollers = [];
   List<Widget> buildEquipmentWidgets() {
     List<Widget> widgets = [];
-
+    widgets.add(
+      Padding(
+        padding: const EdgeInsets.all(10.0),
+        child: Container(
+          width: 450,
+          height: 50,
+          child: Stack(children: [
+            Positioned(
+              left: 0,
+              top: 0,
+              child: Container(
+                width: 450,
+                height: 50,
+                decoration: ShapeDecoration(
+                  color: Colors.white,
+                  shape: RoundedRectangleBorder(
+                    side: BorderSide(
+                        width: 1, color: Color.fromRGBO(7, 94, 53, 1)),
+                    borderRadius: BorderRadius.circular(11),
+                  ),
+                  shadows: [
+                    BoxShadow(
+                      color: Color(0x3F000000),
+                      blurRadius: 4,
+                      offset: Offset(0, 4),
+                      spreadRadius: 0,
+                    )
+                  ],
+                ),
+              ),
+            ),
+            Positioned(
+              left: 20,
+              top: 11,
+              child: SizedBox(
+                width: 400,
+                height: 27,
+                child: Text.rich(
+                  TextSpan(
+                    children: [
+                      WidgetSpan(
+                        child: Icon(Icons.build,
+                            color: const Color.fromARGB(255, 0, 0, 0)),
+                      ),
+                      WidgetSpan(
+                        child: SizedBox(
+                            width: 10), // ระยะห่าง 10 พิกเซลระหว่าง TextSpan
+                      ),
+                      TextSpan(
+                        text: 'อุปกรณ์ชำรุด',
+                        style: GoogleFonts.prompt(
+                          textStyle: TextStyle(
+                            color: Color.fromARGB(255, 0, 0, 0),
+                            fontSize: 18,
+                          ),
+                        ),
+                      ),
+                      WidgetSpan(
+                        child: SizedBox(
+                            width: 15), // ระยะห่าง 10 พิกเซลระหว่าง TextSpan
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          ]),
+        ),
+      ),
+    );
     for (int index = 0; index < equipmentIds.length; index++) {
       final equipmentId = equipmentIds[index];
+
       widgets.add(CheckboxListTile(
         controlAffinity: ListTileControlAffinity.leading,
         title: Text(
@@ -1251,29 +1271,54 @@ class Form extends State<InformRepairForm> {
               isChecked[index], // Control visibility based on checkbox state
           child: Column(
             children: [
-              TextFormField(
-                controller: detailscontrollers[index],
-                decoration: const InputDecoration(
-                  hintText: 'Enter details',
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: TextFormField(
+                        controller: detailscontrollers[index],
+                        decoration: const InputDecoration(
+                          hintText: 'Enter details',
+                          border: InputBorder.none,
+                          filled: true,
+                          fillColor: Colors.white,
+                        ),
+                        onChanged: (value) {
+                          setState(() {
+                            detailscontrollers[index].text = value;
+                          });
+                          print(detailscontrollers[index].text);
+                        },
+                      ),
+                    ),
+                  ],
                 ),
-                onChanged: (value) {
-                  setState(() {
-                    detailscontrollers[index].text = value;
-                  });
-                  print(detailscontrollers[index].text);
-                },
               ),
-              TextFormField(
-                controller: amountcontrollers[index],
-                decoration: const InputDecoration(
-                  hintText: 'Enter amount',
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Row(
+                  children: [
+                    Container(
+                      width: 200,
+                      child: TextFormField(
+                        controller: amountcontrollers[index],
+                        decoration: const InputDecoration(
+                          hintText: 'Enter amount',
+                          border: InputBorder.none,
+                          filled: true,
+                          fillColor: Colors.white,
+                        ),
+                        onChanged: (value) {
+                          setState(() {
+                            amountcontrollers[index].text = value;
+                          });
+                          print(amountcontrollers[index].text);
+                        },
+                      ),
+                    ),
+                  ],
                 ),
-                onChanged: (value) {
-                  setState(() {
-                    amountcontrollers[index].text = value;
-                  });
-                  print(amountcontrollers[index].text);
-                },
               ),
               ElevatedButton(
                 onPressed: () {
