@@ -260,20 +260,10 @@ class _ViewResultState extends State<View_NewItem> {
                               width: 390,
                               height: 250,
                               decoration: ShapeDecoration(
-                                color: Colors.white,
+                                color: Color.fromARGB(32, 41, 111, 29),
                                 shape: RoundedRectangleBorder(
-                                  side: BorderSide(
-                                      width: 1, color: Color(0xFFF0573D)),
                                   borderRadius: BorderRadius.circular(11),
                                 ),
-                                shadows: [
-                                  BoxShadow(
-                                    color: Color(0x3F000000),
-                                    blurRadius: 4,
-                                    offset: Offset(0, 4),
-                                    spreadRadius: 0,
-                                  )
-                                ],
                               ),
                             ),
                           ),
@@ -287,9 +277,12 @@ class _ViewResultState extends State<View_NewItem> {
                                 TextSpan(
                                   children: [
                                     WidgetSpan(
-                                      child: Icon(Icons.list,
-                                          color: const Color.fromARGB(
-                                              255, 0, 0, 0)),
+                                      child: Icon(
+                                        Icons.list, // เปลี่ยนไอคอนตรงนี้
+                                        color: Color.fromARGB(
+                                            255, 7, 94, 53), // สีไอคอน
+                                        // ขนาดไอคอน
+                                      ),
                                     ),
                                     WidgetSpan(
                                       child: SizedBox(
@@ -300,7 +293,7 @@ class _ViewResultState extends State<View_NewItem> {
                                       text: 'เลขที่แจ้งซ่อม :',
                                       style: GoogleFonts.prompt(
                                         textStyle: TextStyle(
-                                          color: Color.fromARGB(255, 0, 0, 0),
+                                          color: Color.fromARGB(255, 7, 94, 53),
                                           fontSize: 20,
                                         ),
                                       ),
@@ -335,9 +328,10 @@ class _ViewResultState extends State<View_NewItem> {
                                 TextSpan(
                                   children: [
                                     WidgetSpan(
-                                      child: Icon(Icons.date_range,
-                                          color: const Color.fromARGB(
-                                              255, 0, 0, 0)),
+                                      child: Icon(
+                                        Icons.date_range,
+                                        color: Color.fromARGB(255, 7, 94, 53),
+                                      ),
                                     ),
                                     WidgetSpan(
                                       child: SizedBox(
@@ -348,7 +342,7 @@ class _ViewResultState extends State<View_NewItem> {
                                       text: 'วันที่แจ้งซ่อม  :',
                                       style: GoogleFonts.prompt(
                                         textStyle: TextStyle(
-                                          color: Color.fromARGB(255, 0, 0, 0),
+                                          color: Color.fromARGB(255, 7, 94, 53),
                                           fontSize: 20,
                                         ),
                                       ),
@@ -383,9 +377,10 @@ class _ViewResultState extends State<View_NewItem> {
                                 TextSpan(
                                   children: [
                                     WidgetSpan(
-                                      child: Icon(Icons.ballot_outlined,
-                                          color: const Color.fromARGB(
-                                              255, 0, 0, 0)),
+                                      child: Icon(
+                                        Icons.ballot_outlined,
+                                        color: Color.fromARGB(255, 7, 94, 53),
+                                      ),
                                     ),
                                     WidgetSpan(
                                       child: SizedBox(
@@ -396,7 +391,7 @@ class _ViewResultState extends State<View_NewItem> {
                                       text: 'ประเภทห้องน้ำ  :',
                                       style: GoogleFonts.prompt(
                                         textStyle: TextStyle(
-                                          color: Color.fromARGB(255, 0, 0, 0),
+                                          color: Color.fromARGB(255, 7, 94, 53),
                                           fontSize: 20,
                                         ),
                                       ),
@@ -431,9 +426,10 @@ class _ViewResultState extends State<View_NewItem> {
                                 TextSpan(
                                   children: [
                                     WidgetSpan(
-                                      child: Icon(Icons.business,
-                                          color: const Color.fromARGB(
-                                              255, 0, 0, 0)),
+                                      child: Icon(
+                                        Icons.business,
+                                        color: Color.fromARGB(255, 7, 94, 53),
+                                      ),
                                     ),
                                     WidgetSpan(
                                       child: SizedBox(
@@ -441,10 +437,10 @@ class _ViewResultState extends State<View_NewItem> {
                                               25), // ระยะห่าง 10 พิกเซลระหว่าง TextSpan
                                     ),
                                     TextSpan(
-                                      text: 'อาคาร   ',
+                                      text: 'อาคาร   :',
                                       style: GoogleFonts.prompt(
                                         textStyle: TextStyle(
-                                          color: Color.fromARGB(255, 0, 0, 0),
+                                          color: Color.fromARGB(255, 7, 94, 53),
                                           fontSize: 20,
                                         ),
                                       ),
@@ -479,9 +475,10 @@ class _ViewResultState extends State<View_NewItem> {
                                 TextSpan(
                                   children: [
                                     WidgetSpan(
-                                      child: Icon(Icons.bento_outlined,
-                                          color: const Color.fromARGB(
-                                              255, 0, 0, 0)),
+                                      child: Icon(
+                                        Icons.bento_outlined,
+                                        color: Color.fromARGB(255, 7, 94, 53),
+                                      ),
                                     ),
                                     WidgetSpan(
                                       child: SizedBox(
@@ -489,10 +486,10 @@ class _ViewResultState extends State<View_NewItem> {
                                               25), // ระยะห่าง 10 พิกเซลระหว่าง TextSpan
                                     ),
                                     TextSpan(
-                                      text: 'ชั้น   ',
+                                      text: 'ชั้น   :',
                                       style: GoogleFonts.prompt(
                                         textStyle: TextStyle(
-                                          color: Color.fromARGB(255, 0, 0, 0),
+                                          color: Color.fromARGB(255, 7, 94, 53),
                                           fontSize: 20,
                                         ),
                                       ),
@@ -527,9 +524,10 @@ class _ViewResultState extends State<View_NewItem> {
                                 TextSpan(
                                   children: [
                                     WidgetSpan(
-                                      child: Icon(Icons.place_outlined,
-                                          color: const Color.fromARGB(
-                                              255, 0, 0, 0)),
+                                      child: Icon(
+                                        Icons.place_outlined,
+                                        color: Color.fromARGB(255, 7, 94, 53),
+                                      ),
                                     ),
                                     WidgetSpan(
                                       child: SizedBox(
@@ -540,7 +538,7 @@ class _ViewResultState extends State<View_NewItem> {
                                       text: 'ตำแหน่ง   :',
                                       style: GoogleFonts.prompt(
                                         textStyle: TextStyle(
-                                          color: Color.fromARGB(255, 0, 0, 0),
+                                          color: Color.fromARGB(255, 7, 94, 53),
                                           fontSize: 20,
                                         ),
                                       ),
@@ -569,24 +567,84 @@ class _ViewResultState extends State<View_NewItem> {
                       ),
                     ),
                   ),
-                  Row(
-                    children: [
-                      Text(
-                        "อุปกรณ์ชำรุด",
-                        style: GoogleFonts.prompt(
-                          textStyle: TextStyle(
-                            color: Color.fromARGB(255, 0, 0, 0),
-                            fontSize: 20,
+                  Padding(
+                    padding: const EdgeInsets.all(10.0),
+                    child: Container(
+                      width: 450,
+                      height: 50,
+                      child: Stack(children: [
+                        Positioned(
+                          left: 0,
+                          top: 0,
+                          child: Container(
+                            width: 450,
+                            height: 50,
+                            decoration: ShapeDecoration(
+                              color: Colors.white,
+                              shape: RoundedRectangleBorder(
+                                side: BorderSide(
+                                    width: 1,
+                                    color: Color.fromRGBO(7, 94, 53, 1)),
+                                borderRadius: BorderRadius.circular(11),
+                              ),
+                              shadows: [
+                                BoxShadow(
+                                  color: Color(0x3F000000),
+                                  blurRadius: 4,
+                                  offset: Offset(0, 4),
+                                  spreadRadius: 0,
+                                )
+                              ],
+                            ),
                           ),
                         ),
-                      ),
-                    ],
+                        Positioned(
+                          left: 20,
+                          top: 11,
+                          child: SizedBox(
+                            width: 400,
+                            height: 27,
+                            child: Text.rich(
+                              TextSpan(
+                                children: [
+                                  WidgetSpan(
+                                    child: Icon(Icons.build,
+                                        color:
+                                            const Color.fromARGB(255, 0, 0, 0)),
+                                  ),
+                                  WidgetSpan(
+                                    child: SizedBox(
+                                        width:
+                                            10), // ระยะห่าง 10 พิกเซลระหว่าง TextSpan
+                                  ),
+                                  TextSpan(
+                                    text: 'อุปกรณ์ชำรุด',
+                                    style: GoogleFonts.prompt(
+                                      textStyle: TextStyle(
+                                        color: Color.fromARGB(255, 0, 0, 0),
+                                        fontSize: 18,
+                                      ),
+                                    ),
+                                  ),
+                                  WidgetSpan(
+                                    child: SizedBox(
+                                        width:
+                                            15), // ระยะห่าง 10 พิกเซลระหว่าง TextSpan
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                      ]),
+                    ),
                   ),
                   ListView.builder(
                     shrinkWrap:
                         true, // ตั้งค่า shrinkWrap เป็น true เพื่อให้ ListView ย่อเข้าตัวเมื่อมีเนื้อหาน้อย
                     itemCount: informDetails.length,
                     itemBuilder: (context, index) {
+                      int displayIndex = index + 1;
                       return Card(
                           elevation: 5,
                           shape: RoundedRectangleBorder(
@@ -596,6 +654,19 @@ class _ViewResultState extends State<View_NewItem> {
                                   mainAxisSize: MainAxisSize.max,
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
+                                Row(children: [
+                                  Expanded(
+                                    child: Text(
+                                      "รายการที่ : ${displayIndex}",
+                                      style: GoogleFonts.prompt(
+                                        textStyle: TextStyle(
+                                          color: Color.fromARGB(255, 7, 94, 53),
+                                          fontSize: 20,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ]),
                                 Row(children: [
                                   Expanded(
                                     child: Text(
@@ -644,41 +715,41 @@ class _ViewResultState extends State<View_NewItem> {
                                     ),
                                   ),
                                 ]),
-                                Wrap(
-                                  spacing: 8.0, // ระยะห่างระหว่างรูปภาพในแนวนอน
-                                  runSpacing:
-                                      8.0, // ระยะห่างระหว่างรูปภาพในแนวดิ่ง
-                                  children: List.generate(
-                                    1,
-                                    (index) {
-                                      final informPicture =
-                                          pictures!.firstWhere(
-                                        (inform) {
-                                          final parts = inform.split(',');
-                                          return parts.length == 2 &&
-                                              parts[0] == "1002";
-                                        },
-                                        orElse: () => "",
-                                      );
+                                // Wrap(
+                                //   spacing: 8.0, // ระยะห่างระหว่างรูปภาพในแนวนอน
+                                //   runSpacing:
+                                //       8.0, // ระยะห่างระหว่างรูปภาพในแนวดิ่ง
+                                //   children: List.generate(
+                                //     1,
+                                //     (index) {
+                                //       final informPicture =
+                                //           pictures!.firstWhere(
+                                //         (inform) {
+                                //           final parts = inform.split(',');
+                                //           return parts.length == 2 &&
+                                //               parts[0] == "1002";
+                                //         },
+                                //         orElse: () => "",
+                                //       );
 
-                                      if (informPicture != null) {
-                                        final parts = informPicture.split(',');
-                                        final imageName = parts[1];
-                                        return Container(
-                                          width: 200,
-                                          height: 350,
-                                          child: Image.network(
-                                            baseURL +
-                                                '/informrepairdetails/image/$imageName',
-                                            fit: BoxFit.cover,
-                                          ),
-                                        );
-                                      } else {
-                                        return Container(); // หากไม่พบข้อมูลรูปภาพสำหรับอุปกรณ์นี้
-                                      }
-                                    },
-                                  ),
-                                )
+                                //       if (informPicture != null) {
+                                //         final parts = informPicture.split(',');
+                                //         final imageName = parts[1];
+                                //         return Container(
+                                //           width: 200,
+                                //           height: 350,
+                                //           child: Image.network(
+                                //             baseURL +
+                                //                 '/informrepairdetails/image/$imageName',
+                                //             fit: BoxFit.cover,
+                                //           ),
+                                //         );
+                                //       } else {
+                                //         return Container(); // หากไม่พบข้อมูลรูปภาพสำหรับอุปกรณ์นี้
+                                //       }
+                                //     },
+                                //   ),
+                                // )
                               ])));
                     },
                   ),
