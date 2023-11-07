@@ -52,10 +52,26 @@ class _MyWidgetState extends State<MyEdit> {
     final List<XFile>? selectedImages = await imagePicker.pickMultiImage();
     if (selectedImages != null && selectedImages.isNotEmpty) {
       if (equipmentImages.containsKey(equipmentId)) {
-        equipmentImages[equipmentId]!.addAll(selectedImages);
+        //equipmentImages[equipmentId]!.addAll(selectedImages);
       } else {
-        equipmentImages[equipmentId] = selectedImages;
+        //equipmentImages[equipmentId] = selectedImages;
       }
+      setState(() {});
+    }
+  }
+
+  void _addImageForEquipmentNew(String equipmentId) async {
+    final XFile? selectedImage =
+        await imagePicker.pickImage(source: ImageSource.gallery);
+    if (selectedImage != null) {
+      equipmentImages[equipmentId] = selectedImage;
+      _selectedImages.add(File(selectedImage.path));
+      details?.forEach((element) {});
+      equipmentImages.forEach(
+        (key, value) {
+          print("KEY : ${key}");
+        },
+      );
       setState(() {});
     }
   }
@@ -92,7 +108,7 @@ class _MyWidgetState extends State<MyEdit> {
   List<String>? Room_id = [];
   List<String> equipmentName = [];
 
-  void findequipmentByIdByAll(String selectedRoom) async {
+  Future<void> findequipmentByIdByAll(String selectedRoom) async {
     equipmentIds = await informrepairController
         .findequipment_idByIdByroom_id(selectedRoom);
 
@@ -108,13 +124,9 @@ class _MyWidgetState extends State<MyEdit> {
 
     print("equipmentIds : $equipmentIds");
     print("equipmentName : $equipmentName");
-
-    setState(() {
-      isDataLoaded = true;
-    });
   }
 
-  void listAllBuildings() async {
+  Future<void> listAllBuildings() async {
     List<Building?> buildingsList = [];
     buildingsList =
         (await informrepairController.listAllBuildings()).cast<Building>();
@@ -124,7 +136,8 @@ class _MyWidgetState extends State<MyEdit> {
     });
   }
 
-  void findlistRoomByIdBybuilding_id(int building_id, String roomtype) async {
+  Future<void> findlistRoomByIdBybuilding_id(
+      int building_id, String roomtype) async {
     List<Room> listrooms;
     listrooms = await informrepairController.findlistRoomByIdBybuilding_id(
         building_id, roomtype);
@@ -135,14 +148,14 @@ class _MyWidgetState extends State<MyEdit> {
   }
 
   List<InformRepairDetails>? details = [];
-  void findequipment_idByIdByinformrepair_id(String informrepair_id) async {
+  Future<void> findequipment_idByIdByinformrepair_id(
+      String informrepair_id) async {
     details =
         await informRepairDetailsController.findByIdByDetails(informrepair_id);
-    setState(() {});
   }
 
   List<InformRepairDetails>? informRepairDetail = [];
-  void ViewListInformDetails() async {
+  Future<void> ViewListInformDetails() async {
     informRepairDetail =
         await informRepairDetailsController.ViewListInformDetails(
             widget.informrepair_id!);
@@ -167,12 +180,6 @@ class _MyWidgetState extends State<MyEdit> {
     });
   }
 
-  void fetchInformRepairs() async {
-    setState(() {
-      isDataLoaded = true;
-    });
-  }
-
   Future<void> initialize() async {
     informRepairDetail =
         await informRepairDetailsController.ViewListInformDetails(
@@ -181,23 +188,13 @@ class _MyWidgetState extends State<MyEdit> {
         informRepairDetail?[0].roomEquipment!.room!.room_id.toString();
     equipmentIds = await informrepairController
         .findequipment_idByIdByroom_id(selectedRoom.toString());
+    print("FT : ${equipmentIds.length}");
+
     isChecked = List.generate(equipmentIds.length, (index) => false);
     detailscontrollers =
         List.generate(equipmentIds.length, (index) => TextEditingController());
     amountcontrollers =
         List.generate(equipmentIds.length, (index) => TextEditingController());
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    listAllBuildings();
-    ViewListInformDetails();
-    fetchInformRepairs();
-    findequipment_idByIdByinformrepair_id(widget.informrepair_id.toString());
-    initialize();
-    DateTime now = DateTime.now();
-    formattedDate = DateFormat('dd-MM-yyyy').format(now);
   }
 
   @override
@@ -743,7 +740,7 @@ class _MyWidgetState extends State<MyEdit> {
                       Text("                                "),
                     ]),
 
-                    ...buildEquipmentWidgets(),
+                    ...buildEquipmentWidgets()
                   ]),
                 ),
               ),
@@ -760,147 +757,193 @@ class _MyWidgetState extends State<MyEdit> {
   List<String> amountLists = [];
   List<String> report_picture = ["B.jpg", "P.jpg"];
   List<String> inform_pictures = [];
-  Map<String, List<XFile>> equipmentImages = {};
+  final Map<String, XFile> equipmentImages = {};
   List<TextEditingController> detailscontrollers = [];
   List<TextEditingController> amountcontrollers = [];
   List<String> selectedEquipmentIds = [];
 
+  bool? loadedYet;
+
+  void allAsync() async {
+    final a1 = listAllBuildings();
+    final a2 = ViewListInformDetails();
+    final a3 = findequipment_idByIdByinformrepair_id(
+        widget.informrepair_id.toString());
+    final a4 = initialize();
+
+    await Future.wait([a1, a2, a3, a4]);
+
+    print("FINLOAD : ${equipmentIds.length}");
+    await Future.delayed(Duration(seconds: 1));
+
+    //await Future.delayed(Duration(seconds: 1));
+
+    setState(() {
+      isDataLoaded = true;
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    allAsync();
+    DateTime now = DateTime.now();
+    formattedDate = DateFormat('dd-MM-yyyy').format(now);
+    print("FT2 : ${equipmentIds.length}");
+  }
+
+  //Additional code
+
+  List<Widget> newwidgets = [];
+  List<bool> eqCheckBox = [];
+  List<TextEditingController> arrDetailsTextCon = [];
+  List<TextEditingController> arrAmountsTextCon = [];
+
   List<Widget> buildEquipmentWidgets() {
     List<Widget> widgets = [];
+
+    print("${equipmentName.length}");
+
     selectedEquipmentIds =
         List.generate(equipmentIds.length, (index) => "1001");
-    print("object---------------- $selectedEquipmentIds");
-    for (int index = 0; index < equipmentIds.length; index++) {
-      final equipmentId = equipmentIds[index];
-      final bool isEquipmentChecked =
-          selectedEquipmentIds[index].contains(equipmentId);
 
-      // ตรวจสอบและอัปเดตค่า CheckboxListTile ตามต้องการ
-      print("isEquipmentChecked : ${isEquipmentChecked}");
-      widgets.add(
-        CheckboxListTile(
-          controlAffinity: ListTileControlAffinity.leading,
-          title: Text(equipmentName[index]),
-          value: isEquipmentChecked,
-          onChanged: (bool? value) {
-            setState(() {
-              if (value != null) {
-                if (value) {
-                  selectedEquipmentIds.add(equipmentId);
-                } else {
-                  selectedEquipmentIds.remove(equipmentId);
-                }
-              }
-              isChecked[index] = value ?? false;
-            });
-          },
-        ),
-      );
-
-      if (isEquipmentChecked) {
-        // Checkbox ถูกเลือก
-        widgets.add(
-          Column(
-            children: [
-              TextFormField(
-                decoration: const InputDecoration(
-                  hintText: 'Enter details',
-                ),
-                initialValue: details![index].details?[index],
-                onChanged: (value) {
-                  setState(() {
-                    detailsMap[equipmentId] = value;
-                  });
-                },
-              ),
-              TextFormField(
-                decoration: const InputDecoration(
-                  hintText: 'Enter amount',
-                ),
-                initialValue: details![index].amount.toString()[index],
-                onChanged: (value) {
-                  setState(() {
-                    amountMap[equipmentId] = int.tryParse(value) ?? 0;
-                  });
-                },
-              ),
-              ElevatedButton(
-                onPressed: () {
-                  _addImageForEquipment(equipmentId);
-                  _uploadImages();
-                  print('imageFileNames----${imageFileNames}');
-                },
-                child: Text('เพิ่มรูปภาพ'),
-              ),
-              GridView.builder(
-                shrinkWrap: true,
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 3,
-                ),
-                itemCount: equipmentImages[equipmentId]?.length ?? 0,
-                itemBuilder: (BuildContext context, int imageIndex) {
-                  String fileName = equipmentImages[equipmentId]![imageIndex]
-                      .path
-                      .split('/')
-                      .last;
-                  imageFileNames.add(fileName);
-
-                  return Padding(
-                    padding: const EdgeInsets.all(2),
-                    child: Stack(
-                      children: [
-                        Image.file(File(
-                            equipmentImages[equipmentId]![imageIndex]
-                                .path)), // Display the image
-                        Positioned(
-                          bottom: 0,
-                          left: 0,
-                          right: 79,
-                          child: Container(
-                            color: Colors.black.withOpacity(0.7),
-                            padding: EdgeInsets.all(5.0),
-                            child: Text(
-                              fileName, // Display the image name
-                              style: TextStyle(color: Colors.white),
-                            ),
-                          ),
-                        ),
-                        Positioned(
-                          top: 0,
-                          right: 30,
-                          child: IconButton(
-                            icon: Icon(
-                              Icons.highlight_remove_sharp,
-                              color: Colors.red,
-                            ),
-                            onPressed: () {
-                              setState(() {
-                                final equipmentImagesList =
-                                    equipmentImages[equipmentId];
-                                if (equipmentImagesList != null &&
-                                    imageIndex < equipmentImagesList.length) {
-                                  equipmentImagesList.removeAt(imageIndex);
-                                }
-
-                                if (imageIndex < imageFileNames.length) {
-                                  String fileNameToRemove =
-                                      imageFileNames[imageIndex];
-                                  imageFileNames.remove(fileNameToRemove);
-                                }
-                              });
-                            },
-                          ),
-                        ),
-                      ],
-                    ),
-                  );
-                },
-              ),
-            ],
-          ),
-        );
-      }
+    while (details!.length < equipmentIds.length) {
+      details!.add(new InformRepairDetails());
     }
+
+    print("FINAL : ${selectedEquipmentIds.length}");
+    for (int i = 0; i < selectedEquipmentIds.length; i++) {
+      print("ROUND : ${i + 1}");
+      // if (details != null && details!.length > i) {
+      //   if (details![i].roomEquipment != null &&
+      //       details![i].roomEquipment!.equipment != null &&
+      //       details![i].roomEquipment!.equipment!.equipment_id.toString() ==
+      //           equipmentIds[i]) {
+      //     eqCheckBox.add(true);
+      //   } else {
+      //     eqCheckBox.add(false);
+      //   }
+      // } else {
+      //   eqCheckBox.add(false);
+      // }
+      if (arrDetailsTextCon.length < equipmentIds.length) {
+        arrDetailsTextCon.add(new TextEditingController());
+      }
+      if (arrAmountsTextCon.length < equipmentIds.length) {
+        arrAmountsTextCon.add(new TextEditingController());
+      }
+
+      if (details != null && details!.length > i) {
+        if (details![i].roomEquipment != null &&
+            details![i].roomEquipment!.equipment != null &&
+            details![i].roomEquipment!.equipment!.equipment_id.toString() ==
+                equipmentIds[i]) {
+          eqCheckBox.add(true);
+          arrDetailsTextCon[i].text = details![i].details.toString();
+          arrAmountsTextCon[i].text = details![i].amount.toString();
+        } else {
+          eqCheckBox.add(false);
+        }
+      } else {
+        eqCheckBox.add(false);
+      }
+      print(" png : ${details![i].pictures}");
+      widgets.add(Column(
+        children: [
+          CheckboxListTile(
+            controlAffinity: ListTileControlAffinity.leading,
+            title: Text(equipmentName[i]),
+            value: eqCheckBox[i],
+            onChanged: (bool? value) {
+              setState(() {
+                eqCheckBox[i] = !(eqCheckBox[i]);
+              });
+            },
+          ),
+          eqCheckBox[i] == true
+              ? Container(
+                  child: Column(
+                  children: [
+                    TextFormField(
+                      controller: arrDetailsTextCon[i],
+                      decoration: const InputDecoration(
+                        hintText: 'Enter details',
+                      ),
+                      onChanged: (value) {
+                        //showArr();
+                      },
+                    ),
+                    TextFormField(
+                      controller: arrAmountsTextCon[i],
+                      decoration: const InputDecoration(
+                        hintText: 'Enter amount',
+                      ),
+                      onChanged: (value) {},
+                    ),
+                    equipmentImages[equipmentIds[i]] != null
+                        ? Container(
+                            child: Column(children: [
+                              SizedBox(
+                                width: 300,
+                                height: 300,
+                                child: Image.file(File(
+                                    equipmentImages[equipmentIds[i]]!.path)),
+                              ),
+                              ElevatedButton(
+                                onPressed: () {
+                                  _addImageForEquipmentNew(equipmentIds[i]);
+                                  //_uploadImages();
+                                  //print('imageFileNames----${imageFileNames}');
+                                },
+                                child: Text('แก้ไขรูปภาพ'),
+                              )
+                            ]),
+                          )
+                        : details![i].pictures == null
+                            ? ElevatedButton(
+                                onPressed: () {
+                                  _addImageForEquipmentNew(equipmentIds[i]);
+                                  _uploadImages();
+                                  //print('imageFileNames----${imageFileNames}');
+                                },
+                                child: Text('เพิ่มรูปภาพ'),
+                              )
+                            //Image.file(File(equipmentImages[equipmentIds[i]]![i].path))
+                            : Container(
+                                child: Column(children: [
+                                  SizedBox(
+                                    width: 300,
+                                    height: 300,
+                                    child: Image.network(
+                                      baseURL +
+                                          "/informrepairdetails/image/" +
+                                          (details![i].pictures ?? ""),
+                                      fit: BoxFit.cover,
+                                      width: 220,
+                                      alignment: Alignment.center,
+                                    ),
+                                  ),
+                                  ElevatedButton(
+                                    onPressed: () {
+                                      _addImageForEquipmentNew(equipmentIds[i]);
+                                      _uploadImages();
+                                      //print('imageFileNames----${imageFileNames}');
+                                    },
+                                    child: Text('แก้ไขรูปภาพ'),
+                                  )
+                                ]),
+                              )
+                  ],
+                ))
+              : Container()
+        ],
+      ));
+    }
+
+    print("FINAL DETAILS ROUND : ${arrDetailsTextCon.length}");
+    print("AMOUNT DETAILS ROUND : ${arrDetailsTextCon.length}");
+    print("WIDGETS ROUND : ${widgets.length}");
+
     return widgets;
   }
 }

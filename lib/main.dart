@@ -22,10 +22,10 @@ class MainApp extends StatelessWidget {
     SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: ResultInformRepair(user: 1001, informrepair_id: 10001),
+      // home: ResultInformRepair(user: 1001, informrepair_id: 10001),
       // home: Login(),
       // home: EditInformRepairs(user: 1001, informrepair_id: 10001),
-      // home: MyEdit(user: 1001, informrepair_id: 10004),
+      home: MyEdit(user: 1001, informrepair_id: 10004),
       // home: const MyHomePage(title: 'Flutter Demo Home Page'),
       theme: ThemeData(
         primarySwatch: Colors.orange,

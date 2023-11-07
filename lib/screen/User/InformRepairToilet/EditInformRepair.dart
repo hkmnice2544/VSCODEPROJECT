@@ -1303,7 +1303,7 @@ class Form extends State<EditInformRepairs> {
                           child: IconButton(
                             icon: Icon(
                               Icons.highlight_remove_sharp,
-                              color: Colors.red,
+                              color: const Color.fromARGB(255, 239, 127, 119),
                             ),
                             onPressed: () {
                               // Remove the image from the equipmentImages map

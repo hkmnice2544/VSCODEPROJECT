@@ -23,6 +23,7 @@ class InformRepairDetails {
           informdetails_id: json["informdetails_id"] as int?,
           amount: json["amount"] as int?,
           details: json["details"],
+          pictures: json["pictures"],
           informRepair: json["informrepairid"] == null
               ? null
               : InformRepair.fromJsonToInformRepair(json["informrepairid"]),
