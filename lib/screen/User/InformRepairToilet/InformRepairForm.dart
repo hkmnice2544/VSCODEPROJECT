@@ -68,7 +68,6 @@ class Form extends State<InformRepairForm> {
   TextEditingController imageController1 = TextEditingController();
 
   int equip_id = 1002;
-  int user_id = 1001;
 
   Color backgroundColor = Colors.white;
 
@@ -1068,7 +1067,7 @@ class Form extends State<InformRepairForm> {
                           await informRepairController.addInformRepair(
                         informtype,
                         statusinform,
-                        user_id,
+                        widget.user!,
                         selectedrooom!,
                       );
                       List<Map<String, dynamic>> data = [];

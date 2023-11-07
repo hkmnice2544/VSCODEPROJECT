@@ -1,26 +1,24 @@
-import 'dart:ffi';
 import 'dart:io';
 import 'dart:typed_data';
-
 import 'package:flutter/material.dart';
 import 'package:flutterr/constant/constant_value.dart';
 import 'package:flutterr/controller/informrepairdetails_controller.dart';
 import 'package:flutterr/controller/report_pictures_controller.dart';
 import 'package:flutterr/model/InformRepairDetails_Model.dart';
 import 'package:flutterr/model/Report_pictures_Model.dart';
+import 'package:flutterr/screen/Home.dart';
 import 'package:flutterr/screen/HomeStaff.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
-
 import '../../../controller/informrepair_controller.dart';
 import '../../../controller/report_controller.dart';
 import '../../../model/Report_Model.dart';
 import '../../../model/informrepair_model.dart';
-import '../../Home.dart';
 import '../../Login.dart';
 import '../../User/ListInformRepair/ListInformRepair.dart';
 import 'ListManage.dart';
 import 'package:http/http.dart' as http;
+import 'package:google_fonts/google_fonts.dart';
 
 class ReportInform extends StatefulWidget {
   final int informrepair_id;
@@ -223,10 +221,14 @@ class _ReportInformState extends State<ReportInform> {
       appBar: AppBar(
         title: Text(
           "หน้า รายงานผลการแจ้งซ่อม",
-          style: TextStyle(
+          style: GoogleFonts.prompt(
+            textStyle: TextStyle(
               color: Color.fromARGB(255, 255, 255, 255),
-              fontSize: 21,
-              fontWeight: FontWeight.w100),
+              fontSize: 20,
+              fontWeight: FontWeight.w400,
+              decoration: TextDecoration.none,
+            ),
+          ),
         ),
         backgroundColor: Colors.red,
         leading: IconButton(
@@ -253,7 +255,8 @@ class _ReportInformState extends State<ReportInform> {
                     onPressed: () {
                       Navigator.push(context, MaterialPageRoute(
                         builder: (context) {
-                          return HomeStaff(user: widget.user);
+                          var username;
+                          return Home(user: widget.user);
                         },
                       ));
                     }),
@@ -261,10 +264,12 @@ class _ReportInformState extends State<ReportInform> {
               Expanded(
                 child: Text(
                   "หน้าแรก",
-                  style: TextStyle(
-                    color: Color.fromARGB(255, 255, 255, 255),
-                    fontSize: 12,
-                    fontWeight: FontWeight.w100,
+                  style: GoogleFonts.prompt(
+                    textStyle: TextStyle(
+                      color: Color.fromRGBO(255, 255, 255, 1),
+                      fontSize: 14,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                 ),
               ),
@@ -284,10 +289,12 @@ class _ReportInformState extends State<ReportInform> {
               Expanded(
                 child: Text(
                   "ออกจากระบบ",
-                  style: TextStyle(
-                    color: Color.fromARGB(255, 255, 255, 255),
-                    fontSize: 12,
-                    fontWeight: FontWeight.w100,
+                  style: GoogleFonts.prompt(
+                    textStyle: TextStyle(
+                      color: Color.fromRGBO(255, 255, 255, 1),
+                      fontSize: 14,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                 ),
               )
@@ -305,10 +312,12 @@ class _ReportInformState extends State<ReportInform> {
             Center(
               child: Text(
                 "รายงานผลการแจ้งซ่อม",
-                style: TextStyle(
-                  color: Color.fromARGB(255, 7, 94, 53),
-                  fontSize: 35,
-                  fontWeight: FontWeight.bold,
+                style: GoogleFonts.prompt(
+                  textStyle: TextStyle(
+                    color: Color.fromARGB(255, 7, 94, 53),
+                    fontSize: 35,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ),
             ),
@@ -323,20 +332,24 @@ class _ReportInformState extends State<ReportInform> {
                 Expanded(
                   child: Text(
                     "เลขที่แจ้งซ่อม  :",
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
+                    style: GoogleFonts.prompt(
+                      textStyle: TextStyle(
+                        color: Color.fromARGB(255, 7, 94, 53),
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ),
                 ),
                 Expanded(
                   child: Text(
                     "${informRepair?.informrepair_id ?? 'N/A'}",
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
+                    style: GoogleFonts.prompt(
+                      textStyle: TextStyle(
+                        color: Color.fromARGB(255, 0, 0, 0),
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ),
                 ),
@@ -348,20 +361,24 @@ class _ReportInformState extends State<ReportInform> {
                 Expanded(
                   child: Text(
                     "วันที่แจ้งซ่อม  :",
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
+                    style: GoogleFonts.prompt(
+                      textStyle: TextStyle(
+                        color: Color.fromARGB(255, 7, 94, 53),
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ),
                 ),
                 Expanded(
                   child: Text(
                     "${informRepair?.formattedInformDate() ?? 'N/A'}",
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
+                    style: GoogleFonts.prompt(
+                      textStyle: TextStyle(
+                        color: Color.fromARGB(255, 0, 0, 0),
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ),
                 ),
@@ -372,20 +389,24 @@ class _ReportInformState extends State<ReportInform> {
                 Expanded(
                   child: Text(
                     "วันที่รายงานผล   :",
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
+                    style: GoogleFonts.prompt(
+                      textStyle: TextStyle(
+                        color: Color.fromARGB(255, 7, 94, 53),
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ),
                 ),
                 Expanded(
                   child: Text(
                     formattedCurrentDate(),
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
+                    style: GoogleFonts.prompt(
+                      textStyle: TextStyle(
+                        color: Color.fromARGB(255, 0, 0, 0),
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ),
                 ),
@@ -396,10 +417,12 @@ class _ReportInformState extends State<ReportInform> {
               children: [
                 Text(
                   "ผลการแจ้งซ่อม",
-                  style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
+                  style: GoogleFonts.prompt(
+                    textStyle: TextStyle(
+                      color: Color.fromARGB(255, 7, 94, 53),
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                 ),
               ],
@@ -416,10 +439,12 @@ class _ReportInformState extends State<ReportInform> {
                 Expanded(
                   child: Text(
                     "ผู้ซ่อม   :",
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
+                    style: GoogleFonts.prompt(
+                      textStyle: TextStyle(
+                        color: Color.fromARGB(255, 7, 94, 53),
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ),
                 ),
@@ -430,7 +455,17 @@ class _ReportInformState extends State<ReportInform> {
                     items: _repairerList.map((String value) {
                       return DropdownMenuItem<String>(
                         value: value,
-                        child: Text(value),
+                        child: Text(
+                          value,
+                          style: GoogleFonts.prompt(
+                            // กำหนดรูปแบบข้อความด้วย Google Fonts
+                            textStyle: TextStyle(
+                              color: const Color.fromARGB(
+                                  255, 0, 0, 0), // สีของข้อความ
+                              fontSize: 20, // ขนาดข้อความ
+                            ),
+                          ),
+                        ),
                       );
                     }).toList(),
                     onChanged: (val) {
@@ -452,10 +487,12 @@ class _ReportInformState extends State<ReportInform> {
                 Expanded(
                   child: Text(
                     "สถานะ   :",
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
+                    style: GoogleFonts.prompt(
+                      textStyle: TextStyle(
+                        color: Color.fromARGB(255, 7, 94, 53),
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ),
                 ),
@@ -465,7 +502,17 @@ class _ReportInformState extends State<ReportInform> {
                     value: _dropdownstatus,
                     items: _statusList
                         .map((e) => DropdownMenuItem(
-                              child: Text(e),
+                              child: Text(
+                                e,
+                                style: GoogleFonts.prompt(
+                                  // กำหนดรูปแบบข้อความด้วย Google Fonts
+                                  textStyle: TextStyle(
+                                    color: const Color.fromARGB(
+                                        255, 0, 0, 0), // สีของข้อความ
+                                    fontSize: 20, // ขนาดข้อความ
+                                  ),
+                                ),
+                              ),
                               value: e,
                             ))
                         .toList(),
@@ -493,10 +540,12 @@ class _ReportInformState extends State<ReportInform> {
                 Expanded(
                   child: Text(
                     "รูปภาพ   :",
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
+                    style: GoogleFonts.prompt(
+                      textStyle: TextStyle(
+                        color: Color.fromARGB(255, 7, 94, 53),
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ),
                 ),
@@ -505,8 +554,12 @@ class _ReportInformState extends State<ReportInform> {
                       color: Color.fromARGB(255, 243, 103, 33),
                       child: Text(
                         "อัปโหลดรูปภาพ",
-                        style: TextStyle(
-                            color: Colors.white, fontWeight: FontWeight.bold),
+                        style: GoogleFonts.prompt(
+                          textStyle: TextStyle(
+                            color: Color.fromARGB(255, 255, 255, 255),
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
                       ),
                       onPressed: () {
                         _selectImages();
@@ -629,7 +682,13 @@ class _ReportInformState extends State<ReportInform> {
             child: FloatingActionButton.extended(
               label: Text(
                 "ยืนยันรายงาน",
-                style: TextStyle(color: Colors.white),
+                style: GoogleFonts.prompt(
+                  textStyle: TextStyle(
+                    color: Color.fromARGB(255, 255, 255, 255),
+                    fontWeight: FontWeight.w400,
+                    decoration: TextDecoration.none,
+                  ),
+                ),
               ),
               onPressed: () async {
                 await _uploadImages();
@@ -673,7 +732,13 @@ class _ReportInformState extends State<ReportInform> {
             child: FloatingActionButton.extended(
               label: Text(
                 "ยกเลิก",
-                style: TextStyle(color: Colors.white),
+                style: GoogleFonts.prompt(
+                  textStyle: TextStyle(
+                    color: Color.fromARGB(255, 255, 255, 255),
+                    fontWeight: FontWeight.w400,
+                    decoration: TextDecoration.none,
+                  ),
+                ),
               ),
               onPressed: () {
                 Navigator.push(

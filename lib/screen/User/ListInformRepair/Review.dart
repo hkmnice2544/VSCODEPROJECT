@@ -20,6 +20,7 @@ import 'ListInformRepair.dart';
 import 'Rating.dart';
 import 'package:http/http.dart' as http;
 import 'package:animated_toggle_switch/animated_toggle_switch.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class Reviews extends StatefulWidget {
   final int? report_id;
@@ -196,7 +197,14 @@ class _MyWidgetState extends State<Reviews> {
       appBar: AppBar(
         title: Text(
           "Review",
-          style: TextStyle(color: Color.fromARGB(255, 255, 255, 255)),
+          style: GoogleFonts.prompt(
+            textStyle: TextStyle(
+              color: Color.fromARGB(255, 255, 255, 255),
+              fontSize: 20,
+              fontWeight: FontWeight.w400,
+              decoration: TextDecoration.none,
+            ),
+          ),
         ),
         backgroundColor: Colors.red,
       ),
@@ -223,36 +231,40 @@ class _MyWidgetState extends State<Reviews> {
             Expanded(
               child: Text(
                 "หน้าแรก",
-                style: TextStyle(
-                  color: Color.fromARGB(255, 255, 255, 255),
-                  fontSize: 12,
-                  fontWeight: FontWeight.w100,
+                style: GoogleFonts.prompt(
+                  textStyle: TextStyle(
+                    color: Color.fromRGBO(255, 255, 255, 1),
+                    fontSize: 14,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ),
             ),
+            Expanded(child: Text("                           ")),
             Expanded(
               child: IconButton(
-                icon: Icon(Icons.logout),
-                color: Color.fromARGB(255, 255, 255, 255),
-                onPressed: () {
-                  Navigator.push(context, MaterialPageRoute(
-                    builder: (context) {
-                      return Login();
-                    },
-                  ));
-                },
-              ),
+                  icon: Icon(Icons.logout),
+                  color: Color.fromARGB(255, 255, 255, 255),
+                  onPressed: () {
+                    Navigator.push(context, MaterialPageRoute(
+                      builder: (context) {
+                        return Login();
+                      },
+                    ));
+                  }),
             ),
             Expanded(
               child: Text(
                 "ออกจากระบบ",
-                style: TextStyle(
-                  color: Color.fromARGB(255, 255, 255, 255),
-                  fontSize: 12,
-                  fontWeight: FontWeight.w100,
+                style: GoogleFonts.prompt(
+                  textStyle: TextStyle(
+                    color: Color.fromRGBO(255, 255, 255, 1),
+                    fontSize: 14,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ),
-            ),
+            )
           ],
         ),
       ),
@@ -265,10 +277,12 @@ class _MyWidgetState extends State<Reviews> {
                 Center(
                   child: Text(
                     "ประเมินผลการแจ้งซ่อม",
-                    style: TextStyle(
-                      color: Color.fromARGB(255, 7, 94, 53),
-                      fontSize: 35,
-                      fontWeight: FontWeight.bold,
+                    style: GoogleFonts.prompt(
+                      textStyle: TextStyle(
+                        color: Color.fromARGB(255, 7, 94, 53),
+                        fontSize: 35,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ),
                 ),
@@ -283,20 +297,24 @@ class _MyWidgetState extends State<Reviews> {
                     Expanded(
                       child: Text(
                         "เลขที่แจ้งซ่อม  :",
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
+                        style: GoogleFonts.prompt(
+                          textStyle: TextStyle(
+                            color: Color.fromARGB(255, 7, 94, 53),
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
                       ),
                     ),
                     Expanded(
                       child: Text(
                         "${reportRepair?.informRepairDetails?.informRepair?.informrepair_id}",
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
+                        style: GoogleFonts.prompt(
+                          textStyle: TextStyle(
+                            color: Color.fromARGB(255, 0, 0, 0),
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
                       ),
                     ),
@@ -307,20 +325,24 @@ class _MyWidgetState extends State<Reviews> {
                     Expanded(
                       child: Text(
                         "วันที่แจ้งซ่อม  :",
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
+                        style: GoogleFonts.prompt(
+                          textStyle: TextStyle(
+                            color: Color.fromARGB(255, 7, 94, 53),
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
                       ),
                     ),
                     Expanded(
                       child: Text(
                         "$formattedDate",
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
+                        style: GoogleFonts.prompt(
+                          textStyle: TextStyle(
+                            color: Color.fromARGB(255, 0, 0, 0),
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
                       ),
                     ),
@@ -331,10 +353,12 @@ class _MyWidgetState extends State<Reviews> {
                     Expanded(
                       child: Text(
                         "คะแนนรีวิว  :",
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
+                        style: GoogleFonts.prompt(
+                          textStyle: TextStyle(
+                            color: Color.fromARGB(255, 7, 94, 53),
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
                       ),
                     ),
@@ -366,10 +390,12 @@ class _MyWidgetState extends State<Reviews> {
                     Expanded(
                       child: Text(
                         "ความคิดเห็น  :",
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
+                        style: GoogleFonts.prompt(
+                          textStyle: TextStyle(
+                            color: Color.fromARGB(255, 7, 94, 53),
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
                       ),
                     ),
@@ -393,10 +419,12 @@ class _MyWidgetState extends State<Reviews> {
                     Expanded(
                       child: Text(
                         "รูปภาพ   :",
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
+                        style: GoogleFonts.prompt(
+                          textStyle: TextStyle(
+                            color: Color.fromARGB(255, 7, 94, 53),
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
                       ),
                     ),
@@ -405,9 +433,12 @@ class _MyWidgetState extends State<Reviews> {
                           color: Color.fromARGB(255, 243, 103, 33),
                           child: Text(
                             "อัปโหลดรูปภาพ",
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold),
+                            style: GoogleFonts.prompt(
+                              textStyle: TextStyle(
+                                color: Color.fromARGB(255, 255, 255, 255),
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
                           ),
                           onPressed: () {
                             _selectImages();
@@ -475,14 +506,15 @@ class _MyWidgetState extends State<Reviews> {
                     Expanded(
                       child: Text(
                         "ผู้รีวิว  :",
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
+                        style: GoogleFonts.prompt(
+                          textStyle: TextStyle(
+                            color: Color.fromARGB(255, 7, 94, 53),
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
                       ),
                     ),
-
                     Expanded(
                       child: AnimatedToggleSwitch<bool>.dual(
                         current: positive,
@@ -512,114 +544,121 @@ class _MyWidgetState extends State<Reviews> {
                         iconBuilder: (value) => value
                             ? Icon(
                                 Icons.no_accounts_sharp,
-                                color: Color.fromARGB(255, 118, 0,
+                                color: Color.fromARGB(255, 255, 0,
                                     0), // สีของ Icon เมื่อเป็น "on"
+                                size: 32, // ขนาดของ Icon เมื่อเป็น "on"
                               )
                             : Icon(
                                 Icons.supervised_user_circle_rounded,
-                                color: const Color.fromARGB(255, 3, 54,
-                                    6), // สีของ Icon เมื่อเป็น "off"
+                                color: Color.fromARGB(255, 7, 94,
+                                    53), // สีของ Icon เมื่อเป็น "off"
+                                size: 32, // ขนาดของ Icon เมื่อเป็น "off"
                               ),
                         textBuilder: (value) => Center(
                           child: Text(
                             value ? reviewer : reviewer,
-                            style: TextStyle(
-                              color: value
-                                  ? Color.fromARGB(255, 118, 0, 0)
-                                  : const Color.fromARGB(255, 3, 54, 6),
+                            style: GoogleFonts.prompt(
+                              textStyle: TextStyle(
+                                color: value
+                                    ? Color.fromARGB(255, 0, 0, 0)
+                                    : Color.fromARGB(255, 0, 0, 0),
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
                           ),
                         ),
                       ),
-                    )
-                    // CupertinoSwitch(
-                    //   activeColor: Color.fromARGB(255, 251, 217, 149),
-                    //   thumbColor: Color.fromARGB(255, 219, 85, 12),
-                    //   trackColor: Colors.black12,
-                    //   value: forIos,
-                    //   onChanged: (bool? value) {
-                    //     if (value != null) {
-                    //       setState(() {
-                    //         forIos = value;
-                    //         if (value) {
-                    //           reviewer = 'ไม่ประสงคอออกนาม';
-                    //         } else {
-                    //           if (users != null && users!.firstname != null) {
-                    //             reviewer =
-                    //                 users!.firstname! + " " + users!.lastname!;
-                    //           } else {
-                    //             reviewer = '';
-                    //           }
-                    //         }
-                    //         print(reviewer);
-                    //       });
-                    //     }
-                    //   },
-                    // ),
-                    // SizedBox(height: 20),
-                    // Text(
-                    //   '$reviewer', // แสดงค่า reviewer ด้วย Text
-                    //   style: TextStyle(fontSize: 15),
-                    // ),
-                    // Expanded(
-                    //   child: Row(
-                    //     children: [
-                    //       Checkbox(
-                    //         value: reviewer == 'ไม่ประสงคอออกนาม',
-                    //         onChanged: (bool? value) {
-                    //           setState(() {
-                    //             if (value != null && value) {
-                    //               reviewer = 'ไม่ประสงคอออกนาม';
-                    //             } else {
-                    //               if (users != null &&
-                    //                   users!.firstname != null) {
-                    //                 reviewer = users!.firstname! +
-                    //                     " " +
-                    //                     users!.lastname!;
-                    //               } else {
-                    //                 reviewer =
-                    //                     ''; // Set to an empty string if the user's first name is not available
-                    //               }
-                    //             }
-                    //             print(reviewer);
-                    //           });
-                    //         },
-                    //         shape: CircleBorder(),
-                    //       ),
-                    //       Text(reviewer),
-                    //     ],
-                    //   ),
-                    // )
 
-                    // Expanded(
-                    //   child: Row(
-                    //     children: [
-                    //       Checkbox(
-                    //         value: reviewer == 'ไม่ประสงคอออกนาม',
-                    //         onChanged: (bool? value) {
-                    //           setState(() {
-                    //             if (value != null && value) {
-                    //               reviewer = 'ไม่ประสงคอออกนาม';
-                    //             } else {
-                    //               if (users != null &&
-                    //                   users!.firstname != null) {
-                    //                 reviewer = users!.firstname! +
-                    //                     " " +
-                    //                     users!.lastname!;
-                    //               } else {
-                    //                 reviewer =
-                    //                     ''; // Set to an empty string if the user's first name is not available
-                    //               }
-                    //             }
-                    //             print(reviewer);
-                    //           });
-                    //         },
-                    //         shape: CircleBorder(),
-                    //       ),
-                    //       Text(reviewer),
-                    //     ],
-                    //   ),
-                    // )
+                      // CupertinoSwitch(
+                      //   activeColor: Color.fromARGB(255, 251, 217, 149),
+                      //   thumbColor: Color.fromARGB(255, 219, 85, 12),
+                      //   trackColor: Colors.black12,
+                      //   value: forIos,
+                      //   onChanged: (bool? value) {
+                      //     if (value != null) {
+                      //       setState(() {
+                      //         forIos = value;
+                      //         if (value) {
+                      //           reviewer = 'ไม่ประสงคอออกนาม';
+                      //         } else {
+                      //           if (users != null && users!.firstname != null) {
+                      //             reviewer =
+                      //                 users!.firstname! + " " + users!.lastname!;
+                      //           } else {
+                      //             reviewer = '';
+                      //           }
+                      //         }
+                      //         print(reviewer);
+                      //       });
+                      //     }
+                      //   },
+                      // ),
+                      // SizedBox(height: 20),
+                      // Text(
+                      //   '$reviewer', // แสดงค่า reviewer ด้วย Text
+                      //   style: TextStyle(fontSize: 15),
+                      // ),
+                      // Expanded(
+                      //   child: Row(
+                      //     children: [
+                      //       Checkbox(
+                      //         value: reviewer == 'ไม่ประสงคอออกนาม',
+                      //         onChanged: (bool? value) {
+                      //           setState(() {
+                      //             if (value != null && value) {
+                      //               reviewer = 'ไม่ประสงคอออกนาม';
+                      //             } else {
+                      //               if (users != null &&
+                      //                   users!.firstname != null) {
+                      //                 reviewer = users!.firstname! +
+                      //                     " " +
+                      //                     users!.lastname!;
+                      //               } else {
+                      //                 reviewer =
+                      //                     ''; // Set to an empty string if the user's first name is not available
+                      //               }
+                      //             }
+                      //             print(reviewer);
+                      //           });
+                      //         },
+                      //         shape: CircleBorder(),
+                      //       ),
+                      //       Text(reviewer),
+                      //     ],
+                      //   ),
+                      // )
+
+                      // Expanded(
+                      //   child: Row(
+                      //     children: [
+                      //       Checkbox(
+                      //         value: reviewer == 'ไม่ประสงคอออกนาม',
+                      //         onChanged: (bool? value) {
+                      //           setState(() {
+                      //             if (value != null && value) {
+                      //               reviewer = 'ไม่ประสงคอออกนาม';
+                      //             } else {
+                      //               if (users != null &&
+                      //                   users!.firstname != null) {
+                      //                 reviewer = users!.firstname! +
+                      //                     " " +
+                      //                     users!.lastname!;
+                      //               } else {
+                      //                 reviewer =
+                      //                     ''; // Set to an empty string if the user's first name is not available
+                      //               }
+                      //             }
+                      //             print(reviewer);
+                      //           });
+                      //         },
+                      //         shape: CircleBorder(),
+                      //       ),
+                      //       Text(reviewer),
+                      //     ],
+                      //   ),
+                      // )
+                    )
                   ],
                 ),
               ],
@@ -633,7 +672,15 @@ class _MyWidgetState extends State<Reviews> {
           Container(
             width: 120, // Set the width of the button here
             child: FloatingActionButton.extended(
-              label: Text("ยืนยัน"),
+              label: Text(
+                "ยืนยัน",
+                style: GoogleFonts.prompt(
+                  textStyle: TextStyle(
+                    color: Color.fromARGB(255, 255, 255, 255),
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
               onPressed: () async {
                 await _uploadImages();
                 var response = await reviewController.addReview(
@@ -675,7 +722,15 @@ class _MyWidgetState extends State<Reviews> {
           Container(
             width: 120, // Set the width of the button here
             child: FloatingActionButton.extended(
-              label: Text("ยกเลิก"),
+              label: Text(
+                "ยกเลิก",
+                style: GoogleFonts.prompt(
+                  textStyle: TextStyle(
+                    color: Color.fromARGB(255, 255, 255, 255),
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
               onPressed: () {
                 Navigator.push(
                   context,
