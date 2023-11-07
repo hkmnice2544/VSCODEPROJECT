@@ -18,22 +18,22 @@ import 'package:http/http.dart' as http;
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class MyEdit extends StatefulWidget {
+class MyEditRoom extends StatefulWidget {
   final int? user;
   final int? informrepair_id;
-  const MyEdit({required this.user, required this.informrepair_id});
+  const MyEditRoom({required this.user, required this.informrepair_id});
 
   @override
-  State<MyEdit> createState() => _MyWidgetState();
+  State<MyEditRoom> createState() => _MyWidgetState();
 }
 
-class _MyWidgetState extends State<MyEdit> {
+class _MyWidgetState extends State<MyEditRoom> {
   bool isDataLoaded = false;
   String? selectedRoom = '';
   String? buildingId = '';
   List<Building?> buildings = [];
   List<Room?> rooms = [];
-  String RoomType = "ห้องน้ำ";
+  String RoomType = "ห้องเรียนรวม";
   String statusinform = "ยังไม่ได้ดำเนินการ";
   Building? building;
   final ImagePicker imagePicker = ImagePicker();

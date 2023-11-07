@@ -3,6 +3,7 @@ import 'package:flutterr/controller/login_controller.dart';
 import 'package:flutterr/model/User_Model.dart';
 import 'package:flutterr/screen/Login.dart';
 import 'package:flutterr/screen/User/InformRepairToilet/InformRepairForm.dart';
+import 'package:flutterr/screen/User/InformRepairToilet/InformRepairRoom.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'User/ListInformRepair/ListInformRepair.dart';
 
@@ -325,13 +326,12 @@ class _HomeState extends State<Home> {
                           padding:
                               EdgeInsets.only(left: 455, top: 105, right: 20),
                           onPressed: () {
-                            // Navigator.push(
-                            //   context,
-                            //   // MaterialPageRoute(builder: (context) {
-                            //   //   return InformRepairForm(
-                            //   //       user: widget.user);
-                            //   // }),
-                            // );
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) {
+                                return InformRepairRoom(user: widget.user);
+                              }),
+                            );
                           },
                         ),
                       ),

@@ -9,7 +9,7 @@ class ReportController {
   ReportRepair? reportRepair;
 
   Future<void> addReport(String repairer, String details, String status,
-      int equipment_id, int room_id, int informrepair_id) async {
+      String equipment_id, String room_id, String informrepair_id) async {
     try {
       Map<String, dynamic> data = {
         "repairer": repairer,

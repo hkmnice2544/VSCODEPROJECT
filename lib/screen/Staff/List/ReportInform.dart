@@ -39,6 +39,9 @@ class ReportInform extends StatefulWidget {
 }
 
 class _ReportInformState extends State<ReportInform> {
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final GlobalKey<FormFieldState<String>> _commentFieldKey =
+      GlobalKey<FormFieldState<String>>();
   final InformRepairController informRepairController =
       InformRepairController();
   InformRepairDetailsController informRepairDetailsController =
@@ -331,7 +334,7 @@ class _ReportInformState extends State<ReportInform> {
               children: [
                 Expanded(
                   child: Text(
-                    "เลขที่แจ้งซ่อม  :",
+                    "เลขที่แจ้งซ่อม :",
                     style: GoogleFonts.prompt(
                       textStyle: TextStyle(
                         color: Color.fromARGB(255, 7, 94, 53),
@@ -343,7 +346,7 @@ class _ReportInformState extends State<ReportInform> {
                 ),
                 Expanded(
                   child: Text(
-                    "${informRepair?.informrepair_id ?? 'N/A'}",
+                    "${widget.informrepair_id ?? 'N/A'}",
                     style: GoogleFonts.prompt(
                       textStyle: TextStyle(
                         color: Color.fromARGB(255, 0, 0, 0),
@@ -427,12 +430,28 @@ class _ReportInformState extends State<ReportInform> {
                 ),
               ],
             ),
-            TextField(
-              controller: detailsTextController,
-              decoration: InputDecoration(
-                labelText: 'ผลการแจ้งซ่อม',
+
+            Form(
+              key: _formKey,
+              child: Row(
+                children: [
+                  Expanded(
+                    child: TextFormField(
+                      key: _commentFieldKey,
+                      controller: detailsTextController,
+                      decoration: InputDecoration(
+                        labelText: 'ผลการแจ้งซ่อม',
+                      ),
+                      validator: (value) {
+                        if (value!.isEmpty) {
+                          return 'กรุณาป้อนผลการแจ้งซ่อม';
+                        }
+                        return null;
+                      },
+                    ),
+                  ),
+                ],
               ),
-              onChanged: (value) {},
             ),
             Row(
               children: [
@@ -691,38 +710,65 @@ class _ReportInformState extends State<ReportInform> {
                 ),
               ),
               onPressed: () async {
-                await _uploadImages();
-                var response = await reportController.addReport(
-                  _dropdownrepairer.toString(),
-                  detailsTextController.text,
-                  _dropdownstatus.toString(),
-                  widget.equipment_id,
-                  widget.room_id,
-                  widget.informrepair_id,
-                );
-                final List<Map<String, dynamic>> data = [];
-
-                for (final imageName in imageFileNames) {
-                  if (!data.any((item) => item["pictureUrl"] == imageName)) {
-                    data.add({
-                      "pictureUrl": imageName,
-                      "reportrepair": {
-                        "report_id":
-                            ((reports?[reports!.length - 1].report_id ?? 0) +
-                                1),
+                if (_formKey.currentState!.validate()) {
+                  if (imageFileNames.isEmpty) {
+                    // Show an AlertDialog to inform the user to select an image
+                    showDialog(
+                      context: context,
+                      builder: (context) {
+                        return AlertDialog(
+                          title: Text('แจ้งเตือน'),
+                          content: Text('กรุณาเลือกรูปภาพ'),
+                          actions: <Widget>[
+                            TextButton(
+                              child: Text('ปิด'),
+                              onPressed: () {
+                                Navigator.of(context)
+                                    .pop(); // Close the AlertDialog
+                              },
+                            ),
+                          ],
+                        );
                       },
-                    });
+                    );
+                  } else {
+                    await _uploadImages();
+                    var response = await reportController.addReport(
+                      _dropdownrepairer.toString(),
+                      detailsTextController.text,
+                      _dropdownstatus.toString(),
+                      widget.equipment_id.toString(),
+                      widget.room_id.toString(),
+                      widget.informrepair_id.toString(),
+                    );
+                    final List<Map<String, dynamic>> data = [];
+
+                    for (final imageName in imageFileNames) {
+                      if (!data
+                          .any((item) => item["pictureUrl"] == imageName)) {
+                        data.add({
+                          "pictureUrl": imageName,
+                          "reportrepair": {
+                            "report_id":
+                                ((reports?[reports!.length - 1].report_id ??
+                                        0) +
+                                    1),
+                          },
+                        });
+                      }
+                    }
+
+                    final List<Report_pictures> savedInformPictures =
+                        await Report_PicturesController.saveReport_pictures(
+                            data);
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) {
+                        return ListManage(user: widget.user);
+                      }),
+                    );
                   }
                 }
-
-                final List<Report_pictures> savedInformPictures =
-                    await Report_PicturesController.saveReport_pictures(data);
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) {
-                    return ListManage(user: widget.user);
-                  }),
-                );
               },
             ),
           ),

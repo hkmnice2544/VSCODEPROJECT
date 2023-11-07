@@ -715,6 +715,17 @@ class _ViewResultState extends State<View_NewItem> {
                                     ),
                                   ),
                                 ]),
+                                Center(
+                                  child: Container(
+                                    width: 200,
+                                    height: 200,
+                                    child: Image.network(
+                                      baseURL +
+                                          '/informrepairdetails/image/${informDetails?[index].pictures}',
+                                      fit: BoxFit.cover,
+                                    ),
+                                  ),
+                                ),
                                 // Wrap(
                                 //   spacing: 8.0, // ระยะห่างระหว่างรูปภาพในแนวนอน
                                 //   runSpacing:

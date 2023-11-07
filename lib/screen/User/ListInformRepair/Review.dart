@@ -32,6 +32,9 @@ class Reviews extends StatefulWidget {
 }
 
 class _MyWidgetState extends State<Reviews> {
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final GlobalKey<FormFieldState<String>> _commentFieldKey =
+      GlobalKey<FormFieldState<String>>();
   TextEditingController textEditingController = TextEditingController();
   List<Uint8List> imageBytesList = [];
   List<String> imageNames = [];
@@ -382,8 +385,16 @@ class _MyWidgetState extends State<Reviews> {
                 SizedBox(
                     height: 44,
                     child: _rating != null && _rating! > 0
-                        ? Text("You selected $_rating rating",
-                            style: TextStyle(fontSize: 18))
+                        ? Text(
+                            "คุณให้คะแนน $_rating คะแนน",
+                            style: GoogleFonts.prompt(
+                              textStyle: TextStyle(
+                                color: Color.fromARGB(255, 7, 94, 53),
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          )
                         : SizedBox.shrink()),
                 Row(
                   children: [
@@ -401,18 +412,27 @@ class _MyWidgetState extends State<Reviews> {
                     ),
                   ],
                 ),
-                Row(
-                  children: [
-                    Expanded(
-                      child: TextField(
-                        controller: textEditingController,
-                        decoration: InputDecoration(
-                          labelText: 'ความคิดเห็น',
+                Form(
+                  key: _formKey,
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: TextFormField(
+                          key: _commentFieldKey,
+                          controller: textEditingController,
+                          decoration: InputDecoration(
+                            labelText: 'ความคิดเห็น',
+                          ),
+                          validator: (value) {
+                            if (value!.isEmpty) {
+                              return 'กรุณาป้อนความคิดเห็น';
+                            }
+                            return null;
+                          },
                         ),
-                        onChanged: (value) {},
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
                 Row(
                   children: [
@@ -441,9 +461,9 @@ class _MyWidgetState extends State<Reviews> {
                             ),
                           ),
                           onPressed: () {
+                            // Perform the image upload when images are selected
                             _selectImages();
                             _uploadImages();
-                            print('imageFileNames----${imageFileNames}');
                             print('imageFileNames----${imageFileNames}');
                           }),
                     ),
@@ -682,39 +702,86 @@ class _MyWidgetState extends State<Reviews> {
                 ),
               ),
               onPressed: () async {
-                await _uploadImages();
-                var response = await reviewController.addReview(
-                    reviewer,
-                    _rating != null
-                        ? _rating.toString()
-                        : "", // แปลง _rating เป็น String
-                    textEditingController.text,
-                    reportRepair?.report_id as int);
-
-                final List<Map<String, dynamic>> data = [];
-
-                for (final imageName in imageFileNames) {
-                  if (!data.any((item) => item["pictureUrl"] == imageName)) {
-                    data.add({
-                      "pictureUrl": imageName,
-                      "review": {
-                        "review_id": ((reviews?.isEmpty ?? true)
-                            ? 10001
-                            : ((reviews?[reviews!.length - 1]?.review_id ?? 0) +
-                                1)),
+                if (_rating == null || _rating! == 0) {
+                  // Show an AlertDialog to inform the user to select a building
+                  showDialog(
+                    context: context,
+                    builder: (context) {
+                      return AlertDialog(
+                        title: Text('แจ้งเตือน'),
+                        content: Text('กรุณาให้คะแนนรีวิว'),
+                        actions: <Widget>[
+                          TextButton(
+                            child: Text('ปิด'),
+                            onPressed: () {
+                              Navigator.of(context)
+                                  .pop(); // Close the AlertDialog
+                            },
+                          ),
+                        ],
+                      );
+                    },
+                  );
+                } else if (_formKey.currentState!.validate()) {
+                  if (imageFileNames.isEmpty) {
+                    // Show an AlertDialog to inform the user to select an image
+                    showDialog(
+                      context: context,
+                      builder: (context) {
+                        return AlertDialog(
+                          title: Text('แจ้งเตือน'),
+                          content: Text('กรุณาเลือกรูปภาพ'),
+                          actions: <Widget>[
+                            TextButton(
+                              child: Text('ปิด'),
+                              onPressed: () {
+                                Navigator.of(context)
+                                    .pop(); // Close the AlertDialog
+                              },
+                            ),
+                          ],
+                        );
                       },
-                    });
+                    );
+                  } else {
+                    await _uploadImages();
+                    var response = await reviewController.addReview(
+                        reviewer,
+                        _rating != null
+                            ? _rating.toString()
+                            : "", // แปลง _rating เป็น String
+                        textEditingController.text,
+                        reportRepair?.report_id as int);
+
+                    final List<Map<String, dynamic>> data = [];
+
+                    for (final imageName in imageFileNames) {
+                      if (!data
+                          .any((item) => item["pictureUrl"] == imageName)) {
+                        data.add({
+                          "pictureUrl": imageName,
+                          "review": {
+                            "review_id": ((reviews?.isEmpty ?? true)
+                                ? 10001
+                                : ((reviews?[reviews!.length - 1]?.review_id ??
+                                        0) +
+                                    1)),
+                          },
+                        });
+                      }
+                    }
+
+                    final List<Review_pictures> savedInformPictures =
+                        await Review_PicturesController.saveReview_pictures(
+                            data);
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) {
+                        return ListInformRepair(user: widget.user);
+                      }),
+                    );
                   }
                 }
-
-                final List<Review_pictures> savedInformPictures =
-                    await Review_PicturesController.saveReview_pictures(data);
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) {
-                    return ListInformRepair(user: widget.user);
-                  }),
-                );
               },
             ),
           ),

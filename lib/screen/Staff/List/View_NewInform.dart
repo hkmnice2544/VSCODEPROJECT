@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutterr/constant/constant_value.dart';
 import 'package:flutterr/controller/informrepairdetails_controller.dart';
 import 'package:flutterr/model/InformRepairDetails_Model.dart';
 import 'package:flutterr/screen/HomeStaff.dart';
@@ -673,6 +674,17 @@ class _ViewResultState extends State<ViewNewInform> {
                                     ),
                                   ),
                                 ]),
+                                Center(
+                                  child: Container(
+                                    width: 200,
+                                    height: 200,
+                                    child: Image.network(
+                                      baseURL +
+                                          '/informrepairdetails/image/${informDetails?[index].pictures}',
+                                      fit: BoxFit.cover,
+                                    ),
+                                  ),
+                                ),
                                 // Wrap(
                                 //   spacing: 8.0, // ระยะห่างระหว่างรูปภาพในแนวนอน
                                 //   runSpacing:

@@ -8,6 +8,7 @@ import 'package:flutterr/model/User_Model.dart';
 import 'package:flutterr/model/inform_pictures_model.dart';
 import 'package:flutterr/screen/User/InformRepairToilet/Edit.dart';
 import 'package:flutterr/screen/User/InformRepairToilet/EditInformRepair.dart';
+import 'package:flutterr/screen/User/InformRepairToilet/EditRoom.dart';
 import 'package:flutterr/screen/User/ListInformRepair/ListInformRepair.dart';
 import '../../../controller/informrepair_controller.dart';
 import '../../../model/informrepair_model.dart';
@@ -15,16 +16,16 @@ import '../../Home.dart';
 import '../../Login.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class ResultInformRepair extends StatefulWidget {
+class ResultInformRoom extends StatefulWidget {
   final int? informrepair_id;
   final int? user;
-  const ResultInformRepair({super.key, this.informrepair_id, this.user});
+  const ResultInformRoom({super.key, this.informrepair_id, this.user});
 
   @override
-  State<ResultInformRepair> createState() => _ViewResultState();
+  State<ResultInformRoom> createState() => _ViewResultState();
 }
 
-class _ViewResultState extends State<ResultInformRepair> {
+class _ViewResultState extends State<ResultInformRoom> {
   final InformRepairController informController = InformRepairController();
   InformRepairDetailsController informRepairDetailsController =
       InformRepairDetailsController();
@@ -385,7 +386,7 @@ class _ViewResultState extends State<ResultInformRepair> {
                   padding: const EdgeInsets.all(20.0),
                   child: Container(
                     width: 390,
-                    height: 250,
+                    height: 190,
                     child: Stack(
                       children: [
                         Positioned(
@@ -393,7 +394,7 @@ class _ViewResultState extends State<ResultInformRepair> {
                           top: 0,
                           child: Container(
                             width: 390,
-                            height: 250,
+                            height: 190,
                             decoration: ShapeDecoration(
                               color: Colors.white,
                               shape: RoundedRectangleBorder(
@@ -518,54 +519,6 @@ class _ViewResultState extends State<ResultInformRepair> {
                               TextSpan(
                                 children: [
                                   WidgetSpan(
-                                    child: Icon(Icons.ballot_outlined,
-                                        color:
-                                            const Color.fromARGB(255, 0, 0, 0)),
-                                  ),
-                                  WidgetSpan(
-                                    child: SizedBox(
-                                        width:
-                                            25), // ระยะห่าง 10 พิกเซลระหว่าง TextSpan
-                                  ),
-                                  TextSpan(
-                                    text: 'ประเภทห้องน้ำ  :',
-                                    style: GoogleFonts.prompt(
-                                      textStyle: TextStyle(
-                                        color: Color.fromARGB(255, 0, 0, 0),
-                                        fontSize: 20,
-                                      ),
-                                    ),
-                                  ),
-                                  WidgetSpan(
-                                    child: SizedBox(
-                                        width:
-                                            10), // ระยะห่าง 10 พิกเซลระหว่าง TextSpan
-                                  ),
-                                  TextSpan(
-                                    text:
-                                        '${informDetails != null && informDetails.isNotEmpty ? informDetails[0].roomEquipment?.room?.roomname ?? 'N/A' : 'N/A'}',
-                                    style: GoogleFonts.prompt(
-                                      textStyle: TextStyle(
-                                        color: Color.fromARGB(255, 0, 0, 0),
-                                        fontSize: 20,
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ),
-                        Positioned(
-                          left: 50,
-                          top: 130,
-                          child: SizedBox(
-                            width: 450,
-                            height: 90,
-                            child: Text.rich(
-                              TextSpan(
-                                children: [
-                                  WidgetSpan(
                                     child: Icon(Icons.business,
                                         color:
                                             const Color.fromARGB(255, 0, 0, 0)),
@@ -606,7 +559,7 @@ class _ViewResultState extends State<ResultInformRepair> {
                         ),
                         Positioned(
                           left: 50,
-                          top: 170,
+                          top: 135,
                           child: SizedBox(
                             width: 450,
                             height: 90,
@@ -640,54 +593,6 @@ class _ViewResultState extends State<ResultInformRepair> {
                                   TextSpan(
                                     text:
                                         '${informDetails != null && informDetails.isNotEmpty ? informDetails[0].roomEquipment?.room?.floor ?? 'N/A' : 'N/A'}',
-                                    style: GoogleFonts.prompt(
-                                      textStyle: TextStyle(
-                                        color: Color.fromARGB(255, 0, 0, 0),
-                                        fontSize: 20,
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ),
-                        Positioned(
-                          left: 50,
-                          top: 210,
-                          child: SizedBox(
-                            width: 450,
-                            height: 90,
-                            child: Text.rich(
-                              TextSpan(
-                                children: [
-                                  WidgetSpan(
-                                    child: Icon(Icons.place_outlined,
-                                        color:
-                                            const Color.fromARGB(255, 0, 0, 0)),
-                                  ),
-                                  WidgetSpan(
-                                    child: SizedBox(
-                                        width:
-                                            25), // ระยะห่าง 10 พิกเซลระหว่าง TextSpan
-                                  ),
-                                  TextSpan(
-                                    text: 'ตำแหน่ง   :',
-                                    style: GoogleFonts.prompt(
-                                      textStyle: TextStyle(
-                                        color: Color.fromARGB(255, 0, 0, 0),
-                                        fontSize: 20,
-                                      ),
-                                    ),
-                                  ),
-                                  WidgetSpan(
-                                    child: SizedBox(
-                                        width:
-                                            10), // ระยะห่าง 10 พิกเซลระหว่าง TextSpan
-                                  ),
-                                  TextSpan(
-                                    text:
-                                        '${informDetails != null && informDetails.isNotEmpty ? informDetails[0].roomEquipment?.room?.position ?? 'N/A' : 'N/A'}',
                                     style: GoogleFonts.prompt(
                                       textStyle: TextStyle(
                                         color: Color.fromARGB(255, 0, 0, 0),
@@ -893,7 +798,7 @@ class _ViewResultState extends State<ResultInformRepair> {
                 Navigator.pushReplacement(
                   context,
                   MaterialPageRoute(
-                      builder: (_) => MyEdit(
+                      builder: (_) => MyEditRoom(
                           informrepair_id: (informRepair?.informrepair_id),
                           user: widget.user)),
                 );

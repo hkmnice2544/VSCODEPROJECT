@@ -235,11 +235,9 @@ class NewInform extends State<ListActualize> {
                                   context,
                                   MaterialPageRoute(
                                     builder: (context) => ReportInform(
-                                      informrepair_id:
-                                          informRepairDetails?[index]
-                                                  .informRepair
-                                                  ?.informrepair_id ??
-                                              0,
+                                      informrepair_id: informRepairList?[index]
+                                              .informrepair_id ??
+                                          0,
                                       room_id: informRepairDetails?[index]
                                               .informRepair
                                               ?.room

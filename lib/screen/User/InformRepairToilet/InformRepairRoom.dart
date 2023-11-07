@@ -10,6 +10,7 @@ import 'package:flutterr/model/User_Model.dart';
 import 'package:flutterr/screen/Home.dart';
 import 'package:flutterr/screen/Login.dart';
 import 'package:flutterr/screen/User/InformRepairToilet/ResultInformRepair.dart';
+import 'package:flutterr/screen/User/InformRepairToilet/ResultInformRoom.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:flutter/material.dart';
@@ -21,15 +22,15 @@ import 'package:http/http.dart' as http;
 import 'package:google_fonts/google_fonts.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 
-class InformRepairForm extends StatefulWidget {
+class InformRepairRoom extends StatefulWidget {
   final int? user;
-  InformRepairForm({required this.user});
+  InformRepairRoom({required this.user});
 
   @override
   Form createState() => Form();
 }
 
-class Form extends State<InformRepairForm> {
+class Form extends State<InformRepairRoom> {
   Map<String, TextEditingController> checkboxControllers = {};
   Map<String, TextEditingController> countControllers = {};
   Map<String, String> checkboxValues = {};
@@ -87,7 +88,7 @@ class Form extends State<InformRepairForm> {
   List<String> roomfloors = [];
   List<String> roompositions = [];
   late final String username;
-  String informtype = "ห้องน้ำ";
+  String informtype = "ห้องเรียนรวม";
   String statusinform = "ยังไม่ได้ดำเนินการ";
   String statusinformdetails = "เสีย";
   String? informrepair_idvar;
@@ -96,7 +97,7 @@ class Form extends State<InformRepairForm> {
   List<String> imageFileNames = [];
   String? buildingId = '';
   int selectedImageCount = 0;
-  String RoomType = "ห้องน้ำ";
+  String RoomType = "ห้องเรียนรวม";
   String? selectedRoom;
   LoginController loginController = LoginController();
   User? users;
@@ -607,7 +608,7 @@ class Form extends State<InformRepairForm> {
                 child: Center(
                   child: Column(children: [
                     Text(
-                      "แจ้งซ่อมห้องน้ำ",
+                      "แจ้งซ่อมห้องเรียนรวม",
                       style: GoogleFonts.prompt(
                         textStyle: TextStyle(
                           color: Color.fromRGBO(7, 94, 53, 1),
@@ -1182,7 +1183,7 @@ class Form extends State<InformRepairForm> {
                         Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(
-                              builder: (_) => ResultInformRepair(
+                              builder: (_) => ResultInformRoom(
                                   informrepair_id: ((informrepairs?[
                                                   informrepairs!.length - 1]
                                               .informrepair_id ??
