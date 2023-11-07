@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutterr/controller/login_controller.dart';
 import 'package:flutterr/model/User_Model.dart';
+import 'package:flutterr/screen/Staff/_InformRepairForm.dart';
 import 'Login.dart';
 import 'Staff/List/ListManage.dart';
 import 'Staff/Summary/Sammary.dart';
@@ -343,7 +344,7 @@ class _HomeStaffState extends State<HomeStaff> {
                           // Navigator.push(
                           //   context,
                           //   MaterialPageRoute(builder: (context) {
-                          //     return InformRepairForm(user: widget.user);
+                          //     return InformRepairFormStaff(user: widget.user);
                           //   }),
                           // );
                         },

@@ -61,7 +61,8 @@ class _LoginState extends State<Login> {
             MaterialPageRoute(
               builder: (context) => Home(user: user),
             ));
-      } else if (userType == 'หัวหน้างานแผนกห้องน้ำ') {
+      } else if (userType == 'หัวหน้างานแผนกห้องน้ำ' ||
+          userType == 'หัวหน้างานแผนกห้องเรียนรวม') {
         saveUsername(
             user!); // เมื่อเข้าสู่ระบบสำเร็จ บันทึก username ใน SharedPreferences
         Navigator.pushReplacement(
