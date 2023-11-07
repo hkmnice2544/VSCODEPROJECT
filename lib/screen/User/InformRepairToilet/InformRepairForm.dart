@@ -1085,6 +1085,7 @@ class Form extends State<InformRepairForm> {
                             if (isChecked[j]) {
                               if (int.tryParse(equipmentIds[j]) ==
                                   parsedEquipmentId2) {
+                                print("imageFileNames${imageFileNames[i]}");
                                 var jsonResponse =
                                     await informRepairDetailsController
                                         .saveInformRepairDetails(
@@ -1357,18 +1358,18 @@ class Form extends State<InformRepairForm> {
                 ),
                 itemCount: equipmentImages[equipmentId]?.length ?? 0,
                 itemBuilder: (BuildContext context, int imageIndex) {
-                  // final image = equipmentImages[equipmentId]![imageIndex];
-                  // final imagePath = image.path; // Get the image file path
-                  // final filename =
-                  //     imagePath.split('/').last; // Get the image file name
-                  String fileName = equipmentImages[equipmentId]![imageIndex]
-                      .path
-                      .split('/')
-                      .last;
-                  imageFileNames.add(fileName); // เพิ่มชื่อไฟล์ลงใน List
-                  // if (!imageFileNames.contains(filename)) {
-                  //   imageFileNames.add(filename);
-                  // }
+                  final image = equipmentImages[equipmentId]![imageIndex];
+                  final imagePath = image.path; // Get the image file path
+                  final filename =
+                      imagePath.split('/').last; // Get the image file name
+                  // String fileName = equipmentImages[equipmentId]![imageIndex]
+                  //     .path
+                  //     .split('/')
+                  //     .last;
+                  // imageFileNames.add(fileName); // เพิ่มชื่อไฟล์ลงใน List
+                  if (!imageFileNames.contains(filename)) {
+                    imageFileNames.add(filename);
+                  }
                   // Add the image name to the list
 
                   return Padding(
@@ -1386,7 +1387,7 @@ class Form extends State<InformRepairForm> {
                             color: Colors.black.withOpacity(0.7),
                             padding: EdgeInsets.all(5.0),
                             child: Text(
-                              fileName, // Display the image name
+                              filename, // Display the image name
                               style: TextStyle(color: Colors.white),
                             ),
                           ),
@@ -1410,7 +1411,7 @@ class Form extends State<InformRepairForm> {
                               String fileNameToRemove =
                                   imageFileNames[imageIndex];
                               imageFileNames.removeWhere(
-                                  (fileName) => fileName == fileNameToRemove);
+                                  (filename) => filename == fileNameToRemove);
                             },
                           ),
                         ),

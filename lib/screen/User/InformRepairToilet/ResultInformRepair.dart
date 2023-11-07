@@ -792,23 +792,39 @@ class _ViewResultState extends State<ResultInformRepair> {
                                   ),
                                 ),
                               ]),
-                              Wrap(
-                                spacing: 8.0, // ระยะห่างระหว่างรูปภาพในแนวนอน
-                                runSpacing:
-                                    8.0, // ระยะห่างระหว่างรูปภาพในแนวดิ่ง
-                                children: List.generate(
-                                  Inform_pictures.length,
-                                  (index) {
-                                    return Container(
-                                      width: 200,
-                                      height: 350,
-                                      child: Image.network(
-                                        baseURL +
-                                            '/inform_pictures/get/${Inform_pictures[index]}',
-                                        fit: BoxFit.cover,
+                              Row(children: [
+                                Expanded(
+                                  child: Text(
+                                    "จำนวน :",
+                                    style: GoogleFonts.prompt(
+                                      textStyle: TextStyle(
+                                        color: Color.fromARGB(255, 0, 0, 0),
+                                        fontSize: 22,
                                       ),
-                                    );
-                                  },
+                                    ),
+                                  ),
+                                ),
+                                Expanded(
+                                  child: Text(
+                                    "${informDetails?[index].amount}",
+                                    style: GoogleFonts.prompt(
+                                      textStyle: TextStyle(
+                                        color: Color.fromARGB(255, 0, 0, 0),
+                                        fontSize: 22,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ]),
+                              Center(
+                                child: Container(
+                                  width: 200,
+                                  height: 200,
+                                  child: Image.network(
+                                    baseURL +
+                                        '/informrepairdetails/image/${informDetails?[index].pictures}',
+                                    fit: BoxFit.cover,
+                                  ),
                                 ),
                               ),
                             ])));

@@ -78,7 +78,7 @@ class _MyWidgetState extends State<MyEdit> {
 
   Future<void> _uploadImages(int index) async {
     if (_selectedImages != null) {
-      final uri = Uri.parse(baseURL + '/review_pictures/uploadMultiple');
+      final uri = Uri.parse(baseURL + '/informrepairdetails/upload');
       final request = http.MultipartRequest('POST', uri);
 
       imageFileNames[index] = _selectedImages?.path.split('/').last ?? "";
@@ -744,13 +744,8 @@ class _MyWidgetState extends State<MyEdit> {
                     ]),
 
                     ...buildEquipmentWidgets(),
-                    ElevatedButton(
-                      onPressed: () {
-                        //_addImageForEquipmentNew(equipmentIds[i]);
-                        //_uploadImages();
-                        //print('imageFileNames----${imageFileNames}');
-                      },
-                      child: Text('แก้ไขข้อมูล'),
+                    SizedBox(
+                      height: 80,
                     )
                   ]),
                 ),
@@ -793,7 +788,7 @@ class _MyWidgetState extends State<MyEdit> {
                             .updateInformRepairDetails(
                                 parsedEquipmentId ?? 1,
                                 arrDetailsTextCon[i].text,
-                                imageFileNames[i],
+                                details![i].pictures ?? "",
                                 widget.informrepair_id!,
                                 parsedEquipmentId2 ?? 0,
                                 selectedrooom!);
@@ -1017,14 +1012,14 @@ class _MyWidgetState extends State<MyEdit> {
                                       alignment: Alignment.center,
                                     ),
                                   ),
-                                  ElevatedButton(
-                                    onPressed: () {
-                                      _addImageForEquipmentNew(equipmentIds[i]);
-                                      _uploadImages(i);
-                                      //print('imageFileNames----${imageFileNames}');
-                                    },
-                                    child: Text('แก้ไขรูปภาพ'),
-                                  )
+                                  // ElevatedButton(
+                                  //   onPressed: () {
+                                  //     _addImageForEquipmentNew(equipmentIds[i]);
+                                  //     _uploadImages(i);
+                                  //     //print('imageFileNames----${imageFileNames}');
+                                  //   },
+                                  //   child: Text('แก้ไขรูปภาพ'),
+                                  // )
                                 ]),
                               )
                   ],
