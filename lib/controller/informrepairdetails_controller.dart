@@ -33,6 +33,33 @@ class InformRepairDetailsController {
     return jsonResponse;
   }
 
+  Future updateInformRepairDetails(int amount, String details, String pictures,
+      int informrepair_id, int equipment_id, int room_id) async {
+    final url = Uri.parse('$baseURL/informrepairdetails/update');
+
+    final headers = {
+      'Content-Type': 'application/json',
+    };
+    List<Map<String, dynamic>> data = [
+      {
+        "amount": amount,
+        "details": details,
+        "pictures": pictures,
+        "informrepair_id": informrepair_id,
+        "equipment_id": equipment_id,
+        "room_id": room_id
+      }
+    ];
+    http.Response response = await http.post(
+      url,
+      headers: headers,
+      body: jsonEncode(data),
+    );
+    var jsonResponse = jsonDecode(response.body);
+    print("--------->>> ${jsonResponse}<<<-----------");
+    return jsonResponse;
+  }
+
   Future<List<InformRepairDetails>> listAllInformRepairDetails() async {
     var url = Uri.parse(baseURL + '/informrepairdetails/list');
 

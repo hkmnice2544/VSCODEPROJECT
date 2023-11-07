@@ -6,6 +6,7 @@ import 'package:flutterr/controller/login_controller.dart';
 import 'package:flutterr/model/InformRepairDetails_Model.dart';
 import 'package:flutterr/model/User_Model.dart';
 import 'package:flutterr/model/inform_pictures_model.dart';
+import 'package:flutterr/screen/User/InformRepairToilet/Edit.dart';
 import 'package:flutterr/screen/User/InformRepairToilet/EditInformRepair.dart';
 import 'package:flutterr/screen/User/ListInformRepair/ListInformRepair.dart';
 import '../../../controller/informrepair_controller.dart';
@@ -876,7 +877,7 @@ class _ViewResultState extends State<ResultInformRepair> {
                 Navigator.pushReplacement(
                   context,
                   MaterialPageRoute(
-                      builder: (_) => EditInformRepairs(
+                      builder: (_) => MyEdit(
                           informrepair_id: (informRepair?.informrepair_id),
                           user: widget.user)),
                 );

@@ -47,7 +47,7 @@ class _MyWidgetState extends State<MyEdit> {
   InformRepairDetailsController informRepairDetailsController =
       InformRepairDetailsController();
 
-  List<File> _selectedImages = [];
+  File? _selectedImages;
   void _addImageForEquipment(String equipmentId) async {
     final List<XFile>? selectedImages = await imagePicker.pickMultiImage();
     if (selectedImages != null && selectedImages.isNotEmpty) {
@@ -65,7 +65,7 @@ class _MyWidgetState extends State<MyEdit> {
         await imagePicker.pickImage(source: ImageSource.gallery);
     if (selectedImage != null) {
       equipmentImages[equipmentId] = selectedImage;
-      _selectedImages.add(File(selectedImage.path));
+      _selectedImages = File(selectedImage.path);
       details?.forEach((element) {});
       equipmentImages.forEach(
         (key, value) {
@@ -76,19 +76,22 @@ class _MyWidgetState extends State<MyEdit> {
     }
   }
 
-  Future<void> _uploadImages() async {
-    if (_selectedImages.isNotEmpty) {
+  Future<void> _uploadImages(int index) async {
+    if (_selectedImages != null) {
       final uri = Uri.parse(baseURL + '/review_pictures/uploadMultiple');
       final request = http.MultipartRequest('POST', uri);
 
-      for (final image in _selectedImages) {
-        final file = await http.MultipartFile.fromPath(
-          'files',
-          image.path,
-          filename: image.path.split('/').last,
-        );
-        request.files.add(file);
-      }
+      imageFileNames[index] = _selectedImages?.path.split('/').last ?? "";
+      final file = await http.MultipartFile.fromPath(
+        'files',
+        _selectedImages?.path ?? "",
+        filename: imageFileNames[index],
+      );
+      request.files.add(file);
+      // for (final image in _selectedImages) {
+      //   print("IMAGE : ${image.path.split('/').last}");
+
+      // }
 
       final response = await request.send();
 
@@ -740,11 +743,97 @@ class _MyWidgetState extends State<MyEdit> {
                       Text("                                "),
                     ]),
 
-                    ...buildEquipmentWidgets()
+                    ...buildEquipmentWidgets(),
+                    ElevatedButton(
+                      onPressed: () {
+                        //_addImageForEquipmentNew(equipmentIds[i]);
+                        //_uploadImages();
+                        //print('imageFileNames----${imageFileNames}');
+                      },
+                      child: Text('แก้ไขข้อมูล'),
+                    )
                   ]),
                 ),
               ),
             ),
+      floatingActionButton: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Container(
+              width: 120, // Set the width of the button here
+              child: FloatingActionButton.extended(
+                  label: Text(
+                    "ยืนยัน",
+                    style: GoogleFonts.prompt(
+                      textStyle: TextStyle(
+                        color: Color.fromARGB(255, 255, 255, 255),
+                        fontSize: 14,
+                      ),
+                    ),
+                  ),
+                  onPressed: () async {
+                    int? selectedrooom = int.tryParse(selectedRoom!);
+
+                    List<Map<String, dynamic>> data = [];
+                    Set<String> uniqueImageFileNames = Set();
+
+                    // ทำการบันทึกข้อมูลใน dataList
+
+                    for (int i = 0; i < equipmentIds.length; i++) {
+                      int? parsedEquipmentId =
+                          int.tryParse(arrAmountsTextCon[i].text);
+                      int? parsedEquipmentId2 = int.tryParse(equipmentIds[i]);
+                      for (int j = 0; j < imageFileNames.length; j++) {}
+
+                      if (eqCheckBox[i]) {
+                        print("${arrAmountsTextCon[i]}");
+                        var jsonResponse = await informRepairDetailsController
+                            .updateInformRepairDetails(
+                                parsedEquipmentId ?? 1,
+                                arrDetailsTextCon[i].text,
+                                imageFileNames[i],
+                                widget.informrepair_id!,
+                                parsedEquipmentId2 ?? 0,
+                                selectedrooom!);
+                      }
+                    }
+
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                          builder: (_) => ResultInformRepair(
+                              informrepair_id: (widget.informrepair_id!),
+                              user: widget.user)),
+                    );
+                  }),
+            ),
+          ),
+          Container(
+            width: 120, // Set the width of the button here
+            child: FloatingActionButton.extended(
+              label: Text(
+                "ยกเลิก",
+                style: GoogleFonts.prompt(
+                  textStyle: TextStyle(
+                    color: Color.fromARGB(255, 255, 255, 255),
+                    fontSize: 14,
+                  ),
+                ),
+              ),
+              onPressed: () async {
+                Navigator.push(context, MaterialPageRoute(builder: (context) {
+                  return ResultInformRepair(
+                      informrepair_id: widget.informrepair_id,
+                      user: widget.user);
+                }));
+              },
+            ),
+          ),
+        ],
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
   }
 
@@ -790,6 +879,7 @@ class _MyWidgetState extends State<MyEdit> {
     DateTime now = DateTime.now();
     formattedDate = DateFormat('dd-MM-yyyy').format(now);
     print("FT2 : ${equipmentIds.length}");
+    print("imageFileNames : ${imageFileNames}");
   }
 
   //Additional code
@@ -848,6 +938,9 @@ class _MyWidgetState extends State<MyEdit> {
         eqCheckBox.add(false);
       }
       print(" png : ${details![i].pictures}");
+      if (imageFileNames.length < equipmentIds.length) {
+        imageFileNames.add("");
+      }
       widgets.add(Column(
         children: [
           CheckboxListTile(
@@ -892,6 +985,7 @@ class _MyWidgetState extends State<MyEdit> {
                               ElevatedButton(
                                 onPressed: () {
                                   _addImageForEquipmentNew(equipmentIds[i]);
+                                  _uploadImages(i);
                                   //_uploadImages();
                                   //print('imageFileNames----${imageFileNames}');
                                 },
@@ -903,7 +997,7 @@ class _MyWidgetState extends State<MyEdit> {
                             ? ElevatedButton(
                                 onPressed: () {
                                   _addImageForEquipmentNew(equipmentIds[i]);
-                                  _uploadImages();
+                                  _uploadImages(i);
                                   //print('imageFileNames----${imageFileNames}');
                                 },
                                 child: Text('เพิ่มรูปภาพ'),
@@ -926,7 +1020,7 @@ class _MyWidgetState extends State<MyEdit> {
                                   ElevatedButton(
                                     onPressed: () {
                                       _addImageForEquipmentNew(equipmentIds[i]);
-                                      _uploadImages();
+                                      _uploadImages(i);
                                       //print('imageFileNames----${imageFileNames}');
                                     },
                                     child: Text('แก้ไขรูปภาพ'),
