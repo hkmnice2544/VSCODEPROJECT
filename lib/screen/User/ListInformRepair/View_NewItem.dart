@@ -126,7 +126,7 @@ class _ViewResultState extends State<View_NewItem> {
     // getInformDetails(widget.informrepair_id!);
     // ViewListInformDetails(widget.informrepair_id!);
     // findpicturesByIdByinformrepair_id(widget.informrepair_id.toString());
-    print(" pictures : ${pictures}");
+    print(" pictures : ${informRepair?.pictures}");
     List<String> equipmentIds = ["1001", "1002"];
   }
 
@@ -635,7 +635,7 @@ class _ViewResultState extends State<View_NewItem> {
                   ListView.builder(
                     shrinkWrap:
                         true, // ตั้งค่า shrinkWrap เป็น true เพื่อให้ ListView ย่อเข้าตัวเมื่อมีเนื้อหาน้อย
-                    itemCount: informRepair!.informrepair_id,
+                    itemCount: 1,
                     itemBuilder: (context, index) {
                       int displayIndex = index + 1;
                       return Card(
@@ -714,7 +714,7 @@ class _ViewResultState extends State<View_NewItem> {
                                     height: 200,
                                     child: Image.network(
                                       baseURL +
-                                          '/informrepairdetails/image/${informRepair?.pictures}',
+                                          '/informrepairs/image/${informRepair?.pictures}',
                                       fit: BoxFit.cover,
                                     ),
                                   ),

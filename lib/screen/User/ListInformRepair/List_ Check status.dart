@@ -216,15 +216,15 @@ class NewInform extends State<listCheckStatus> {
                             onTap: () {
                               WidgetsBinding.instance!
                                   .addPostFrameCallback((_) {
-                                // Navigator.pushReplacement(
-                                //   context,
-                                //   MaterialPageRoute(
-                                //       builder: (_) => View_Checkstatus(
-                                //           informrepair_id:
-                                //               informRepairList?[index]
-                                //                   .informrepair_id,
-                                //           user: widget.user)),
-                                // );
+                                Navigator.pushReplacement(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (_) => View_Checkstatus(
+                                          informrepair_id:
+                                              informRepairList?[index]
+                                                  .informrepair_id,
+                                          user: widget.user)),
+                                );
                               });
                             },
                           ),

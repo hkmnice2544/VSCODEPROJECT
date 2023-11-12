@@ -24,7 +24,7 @@ class _MyWidgetState extends State<InformCompleted> {
 
   void listAllReportRepair() async {
     reportRepair = await reportController.listAllReportRepairs();
-    print({reportRepair?[0].report_id});
+    print("report_id${reportRepair?[0].report_id}");
 
     reportRepair?.sort((a, b) {
       DateTime? dateA = a.reportdate;
@@ -58,215 +58,211 @@ class _MyWidgetState extends State<InformCompleted> {
           backgroundColor: Colors.white,
           floatingActionButtonLocation:
               FloatingActionButtonLocation.centerDocked,
-          body: isDataLoaded == false
-              ? CircularProgressIndicator()
-              : //ถ้ามีค่าว่างให้ขึ้นตัวหมุนๆ
+          body:
+              // isDataLoaded == false
+              //     ? CircularProgressIndicator()
+              //     : //ถ้ามีค่าว่างให้ขึ้นตัวหมุนๆ
               Container(
-                  padding: EdgeInsets.all(10.0),
-                  child: ListView.builder(
-                    itemCount: reportRepair?.length,
-                    scrollDirection: Axis.vertical,
-                    itemBuilder: (context, index) {
-                      if (reportRepair?[index].status == "กำลังดำเนินการ" ||
-                          reportRepair?[index].status == "ยังไม่ได้ดำเนินการ") {
-                        return Container();
-                      } else {
-                        return Card(
-                          elevation: 5,
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10)),
-                          child: ListTile(
-                            // leading: Column(
-                            //   mainAxisAlignment: MainAxisAlignment.center,
-                            //   children: [
-                            //     // Icon(Icons.account_box_rounded,color: Colors.red)
-                            //   ],
-                            // ),
-                            title: Column(
-                              mainAxisSize: MainAxisSize.max,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Row(children: [
-                                  Expanded(
-                                    child: Text("เลขที่รายงานผล",
-                                        style: GoogleFonts.prompt(
-                                          textStyle: TextStyle(
-                                            color: Color.fromRGBO(0, 0, 0, 1),
-                                            fontSize: 20,
-                                          ),
-                                        )),
-                                  ),
-                                  Expanded(
-                                    child: Text(
-                                        "${reportRepair?[index].report_id}",
-                                        style: GoogleFonts.prompt(
-                                          textStyle: TextStyle(
-                                            color: Color.fromRGBO(0, 0, 0, 1),
-                                            fontSize: 20,
-                                          ),
-                                        )),
-                                  ),
-                                ]),
-                                Row(children: [
-                                  Expanded(
-                                    child: Text("เลขที่แจ้งซ่อม",
-                                        style: GoogleFonts.prompt(
-                                          textStyle: TextStyle(
-                                            color: Color.fromRGBO(0, 0, 0, 1),
-                                            fontSize: 20,
-                                          ),
-                                        )),
-                                  ),
-                                  Expanded(
-                                    child: Text(
-                                        "${reportRepair?[index].informrepair!.informrepair_id}",
-                                        style: GoogleFonts.prompt(
-                                          textStyle: TextStyle(
-                                            color: Color.fromRGBO(0, 0, 0, 1),
-                                            fontSize: 20,
-                                          ),
-                                        )),
-                                  ),
-                                ]),
-                                Row(children: [
-                                  Expanded(
-                                    child: Text("วันที่รายงานผล",
-                                        style: GoogleFonts.prompt(
-                                          textStyle: TextStyle(
-                                            color: Color.fromRGBO(0, 0, 0, 1),
-                                            fontSize: 20,
-                                          ),
-                                        )),
-                                  ),
-                                  Expanded(
-                                    child: Text(
-                                        "${reportRepair?[index].formattedInformDate()}",
-                                        style: GoogleFonts.prompt(
-                                          textStyle: TextStyle(
-                                            color: Color.fromRGBO(0, 0, 0, 1),
-                                            fontSize: 20,
-                                          ),
-                                        )),
-                                  ),
-                                ]),
-                                // Row(children: [
-                                //   Expanded(
-                                //     child: Text(
-                                //       "อุปกรณ์",
-                                //        style: GoogleFonts.prompt(
-                                //           textStyle: TextStyle(
-                                //             color: Color.fromRGBO(0, 0, 0, 1),
-                                //             fontSize: 20,
-                                //           ),
-                                //         )
-                                //     ),
-                                //   ),
-                                //   Expanded(
-                                //     child: Text(
-                                //       "${reportRepair?[index].informRepairDetails?.roomEquipment?.equipment?.equipmentname}",
-                                //       style: const TextStyle(
-                                //           fontFamily: 'Itim', fontSize: 20),
-                                //     ),
-                                //   ),
-                                // ]),
-
-                                Row(children: [
-                                  Expanded(
-                                    child: Text("ผู้แจ้ง ",
-                                        style: GoogleFonts.prompt(
-                                          textStyle: TextStyle(
-                                            color: Color.fromRGBO(0, 0, 0, 1),
-                                            fontSize: 20,
-                                          ),
-                                        )),
-                                  ),
-                                  Expanded(
-                                    child: Text(
-                                        "${reportRepair?[index].informrepair!.user!.firstname} ${reportRepair?[index].informrepair!.user!.lastname}",
-                                        style: GoogleFonts.prompt(
-                                          textStyle: TextStyle(
-                                            color: Color.fromRGBO(0, 0, 0, 1),
-                                            fontSize: 20,
-                                          ),
-                                        )),
-                                  ),
-                                ]),
-                                Row(children: [
-                                  Expanded(
-                                    child: Text("สถานะ",
-                                        style: GoogleFonts.prompt(
-                                          textStyle: TextStyle(
-                                            color: Color.fromRGBO(0, 0, 0, 1),
-                                            fontSize: 20,
-                                          ),
-                                        )),
-                                  ),
-                                  Expanded(
-                                    child: Text(
-                                        "${reportRepair?[index].status}",
-                                        style: GoogleFonts.prompt(
-                                          textStyle: TextStyle(
-                                            color: Color.fromRGBO(0, 0, 0, 1),
-                                            fontSize: 20,
-                                          ),
-                                        )),
-                                  ),
-                                ]),
-                              ],
-                            ),
-
-                            trailing: ElevatedButton(
-                              onPressed: () {
-                                // Navigator.push(
-                                //     context,
-                                //     MaterialPageRoute(
-                                //         builder: (_) => Reviews(
-                                //               report_id: reportRepair?[index]
-                                //                   .report_id,
-                                //               user: widget.user,
-                                //             )));
-                              },
-                              child: Text('ประเมิน',
+            padding: EdgeInsets.all(10.0),
+            child: ListView.builder(
+              itemCount: reportRepair?.length,
+              scrollDirection: Axis.vertical,
+              itemBuilder: (context, index) {
+                if (reportRepair?[index].status == "กำลังดำเนินการ" ||
+                    reportRepair?[index].status == "ยังไม่ได้ดำเนินการ") {
+                  return Container();
+                } else {
+                  return Card(
+                    elevation: 5,
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10)),
+                    child: ListTile(
+                      // leading: Column(
+                      //   mainAxisAlignment: MainAxisAlignment.center,
+                      //   children: [
+                      //     // Icon(Icons.account_box_rounded,color: Colors.red)
+                      //   ],
+                      // ),
+                      title: Column(
+                        mainAxisSize: MainAxisSize.max,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Row(children: [
+                            Expanded(
+                              child: Text("เลขที่รายงานผล",
                                   style: GoogleFonts.prompt(
                                     textStyle: TextStyle(
-                                      color: Color.fromRGBO(255, 255, 255, 1),
+                                      color: Color.fromRGBO(0, 0, 0, 1),
+                                      fontSize: 20,
                                     ),
                                   )),
                             ),
-                            leading: reportRepair?[index].status ==
-                                    "ยังไม่ได้ดำเนินการ"
-                                ? Icon(Icons.warning,
-                                    color: Colors
-                                        .red) // สร้าง Icon แสดงสถานะ "ยังไม่ได้ดำเนินการ" ในสีแดง
-                                : reportRepair?[index].status == "เสร็จสิ้น"
-                                    ? Icon(Icons.check,
-                                        color: Colors
-                                            .green) // สร้าง Icon แสดงสถานะ "เสร็จสิ้น" ในสีเขียว
-                                    : reportRepair?[index].status ==
-                                            "กำลังดำเนินการ"
-                                        ? Icon(Icons.update,
-                                            color: Colors
-                                                .blue) // สร้าง Icon แสดงสถานะ "กำลังดำเนินการ" ในสีฟ้า
-                                        : null, // ถ้าสถานะไม่ใช่ทั้ง "ยังไม่ได้ดำเนินการ", "เสร็จสิ้น", หรือ "กำลังดำเนินการ" ให้ไม่แสด Icon
-                            onTap: () {
-                              WidgetsBinding.instance!
-                                  .addPostFrameCallback((_) {
-                                // Navigator.pushReplacement(
-                                //   context,
-                                //   MaterialPageRoute(
-                                //       builder: (_) => ViewCompleted(
-                                //           report_id:
-                                //               reportRepair?[index].report_id,
-                                //           user: widget.user)),
-                                // );
-                              });
-                            },
-                          ),
-                        );
-                      }
-                    },
-                  ),
-                )),
+                            Expanded(
+                              child: Text("${reportRepair?[index].report_id}",
+                                  style: GoogleFonts.prompt(
+                                    textStyle: TextStyle(
+                                      color: Color.fromRGBO(0, 0, 0, 1),
+                                      fontSize: 20,
+                                    ),
+                                  )),
+                            ),
+                          ]),
+                          Row(children: [
+                            Expanded(
+                              child: Text("เลขที่แจ้งซ่อม",
+                                  style: GoogleFonts.prompt(
+                                    textStyle: TextStyle(
+                                      color: Color.fromRGBO(0, 0, 0, 1),
+                                      fontSize: 20,
+                                    ),
+                                  )),
+                            ),
+                            Expanded(
+                              child: Text(
+                                  "${reportRepair?[index].informrepair!.informrepair_id}",
+                                  style: GoogleFonts.prompt(
+                                    textStyle: TextStyle(
+                                      color: Color.fromRGBO(0, 0, 0, 1),
+                                      fontSize: 20,
+                                    ),
+                                  )),
+                            ),
+                          ]),
+                          Row(children: [
+                            Expanded(
+                              child: Text("วันที่รายงานผล",
+                                  style: GoogleFonts.prompt(
+                                    textStyle: TextStyle(
+                                      color: Color.fromRGBO(0, 0, 0, 1),
+                                      fontSize: 20,
+                                    ),
+                                  )),
+                            ),
+                            Expanded(
+                              child: Text(
+                                  "${reportRepair?[index].formattedInformDate()}",
+                                  style: GoogleFonts.prompt(
+                                    textStyle: TextStyle(
+                                      color: Color.fromRGBO(0, 0, 0, 1),
+                                      fontSize: 20,
+                                    ),
+                                  )),
+                            ),
+                          ]),
+                          // Row(children: [
+                          //   Expanded(
+                          //     child: Text(
+                          //       "อุปกรณ์",
+                          //        style: GoogleFonts.prompt(
+                          //           textStyle: TextStyle(
+                          //             color: Color.fromRGBO(0, 0, 0, 1),
+                          //             fontSize: 20,
+                          //           ),
+                          //         )
+                          //     ),
+                          //   ),
+                          //   Expanded(
+                          //     child: Text(
+                          //       "${reportRepair?[index].informRepairDetails?.roomEquipment?.equipment?.equipmentname}",
+                          //       style: const TextStyle(
+                          //           fontFamily: 'Itim', fontSize: 20),
+                          //     ),
+                          //   ),
+                          // ]),
+
+                          Row(children: [
+                            Expanded(
+                              child: Text("ผู้แจ้ง ",
+                                  style: GoogleFonts.prompt(
+                                    textStyle: TextStyle(
+                                      color: Color.fromRGBO(0, 0, 0, 1),
+                                      fontSize: 20,
+                                    ),
+                                  )),
+                            ),
+                            Expanded(
+                              child: Text(
+                                  "${reportRepair?[index].informrepair!.user!.firstname} ${reportRepair?[index].informrepair!.user!.lastname}",
+                                  style: GoogleFonts.prompt(
+                                    textStyle: TextStyle(
+                                      color: Color.fromRGBO(0, 0, 0, 1),
+                                      fontSize: 20,
+                                    ),
+                                  )),
+                            ),
+                          ]),
+                          Row(children: [
+                            Expanded(
+                              child: Text("สถานะ",
+                                  style: GoogleFonts.prompt(
+                                    textStyle: TextStyle(
+                                      color: Color.fromRGBO(0, 0, 0, 1),
+                                      fontSize: 20,
+                                    ),
+                                  )),
+                            ),
+                            Expanded(
+                              child: Text("${reportRepair?[index].status}",
+                                  style: GoogleFonts.prompt(
+                                    textStyle: TextStyle(
+                                      color: Color.fromRGBO(0, 0, 0, 1),
+                                      fontSize: 20,
+                                    ),
+                                  )),
+                            ),
+                          ]),
+                        ],
+                      ),
+
+                      trailing: ElevatedButton(
+                        onPressed: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (_) => Reviews(
+                                        report_id:
+                                            reportRepair?[index].report_id,
+                                        user: widget.user,
+                                      )));
+                        },
+                        child: Text('ประเมิน',
+                            style: GoogleFonts.prompt(
+                              textStyle: TextStyle(
+                                color: Color.fromRGBO(255, 255, 255, 1),
+                              ),
+                            )),
+                      ),
+                      leading: reportRepair?[index].status ==
+                              "ยังไม่ได้ดำเนินการ"
+                          ? Icon(Icons.warning,
+                              color: Colors
+                                  .red) // สร้าง Icon แสดงสถานะ "ยังไม่ได้ดำเนินการ" ในสีแดง
+                          : reportRepair?[index].status == "เสร็จสิ้น"
+                              ? Icon(Icons.check,
+                                  color: Colors
+                                      .green) // สร้าง Icon แสดงสถานะ "เสร็จสิ้น" ในสีเขียว
+                              : reportRepair?[index].status == "กำลังดำเนินการ"
+                                  ? Icon(Icons.update,
+                                      color: Colors
+                                          .blue) // สร้าง Icon แสดงสถานะ "กำลังดำเนินการ" ในสีฟ้า
+                                  : null, // ถ้าสถานะไม่ใช่ทั้ง "ยังไม่ได้ดำเนินการ", "เสร็จสิ้น", หรือ "กำลังดำเนินการ" ให้ไม่แสด Icon
+                      onTap: () {
+                        WidgetsBinding.instance!.addPostFrameCallback((_) {
+                          Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                                builder: (_) => ViewCompleted(
+                                    report_id: reportRepair?[index].report_id,
+                                    user: widget.user)),
+                          );
+                        });
+                      },
+                    ),
+                  );
+                }
+              },
+            ),
+          )),
     );
   }
 }

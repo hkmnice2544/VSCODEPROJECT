@@ -4,7 +4,6 @@ import 'package:intl/intl.dart';
 
 class ReportRepair {
   int? report_id;
-
   String? repairer;
   DateTime? reportdate;
   String? details;
@@ -45,8 +44,8 @@ class ReportRepair {
         ? int.tryParse(json["report_id"].toString())
         : null;
 
-    final informrepairJson = json['informrepair'] as Map<String, dynamic>;
-    final informrepair = InformRepair.fromJsonToInformRepair(json);
+    final informrepairJson = json['informRepair'] as Map<String, dynamic>;
+    final informrepair = InformRepair.fromJsonToInformRepair(informrepairJson);
 
     return ReportRepair(
         report_id: report_id,

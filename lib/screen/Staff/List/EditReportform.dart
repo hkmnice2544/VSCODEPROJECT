@@ -6,7 +6,7 @@ import 'package:flutterr/controller/report_pictures_controller.dart';
 import 'package:flutterr/model/Report_pictures_Model.dart';
 import 'package:flutterr/screen/Home.dart';
 import 'package:flutterr/screen/HomeStaff.dart';
-import 'package:flutterr/screen/Staff/List/EditReportform.dart';
+import 'package:flutterr/screen/Staff/List/ReportInform.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import '../../../controller/informrepair_controller.dart';
@@ -19,13 +19,13 @@ import 'ListManage.dart';
 import 'package:http/http.dart' as http;
 import 'package:google_fonts/google_fonts.dart';
 
-class ReportInform extends StatefulWidget {
+class EditReportInform extends StatefulWidget {
   final int informrepair_id;
   final int room_id;
   final int equipment_id;
   final int user;
 
-  const ReportInform({
+  const EditReportInform({
     Key? key,
     required this.informrepair_id,
     required this.room_id,
@@ -34,10 +34,10 @@ class ReportInform extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  State<ReportInform> createState() => _ReportInformState();
+  State<EditReportInform> createState() => _ReportInformState();
 }
 
-class _ReportInformState extends State<ReportInform> {
+class _ReportInformState extends State<EditReportInform> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final GlobalKey<FormFieldState<String>> _commentFieldKey =
       GlobalKey<FormFieldState<String>>();
@@ -219,7 +219,7 @@ class _ReportInformState extends State<ReportInform> {
         child: Scaffold(
       appBar: AppBar(
         title: Text(
-          "หน้า รายงานผลการแจ้งซ่อม",
+          "หน้า แก้ไขรายงานผลการแจ้งซ่อม",
           style: GoogleFonts.prompt(
             textStyle: TextStyle(
               color: Color.fromARGB(255, 255, 255, 255),
@@ -310,7 +310,7 @@ class _ReportInformState extends State<ReportInform> {
           child: Column(children: [
             Center(
               child: Text(
-                "รายงานผลการแจ้งซ่อม",
+                "แก้ไขรายงานผลการแจ้งซ่อม",
                 style: GoogleFonts.prompt(
                   textStyle: TextStyle(
                     color: Color.fromARGB(255, 7, 94, 53),
@@ -757,9 +757,14 @@ class _ReportInformState extends State<ReportInform> {
                             data);
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) {
-                        return ListManage(user: widget.user);
-                      }),
+                      MaterialPageRoute(
+                        builder: (context) => ReportInform(
+                          informrepair_id: widget.informrepair_id,
+                          room_id: widget.room_id,
+                          equipment_id: widget.equipment_id,
+                          user: widget.user ?? 0,
+                        ),
+                      ),
                     );
                   }
                 }
@@ -767,15 +772,17 @@ class _ReportInformState extends State<ReportInform> {
             ),
           ),
           SizedBox(width: 10), // ระยะห่างระหว่างปุ่ม
+
           Container(
             width: 120, // Set the width of the button here
             child: FloatingActionButton.extended(
               label: Text(
-                "แก้ไข",
+                "ยกเลิก",
                 style: GoogleFonts.prompt(
                   textStyle: TextStyle(
                     color: Color.fromARGB(255, 255, 255, 255),
-                    fontSize: 14,
+                    fontWeight: FontWeight.w400,
+                    decoration: TextDecoration.none,
                   ),
                 ),
               ),
@@ -783,7 +790,7 @@ class _ReportInformState extends State<ReportInform> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => EditReportInform(
+                    builder: (context) => ReportInform(
                       informrepair_id: widget.informrepair_id,
                       room_id: widget.room_id,
                       equipment_id: widget.equipment_id,
@@ -791,37 +798,7 @@ class _ReportInformState extends State<ReportInform> {
                     ),
                   ),
                 );
-
-                // Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => EditInformRepairs(informrerair_id: informrepairs?[index].informrepair_id)));
-
-                // Navigator.pushNamed(context, '/one');
               },
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(10.0),
-            child: Container(
-              width: 120, // Set the width of the button here
-              child: FloatingActionButton.extended(
-                label: Text(
-                  "ยกเลิก",
-                  style: GoogleFonts.prompt(
-                    textStyle: TextStyle(
-                      color: Color.fromARGB(255, 255, 255, 255),
-                      fontWeight: FontWeight.w400,
-                      decoration: TextDecoration.none,
-                    ),
-                  ),
-                ),
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) {
-                      return ListManage(user: widget.user);
-                    }),
-                  );
-                },
-              ),
             ),
           ),
         ],

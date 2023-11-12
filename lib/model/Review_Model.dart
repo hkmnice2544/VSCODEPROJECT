@@ -1,22 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:flutterr/model/informrepair_model.dart';
 
 import 'package:intl/intl.dart';
 
 class Review {
   int? review_id;
   DateTime? reviewdate;
-  String? reviewer;
   String? repairscore;
   String? comment;
-  int? report_id;
+  String? pictureUrl;
+  InformRepair? informRepair;
 
   Review({
     required this.review_id,
     this.reviewdate,
-    this.reviewer,
     this.repairscore,
     this.comment,
-    this.report_id,
+    this.pictureUrl,
+    this.informRepair,
   });
   String formattedreviewdateDate() {
     if (reviewdate != null) {
@@ -46,29 +47,27 @@ class Review {
     final reviewId = json["review_id"] != null
         ? int.tryParse(json["review_id"].toString())
         : null;
-
-    final reportId = json["report_id"] != null
-        ? int.tryParse(json["report_id"].toString())
-        : null;
+    final informrepairJson = json['informRepair'] as Map<String, dynamic>;
+    final informRepair = InformRepair.fromJsonToInformRepair(informrepairJson);
 
     return Review(
       review_id: reviewId,
-      reviewer: json["reviewer"],
       repairscore: json["repairscore"],
       comment: json["comment"],
       reviewdate: reviewdate,
-      report_id: reportId,
+      pictureUrl: json["pictureUrl"],
+      informRepair: informRepair,
     );
   }
 
   Map<String, dynamic> fromReviewsToJson() {
     return <String, dynamic>{
       'review_id': review_id,
-      'reviewer': reviewer,
       'repairscore': repairscore,
       'comment': comment,
+      'pictureUrl': pictureUrl,
       'reviewdate': reviewdate,
-      'report_id': report_id,
+      'informRepair': informRepair!.fromInformRepairToJson(),
     };
   }
 }

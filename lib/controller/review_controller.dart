@@ -8,14 +8,14 @@ import '../model/Review_Model.dart';
 class ReviewController {
   Review? review;
 
-  Future addReview(String reviewer, String repairscore, String comment,
-      int report_id) async {
+  Future addReview(String repairscore, String comment, String pictureUrl,
+      int informrepair_id) async {
     Map data = {
       // "informdate" : informdate,
-      "reviewer": reviewer,
       "repairscore": repairscore,
       "comment": comment,
-      "report_id": report_id
+      "pictureUrl": pictureUrl,
+      "informrepair_id": informrepair_id
     };
 
     var body = json.encode(data);
