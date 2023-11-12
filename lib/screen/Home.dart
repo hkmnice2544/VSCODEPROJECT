@@ -326,12 +326,12 @@ class _HomeState extends State<Home> {
                           padding:
                               EdgeInsets.only(left: 455, top: 105, right: 20),
                           onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(builder: (context) {
-                                return InformRepairRoom(user: widget.user);
-                              }),
-                            );
+                            // Navigator.push(
+                            //   context,
+                            //   MaterialPageRoute(builder: (context) {
+                            //     return InformRepairRoom(user: widget.user);
+                            //   }),
+                            // );
                           },
                         ),
                       ),

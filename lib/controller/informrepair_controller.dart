@@ -59,8 +59,6 @@ class InformRepairController {
       var url = Uri.parse(baseURL + '/informrepairs/list');
 
       http.Response response = await http.post(url, headers: headers);
-      print(response.body);
-
       if (response.statusCode == 200) {
         final utf8body = utf8.decode(response.bodyBytes);
         final jsonList = json.decode(utf8body) as List<dynamic>;
@@ -71,9 +69,6 @@ class InformRepairController {
           final informRepair = InformRepair.fromJsonToInformRepair(jsonData);
           list.add(informRepair);
         }
-        var jsonResponse = jsonDecode(response.body);
-        print(jsonResponse);
-
         return list;
       } else {
         throw Exception('Failed to load inform repairs');

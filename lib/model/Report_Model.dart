@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutterr/model/InformRepairDetails_Model.dart';
-import 'package:flutterr/model/RoomEquipment_Model.dart';
+import 'package:flutterr/model/informrepair_model.dart';
 import 'package:intl/intl.dart';
 
 class ReportRepair {
@@ -10,8 +9,7 @@ class ReportRepair {
   DateTime? reportdate;
   String? details;
   String? status;
-  DateTime? statusdate;
-  InformRepairDetails? informRepairDetails;
+  InformRepair? informrepair;
 
   ReportRepair(
       {required this.report_id,
@@ -20,8 +18,7 @@ class ReportRepair {
       this.reportdate,
       this.details,
       this.status,
-      this.statusdate,
-      this.informRepairDetails});
+      this.informrepair});
 
   String formattedInformDate() {
     if (reportdate != null) {
@@ -34,10 +31,10 @@ class ReportRepair {
   }
 
   String formattedstatusdateDate() {
-    if (statusdate != null) {
+    if (reportdate != null) {
       final thailandLocale = const Locale('th', 'TH');
       final outputFormat = DateFormat('dd-MM-yyyy', thailandLocale.toString());
-      return outputFormat.format(statusdate!);
+      return outputFormat.format(reportdate!);
     } else {
       return 'N/A';
     }
@@ -48,6 +45,9 @@ class ReportRepair {
         ? int.tryParse(json["report_id"].toString())
         : null;
 
+    final informrepairJson = json['informrepair'] as Map<String, dynamic>;
+    final informrepair = InformRepair.fromJsonToInformRepair(json);
+
     return ReportRepair(
         report_id: report_id,
         repairer: json["repairer"],
@@ -56,13 +56,7 @@ class ReportRepair {
             : null,
         details: json["details"],
         status: json["status"],
-        statusdate: json['statusdate'] != null
-            ? DateTime.parse(json['statusdate'] as String)
-            : null,
-        informRepairDetails: json["informRepairDetails"] == null
-            ? null
-            : InformRepairDetails.fromJsonToInformRepairDetails(
-                json["informRepairDetails"]));
+        informrepair: informrepair);
   }
 
   Map<String, dynamic> fromReportRepairToJson() {
@@ -72,8 +66,7 @@ class ReportRepair {
       'reportdate': reportdate,
       'details': details,
       'status': status,
-      'statusdate': statusdate,
-      'informRepairDetails': informRepairDetails,
+      'informrepair': informrepair!.fromInformRepairToJson(),
     };
   }
 }

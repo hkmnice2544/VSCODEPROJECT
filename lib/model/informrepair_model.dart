@@ -1,5 +1,5 @@
 import 'dart:ui';
-
+import 'package:flutterr/model/Equipment_Model.dart';
 import 'package:flutterr/model/Room_Model.dart';
 import 'package:flutterr/model/User_Model.dart';
 import 'package:intl/intl.dart';
@@ -9,8 +9,11 @@ class InformRepair {
   DateTime? informdate;
   String? informtype;
   String? status;
+  int? amount;
+  String? details;
+  String? pictures;
   User? user;
-  Room? room;
+  Equipment? equipment;
 
   String formattedInformDate() {
     if (informdate != null) {
@@ -23,28 +26,37 @@ class InformRepair {
   }
 
   InformRepair({
-    required this.informrepair_id,
+    this.informrepair_id,
     this.informdate,
+    this.informtype,
     this.status,
+    this.amount,
+    this.details,
+    this.pictures,
     this.user,
-    this.room,
+    this.equipment,
   });
 
   factory InformRepair.fromJsonToInformRepair(Map<String, dynamic> json) {
     final userJson = json['user'] as Map<String, dynamic>;
-    final roomJson = json['room'] as Map<String, dynamic>;
+    final equipmentJson = json['equipment'] as Map<String, dynamic>;
 
     final user = User.fromJsonToUser(userJson);
-    final room = Room.fromJsonToRoom(roomJson);
+    final equipment = Equipment.fromJsonToEquipment(equipmentJson);
 
     final informRepair = InformRepair(
-        informrepair_id: json['informrepair_id'] as int,
-        informdate: json['informdate'] != null
-            ? DateTime.parse(json['informdate'] as String)
-            : null,
-        user: user,
-        room: room,
-        status: json['status']);
+      informrepair_id: json['informrepair_id'] as int,
+      informdate: json['informdate'] != null
+          ? DateTime.parse(json['informdate'] as String)
+          : null,
+      informtype: json['informtype'],
+      status: json['status'],
+      amount: json['amount'],
+      details: json['details'],
+      pictures: json['pictures'],
+      user: user,
+      equipment: equipment,
+    );
 
     return informRepair;
   }
@@ -53,9 +65,13 @@ class InformRepair {
     return <String, dynamic>{
       'informrepair_id': informrepair_id,
       'informdate': informdate?.toIso8601String(),
+      'informtype': informtype,
       'status': status,
+      'amount': amount,
+      'details': details,
+      'pictures': pictures,
       'user': user?.toJson(),
-      'room': room?.toJson(),
+      'equipment': equipment?.fromEquipmentToJson(),
     };
   }
 }

@@ -446,12 +446,12 @@ class _HomeStaffState extends State<HomeStaff> {
                         padding:
                             EdgeInsets.only(left: 465, top: 105, right: 20),
                         onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(builder: (context) {
-                              return ListManage(user: widget.user);
-                            }),
-                          );
+                          // Navigator.push(
+                          //   context,
+                          //   MaterialPageRoute(builder: (context) {
+                          //     return ListManage(user: widget.user);
+                          //   }),
+                          // );
                         },
                       ),
                     ),
@@ -480,12 +480,12 @@ class _HomeStaffState extends State<HomeStaff> {
                         padding:
                             EdgeInsets.only(left: 490, top: 100, right: 20),
                         onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(builder: (context) {
-                              return Summary(user: widget.user);
-                            }),
-                          );
+                          // Navigator.push(
+                          //   context,
+                          //   MaterialPageRoute(builder: (context) {
+                          //     return Summary(user: widget.user);
+                          //   }),
+                          // );
                         },
                       ),
                     ),

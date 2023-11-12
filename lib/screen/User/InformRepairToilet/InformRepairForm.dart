@@ -1,10 +1,9 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:flutterr/constant/constant_value.dart';
-import 'package:flutterr/controller/informrepair_pictures_controller.dart';
-import 'package:flutterr/controller/informrepairdetails_controller.dart';
+
 import 'package:flutterr/controller/login_controller.dart';
-import 'package:flutterr/model/InformRepairDetails_Model.dart';
+
 import 'package:flutterr/model/Room_Model.dart';
 import 'package:flutterr/model/User_Model.dart';
 import 'package:flutterr/screen/Home.dart';
@@ -43,10 +42,6 @@ class Form extends State<InformRepairForm> {
       TextEditingController();
   TextEditingController informtypeTextController = TextEditingController();
   final InformRepairController informController = InformRepairController();
-  InformRepairDetailsController informRepairDetailsController =
-      InformRepairDetailsController();
-  InformRepair_PicturesController informRepair_PicturesController =
-      InformRepair_PicturesController();
 
 //dropdown----------------------------------
 
@@ -72,7 +67,7 @@ class Form extends State<InformRepairForm> {
   Color backgroundColor = Colors.white;
 
   List<InformRepair>? informrepairs;
-  List<InformRepairDetails>? informdetails;
+
   bool? isDataLoaded = false;
   InformRepair? informRepairs;
   InformRepair? informRepair;
@@ -217,24 +212,24 @@ class Form extends State<InformRepairForm> {
     });
   }
 
-  void listAllInformRepairDetails() async {
-    informdetails =
-        await informRepairDetailsController.listAllInformRepairDetails();
-    // print({informdetails?[0].informdetails_id});
-    if (informrepairs != null && informrepairs!.isNotEmpty) {
-      print("Informrepair ID: ${informrepairs![0].informrepair_id}");
-      print(
-          "getInform ปัจจุบัน : ${informrepairs![informrepairs!.length - 1].informrepair_id}");
-      print(
-          "getInform +1 : ${informrepairs![informrepairs!.length - 1].informrepair_id! + 1}");
-    } else {
-      print("Informrepairs เป็น null หรือว่าง");
-    }
+  // void listAllInformRepairDetails() async {
+  //   informdetails =
+  //       await informRepairDetailsController.listAllInformRepairDetails();
+  //   // print({informdetails?[0].informdetails_id});
+  //   if (informrepairs != null && informrepairs!.isNotEmpty) {
+  //     print("Informrepair ID: ${informrepairs![0].informrepair_id}");
+  //     print(
+  //         "getInform ปัจจุบัน : ${informrepairs![informrepairs!.length - 1].informrepair_id}");
+  //     print(
+  //         "getInform +1 : ${informrepairs![informrepairs!.length - 1].informrepair_id! + 1}");
+  //   } else {
+  //     print("Informrepairs เป็น null หรือว่าง");
+  //   }
 
-    setState(() {
-      isDataLoaded = true;
-    });
-  }
+  //   setState(() {
+  //     isDataLoaded = true;
+  //   });
+  // }
 
   void listAllBuildings() async {
     buildings =
@@ -1144,52 +1139,52 @@ class Form extends State<InformRepairForm> {
 
                         // ทำการบันทึกข้อมูลใน dataList
 
-                        for (int i = 0; i < equipmentIds.length; i++) {
-                          if (isChecked[i]) {
-                            int? parsedEquipmentId =
-                                int.tryParse(amountcontrollers[i].text);
-                            int? parsedEquipmentId2 =
-                                int.tryParse(equipmentIds[i]);
-                            for (int j = 0; j < imageFileNames.length; j++) {
-                              if (isChecked[j]) {
-                                if (int.tryParse(equipmentIds[j]) ==
-                                    parsedEquipmentId2) {
-                                  print("imageFileNames${imageFileNames[i]}");
-                                  var jsonResponse =
-                                      await informRepairDetailsController
-                                          .saveInformRepairDetails(
-                                              parsedEquipmentId ?? 1,
-                                              detailscontrollers[i].text,
-                                              imageFileNames[j],
-                                              ((informrepairs?[informrepairs!
-                                                                  .length -
-                                                              1]
-                                                          .informrepair_id ??
-                                                      0) +
-                                                  1),
-                                              parsedEquipmentId2 ?? 0,
-                                              selectedrooom!);
-                                }
-                              }
-                            }
-                          }
-                        }
+                        // for (int i = 0; i < equipmentIds.length; i++) {
+                        //   if (isChecked[i]) {
+                        //     int? parsedEquipmentId =
+                        //         int.tryParse(amountcontrollers[i].text);
+                        //     int? parsedEquipmentId2 =
+                        //         int.tryParse(equipmentIds[i]);
+                        //     for (int j = 0; j < imageFileNames.length; j++) {
+                        //       if (isChecked[j]) {
+                        //         if (int.tryParse(equipmentIds[j]) ==
+                        //             parsedEquipmentId2) {
+                        //           print("imageFileNames${imageFileNames[i]}");
+                        //           var jsonResponse =
+                        //               await informRepairDetailsController
+                        //                   .saveInformRepairDetails(
+                        //                       parsedEquipmentId ?? 1,
+                        //                       detailscontrollers[i].text,
+                        //                       imageFileNames[j],
+                        //                       ((informrepairs?[informrepairs!
+                        //                                           .length -
+                        //                                       1]
+                        //                                   .informrepair_id ??
+                        //                               0) +
+                        //                           1),
+                        //                       parsedEquipmentId2 ?? 0,
+                        //                       selectedrooom!);
+                        //         }
+                        //       }
+                        //     }
+                        //   }
+                        // }
 
                         // List<Inform_Pictures> savedInformPictures =
                         //     await InformRepair_PicturesController
                         //         .saveInform_Pictures(data);
 
-                        Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(
-                              builder: (_) => ResultInformRepair(
-                                  informrepair_id: ((informrepairs?[
-                                                  informrepairs!.length - 1]
-                                              .informrepair_id ??
-                                          0) +
-                                      1),
-                                  user: widget.user)),
-                        );
+                        // Navigator.pushReplacement(
+                        //   context,
+                        //   MaterialPageRoute(
+                        //       builder: (_) => ResultInformRepair(
+                        //           informrepair_id: ((informrepairs?[
+                        //                           informrepairs!.length - 1]
+                        //                       .informrepair_id ??
+                        //                   0) +
+                        //               1),
+                        //           user: widget.user)),
+                        // );
                       } else {
                         // Handle the case where room_id is empty or null.
                       }

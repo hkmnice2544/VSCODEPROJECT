@@ -119,7 +119,7 @@ class _MyWidgetState extends State<InformCompleted> {
                                   ),
                                   Expanded(
                                     child: Text(
-                                        "${reportRepair?[index].informRepairDetails?.informRepair?.informrepair_id}",
+                                        "${reportRepair?[index].informrepair!.informrepair_id}",
                                         style: GoogleFonts.prompt(
                                           textStyle: TextStyle(
                                             color: Color.fromRGBO(0, 0, 0, 1),
@@ -182,7 +182,7 @@ class _MyWidgetState extends State<InformCompleted> {
                                   ),
                                   Expanded(
                                     child: Text(
-                                        "${reportRepair?[index].informRepairDetails?.informRepair?.user?.firstname} ${reportRepair?[index].informRepairDetails?.informRepair?.user?.lastname}",
+                                        "${reportRepair?[index].informrepair!.user!.firstname} ${reportRepair?[index].informrepair!.user!.lastname}",
                                         style: GoogleFonts.prompt(
                                           textStyle: TextStyle(
                                             color: Color.fromRGBO(0, 0, 0, 1),
@@ -217,14 +217,14 @@ class _MyWidgetState extends State<InformCompleted> {
 
                             trailing: ElevatedButton(
                               onPressed: () {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (_) => Reviews(
-                                              report_id: reportRepair?[index]
-                                                  .report_id,
-                                              user: widget.user,
-                                            )));
+                                // Navigator.push(
+                                //     context,
+                                //     MaterialPageRoute(
+                                //         builder: (_) => Reviews(
+                                //               report_id: reportRepair?[index]
+                                //                   .report_id,
+                                //               user: widget.user,
+                                //             )));
                               },
                               child: Text('ประเมิน',
                                   style: GoogleFonts.prompt(
@@ -251,14 +251,14 @@ class _MyWidgetState extends State<InformCompleted> {
                             onTap: () {
                               WidgetsBinding.instance!
                                   .addPostFrameCallback((_) {
-                                Navigator.pushReplacement(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (_) => ViewCompleted(
-                                          report_id:
-                                              reportRepair?[index].report_id,
-                                          user: widget.user)),
-                                );
+                                // Navigator.pushReplacement(
+                                //   context,
+                                //   MaterialPageRoute(
+                                //       builder: (_) => ViewCompleted(
+                                //           report_id:
+                                //               reportRepair?[index].report_id,
+                                //           user: widget.user)),
+                                // );
                               });
                             },
                           ),

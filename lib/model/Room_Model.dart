@@ -9,7 +9,7 @@ class Room {
   Building? building; // เพิ่มความสัมพันธ์ Many-to-One
 
   Room({
-    required this.room_id,
+    this.room_id,
     this.roomtype,
     this.roomname,
     this.floor,

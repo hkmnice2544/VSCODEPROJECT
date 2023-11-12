@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutterr/constant/constant_value.dart';
-import 'package:flutterr/controller/informrepairdetails_controller.dart';
-import 'package:flutterr/model/InformRepairDetails_Model.dart';
 import '../../../controller/informrepair_controller.dart';
 import '../../../model/informrepair_model.dart';
 import '../../Home.dart';
@@ -21,64 +19,61 @@ class View_NewItem extends StatefulWidget {
 
 class _ViewResultState extends State<View_NewItem> {
   final InformRepairController informController = InformRepairController();
-  InformRepairDetailsController informRepairDetailsController =
-      InformRepairDetailsController();
-
   InformRepair? informRepair;
   List<InformRepair>? informrepairs;
-  List<InformRepairDetails>? informRepairDetails;
 
   bool? isDataLoaded = false;
   String formattedDate = '';
   DateTime informdate = DateTime.now();
 
-  void fetchlistAllInformRepairDetails() async {
-    informRepairDetails =
-        await informRepairDetailsController.getAllInformRepairDetails();
-    print({informRepairDetails?[0].informdetails_id});
-    setState(() {
-      isDataLoaded = true;
-    });
-  }
+  // void fetchlistAllInformRepairDetails() async {
+  //   informRepairDetails =
+  //       await informRepairDetailsController.getAllInformRepairDetails();
+  //   print({informRepairDetails?[0].informdetails_id});
+  //   setState(() {
+  //     isDataLoaded = true;
+  //   });
+  // }
 
-  void getListInformRepairDetails() async {
-    informRepairDetails =
-        await informRepairDetailsController.getListInformRepairDetails();
-    print({informRepairDetails?[0].details});
-    setState(() {
-      isDataLoaded = true;
-    });
-  }
+  // void getListInformRepairDetails() async {
+  //   informRepairDetails =
+  //       await informRepairDetailsController.getListInformRepairDetails();
+  //   print({informRepairDetails?[0].details});
+  //   setState(() {
+  //     isDataLoaded = true;
+  //   });
+  // }
 
   void getInform(int informrepair_id) async {
     informRepair = await informController.getInform(informrepair_id);
+    print("rooms : ${informRepair?.equipment!.room}");
     print("getInform : ${informRepair?.informrepair_id}");
     setState(() {
       isDataLoaded = true;
     });
   }
 
-  void ViewListInformDetails(int informrepair_id) async {
-    informRepairDetails =
-        await informRepairDetailsController.ViewListInformDetails(
-            informrepair_id);
-    print(
-        "ViewListInformDetails : ${informRepairDetails?[0].roomEquipment?.equipment?.equipment_id}");
-    setState(() {
-      isDataLoaded = true;
-    });
-  }
+  // void ViewListInformDetails(int informrepair_id) async {
+  //   informRepairDetails =
+  //       await informRepairDetailsController.ViewListInformDetails(
+  //           informrepair_id);
+  //   print(
+  //       "ViewListInformDetails : ${informRepairDetails?[0].roomEquipment?.equipment?.equipment_id}");
+  //   setState(() {
+  //     isDataLoaded = true;
+  //   });
+  // }
 
   List<String>? pictures = [];
 
-  void findpicturesByIdByinformrepair_id(String informrepair_id) async {
-    pictures = await informRepairDetailsController
-        .findpicturesByIdByinformrepair_id(informrepair_id);
-    print(" pictures : ${pictures}");
-    setState(() {
-      isDataLoaded = true;
-    });
-  }
+  // void findpicturesByIdByinformrepair_id(String informrepair_id) async {
+  //   pictures = await informRepairDetailsController
+  //       .findpicturesByIdByinformrepair_id(informrepair_id);
+  //   print(" pictures : ${pictures}");
+  //   setState(() {
+  //     isDataLoaded = true;
+  //   });
+  // }
 
   List<String> equipmentIds = [];
   String? selectedRoomId;
@@ -108,31 +103,29 @@ class _ViewResultState extends State<View_NewItem> {
     });
   }
 
-  List<InformRepairDetails> informDetails = [];
-
-  Future getInformDetails(int informrepair_id) async {
-    List<InformRepairDetails> result = await informRepairDetailsController
-        .getInformDetailsById(informrepair_id);
-    for (int i = 0; i < result.length; i++) {
-      informDetails.add(result[i]);
-    }
-    // print("------ส่ง ${informDetails?[0].amount}--------");
-    setState(() {
-      isDataLoaded = true;
-    });
-  }
+  // Future getInformDetails(int informrepair_id) async {
+  //   List<InformRepairDetails> result = await informRepairDetailsController
+  //       .getInformDetailsById(informrepair_id);
+  //   for (int i = 0; i < result.length; i++) {
+  //     informDetails.add(result[i]);
+  //   }
+  //   // print("------ส่ง ${informDetails?[0].amount}--------");
+  //   setState(() {
+  //     isDataLoaded = true;
+  //   });
+  // }
 
   @override
   void initState() {
     super.initState();
-    fetchlistAllInformRepairDetails();
+    // fetchlistAllInformRepairDetails();
     if (widget.informrepair_id != null) {
       getInform(widget.informrepair_id!);
     }
-    getListInformRepairDetails();
-    getInformDetails(widget.informrepair_id!);
-    ViewListInformDetails(widget.informrepair_id!);
-    findpicturesByIdByinformrepair_id(widget.informrepair_id.toString());
+    // getListInformRepairDetails();
+    // getInformDetails(widget.informrepair_id!);
+    // ViewListInformDetails(widget.informrepair_id!);
+    // findpicturesByIdByinformrepair_id(widget.informrepair_id.toString());
     print(" pictures : ${pictures}");
     List<String> equipmentIds = ["1001", "1002"];
   }
@@ -305,7 +298,7 @@ class _ViewResultState extends State<View_NewItem> {
                                     ),
                                     TextSpan(
                                       text:
-                                          '${informDetails != null && informDetails.isNotEmpty ? informDetails[0].informRepair?.informrepair_id ?? 'N/A' : 'N/A'}',
+                                          '${informRepair != null ? informRepair?.informrepair_id ?? 'N/A' : 'N/A'}',
                                       style: GoogleFonts.prompt(
                                         textStyle: TextStyle(
                                           color: Color.fromARGB(255, 0, 0, 0),
@@ -354,7 +347,7 @@ class _ViewResultState extends State<View_NewItem> {
                                     ),
                                     TextSpan(
                                       text:
-                                          '${informDetails != null && informDetails.isNotEmpty ? informDetails[0].informRepair?.formattedInformDate() ?? 'N/A' : 'N/A'}',
+                                          '${informRepair != null ? informRepair!.formattedInformDate() ?? 'N/A' : 'N/A'}',
                                       style: GoogleFonts.prompt(
                                         textStyle: TextStyle(
                                           color: Color.fromARGB(255, 0, 0, 0),
@@ -403,7 +396,7 @@ class _ViewResultState extends State<View_NewItem> {
                                     ),
                                     TextSpan(
                                       text:
-                                          '${informDetails != null && informDetails.isNotEmpty ? informDetails[0].roomEquipment?.room?.roomname ?? 'N/A' : 'N/A'}',
+                                          '${informRepair != null ? informRepair!.equipment!.room!.roomname ?? 'N/A' : 'N/A'}',
                                       style: GoogleFonts.prompt(
                                         textStyle: TextStyle(
                                           color: Color.fromARGB(255, 0, 0, 0),
@@ -452,7 +445,7 @@ class _ViewResultState extends State<View_NewItem> {
                                     ),
                                     TextSpan(
                                       text:
-                                          '${informDetails != null && informDetails.isNotEmpty ? informDetails[0].roomEquipment?.room?.building?.buildingname ?? 'N/A' : 'N/A'}',
+                                          '${informRepair != null ? informRepair?.equipment!.room!.building!.buildingname ?? 'N/A' : 'N/A'}',
                                       style: GoogleFonts.prompt(
                                         textStyle: TextStyle(
                                           color: Color.fromARGB(255, 0, 0, 0),
@@ -501,7 +494,7 @@ class _ViewResultState extends State<View_NewItem> {
                                     ),
                                     TextSpan(
                                       text:
-                                          '${informDetails != null && informDetails.isNotEmpty ? informDetails[0].roomEquipment?.room?.floor ?? 'N/A' : 'N/A'}',
+                                          '${informRepair != null ? informRepair!.equipment!.room!.floor ?? 'N/A' : 'N/A'}',
                                       style: GoogleFonts.prompt(
                                         textStyle: TextStyle(
                                           color: Color.fromARGB(255, 0, 0, 0),
@@ -550,7 +543,7 @@ class _ViewResultState extends State<View_NewItem> {
                                     ),
                                     TextSpan(
                                       text:
-                                          '${informDetails != null && informDetails.isNotEmpty ? informDetails[0].roomEquipment?.room?.position ?? 'N/A' : 'N/A'}',
+                                          '${informRepair != null ? informRepair!.equipment!.room!.position ?? 'N/A' : 'N/A'}',
                                       style: GoogleFonts.prompt(
                                         textStyle: TextStyle(
                                           color: Color.fromARGB(255, 0, 0, 0),
@@ -642,7 +635,7 @@ class _ViewResultState extends State<View_NewItem> {
                   ListView.builder(
                     shrinkWrap:
                         true, // ตั้งค่า shrinkWrap เป็น true เพื่อให้ ListView ย่อเข้าตัวเมื่อมีเนื้อหาน้อย
-                    itemCount: informDetails.length,
+                    itemCount: informRepair!.informrepair_id,
                     itemBuilder: (context, index) {
                       int displayIndex = index + 1;
                       return Card(
@@ -681,7 +674,7 @@ class _ViewResultState extends State<View_NewItem> {
                                   ),
                                   Expanded(
                                     child: Text(
-                                      "${informDetails?[index].roomEquipment?.equipment?.equipmentname}",
+                                      "${informRepair?.equipment!.equipmentname}",
                                       style: GoogleFonts.prompt(
                                         textStyle: TextStyle(
                                           color: Color.fromARGB(255, 0, 0, 0),
@@ -705,7 +698,7 @@ class _ViewResultState extends State<View_NewItem> {
                                   ),
                                   Expanded(
                                     child: Text(
-                                      "${informDetails?[index].details}",
+                                      "${informRepair?.details}",
                                       style: GoogleFonts.prompt(
                                         textStyle: TextStyle(
                                           color: Color.fromARGB(255, 0, 0, 0),
@@ -721,7 +714,7 @@ class _ViewResultState extends State<View_NewItem> {
                                     height: 200,
                                     child: Image.network(
                                       baseURL +
-                                          '/informrepairdetails/image/${informDetails?[index].pictures}',
+                                          '/informrepairdetails/image/${informRepair?.pictures}',
                                       fit: BoxFit.cover,
                                     ),
                                   ),

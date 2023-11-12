@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutterr/controller/informrepairdetails_controller.dart';
-import 'package:flutterr/model/InformRepairDetails_Model.dart';
 import 'package:flutterr/screen/User/ListInformRepair/View_NewItem.dart';
 import '../../../Model/Report_Model.dart';
 import '../../../controller/informrepair_controller.dart';
@@ -24,7 +22,7 @@ class NewInform extends State<listNewItem> {
   String formattedDate = '';
   String formattedInformDate = '';
   String searchQuery = '';
-  List<InformRepair>? informRepairList;
+  List<InformRepair>? informRepairList = [];
   int? informDetailsID;
 
   final InformRepairController informrepairController =
@@ -32,30 +30,48 @@ class NewInform extends State<listNewItem> {
   final InformRepairController informRepairController =
       InformRepairController();
 
-  InformRepairDetailsController informRepairDetailsController =
-      InformRepairDetailsController();
-  List<InformRepairDetails>? informRepairDetails;
-
-  void listAllInformRepairDetails() async {
-    // เรียกใช้งาน listAllInformRepairDetails และรอข้อมูลเสร็จสมบูรณ์
-    informRepairDetails =
-        (await informRepairDetailsController.listAllInformRepairDetails())
-            .cast<InformRepairDetails>();
-    // อัปเดตสถานะแสดงว่าข้อมูลถูกโหลดแล้ว
-    setState(() {
-      isDataLoaded = true;
-    });
-  }
+  // void listAllInformRepairDetails() async {
+  //   // เรียกใช้งาน listAllInformRepairDetails และรอข้อมูลเสร็จสมบูรณ์
+  //   informRepairDetails =
+  //       (await informRepairDetailsController.listAllInformRepairDetails())
+  //           .cast<InformRepairDetails>();
+  //   // อัปเดตสถานะแสดงว่าข้อมูลถูกโหลดแล้ว
+  //   setState(() {
+  //     isDataLoaded = true;
+  //   });
+  // }
 
   List<String>? DetailID = [];
 
+  // void listAllInformRepair() async {
+  //   informRepairList = await informrepairController.listAllInformRepairs();
+  //   for (int i = 0; i < informRepairList!.length; i++) {
+  //     DetailID?.add(await informrepairController
+  //         .findInformDetailIDById(informRepairList![i].informrepair_id ?? 0));
+  //     print("-------informDetailsID-----${DetailID?[i]}-------------");
+  //   }
+  //   setState(() {
+  //     isDataLoaded = true;
+  //   });
+  // }
+
   void listAllInformRepair() async {
     informRepairList = await informrepairController.listAllInformRepairs();
-    for (int i = 0; i < informRepairList!.length; i++) {
-      DetailID?.add(await informrepairController
-          .findInformDetailIDById(informRepairList![i].informrepair_id ?? 0));
-      print("-------informDetailsID-----${DetailID?[i]}-------------");
-    }
+    print({informRepairList?[0].equipment});
+
+    informRepairList?.sort((a, b) {
+      DateTime? dateA = a.informdate;
+      DateTime? dateB = b.informdate;
+
+      if (dateA == null && dateB == null) {
+        return 0;
+      } else if (dateA == null) {
+        return 1;
+      } else if (dateB == null) {
+        return -1;
+      }
+      return dateB.compareTo(dateA); // คืนค่าลบถ้า B มากกว่า A
+    });
     setState(() {
       isDataLoaded = true;
     });
@@ -65,7 +81,7 @@ class NewInform extends State<listNewItem> {
   void initState() {
     super.initState();
     listAllInformRepair();
-    listAllInformRepairDetails();
+    // listAllInformRepairDetails();
     print("user-------New-----------${widget.user}");
 
     informrepairs?.sort((a, b) {
@@ -201,6 +217,48 @@ class NewInform extends State<listNewItem> {
                                         )),
                                   ),
                                 ]),
+                                Row(children: [
+                                  Expanded(
+                                    child: Text("ประเภทการแจ้งซ่อม ",
+                                        style: GoogleFonts.prompt(
+                                          textStyle: TextStyle(
+                                            color: Color.fromRGBO(0, 0, 0, 1),
+                                            fontSize: 20,
+                                          ),
+                                        )),
+                                  ),
+                                  Expanded(
+                                    child: Text(
+                                        "${informRepairList?[index].informtype}",
+                                        style: GoogleFonts.prompt(
+                                          textStyle: TextStyle(
+                                            color: Color.fromRGBO(0, 0, 0, 1),
+                                            fontSize: 20,
+                                          ),
+                                        )),
+                                  ),
+                                ]),
+                                // Row(children: [
+                                //   Expanded(
+                                //     child: Text("ประเภทการแจ้ง ",
+                                //         style: GoogleFonts.prompt(
+                                //           textStyle: TextStyle(
+                                //             color: Color.fromRGBO(0, 0, 0, 1),
+                                //             fontSize: 20,
+                                //           ),
+                                //         )),
+                                //   ),
+                                //   Expanded(
+                                //     child: Text(
+                                //         "${informRepairList?[index].informtype}",
+                                //         style: GoogleFonts.prompt(
+                                //           textStyle: TextStyle(
+                                //             color: Color.fromRGBO(0, 0, 0, 1),
+                                //             fontSize: 20,
+                                //           ),
+                                //         )),
+                                //   ),
+                                // ]),
                               ],
                             ),
                             leading: informRepairList?[index].status ==

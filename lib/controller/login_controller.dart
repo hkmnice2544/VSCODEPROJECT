@@ -24,7 +24,7 @@ class LoginController {
     var url = Uri.parse(baseURL + '/loginController/get/$user_id');
 
     http.Response response = await http.post(url, headers: headers, body: null);
-    print("ข้อมูลที่ได้คือ : " + response.body);
+    // print("ข้อมูลที่ได้คือ : " + response.body);
 
     Map<String, dynamic> jsonMap = json.decode(response.body);
     User? user = User.fromJsonToUser(jsonMap);
