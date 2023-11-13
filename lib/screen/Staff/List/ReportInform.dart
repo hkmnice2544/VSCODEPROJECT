@@ -174,7 +174,6 @@ class _ReportInformState extends State<ReportInform> {
     reportRepair = await reportController.getReportRepair(report_id);
     print("getInform : ${reportRepair?.report_id}");
     setState(() {
-      detailsTextController.text = reportRepair!.details.toString();
       isDataLoaded = true;
     });
   }

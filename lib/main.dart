@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutterr/screen/Home.dart';
 import 'package:flutterr/screen/HomeStaff.dart';
 import 'package:flutterr/screen/Login.dart';
+import 'package:flutterr/screen/Staff/List/EditReportform.dart';
 import 'package:flutterr/screen/Staff/List/ListManage.dart';
 import 'package:flutterr/screen/Staff/Summary/Sammary.dart';
 import 'package:flutterr/screen/User/InformRepairToilet/AddInformRepair.dart';
@@ -35,7 +36,12 @@ class MainApp extends StatelessWidget {
       //home: ResultInformRepair(user: 1001, informrepair_id: 10007),
       // home: Login(),
       //home: EditInformRepairs(user: 1001, informrepair_id: 10004),
-      home: NewEditInformRepair(user: 1001, informrepair_id: 10004),
+      // home: NewEditInformRepair(user: 1001, informrepair_id: 10004),
+      home: EditReportInform(
+          informrepair_id: 10001,
+          room_id: 1108,
+          equipment_id: 1005,
+          user: 1001),
       // home: AddInformRepair(user: 1001),
       // home: Summary(user: 1001),
       // home: const MyHomePage(title: 'Flutter Demo Home Page'),

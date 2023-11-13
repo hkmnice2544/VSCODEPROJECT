@@ -52,6 +52,7 @@ class _ReportInformState extends State<EditReportInform> {
 
   InformRepair? informRepair;
   List<ReportRepair>? reports;
+  List<Report_pictures>? reportPictures = [];
 
   bool? isDataLoaded = false;
   String formattedDate = '';
@@ -82,40 +83,16 @@ class _ReportInformState extends State<EditReportInform> {
 
   List<File> _selectedImages = [];
 
-  Future<void> _selectImages() async {
-    final List<XFile>? selectedImages = await imagePicker.pickMultiImage();
-    if (selectedImages != null && selectedImages.isNotEmpty) {
-      selectedImageCount += selectedImages.length;
-      imageFileList.addAll(selectedImages);
-      // เพิ่มรูปภาพที่เลือกเข้า _selectedImages
-      _selectedImages.addAll(selectedImages.map((image) => File(image.path)));
-    }
-    setState(() {});
-  }
+  File? image;
 
-  Future<void> _uploadImages() async {
-    if (_selectedImages.isNotEmpty) {
-      final uri = Uri.parse(baseURL + '/report_pictures/uploadMultiple');
-      final request = http.MultipartRequest('POST', uri);
-
-      for (final image in _selectedImages) {
-        final file = await http.MultipartFile.fromPath(
-          'files',
-          image.path,
-          filename: image.path.split('/').last,
-        );
-        request.files.add(file);
-      }
-
-      final response = await request.send();
-
-      if (response.statusCode == 200) {
-        print('รูปภาพถูกอัพโหลดและข้อมูลถูกบันทึกเรียบร้อย');
-        // เพิ่มโค้ดหลังการอัพโหลดสำเร็จ
-      } else {
-        print('เกิดข้อผิดพลาดในการอัพโหลดและบันทึกไฟล์');
-        // เพิ่มโค้ดหลังการอัพโหลดไม่สำเร็จ
-      }
+  void addReportPictures() async {
+    final XFile? selectedImages =
+        await imagePicker.pickImage(source: ImageSource.gallery);
+    if (selectedImages != null) {
+      image = File(selectedImages.path);
+      var response = await report_picturesController.addReportPicture(
+          image, reports?[0].report_id.toString() ?? "");
+      updateReportPictures();
     }
   }
 
@@ -137,11 +114,24 @@ class _ReportInformState extends State<EditReportInform> {
   }
 
   void listAllReportRepairs() async {
-    reports = await reportController.listAllReportRepairs();
+    reports =
+        await reportController.ViewListInformDetails(widget.informrepair_id);
+    print("length of reports : ${reports?.length}");
     print({reports?[0].report_id});
     print("getreports ปัจจุบัน : ${reports?[reports!.length - 1].report_id}");
     print(
         "getreports +1 : ${(reports?[reports!.length - 1].report_id ?? 0) + 1}");
+
+    reports?.forEach((element) async {
+      print("elem id : ${element.report_id}");
+      List<Report_pictures> tempRp = await report_picturesController
+          .getListReport_pictures(element.report_id ?? 0);
+      reportPictures?.addAll(tempRp);
+      print("length of reportspics : ${reportPictures?.length}");
+      setState(() {});
+    });
+
+    detailsTextController.text = reports?[0].details ?? "";
 
     setState(() {
       isDataLoaded = true;
@@ -164,54 +154,6 @@ class _ReportInformState extends State<EditReportInform> {
     print("room_id${widget.room_id}");
     print("equipment_id${widget.equipment_id}");
   }
-
-  // void _pickImage() {
-  //   final input = FileUploadInputElement();
-  //   input.accept = 'image/*';
-  //   input.multiple = true; // อนุญาตให้เลือกไฟล์หลายไฟล์พร้อมกัน
-  //   input.click();
-
-  //   input.onChange.listen((event) {
-  //     final files = input.files;
-  //     if (files != null && files.isNotEmpty) {
-  //       int remainingSlots = 5 - imageBytesList.length;
-  //       if (remainingSlots > 0) {
-  //         final selectedFiles =
-  //             files.sublist(0, min(files.length, remainingSlots));
-
-  //         for (final file in selectedFiles) {
-  //           final reader = FileReader();
-
-  //           reader.onLoadEnd.listen((e) {
-  //             final bytes = reader.result as Uint8List;
-  //             setState(() {
-  //               imageBytesList.add(bytes);
-  //               imageNames.add(file.name);
-  //             });
-  //           });
-
-  //           reader.readAsArrayBuffer(file);
-  //         }
-  //       } else {
-  //         showDialog(
-  //           context: context,
-  //           builder: (context) => AlertDialog(
-  //             title: Text('เกิดข้อผิดพลาด'),
-  //             content: Text('คุณสามารถเลือกรูปภาพได้ไม่เกิน 5 รูปเท่านั้น'),
-  //             actions: [
-  //               TextButton(
-  //                 onPressed: () {
-  //                   Navigator.pop(context);
-  //                 },
-  //                 child: Text('ตกลง'),
-  //               ),
-  //             ],
-  //           ),
-  //         );
-  //       }
-  //     }
-  //   });
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -310,7 +252,7 @@ class _ReportInformState extends State<EditReportInform> {
           child: Column(children: [
             Center(
               child: Text(
-                "แก้ไขรายงานผลการแจ้งซ่อม",
+                "รายงานผลการแจ้งซ่อม",
                 style: GoogleFonts.prompt(
                   textStyle: TextStyle(
                     color: Color.fromARGB(255, 7, 94, 53),
@@ -577,13 +519,13 @@ class _ReportInformState extends State<EditReportInform> {
                         ),
                       ),
                       onPressed: () {
-                        _selectImages();
-                        _uploadImages();
+                        addReportPictures();
                         print('imageFileNames----${imageFileNames}');
                       }),
                 ),
               ],
             ),
+            ...multipleImages(),
             GridView.builder(
               shrinkWrap: true,
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
@@ -707,83 +649,50 @@ class _ReportInformState extends State<EditReportInform> {
               ),
               onPressed: () async {
                 if (_formKey.currentState!.validate()) {
-                  if (imageFileNames.isEmpty) {
-                    // Show an AlertDialog to inform the user to select an image
-                    showDialog(
-                      context: context,
-                      builder: (context) {
-                        return AlertDialog(
-                          title: Text('แจ้งเตือน'),
-                          content: Text('กรุณาเลือกรูปภาพ'),
-                          actions: <Widget>[
-                            TextButton(
-                              child: Text('ปิด'),
-                              onPressed: () {
-                                Navigator.of(context)
-                                    .pop(); // Close the AlertDialog
-                              },
-                            ),
-                          ],
-                        );
-                      },
-                    );
-                  } else {
-                    await _uploadImages();
-                    var response = await reportController.addReport(
+                  //await _uploadImages();
+                  var response = await reportController.updateReport(
                       _dropdownrepairer.toString(),
                       detailsTextController.text,
                       _dropdownstatus.toString(),
                       widget.informrepair_id.toString(),
-                    );
-                    final List<Map<String, dynamic>> data = [];
+                      reports?[0].report_id.toString() ?? "");
+                  final List<Map<String, dynamic>> data = [];
 
-                    for (final imageName in imageFileNames) {
-                      if (!data
-                          .any((item) => item["pictureUrl"] == imageName)) {
-                        data.add({
-                          "pictureUrl": imageName,
-                          "reportrepair": {
-                            "report_id":
-                                ((reports?[reports!.length - 1].report_id ??
-                                        0) +
-                                    1),
-                          },
-                        });
-                      }
+                  for (final imageName in imageFileNames) {
+                    if (!data.any((item) => item["pictureUrl"] == imageName)) {
+                      data.add({
+                        "pictureUrl": imageName,
+                        "reportrepair": {
+                          "report_id":
+                              ((reports?[reports!.length - 1].report_id ?? 0) +
+                                  1),
+                        },
+                      });
                     }
-
-                    final List<Report_pictures> savedInformPictures =
-                        await Report_PicturesController.saveReport_pictures(
-                            data);
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => ReportInform(
-                          informrepair_id: widget.informrepair_id,
-                          room_id: widget.room_id,
-                          report_id: 0,
-                          equipment_id: widget.equipment_id,
-                          user: widget.user ?? 0,
-                        ),
-                      ),
-                    );
                   }
+
+                  List<Report_pictures> savedInformPictures =
+                      await Report_PicturesController.saveReport_pictures(data);
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) {
+                      return ListManage(user: widget.user);
+                    }),
+                  );
                 }
               },
             ),
           ),
           SizedBox(width: 10), // ระยะห่างระหว่างปุ่ม
-
           Container(
             width: 120, // Set the width of the button here
             child: FloatingActionButton.extended(
               label: Text(
-                "ยกเลิก",
+                "แก้ไข",
                 style: GoogleFonts.prompt(
                   textStyle: TextStyle(
                     color: Color.fromARGB(255, 255, 255, 255),
-                    fontWeight: FontWeight.w400,
-                    decoration: TextDecoration.none,
+                    fontSize: 14,
                   ),
                 ),
               ),
@@ -791,21 +700,87 @@ class _ReportInformState extends State<EditReportInform> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => ReportInform(
+                    builder: (context) => EditReportInform(
                       informrepair_id: widget.informrepair_id,
                       room_id: widget.room_id,
-                      report_id: 0,
                       equipment_id: widget.equipment_id,
                       user: widget.user ?? 0,
                     ),
                   ),
                 );
+
+                // Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => EditInformRepairs(informrerair_id: informrepairs?[index].informrepair_id)));
+
+                // Navigator.pushNamed(context, '/one');
               },
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(10.0),
+            child: Container(
+              width: 120, // Set the width of the button here
+              child: FloatingActionButton.extended(
+                label: Text(
+                  "ยกเลิก",
+                  style: GoogleFonts.prompt(
+                    textStyle: TextStyle(
+                      color: Color.fromARGB(255, 255, 255, 255),
+                      fontWeight: FontWeight.w400,
+                      decoration: TextDecoration.none,
+                    ),
+                  ),
+                ),
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) {
+                      return ListManage(user: widget.user);
+                    }),
+                  );
+                },
+              ),
             ),
           ),
         ],
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     ));
+  }
+
+  void updateReportPictures() async {
+    reportPictures = [];
+    reports?.forEach((element) async {
+      print("elem id : ${element.report_id}");
+      List<Report_pictures> tempRp = await report_picturesController
+          .getListReport_pictures(element.report_id ?? 0);
+      reportPictures?.addAll(tempRp);
+      print("length of reportspics : ${reportPictures?.length}");
+    });
+    await Future.delayed(Duration(seconds: 1));
+    setState(() {});
+  }
+
+  List<Widget> multipleImages() {
+    List<Widget> widgets = [];
+    print("LENGTH : ${reportPictures!.length}");
+    for (int i = 0; i < reportPictures!.length; i++) {
+      widgets.add(Stack(
+        children: [
+          Image.network(
+              baseURL + '/report_pictures/${reportPictures?[i].picture_url}'),
+          Align(
+              alignment: Alignment.topRight,
+              child: ElevatedButton(
+                  onPressed: () async {
+                    var response =
+                        await report_picturesController.deleteReportPicture(
+                            reportPictures?[i].reportpictures_id ?? 0);
+                    updateReportPictures();
+                  },
+                  child: Text('X')))
+        ],
+      ));
+    }
+    return widgets;
   }
 }

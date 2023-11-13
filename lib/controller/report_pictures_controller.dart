@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:flutterr/constant/constant_value.dart';
 import 'package:flutterr/model/Report_pictures_Model.dart';
@@ -57,5 +58,53 @@ class Report_PicturesController {
     http.Response response = await http.post(url, headers: headers, body: null);
     print("ข้อมูลที่ได้คือ findNamePicturesById : " + response.body);
     return response.body == "" ? "0" : response.body;
+  }
+
+  Future deleteReportPicture(int reportpictures_id) async {
+    var url = Uri.parse(
+        baseURL + '/report_pictures/delete/' + reportpictures_id.toString());
+
+    http.Response response = await http.get(url);
+    return response;
+  }
+
+  Future upload(File file) async {
+    if (file == null) return;
+
+    var uri = Uri.parse(baseURL + "/report_pictures/uploadimg");
+    var length = await file.length();
+    //print(length);
+    http.MultipartRequest request = new http.MultipartRequest('POST', uri)
+      ..headers.addAll(headers)
+      ..files.add(
+        // replace file with your field name exampe: image
+        http.MultipartFile('image', file.openRead(), length,
+            filename: 'test.png'),
+      );
+    var response = await http.Response.fromStream(await request.send());
+    //var jsonResponse = jsonDecode(response.body);
+    return response.body;
+  }
+
+  Future addReportPicture(File? image, String report_id) async {
+    var path;
+    if (image != null) {
+      path = await upload(image);
+    }
+
+    Map data = {
+      "picture_url": path.toString(),
+      "report_id": report_id,
+    };
+
+    print(path);
+
+    var body = json.encode(data);
+    var url = Uri.parse(baseURL + '/report_pictures/addreppic');
+
+    http.Response response = await http.post(url, headers: headers, body: body);
+    //print(response.statusCode);
+    //var jsonResponse = jsonDecode(response.body);
+    return response;
   }
 }

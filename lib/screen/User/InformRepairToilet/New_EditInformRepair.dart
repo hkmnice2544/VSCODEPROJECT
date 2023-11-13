@@ -35,6 +35,7 @@ String? selectedRoom;
 List<Building>? buildings;
 InformRepair? informRepair;
 List<Equipment>? equipments;
+String? pictures;
 Room? room;
 
 bool? isLoaded = false;
@@ -62,6 +63,8 @@ class _NewEditInformRepairState extends State<NewEditInformRepair> {
 
     equipments = await equipmentController
         .findEquipmentsByRoomId(informRepair?.equipment?.room?.room_id ?? 0);
+
+    pictures = informRepair?.pictures;
 
     for (int i = 0; i < equipments!.length; i++) {
       if (equipments?[i].equipment_id.toString() ==
@@ -96,22 +99,6 @@ class _NewEditInformRepairState extends State<NewEditInformRepair> {
   ImagePicker imagePicker = ImagePicker();
   List<String> imageFileNames = [];
   int selectedImageCount = 0;
-  void _addImageForEquipment(String equipmentId) async {
-    final List<XFile>? selectedImages = await imagePicker.pickMultiImage();
-    if (selectedImages != null && selectedImages.isNotEmpty) {
-      if (equipmentImages.containsKey(equipmentId)) {
-        selectedImageCount += selectedImages.length;
-        equipmentImages[equipmentId]!.addAll(selectedImages);
-        _selectedImages.addAll(selectedImages.map((image) => File(image.path)));
-      } else {
-        equipmentImages[equipmentId] = selectedImages;
-        _selectedImages.addAll(selectedImages.map((image) => File(image.path)));
-      }
-
-      await _uploadImages(); // เรียก _uploadImages ทันทีหลังจากเลือกรูปภาพ
-      setState(() {});
-    }
-  }
 
   Future<void> _uploadImages() async {
     if (_selectedImages.isNotEmpty) {
@@ -446,7 +433,7 @@ class _NewEditInformRepairState extends State<NewEditInformRepair> {
               child: Center(
                 child: Column(children: [
                   Text(
-                    "แจ้งซ่อมห้องน้ำ",
+                    "แก้ไขการแจ้งซ่อม",
                     style: GoogleFonts.prompt(
                       textStyle: TextStyle(
                         color: Color.fromRGBO(7, 94, 53, 1),
@@ -672,7 +659,16 @@ class _NewEditInformRepairState extends State<NewEditInformRepair> {
                           ),
                           ...buildings!.map((Building building) {
                             return DropdownMenuItem<String>(
-                              child: Text(building.buildingname ?? ''),
+                              child: Text(
+                                building.buildingname ?? '',
+                                style: GoogleFonts.prompt(
+                                  textStyle: TextStyle(
+                                    color: Color.fromARGB(255, 255, 255, 255),
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ),
                               value: building.building_id.toString(),
                             );
                           }).toList(),
@@ -925,7 +921,8 @@ class _NewEditInformRepairState extends State<NewEditInformRepair> {
                         informRepair!.pictures ?? "",
                         widget.user ?? 0,
                         equipmentId ?? 0,
-                        informRepair!.informrepair_id ?? 0);
+                        informRepair!.informrepair_id ?? 0,
+                        image);
 
                     Navigator.pushReplacement(
                       context,
@@ -954,7 +951,9 @@ class _NewEditInformRepairState extends State<NewEditInformRepair> {
               ),
               onPressed: () async {
                 Navigator.push(context, MaterialPageRoute(builder: (context) {
-                  return Home(user: widget.user);
+                  return ResultInformRepair(
+                      informrepair_id: widget.informrepair_id,
+                      user: widget.user);
                 }));
               },
             ),
@@ -981,6 +980,17 @@ class _NewEditInformRepairState extends State<NewEditInformRepair> {
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
   int _selectedIndex = -1; // Variable to store the selected index
+
+  File? image;
+
+  void _addImageForEquipment() async {
+    final XFile? selectedImages =
+        await imagePicker.pickImage(source: ImageSource.gallery);
+    if (selectedImages != null) {
+      image = File(selectedImages.path);
+      setState(() {});
+    }
+  }
 
   List<Widget> buildEquipmentWidgets() {
     List<Widget> widgets = [];
@@ -1151,6 +1161,37 @@ class _NewEditInformRepairState extends State<NewEditInformRepair> {
                   ],
                 ),
               ),
+              Stack(
+                children: [
+                  pictures != ""
+                      ? Image.network(baseURL + '/informrepairs/${pictures}')
+                      : pictures == "" && image != null
+                          ? Image.file(image!)
+                          : Container(),
+                  pictures != "" || image != null
+                      ? Align(
+                          alignment: Alignment.topRight,
+                          child: ElevatedButton(
+                              onPressed: () {
+                                if (pictures != "") {
+                                  pictures = "";
+                                } else if (image != null) {
+                                  image = null;
+                                }
+                                setState(() {});
+                              },
+                              child: Text('X')))
+                      : Container(),
+                ],
+              ),
+              pictures == "" && image == null
+                  ? ElevatedButton(
+                      onPressed: () {
+                        _addImageForEquipment();
+                      },
+                      child: Text('เพิ่มรูป'))
+                  : Container(),
+
               // ElevatedButton(
               //   onPressed: () {
               //     // เรียกฟังก์ชันเพิ่มรูป

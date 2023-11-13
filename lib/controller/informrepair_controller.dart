@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:flutterr/model/Building_Model.dart';
 import 'package:flutterr/model/Room_Model.dart';
@@ -40,6 +41,24 @@ class InformRepairController {
     // print("addInformRepair: ${informRepair!.informdate}");
   }
 
+  Future upload(File file) async {
+    if (file == null) return;
+
+    var uri = Uri.parse(baseURL + "/informrepairs/uploadimg");
+    var length = await file.length();
+    //print(length);
+    http.MultipartRequest request = new http.MultipartRequest('POST', uri)
+      ..headers.addAll(headers)
+      ..files.add(
+        // replace file with your field name exampe: image
+        http.MultipartFile('image', file.openRead(), length,
+            filename: 'test.png'),
+      );
+    var response = await http.Response.fromStream(await request.send());
+    //var jsonResponse = jsonDecode(response.body);
+    return response.body;
+  }
+
   Future updateInformRepair(
       String informtype,
       String status,
@@ -48,7 +67,15 @@ class InformRepairController {
       String pictures,
       int user_id,
       int equipment_id,
-      int informrepair_id) async {
+      int informrepair_id,
+      File? file) async {
+    if (file != null) {
+      var newFilePath = await upload(file);
+
+      pictures = newFilePath.toString();
+      print("NEW FILE IS " + newFilePath.toString());
+    }
+
     Map data = {
       "informtype": informtype,
       "status": status,

@@ -423,12 +423,12 @@ class _AddInformRepairState extends State<AddInformRepair> {
                       ),
                     ),
                   ),
-                  Image.asset(
-                    'images/InformRepairToilet.png',
-                    fit: BoxFit.cover,
-                    width: 220,
-                    alignment: Alignment.center,
-                  ),
+                  // Image.asset(
+                  //   'images/InformRepairToilet.png',
+                  //   fit: BoxFit.cover,
+                  //   width: 220,
+                  //   alignment: Alignment.center,
+                  // ),
                   Padding(
                     padding: const EdgeInsets.all(15.0),
                     child: Container(
@@ -1125,32 +1125,8 @@ class _AddInformRepairState extends State<AddInformRepair> {
                 padding: const EdgeInsets.all(8.0),
                 child: Row(
                   children: [
-                    Expanded(
-                      child: TextFormField(
-                        controller: detailscontrollers[0],
-                        decoration: const InputDecoration(
-                          hintText: 'กรุณากรอกรายละเอียด',
-                          border: InputBorder.none,
-                          filled: true,
-                          fillColor: Colors.white,
-                        ),
-                        onChanged: (value) {
-                          setState(() {
-                            detailscontrollers[0].text = value;
-                          });
-                          print(detailscontrollers[0].text);
-                        },
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Row(
-                  children: [
                     Container(
-                      width: 200,
+                      width: 150,
                       child: TextFormField(
                         controller: amountcontrollers[0],
                         decoration: const InputDecoration(
@@ -1164,6 +1140,42 @@ class _AddInformRepairState extends State<AddInformRepair> {
                             amountcontrollers[0].text = value;
                           });
                           print(amountcontrollers[0].text);
+                        },
+                      ),
+                    ),
+                    Container(
+                        child: Text(
+                      "  รายการ",
+                      style: GoogleFonts.prompt(
+                        textStyle: TextStyle(
+                          color: Color.fromARGB(255, 0, 0, 0),
+                          fontSize: 14,
+                        ),
+                      ),
+                    )),
+                  ],
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: TextFormField(
+                        controller: detailscontrollers[0],
+                        decoration: const InputDecoration(
+                          hintText: 'ระบุสาเหตุการชำรุด',
+                          border: InputBorder.none,
+                          filled: true,
+                          contentPadding: EdgeInsets.symmetric(
+                              vertical: 50, horizontal: 10),
+                          fillColor: Colors.white,
+                        ),
+                        onChanged: (value) {
+                          setState(() {
+                            detailscontrollers[0].text = value;
+                          });
+                          print(detailscontrollers[0].text);
                         },
                       ),
                     ),

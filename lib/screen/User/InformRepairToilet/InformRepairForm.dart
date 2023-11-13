@@ -1391,7 +1391,7 @@ class Form extends State<InformRepairForm> {
                       child: TextFormField(
                         controller: detailscontrollers[0],
                         decoration: const InputDecoration(
-                          hintText: 'กรุณากรอกรายละเอียด',
+                          hintText: 'ระบุสาเหตุการชำรุด',
                           border: InputBorder.none,
                           filled: true,
                           fillColor: Colors.white,

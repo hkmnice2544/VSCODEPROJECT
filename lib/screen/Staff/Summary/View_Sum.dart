@@ -203,12 +203,12 @@ class _ViewResultState extends State<View_Sum> {
                         ),
                       ),
                     ),
-                    Image.asset(
-                      'images/View_Inform.png',
-                      // fit: BoxFit.cover,
-                      width: 220,
-                      alignment: Alignment.center,
-                    ),
+                    // Image.asset(
+                    //   'images/View_Inform.png',
+                    //   // fit: BoxFit.cover,
+                    //   width: 220,
+                    //   alignment: Alignment.center,
+                    // ),
                     Padding(
                       padding: const EdgeInsets.all(20.0),
                       child: Container(
