@@ -248,6 +248,7 @@ class NewInform extends State<listNewInform> {
                                             .equipment!
                                             .equipment_id ??
                                         0,
+                                    report_id: 0,
                                     user: widget.user ?? 0,
                                   ),
                                 ),

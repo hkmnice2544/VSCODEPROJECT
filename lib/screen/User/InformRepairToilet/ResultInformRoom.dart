@@ -628,7 +628,7 @@ class _ViewResultState extends State<ResultInformRoom> {
                 ListView.builder(
                   shrinkWrap:
                       true, // ตั้งค่า shrinkWrap เป็น true เพื่อให้ ListView ย่อเข้าตัวเมื่อมีเนื้อหาน้อย
-                  itemCount: informRepair!.informrepair_id,
+                  itemCount: 1,
                   itemBuilder: (context, index) {
                     return Card(
                         elevation: 5,

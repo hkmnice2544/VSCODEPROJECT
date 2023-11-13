@@ -42,6 +42,25 @@ class ReportController {
     }
   }
 
+  Future updateReport(String repairer, String details, String status,
+      String informrepair_id, String report_id) async {
+    Map data = {
+      "repairer": repairer,
+      "details": details,
+      "status": status,
+      "informrepair_id": informrepair_id,
+      "report_id": report_id
+    };
+
+    var body = json.encode(data);
+    var url = Uri.parse('$baseURL/reportrepairs/update');
+
+    http.Response response = await http.post(url, headers: headers, body: body);
+
+    var jsonResponse = jsonDecode(response.body);
+    print(jsonResponse);
+  }
+
   Future getReportRepair(int report_id) async {
     var url = Uri.parse(baseURL + '/reportrepairs/get/$report_id');
 

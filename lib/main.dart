@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutterr/screen/Home.dart';
 import 'package:flutterr/screen/HomeStaff.dart';
 import 'package:flutterr/screen/Login.dart';
 import 'package:flutterr/screen/Staff/List/ListManage.dart';
@@ -7,6 +8,7 @@ import 'package:flutterr/screen/User/InformRepairToilet/AddInformRepair.dart';
 import 'package:flutterr/screen/User/InformRepairToilet/Edit.dart';
 import 'package:flutterr/screen/User/InformRepairToilet/EditInformRepair.dart';
 import 'package:flutterr/screen/User/InformRepairToilet/InformRepairForm.dart';
+import 'package:flutterr/screen/User/InformRepairToilet/New_EditInformRepair.dart';
 import 'package:flutterr/screen/User/InformRepairToilet/ResultInformRepair.dart';
 import 'package:flutterr/screen/User/ListInformRepair/ListInformRepair.dart';
 import 'package:flutterr/screen/User/ListInformRepair/List_NewItem.dart';
@@ -30,13 +32,15 @@ class MainApp extends StatelessWidget {
     SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      // home: ResultInformRepair(user: 1001, informrepair_id: 10004),
+      //home: ResultInformRepair(user: 1001, informrepair_id: 10007),
       // home: Login(),
-      // home: EditInformRepairs(user: 1001, informrepair_id: 10004),
+      //home: EditInformRepairs(user: 1001, informrepair_id: 10004),
+      home: NewEditInformRepair(user: 1001, informrepair_id: 10004),
       // home: AddInformRepair(user: 1001),
       // home: Summary(user: 1001),
       // home: const MyHomePage(title: 'Flutter Demo Home Page'),
-      home: HomeStaff(user: 1009),
+      // home: HomeStaff(user: 1009),
+      // home: Home(user: 1001),
       theme: ThemeData(
         primarySwatch: Colors.orange,
       ),

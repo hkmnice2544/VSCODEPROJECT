@@ -5,6 +5,7 @@ import 'package:flutterr/screen/Login.dart';
 import 'package:flutterr/screen/User/InformRepairToilet/InformRepairForm.dart';
 import 'package:flutterr/screen/User/InformRepairToilet/InformRepairRoom.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'User/InformRepairToilet/AddInformRepair.dart';
 import 'User/ListInformRepair/ListInformRepair.dart';
 
 class Home extends StatefulWidget {
@@ -293,7 +294,7 @@ class _HomeState extends State<Home> {
                             Navigator.push(
                               context,
                               MaterialPageRoute(builder: (context) {
-                                return InformRepairForm(user: widget.user);
+                                return AddInformRepair(user: widget.user);
                               }),
                             );
                           },

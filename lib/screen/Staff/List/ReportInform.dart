@@ -24,14 +24,16 @@ class ReportInform extends StatefulWidget {
   final int room_id;
   final int equipment_id;
   final int user;
+  final int report_id;
 
-  const ReportInform({
-    Key? key,
-    required this.informrepair_id,
-    required this.room_id,
-    required this.equipment_id,
-    required this.user,
-  }) : super(key: key);
+  const ReportInform(
+      {Key? key,
+      required this.informrepair_id,
+      required this.room_id,
+      required this.equipment_id,
+      required this.user,
+      required this.report_id})
+      : super(key: key);
 
   @override
   State<ReportInform> createState() => _ReportInformState();
@@ -160,58 +162,22 @@ class _ReportInformState extends State<ReportInform> {
     super.initState();
     listAllReportRepairs();
     getInform(widget.informrepair_id!);
+    getReport(widget.report_id!);
     print("informrepair_id${widget.informrepair_id}");
     print("room_id${widget.room_id}");
     print("equipment_id${widget.equipment_id}");
   }
 
-  // void _pickImage() {
-  //   final input = FileUploadInputElement();
-  //   input.accept = 'image/*';
-  //   input.multiple = true; // อนุญาตให้เลือกไฟล์หลายไฟล์พร้อมกัน
-  //   input.click();
-
-  //   input.onChange.listen((event) {
-  //     final files = input.files;
-  //     if (files != null && files.isNotEmpty) {
-  //       int remainingSlots = 5 - imageBytesList.length;
-  //       if (remainingSlots > 0) {
-  //         final selectedFiles =
-  //             files.sublist(0, min(files.length, remainingSlots));
-
-  //         for (final file in selectedFiles) {
-  //           final reader = FileReader();
-
-  //           reader.onLoadEnd.listen((e) {
-  //             final bytes = reader.result as Uint8List;
-  //             setState(() {
-  //               imageBytesList.add(bytes);
-  //               imageNames.add(file.name);
-  //             });
-  //           });
-
-  //           reader.readAsArrayBuffer(file);
-  //         }
-  //       } else {
-  //         showDialog(
-  //           context: context,
-  //           builder: (context) => AlertDialog(
-  //             title: Text('เกิดข้อผิดพลาด'),
-  //             content: Text('คุณสามารถเลือกรูปภาพได้ไม่เกิน 5 รูปเท่านั้น'),
-  //             actions: [
-  //               TextButton(
-  //                 onPressed: () {
-  //                   Navigator.pop(context);
-  //                 },
-  //                 child: Text('ตกลง'),
-  //               ),
-  //             ],
-  //           ),
-  //         );
-  //       }
-  //     }
-  //   });
-  // }
+  ReportRepair? reportRepair;
+  List<Report_pictures>? report_pictures;
+  void getReport(int report_id) async {
+    reportRepair = await reportController.getReportRepair(report_id);
+    print("getInform : ${reportRepair?.report_id}");
+    setState(() {
+      detailsTextController.text = reportRepair!.details.toString();
+      isDataLoaded = true;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {

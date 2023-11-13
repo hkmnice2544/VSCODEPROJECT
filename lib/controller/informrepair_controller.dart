@@ -16,14 +16,17 @@ class InformRepairController {
   Building? building;
   Room? room;
 
-  Future addInformRepair(
-      String informtype, String status, int user_id, int room_id) async {
+  Future addInformRepair(String informtype, String status, int amount,
+      String detail, String pictures, int user_id, int equipment_id) async {
     Map data = {
       // "informdate" : informdate,
       "informtype": informtype,
       "status": status,
+      "amount": amount,
+      "details": detail,
+      "pictures": pictures,
       "user_id": user_id,
-      "room_id": room_id
+      "equipment_id": equipment_id
     };
 
     var body = json.encode(data);
@@ -35,6 +38,35 @@ class InformRepairController {
     var jsonResponse = jsonDecode(response.body);
     print(jsonResponse);
     // print("addInformRepair: ${informRepair!.informdate}");
+  }
+
+  Future updateInformRepair(
+      String informtype,
+      String status,
+      int amount,
+      String detail,
+      String pictures,
+      int user_id,
+      int equipment_id,
+      int informrepair_id) async {
+    Map data = {
+      "informtype": informtype,
+      "status": status,
+      "amount": amount,
+      "details": detail,
+      "pictures": pictures,
+      "user_id": user_id,
+      "equipment_id": equipment_id,
+      "informrepair_id": informrepair_id
+    };
+
+    var body = json.encode(data);
+    var url = Uri.parse('$baseURL/informrepairs/update');
+
+    http.Response response = await http.post(url, headers: headers, body: body);
+
+    var jsonResponse = jsonDecode(response.body);
+    print(jsonResponse);
   }
 
   Future findSumamountById(int? informrepair_id) async {
@@ -78,24 +110,6 @@ class InformRepairController {
       throw Exception('Failed to load inform repairs');
     }
   }
-
-  // Future updateInformRepair(String informdetails, String status,
-  //     String equipment_id, String informrepair_id) async {
-  //   Map data = {
-  //     "informdetails": informdetails,
-  //     "status": status,
-  //     "equipment_id": equipment_id,
-  //     "informrepair_id": informrepair_id,
-  //   };
-
-  //   var body = json.encode(data);
-  //   var url = Uri.parse('$baseURL/informrepairs/update');
-
-  //   http.Response response = await http.post(url, headers: headers, body: body);
-
-  //   var jsonResponse = jsonDecode(response.body);
-  //   print(jsonResponse);
-  // }
 
   Future getInform(int informrepair_id) async {
     var url =

@@ -761,6 +761,7 @@ class _ReportInformState extends State<EditReportInform> {
                         builder: (context) => ReportInform(
                           informrepair_id: widget.informrepair_id,
                           room_id: widget.room_id,
+                          report_id: 0,
                           equipment_id: widget.equipment_id,
                           user: widget.user ?? 0,
                         ),
@@ -793,6 +794,7 @@ class _ReportInformState extends State<EditReportInform> {
                     builder: (context) => ReportInform(
                       informrepair_id: widget.informrepair_id,
                       room_id: widget.room_id,
+                      report_id: 0,
                       equipment_id: widget.equipment_id,
                       user: widget.user ?? 0,
                     ),
