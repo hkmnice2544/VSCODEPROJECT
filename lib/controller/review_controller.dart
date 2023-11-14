@@ -48,6 +48,15 @@ class ReviewController {
     return reviews;
   }
 
+  Future countReview(int review_id) async {
+    var url = Uri.parse(baseURL + '/reviews/count/$review_id');
+
+    http.Response response = await http.post(url, headers: headers, body: null);
+    print("ข้อมูลที่ได้คือ : " + response.body);
+
+    return response.body;
+  }
+
   Future<List<Review>> listAllReviews() async {
     var url = Uri.parse(baseURL + '/reviews/list');
 

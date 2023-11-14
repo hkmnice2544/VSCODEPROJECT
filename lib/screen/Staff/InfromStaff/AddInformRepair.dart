@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutterr/controller/login_controller.dart';
 import 'package:flutterr/model/informrepair_model.dart';
-import 'package:flutterr/screen/User/InformRepairToilet/ResultInformRepair.dart';
+import 'package:flutterr/screen/Staff/InfromStaff/ResultInformRepair.dart';
 
 import 'package:google_fonts/google_fonts.dart';
 
@@ -16,7 +16,7 @@ import 'package:http/http.dart' as http;
 import '../../../model/Building_Model.dart';
 import '../../../model/Room_Model.dart';
 import '../../../model/User_Model.dart';
-import '../../Home.dart';
+import '../../HomeStaff.dart';
 import '../../Login.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 
@@ -305,23 +305,42 @@ class _AddInformRepairState extends State<AddInformRepair> {
         elevation: 0.0,
         actions: [
           Padding(
-            padding: EdgeInsets.only(left: 0, top: 55, right: 15),
-            child: Text(
-              // "หัสยา ขาวใหม่",
-              '${users?.firstname} ${users?.lastname}',
-              style: GoogleFonts.prompt(
-                textStyle: TextStyle(
-                  color: Color.fromARGB(255, 0, 0, 0),
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
-                ),
+            padding: EdgeInsets.only(left: 0, top: 45, right: 10),
+            child: Align(
+              alignment: Alignment.topRight,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  Text(
+                    // "มัลลิกา แซ่ลิ้ม",
+                    '${users?.firstname} ${users?.lastname}',
+                    style: GoogleFonts.prompt(
+                      textStyle: TextStyle(
+                        color: Color.fromARGB(255, 0, 0, 0),
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                  Text(
+                    // "ตำแหน่ง : หัวหน้างานแผนกห้องน้ำ",
+                    '${users?.usertype}',
+                    style: GoogleFonts.prompt(
+                      textStyle: TextStyle(
+                        color: Color.fromARGB(255, 0, 0, 0),
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ),
           ),
           Padding(
             padding: EdgeInsets.only(left: 0, top: 0, right: 10),
             child: Image.asset(
-              'images/User.png',
+              'images/Staff.png',
               width: 50,
               height: 50,
             ),
@@ -354,7 +373,7 @@ class _AddInformRepairState extends State<AddInformRepair> {
                           context,
                           MaterialPageRoute(
                             builder: (context) =>
-                                Home(user: widget.user), // หน้า A
+                                HomeStaff(user: widget.user), // หน้า A
                           ));
                     }),
               ),
@@ -970,7 +989,7 @@ class _AddInformRepairState extends State<AddInformRepair> {
                           onPressed: () async {
                             Navigator.push(context,
                                 MaterialPageRoute(builder: (context) {
-                              return Home(user: widget.user);
+                              return HomeStaff(user: widget.user);
                             }));
                           },
                         ),

@@ -1,13 +1,14 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:flutterr/constant/constant_value.dart';
+
 import 'package:flutterr/controller/login_controller.dart';
+
 import 'package:flutterr/model/Room_Model.dart';
 import 'package:flutterr/model/User_Model.dart';
 import 'package:flutterr/screen/Home.dart';
 import 'package:flutterr/screen/Login.dart';
-import 'package:flutterr/screen/User/InformRepairToilet/ResultInformRepair.dart';
-import 'package:flutterr/screen/User/InformRepairToilet/ResultInformRoom.dart';
+
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:flutter/material.dart';
@@ -19,15 +20,15 @@ import 'package:http/http.dart' as http;
 import 'package:google_fonts/google_fonts.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 
-class InformRepairRoom extends StatefulWidget {
+class InformRepairForm extends StatefulWidget {
   final int? user;
-  InformRepairRoom({required this.user});
+  InformRepairForm({required this.user});
 
   @override
   Form createState() => Form();
 }
 
-class Form extends State<InformRepairRoom> {
+class Form extends State<InformRepairForm> {
   Map<String, TextEditingController> checkboxControllers = {};
   Map<String, TextEditingController> countControllers = {};
   Map<String, String> checkboxValues = {};
@@ -66,6 +67,7 @@ class Form extends State<InformRepairRoom> {
   Color backgroundColor = Colors.white;
 
   List<InformRepair>? informrepairs;
+
   bool? isDataLoaded = false;
   InformRepair? informRepairs;
   InformRepair? informRepair;
@@ -74,13 +76,12 @@ class Form extends State<InformRepairRoom> {
   String? roomfloor;
   String? roomposition;
   Building? building;
-  List<Room>? rooms;
   Room? room;
   List<String> roomNames = [];
   List<String> roomfloors = [];
   List<String> roompositions = [];
   late final String username;
-  String informtype = "ห้องเรียนรวม";
+  String informtype = "ห้องน้ำ";
   String statusinform = "ยังไม่ได้ดำเนินการ";
   String statusinformdetails = "เสีย";
   String? informrepair_idvar;
@@ -89,7 +90,6 @@ class Form extends State<InformRepairRoom> {
   List<String> imageFileNames = [];
   String? buildingId = '';
   int selectedImageCount = 0;
-  String RoomType = "ห้องเรียนรวม";
   String? selectedRoom;
   LoginController loginController = LoginController();
   User? users;
@@ -329,6 +329,9 @@ class Form extends State<InformRepairRoom> {
     amountcontrollers = List.generate(10, (index) => TextEditingController());
   }
 
+  List<Room>? rooms;
+  String RoomType = "ห้องน้ำ";
+  List<String> RoomTypeLists = ["ห้องน้ำ", "ห้องเรียนรวม"];
   void findlistRoomByIdBybuilding_id(int building_id, String roomtype) async {
     rooms = await informrepairController.findlistRoomByIdBybuilding_id(
         building_id, roomtype);
@@ -516,9 +519,9 @@ class Form extends State<InformRepairRoom> {
           Padding(
             padding: EdgeInsets.only(left: 0, top: 0, right: 10),
             child: Image.asset(
-              'images/profile-user.png',
-              width: 30,
-              height: 30,
+              'images/User.png',
+              width: 50,
+              height: 50,
             ),
           ),
           Builder(builder: (context) {
@@ -600,7 +603,7 @@ class Form extends State<InformRepairRoom> {
                 child: Center(
                   child: Column(children: [
                     Text(
-                      "แจ้งซ่อมห้องเรียนรวม",
+                      "แจ้งซ่อมห้องน้ำ",
                       style: GoogleFonts.prompt(
                         textStyle: TextStyle(
                           color: Color.fromRGBO(7, 94, 53, 1),
@@ -754,7 +757,33 @@ class Form extends State<InformRepairRoom> {
                         ),
                       ),
                     ),
-
+                    Container(
+                      width: 200,
+                      child: Column(
+                        children: [
+                          RadioListTile(
+                            title: Text(RoomTypeLists[0]),
+                            value: RoomTypeLists[0],
+                            groupValue: RoomType,
+                            onChanged: (value) {
+                              setState(() {
+                                RoomType = value as String;
+                              });
+                            },
+                          ),
+                          RadioListTile(
+                            title: Text(RoomTypeLists[1]),
+                            value: RoomTypeLists[1],
+                            groupValue: RoomType,
+                            onChanged: (value) {
+                              setState(() {
+                                RoomType = value as String;
+                              });
+                            },
+                          ),
+                        ],
+                      ),
+                    ),
                     Padding(
                       padding: const EdgeInsets.all(15.0),
                       child: DropdownButtonHideUnderline(
@@ -925,7 +954,7 @@ class Form extends State<InformRepairRoom> {
                                               10), // ระยะห่างระหว่างไอคอนและข้อความ
                                       Text(
                                         "ห้อง " +
-                                            room!.room_id.toString() +
+                                            room.room_id.toString() +
                                             " ชั้น " +
                                             room.floor.toString() +
                                             " ตำแหน่ง " +
@@ -1054,11 +1083,10 @@ class Form extends State<InformRepairRoom> {
                 ),
                 onPressed: () async {
                   var result = true;
-                  var checkList = 0;
+
                   for (int i = 0; i < equipmentIds.length; i++) {
                     if (isChecked[i] == true) {
                       result = false;
-                      checkList += 1;
                     }
                   }
                   if (buildingId == null || buildingId!.isEmpty) {
@@ -1132,8 +1160,6 @@ class Form extends State<InformRepairRoom> {
                         //   widget.user!,
                         //   selectedrooom!,
                         // );
-                        List<Map<String, dynamic>> data = [];
-                        Set<String> uniqueImageFileNames = Set();
 
                         // ทำการบันทึกข้อมูลใน dataList
 
@@ -1172,17 +1198,17 @@ class Form extends State<InformRepairRoom> {
                         //     await InformRepair_PicturesController
                         //         .saveInform_Pictures(data);
 
-                        Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(
-                              builder: (_) => ResultInformRoom(
-                                  informrepair_id: ((informrepairs?[
-                                                  informrepairs!.length - 1]
-                                              .informrepair_id ??
-                                          0) +
-                                      1),
-                                  user: widget.user)),
-                        );
+                        // Navigator.pushReplacement(
+                        //   context,
+                        //   MaterialPageRoute(
+                        //       builder: (_) => ResultInformRepair(
+                        //           informrepair_id: ((informrepairs?[
+                        //                           informrepairs!.length - 1]
+                        //                       .informrepair_id ??
+                        //                   0) +
+                        //               1),
+                        //           user: widget.user)),
+                        // );
                       } else {
                         // Handle the case where room_id is empty or null.
                       }
@@ -1232,99 +1258,74 @@ class Form extends State<InformRepairRoom> {
   List<TextEditingController> amountcontrollers = [];
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
+  int _selectedIndex = -1; // Variable to store the selected index
+
   List<Widget> buildEquipmentWidgets() {
     List<Widget> widgets = [];
+
     widgets.add(
       Padding(
         padding: const EdgeInsets.all(10.0),
         child: Container(
           width: 450,
           height: 50,
-          child: Stack(children: [
-            Positioned(
-              left: 0,
-              top: 0,
-              child: Container(
-                width: 450,
-                height: 50,
-                decoration: ShapeDecoration(
-                  color: Colors.white,
-                  shape: RoundedRectangleBorder(
-                    side: BorderSide(
-                        width: 1, color: Color.fromRGBO(7, 94, 53, 1)),
-                    borderRadius: BorderRadius.circular(11),
-                  ),
-                  shadows: [
-                    BoxShadow(
-                      color: Color(0x3F000000),
-                      blurRadius: 4,
-                      offset: Offset(0, 4),
-                      spreadRadius: 0,
-                    )
-                  ],
-                ),
-              ),
-            ),
-            Positioned(
-              left: 20,
-              top: 11,
-              child: SizedBox(
-                width: 400,
-                height: 27,
-                child: Text.rich(
-                  TextSpan(
-                    children: [
-                      WidgetSpan(
-                        child: Icon(Icons.build,
-                            color: const Color.fromARGB(255, 0, 0, 0)),
+          child: Stack(
+            children: [
+              Positioned(
+                left: 0,
+                top: 0,
+                child: Container(
+                  width: 450,
+                  height: 50,
+                  decoration: ShapeDecoration(
+                    color: Colors.white,
+                    shape: RoundedRectangleBorder(
+                      side: BorderSide(
+                        width: 1,
+                        color: Color.fromRGBO(7, 94, 53, 1),
                       ),
-                      WidgetSpan(
-                        child: SizedBox(
-                            width: 10), // ระยะห่าง 10 พิกเซลระหว่าง TextSpan
-                      ),
-                      TextSpan(
-                        text: 'อุปกรณ์ชำรุด',
-                        style: GoogleFonts.prompt(
-                          textStyle: TextStyle(
-                            color: Color.fromARGB(255, 0, 0, 0),
-                            fontSize: 18,
-                          ),
-                        ),
-                      ),
-                      WidgetSpan(
-                        child: SizedBox(
-                            width: 15), // ระยะห่าง 10 พิกเซลระหว่าง TextSpan
+                      borderRadius: BorderRadius.circular(11),
+                    ),
+                    shadows: [
+                      BoxShadow(
+                        color: Color(0x3F000000),
+                        blurRadius: 4,
+                        offset: Offset(0, 4),
+                        spreadRadius: 0,
                       ),
                     ],
                   ),
                 ),
               ),
-            ),
-          ]),
-        ),
-      ),
-    );
-    for (int index = 0; index < equipmentIds.length; index++) {
-      final equipmentId = equipmentIds[index];
-
-      widgets.add(CheckboxListTile(
-        controlAffinity: ListTileControlAffinity.leading,
-        title: Center(
-          child: Row(
-            children: [
-              Icon(
-                // Icons.add, //
-                Icons.bookmark_add_outlined,
-                color: Color.fromRGBO(7, 94, 53, 1), // สีของไอคอน
-              ),
-              Padding(
-                padding: const EdgeInsets.all(10.0),
-                child: Text(
-                  equipmentName[index],
-                  style: GoogleFonts.prompt(
-                    textStyle: TextStyle(
-                      color: Color.fromARGB(255, 0, 0, 0),
-                      fontSize: 16,
+              Positioned(
+                left: 20,
+                top: 11,
+                child: SizedBox(
+                  width: 400,
+                  height: 27,
+                  child: Text.rich(
+                    TextSpan(
+                      children: [
+                        WidgetSpan(
+                          child: Icon(Icons.build,
+                              color: const Color.fromARGB(255, 0, 0, 0)),
+                        ),
+                        WidgetSpan(
+                          child: SizedBox(width: 10),
+                        ),
+                        TextSpan(
+                          text: 'อุปกรณ์ชำรุด',
+                          style: GoogleFonts.prompt(
+                            textStyle: TextStyle(
+                              color: Color.fromARGB(255, 0, 0, 0),
+                              fontSize: 18,
+                            ),
+                          ),
+                        ),
+                        WidgetSpan(
+                          child: SizedBox(width: 15),
+                        ),
+                      ],
                     ),
                   ),
                 ),
@@ -1332,22 +1333,51 @@ class Form extends State<InformRepairRoom> {
             ],
           ),
         ),
-        value: isChecked[index],
-        onChanged: (bool? value) {
-          setState(() {
-            isChecked[index] = value ?? false;
-            if (value == true) {
-              detailscontrollers[index].text = '';
-              amountcontrollers[index].text = '';
-            }
-          });
-        },
+      ),
+    );
+
+    for (int index = 0; index < equipmentIds.length; index++) {
+      final equipmentId = equipmentIds[index];
+
+      widgets.add(ListTile(
+        title: Row(
+          children: [
+            Radio<int>(
+              value: index,
+              groupValue: _selectedIndex,
+              onChanged: (int? value) {
+                setState(() {
+                  _selectedIndex = value ?? -1;
+                  if (_selectedIndex == index) {
+                    detailscontrollers[0].text = '';
+                    amountcontrollers[0].text = '';
+                  }
+                });
+              },
+            ),
+            Icon(
+              Icons.bookmark_add_outlined,
+              color: Color.fromRGBO(7, 94, 53, 1),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: Text(
+                equipmentName[index],
+                style: GoogleFonts.prompt(
+                  textStyle: TextStyle(
+                    color: Color.fromARGB(255, 0, 0, 0),
+                    fontSize: 16,
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
       ));
 
       widgets.add(
         Visibility(
-          visible:
-              isChecked[index], // Control visibility based on checkbox state
+          visible: _selectedIndex == index,
           child: Column(
             children: [
               Padding(
@@ -1356,18 +1386,18 @@ class Form extends State<InformRepairRoom> {
                   children: [
                     Expanded(
                       child: TextFormField(
-                        controller: detailscontrollers[index],
+                        controller: detailscontrollers[0],
                         decoration: const InputDecoration(
-                          hintText: 'กรุณากรอกรายละเอียด',
+                          hintText: 'ระบุสาเหตุการชำรุด',
                           border: InputBorder.none,
                           filled: true,
                           fillColor: Colors.white,
                         ),
                         onChanged: (value) {
                           setState(() {
-                            detailscontrollers[index].text = value;
+                            detailscontrollers[0].text = value;
                           });
-                          print(detailscontrollers[index].text);
+                          print(detailscontrollers[0].text);
                         },
                       ),
                     ),
@@ -1381,7 +1411,7 @@ class Form extends State<InformRepairRoom> {
                     Container(
                       width: 200,
                       child: TextFormField(
-                        controller: amountcontrollers[index],
+                        controller: amountcontrollers[0],
                         decoration: const InputDecoration(
                           hintText: 'กรุณากรอกจำนวน',
                           border: InputBorder.none,
@@ -1390,9 +1420,9 @@ class Form extends State<InformRepairRoom> {
                         ),
                         onChanged: (value) {
                           setState(() {
-                            amountcontrollers[index].text = value;
+                            amountcontrollers[0].text = value;
                           });
-                          print(amountcontrollers[index].text);
+                          print(amountcontrollers[0].text);
                         },
                       ),
                     ),

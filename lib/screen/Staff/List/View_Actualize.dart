@@ -666,77 +666,42 @@ class _ViewViewActualizeState extends State<ViewActualize> {
                                     ),
                                   ),
                                 ]),
-                                // Wrap(
-                                //   spacing: 8.0, // ระยะห่างระหว่างรูปภาพในแนวนอน
-                                //   runSpacing:
-                                //       8.0, // ระยะห่างระหว่างรูปภาพในแนวดิ่ง
-                                //   children: List.generate(
-                                //     1,
-                                //     (index) {
-                                //       final informPicture =
-                                //           pictures!.firstWhere(
-                                //         (inform) {
-                                //           final parts = inform.split(',');
-                                //           return parts.length == 2 &&
-                                //               parts[0] == "1002";
-                                //         },
-                                //         orElse: () => "",
-                                //       );
-
-                                //       if (informPicture != null) {
-                                //         final parts = informPicture.split(',');
-                                //         final imageName = parts[1];
-                                //         return Container(
-                                //           width: 200,
-                                //           height: 350,
-                                //           child: Image.network(
-                                //             baseURL +
-                                //                 '/informrepairdetails/image/$imageName',
-                                //             fit: BoxFit.cover,
-                                //           ),
-                                //         );
-                                //       } else {
-                                //         return Container(); // หากไม่พบข้อมูลรูปภาพสำหรับอุปกรณ์นี้
-                                //       }
-                                //     },
-                                //   ),
-                                // )
                               ])));
                     },
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Container(
+                          width: 120, // Set the width of the button here
+                          child: FloatingActionButton.extended(
+                            label: Text(
+                              "ย้อนกลับ",
+                              style: GoogleFonts.prompt(
+                                textStyle: TextStyle(
+                                  color: Color.fromARGB(255, 255, 255, 255),
+                                  fontSize: 14,
+                                ),
+                              ),
+                            ),
+                            onPressed: () async {
+                              Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (_) =>
+                                        ListManage(user: widget.user)),
+                              );
+                            },
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                 ]),
               ),
             ),
-      floatingActionButton: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Container(
-              width: 120, // Set the width of the button here
-              child: FloatingActionButton.extended(
-                label: Text(
-                  "ย้อนกลับ",
-                  style: GoogleFonts.prompt(
-                    textStyle: TextStyle(
-                      color: Color.fromARGB(255, 255, 255, 255),
-                      fontSize: 14,
-                    ),
-                  ),
-                ),
-                onPressed: () async {
-                  Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(
-                        builder: (_) => ListManage(user: widget.user)),
-                  );
-                },
-              ),
-            ),
-          ),
-        ],
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     ));
   }
 }

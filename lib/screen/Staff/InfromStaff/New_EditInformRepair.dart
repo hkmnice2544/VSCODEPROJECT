@@ -1,133 +1,104 @@
 import 'dart:io';
 
-import 'package:flutter/material.dart';
-import 'package:flutterr/controller/login_controller.dart';
-import 'package:flutterr/model/informrepair_model.dart';
-import 'package:flutterr/screen/User/InformRepairToilet/ResultInformRepair.dart';
-
-import 'package:google_fonts/google_fonts.dart';
-
-import 'package:image_picker/image_picker.dart';
-import 'package:intl/date_symbol_data_local.dart';
-import 'package:intl/intl.dart';
-import '../../../constant/constant_value.dart';
-import '../../../controller/informrepair_controller.dart';
-import 'package:http/http.dart' as http;
-import '../../../model/Building_Model.dart';
-import '../../../model/Room_Model.dart';
-import '../../../model/User_Model.dart';
-import '../../Home.dart';
-import '../../Login.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
+import 'package:flutter/material.dart';
+import 'package:flutterr/controller/equipment_controller.dart';
+import 'package:flutterr/controller/informrepair_controller.dart';
+import 'package:flutterr/model/Building_Model.dart';
+import 'package:flutterr/model/Equipment_Model.dart';
+import 'package:flutterr/model/Room_Model.dart';
+import 'package:flutterr/model/informrepair_model.dart';
+import 'package:flutterr/screen/HomeStaff.dart';
+import 'package:flutterr/screen/Staff/InfromStaff/ResultInformRepair.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:http/http.dart' as http;
+import '../../../constant/constant_value.dart';
+import '../../../controller/login_controller.dart';
+import '../../../model/User_Model.dart';
+import '../../Login.dart';
 
-class AddInformRepair extends StatefulWidget {
+class NewEditInformRepair extends StatefulWidget {
   final int? user;
-  const AddInformRepair({required this.user});
+  final int? informrepair_id;
+  const NewEditInformRepair(
+      {super.key, required this.user, required this.informrepair_id});
 
   @override
-  State<AddInformRepair> createState() => _AddInformRepairState();
+  State<NewEditInformRepair> createState() => _NewEditInformRepairState();
 }
 
-class _AddInformRepairState extends State<AddInformRepair> {
-  LoginController loginController = LoginController();
-  User? users;
-  bool? isDataLoaded = false;
+String RoomType = "ห้องน้ำ";
+String? buildingId;
+List<Room>? rooms;
+String? selectedRoom;
+List<Building>? buildings;
+InformRepair? informRepair;
+List<Equipment>? equipments;
+String? pictures;
+Room? room;
 
-  void getLoginById(int user) async {
-    users = await loginController.getLoginById(user);
-    // print("getuser : ${user}");
-    // print("getuserfirstname : ${users?.firstname}");
-    setState(() {
-      isDataLoaded = true;
-    });
-  }
+bool? isLoaded = false;
 
-  String formattedDate = '';
-  DateTime now = DateTime.now();
+class _NewEditInformRepairState extends State<NewEditInformRepair> {
+  final InformRepairController informrepairController =
+      InformRepairController();
+  final EquipmentController equipmentController = EquipmentController();
 
-  List<InformRepair>? informrepairs;
-  InformRepair? informRepairs;
-  InformRepairController informrepairController = InformRepairController();
-  void fetchInformRepairs() async {
-    informrepairs = await informrepairController.listAllInformRepairs();
-    setState(() {
-      isDataLoaded = true;
-    });
-  }
-
-  String? buildingId = '';
-  List<Building>? buildings;
-
-  void listAllBuildings() async {
-    buildings =
+  void fetchData() async {
+    informRepair =
+        await informrepairController.getInform(widget.informrepair_id ?? 0);
+    List<Building?> buildingsList = [];
+    buildingsList =
         (await informrepairController.listAllBuildings()).cast<Building>();
-    print("listAllBuildings : ${buildings?[0].building_id}");
-    setState(() {
-      isDataLoaded = true;
-    });
-  }
+    buildings = buildingsList.cast<Building>();
 
-  List<Room>? rooms;
-  String RoomType = "ห้องน้ำ";
-  List<String> RoomTypeLists = ["ห้องน้ำ", "ห้องเรียนรวม"];
-  void findlistRoomByIdBybuilding_id(int building_id) async {
+    buildingId =
+        informRepair?.equipment?.room?.building?.building_id.toString();
+
+    RoomType = informRepair?.equipment?.room?.roomtype ?? "";
+
     rooms = await informrepairController.findlistRoomByIdBybuilding_id(
-        building_id, RoomType);
-    print("ViewListInformDetails : ${rooms?[0].room_id}");
-    setState(() {
-      isDataLoaded = true;
-    });
-  }
+        int.parse(buildingId ?? ""), RoomType);
 
-  String? selectedRoom;
-  List<String> equipmentIds = [];
-  List<String> equipmentName = [];
+    equipments = await equipmentController
+        .findEquipmentsByRoomId(informRepair?.equipment?.room?.room_id ?? 0);
 
-  void findequipmentByIdByAll(String selectedRoom) async {
-    setState(() {
-      isDataLoaded = false;
-    });
-    equipmentIds = await informrepairController
-        .findequipment_idByIdByroom_id(selectedRoom);
+    pictures = informRepair?.pictures;
 
-    for (int i = 0; i < equipmentIds.length; i++) {
-      int? equipmentId = int.tryParse(equipmentIds[i]);
-      if (equipmentId != null) {
-        String name = await informrepairController
-            .findequipmentnameByIdByequipment_id(equipmentId)
-            .then((value) => value.first);
-        equipmentName.add(name);
+    for (int i = 0; i < equipments!.length; i++) {
+      if (equipments?[i].equipment_id.toString() ==
+          informRepair?.equipment?.equipment_id.toString()) {
+        _selectedIndex = i;
       }
     }
 
-    //await Future.delayed(Duration(seconds: 1));
+    for (int i = 0; i < equipments!.length; i++) {
+      detailscontrollers.add(TextEditingController());
+      amountcontrollers.add(TextEditingController());
+      imageFileNames.add("");
+    }
+    detailscontrollers[0].text = informRepair?.details ?? "";
+    amountcontrollers[0].text = informRepair!.amount.toString();
+    rooms?.forEach(
+      (element) {
+        if (element.room_id.toString() ==
+            informRepair?.equipment?.room?.room_id) {
+          selectedRoom = element.room_id.toString();
+        }
+      },
+    );
 
+    //print(informRepair?.informrepair_id);
     setState(() {
-      isDataLoaded = true;
+      isLoaded = true;
     });
-    print("equipmentIds ${equipmentIds.length}");
   }
 
   List<File> _selectedImages = [];
   ImagePicker imagePicker = ImagePicker();
   List<String> imageFileNames = [];
   int selectedImageCount = 0;
-  void _addImageForEquipment(String equipmentId) async {
-    final List<XFile>? selectedImages = await imagePicker.pickMultiImage();
-    if (selectedImages != null && selectedImages.isNotEmpty) {
-      if (equipmentImages.containsKey(equipmentId)) {
-        selectedImageCount += selectedImages.length;
-        equipmentImages[equipmentId]!.addAll(selectedImages);
-        _selectedImages.addAll(selectedImages.map((image) => File(image.path)));
-      } else {
-        equipmentImages[equipmentId] = selectedImages;
-        _selectedImages.addAll(selectedImages.map((image) => File(image.path)));
-      }
-
-      await _uploadImages(); // เรียก _uploadImages ทันทีหลังจากเลือกรูปภาพ
-      setState(() {});
-    }
-  }
 
   Future<void> _uploadImages() async {
     if (_selectedImages.isNotEmpty) {
@@ -155,25 +126,73 @@ class _AddInformRepairState extends State<AddInformRepair> {
     }
   }
 
-  void main() {
-    initializeDateFormatting('th_TH', null).then((_) {});
+  void updateRoomAfterChangeBuilding() async {
+    rooms = await informrepairController.findlistRoomByIdBybuilding_id(
+        int.parse(buildingId ?? ""), RoomType);
+    selectedRoom = null;
+    setState(() {});
   }
 
-  Future<void> initialize() async {
-    isChecked = List.filled(10, false);
-    detailscontrollers = List.generate(10, (index) => TextEditingController());
-    amountcontrollers = List.generate(10, (index) => TextEditingController());
+  void updateBuildingAfterChangeRoomType() async {
+    rooms = [];
+    buildingId = "";
+    selectedRoom = null;
   }
 
-  InformRepairController informRepairController = InformRepairController();
+  void updateEquipmentsAfterChangeRoom() async {
+    var roomId = int.tryParse(selectedRoom ?? "");
+    equipments = await equipmentController.findEquipmentsByRoomId(roomId ?? 0);
+    setState(() {});
+  }
+
+  String? selectedRoom;
+  List<String> equipmentIds = [];
+  List<String> equipmentName = [];
+  bool? isDataLoaded = false;
+
+  void findequipmentByIdByAll(String selectedRoom) async {
+    setState(() {
+      isDataLoaded = false;
+    });
+    equipmentIds = await informrepairController
+        .findequipment_idByIdByroom_id(selectedRoom);
+
+    for (int i = 0; i < equipmentIds.length; i++) {
+      int? equipmentId = int.tryParse(equipmentIds[i]);
+      if (equipmentId != null) {
+        String name = await informrepairController
+            .findequipmentnameByIdByequipment_id(equipmentId)
+            .then((value) => value.first);
+        equipmentName.add(name);
+      }
+    }
+
+    //await Future.delayed(Duration(seconds: 1));
+
+    setState(() {
+      isDataLoaded = true;
+    });
+    print("equipmentIds ${equipmentIds.length}");
+  }
+
   @override
   void initState() {
+    // TODO: implement initState
+    getLoginById();
+    fetchData();
     super.initState();
-    getLoginById(widget.user!);
-    fetchInformRepairs();
-    listAllBuildings();
-    initialize();
-    formattedDate = DateFormat('dd-MM-yyyy').format(now);
+  }
+
+  User? users;
+
+  LoginController loginController = LoginController();
+  void getLoginById() async {
+    users = await loginController.getLoginById(widget.user ?? 0);
+    // print("getuser : ${user}");
+    // print("getuserfirstname : ${users?.firstname}");
+    setState(() {
+      isDataLoaded = true;
+    });
   }
 
   @override
@@ -305,23 +324,42 @@ class _AddInformRepairState extends State<AddInformRepair> {
         elevation: 0.0,
         actions: [
           Padding(
-            padding: EdgeInsets.only(left: 0, top: 55, right: 15),
-            child: Text(
-              // "หัสยา ขาวใหม่",
-              '${users?.firstname} ${users?.lastname}',
-              style: GoogleFonts.prompt(
-                textStyle: TextStyle(
-                  color: Color.fromARGB(255, 0, 0, 0),
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
-                ),
+            padding: EdgeInsets.only(left: 0, top: 45, right: 10),
+            child: Align(
+              alignment: Alignment.topRight,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  Text(
+                    // "มัลลิกา แซ่ลิ้ม",
+                    '${users?.firstname} ${users?.lastname}',
+                    style: GoogleFonts.prompt(
+                      textStyle: TextStyle(
+                        color: Color.fromARGB(255, 0, 0, 0),
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                  Text(
+                    // "ตำแหน่ง : หัวหน้างานแผนกห้องน้ำ",
+                    '${users?.usertype}',
+                    style: GoogleFonts.prompt(
+                      textStyle: TextStyle(
+                        color: Color.fromARGB(255, 0, 0, 0),
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ),
           ),
           Padding(
             padding: EdgeInsets.only(left: 0, top: 0, right: 10),
             child: Image.asset(
-              'images/User.png',
+              'images/Staff.png',
               width: 50,
               height: 50,
             ),
@@ -354,7 +392,7 @@ class _AddInformRepairState extends State<AddInformRepair> {
                           context,
                           MaterialPageRoute(
                             builder: (context) =>
-                                Home(user: widget.user), // หน้า A
+                                HomeStaff(user: widget.user), // หน้า A
                           ));
                     }),
               ),
@@ -397,7 +435,7 @@ class _AddInformRepairState extends State<AddInformRepair> {
               )
             ]),
       ),
-      body: isDataLoaded == false
+      body: isLoaded == false
           ? Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -414,7 +452,7 @@ class _AddInformRepairState extends State<AddInformRepair> {
               child: Center(
                 child: Column(children: [
                   Text(
-                    "แจ้งซ่อมห้องน้ำ",
+                    "แก้ไขการแจ้งซ่อม",
                     style: GoogleFonts.prompt(
                       textStyle: TextStyle(
                         color: Color.fromRGBO(7, 94, 53, 1),
@@ -423,12 +461,12 @@ class _AddInformRepairState extends State<AddInformRepair> {
                       ),
                     ),
                   ),
-                  // Image.asset(
-                  //   'images/InformRepairToilet.png',
-                  //   fit: BoxFit.cover,
-                  //   width: 220,
-                  //   alignment: Alignment.center,
-                  // ),
+                  Image.asset(
+                    'images/InformRepairToilet.png',
+                    fit: BoxFit.cover,
+                    width: 220,
+                    alignment: Alignment.center,
+                  ),
                   Padding(
                     padding: const EdgeInsets.all(15.0),
                     child: Container(
@@ -505,7 +543,7 @@ class _AddInformRepairState extends State<AddInformRepair> {
                               width: 93,
                               height: 52,
                               child: Text(
-                                '${(informrepairs?.isNotEmpty == true ? (informrepairs![informrepairs!.length - 1].informrepair_id ?? 0) + 1 : 1)}',
+                                '${informRepair?.informrepair_id}',
                                 style: GoogleFonts.prompt(
                                   textStyle: TextStyle(
                                     color: Color.fromARGB(255, 0, 0, 0),
@@ -551,7 +589,7 @@ class _AddInformRepairState extends State<AddInformRepair> {
                               width: 174,
                               height: 30,
                               child: Text(
-                                '$formattedDate',
+                                '${informRepair?.informdate}',
                                 style: GoogleFonts.prompt(
                                   textStyle: TextStyle(
                                     color: Color.fromARGB(255, 0, 0, 0),
@@ -571,23 +609,25 @@ class _AddInformRepairState extends State<AddInformRepair> {
                     child: Column(
                       children: [
                         RadioListTile(
-                          title: Text(RoomTypeLists[0]),
-                          value: RoomTypeLists[0],
+                          title: Text("ห้องน้ำ"),
+                          value: "ห้องน้ำ",
                           groupValue: RoomType,
                           onChanged: (value) {
                             setState(() {
                               RoomType = value as String;
                             });
+                            updateBuildingAfterChangeRoomType();
                           },
                         ),
                         RadioListTile(
-                          title: Text(RoomTypeLists[1]),
-                          value: RoomTypeLists[1],
+                          title: Text("ห้องเรียนรวม"),
+                          value: "ห้องเรียนรวม",
                           groupValue: RoomType,
                           onChanged: (value) {
                             setState(() {
                               RoomType = value as String;
                             });
+                            updateBuildingAfterChangeRoomType();
                           },
                         ),
                       ],
@@ -638,31 +678,15 @@ class _AddInformRepairState extends State<AddInformRepair> {
                           ),
                           ...buildings!.map((Building building) {
                             return DropdownMenuItem<String>(
-                              child: Row(
-                                children: [
-                                  Icon(
-                                    Icons
-                                        .business, // ใส่ไอคอนที่คุณต้องการที่นี่
-                                    color: Color.fromARGB(
-                                        255, 255, 253, 253), // สีของไอคอน
-                                    size: 24, // ขนาดของไอคอน
+                              child: Text(
+                                building.buildingname ?? '',
+                                style: GoogleFonts.prompt(
+                                  textStyle: TextStyle(
+                                    color: Color.fromARGB(255, 255, 255, 255),
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.bold,
                                   ),
-                                  SizedBox(
-                                      width:
-                                          10), // ระยะห่างระหว่างไอคอนและข้อความ
-                                  Text(
-                                    building.buildingname ?? '',
-                                    style: GoogleFonts.prompt(
-                                      textStyle: TextStyle(
-                                        color:
-                                            Color.fromARGB(255, 255, 255, 255),
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                    overflow: TextOverflow.ellipsis,
-                                  ),
-                                ],
+                                ),
                               ),
                               value: building.building_id.toString(),
                             );
@@ -671,14 +695,7 @@ class _AddInformRepairState extends State<AddInformRepair> {
                         onChanged: (val) {
                           setState(() {
                             buildingId = val;
-                            if (val != '') {
-                              int? intBuildingId = int.tryParse(buildingId!);
-                              if (intBuildingId != null) {
-                                findlistRoomByIdBybuilding_id(intBuildingId);
-                              } else {
-                                print("Invalid buildingId format");
-                              }
-                            }
+                            updateRoomAfterChangeBuilding();
                           });
                         },
                         buttonStyleData: ButtonStyleData(
@@ -722,118 +739,125 @@ class _AddInformRepairState extends State<AddInformRepair> {
                       ),
                     ),
                   ),
-                  if (rooms != null && rooms!.isNotEmpty) ...{
-                    Padding(
-                      padding: const EdgeInsets.all(15.0),
-                      child: DropdownButtonHideUnderline(
-                        child: DropdownButton2<String>(
-                          isExpanded: true,
-                          hint: const Row(
-                            children: [
-                              Icon(
-                                Icons.business,
-                                size: 30,
-                                color: Color.fromARGB(255, 255, 255, 255),
+                  rooms?.isEmpty == true
+                      ? Container()
+                      : Padding(
+                          padding: const EdgeInsets.all(15.0),
+                          child: DropdownButtonHideUnderline(
+                            child: DropdownButton2<String>(
+                              isExpanded: true,
+                              hint: const Row(
+                                children: [
+                                  Icon(
+                                    Icons.business,
+                                    size: 30,
+                                    color: Color.fromARGB(255, 255, 255, 255),
+                                  ),
+                                  SizedBox(
+                                    width: 15,
+                                  ),
+                                ],
                               ),
-                              SizedBox(
-                                width: 15,
-                              ),
-                            ],
-                          ),
-                          value:
-                              selectedRoom ?? rooms!.first.room_id.toString(),
-                          items: [
-                            ...rooms!.map((Room room) {
-                              return DropdownMenuItem<String>(
-                                child: Row(
-                                  children: [
-                                    Icon(
-                                      Icons
-                                          .business, // ใส่ไอคอนที่คุณต้องการที่นี่
-                                      color: const Color.fromARGB(
-                                          255, 255, 255, 255), // สีของไอคอน
-                                      size: 24, // ขนาดของไอคอน
-                                    ),
-                                    SizedBox(
-                                        width:
-                                            10), // ระยะห่างระหว่างไอคอนและข้อความ
-                                    Text(
-                                      "ห้อง " +
-                                          room.room_id.toString() +
-                                          " ชั้น " +
-                                          room.floor.toString() +
-                                          " ตำแหน่ง " +
-                                          room.position.toString() +
-                                          " " +
-                                          room.roomname.toString(),
-                                      style: GoogleFonts.prompt(
-                                        textStyle: TextStyle(
-                                          color: Color.fromARGB(
-                                              255, 255, 255, 255),
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.bold,
+                              value: selectedRoom ??
+                                  rooms!.first.room_id.toString(),
+                              items: [
+                                ...rooms!.map((Room room) {
+                                  return DropdownMenuItem<String>(
+                                    child: Row(
+                                      children: [
+                                        Icon(
+                                          Icons
+                                              .business, // ใส่ไอคอนที่คุณต้องการที่นี่
+                                          color: const Color.fromARGB(
+                                              255, 255, 255, 255), // สีของไอคอน
+                                          size: 24, // ขนาดของไอคอน
                                         ),
-                                      ),
-                                      overflow: TextOverflow.ellipsis,
+                                        SizedBox(
+                                            width:
+                                                10), // ระยะห่างระหว่างไอคอนและข้อความ
+                                        Text(
+                                          "ห้อง " +
+                                              room.room_id.toString() +
+                                              " ชั้น " +
+                                              room.floor.toString() +
+                                              " ตำแหน่ง " +
+                                              room.position.toString() +
+                                              " " +
+                                              room.roomname.toString(),
+                                          style: GoogleFonts.prompt(
+                                            textStyle: TextStyle(
+                                              color: Color.fromARGB(
+                                                  255, 255, 255, 255),
+                                              fontSize: 14,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
+                                          overflow: TextOverflow.ellipsis,
+                                        ),
+                                      ],
                                     ),
-                                  ],
+                                    value: room.room_id.toString(),
+                                  );
+                                }).toList(),
+                              ],
+                              onChanged: (val) {
+                                setState(() {
+                                  print("Selected Room: $val");
+                                  selectedRoom = val;
+                                  updateEquipmentsAfterChangeRoom();
+                                  // findequipmentByIdByAll(selectedRoom!);
+                                  equipmentName.clear();
+                                });
+                              },
+                              buttonStyleData: ButtonStyleData(
+                                height: 60,
+                                width: 450,
+                                padding:
+                                    const EdgeInsets.only(left: 14, right: 14),
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(14),
+                                  border: Border.all(
+                                    color:
+                                        const Color.fromARGB(66, 255, 255, 255),
+                                  ),
+                                  color: Color.fromRGBO(7, 94, 53, 1),
                                 ),
-                                value: room.room_id.toString(),
-                              );
-                            }).toList(),
-                          ],
-                          onChanged: (val) {
-                            setState(() {
-                              print("Selected Room: $val");
-                              selectedRoom = val;
-                              findequipmentByIdByAll(selectedRoom!);
-                              equipmentName.clear();
-                            });
-                          },
-                          buttonStyleData: ButtonStyleData(
-                            height: 60,
-                            width: 450,
-                            padding: const EdgeInsets.only(left: 14, right: 14),
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(14),
-                              border: Border.all(
-                                color: const Color.fromARGB(66, 255, 255, 255),
+                                elevation: 2,
                               ),
-                              color: Color.fromRGBO(7, 94, 53, 1),
+                              iconStyleData: const IconStyleData(
+                                icon: Icon(
+                                  Icons.keyboard_arrow_down_outlined,
+                                ),
+                                iconSize: 30,
+                                iconEnabledColor:
+                                    Color.fromARGB(255, 255, 255, 255),
+                                iconDisabledColor: Colors.grey,
+                              ),
+                              dropdownStyleData: DropdownStyleData(
+                                maxHeight: 200,
+                                width: 450,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(14),
+                                  color: Color.fromRGBO(62, 119, 94, 1),
+                                ),
+                                offset: const Offset(-20, 0),
+                                scrollbarTheme: ScrollbarThemeData(
+                                  radius: const Radius.circular(40),
+                                  thickness: MaterialStateProperty.all(6),
+                                  thumbVisibility:
+                                      MaterialStateProperty.all(true),
+                                ),
+                              ),
+                              menuItemStyleData: const MenuItemStyleData(
+                                height: 40,
+                                padding: EdgeInsets.only(left: 14, right: 14),
+                              ),
                             ),
-                            elevation: 2,
-                          ),
-                          iconStyleData: const IconStyleData(
-                            icon: Icon(
-                              Icons.keyboard_arrow_down_outlined,
-                            ),
-                            iconSize: 30,
-                            iconEnabledColor:
-                                Color.fromARGB(255, 255, 255, 255),
-                            iconDisabledColor: Colors.grey,
-                          ),
-                          dropdownStyleData: DropdownStyleData(
-                            maxHeight: 200,
-                            width: 450,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(14),
-                              color: Color.fromRGBO(62, 119, 94, 1),
-                            ),
-                            offset: const Offset(-20, 0),
-                            scrollbarTheme: ScrollbarThemeData(
-                              radius: const Radius.circular(40),
-                              thickness: MaterialStateProperty.all(6),
-                              thumbVisibility: MaterialStateProperty.all(true),
-                            ),
-                          ),
-                          menuItemStyleData: const MenuItemStyleData(
-                            height: 40,
-                            padding: EdgeInsets.only(left: 14, right: 14),
                           ),
                         ),
-                      ),
-                    ),
-                  },
+                  SizedBox(
+                    height: 40,
+                  ),
                   Padding(
                     padding: const EdgeInsets.all(25.0),
                     child: Container(
@@ -849,13 +873,11 @@ class _AddInformRepairState extends State<AddInformRepair> {
                       ),
                       child: Column(
                         children: [
-                          ...buildEquipmentWidgets(),
+                          //Text("Hello World!")
+                          ...buildEquipmentWidgets()
                         ],
                       ),
                     ),
-                  ),
-                  SizedBox(
-                    height: 10,
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -896,56 +918,30 @@ class _AddInformRepairState extends State<AddInformRepair> {
                                     );
                                   },
                                 );
-                              } else if (selectedRoom == null ||
-                                  selectedRoom!.isEmpty) {
-                                // Show an AlertDialog to inform the user to select a building
-                                showDialog(
-                                  context: context,
-                                  builder: (context) {
-                                    return AlertDialog(
-                                      title: Text('แจ้งเตือน'),
-                                      content: Text('กรุณาเลือกห้อง'),
-                                      actions: <Widget>[
-                                        TextButton(
-                                          child: Text('ปิด'),
-                                          onPressed: () {
-                                            Navigator.of(context)
-                                                .pop(); // Close the AlertDialog
-                                          },
-                                        ),
-                                      ],
-                                    );
-                                  },
-                                );
                               } else {
                                 if (formKey.currentState!.validate()) {
                                   var amount =
                                       int.tryParse(amountcontrollers[0].text);
-                                  var equipmentId = int.tryParse(
-                                      equipmentIds[_selectedIndex]);
-                                  await informRepairController.addInformRepair(
-                                      RoomType,
-                                      "ยังไม่ได้ดำเนินการ",
-                                      amount ?? 0,
-                                      detailscontrollers[0].text,
-                                      imageFileNames[0],
-                                      widget.user ?? 0,
-                                      equipmentId ?? 0);
+                                  var equipmentId =
+                                      equipments?[_selectedIndex].equipment_id;
+                                  await informrepairController
+                                      .updateInformRepair(
+                                          RoomType,
+                                          "ยังไม่ได้ดำเนินการ",
+                                          amount ?? 0,
+                                          detailscontrollers[0].text,
+                                          informRepair!.pictures ?? "",
+                                          widget.user ?? 0,
+                                          equipmentId ?? 0,
+                                          informRepair!.informrepair_id ?? 0,
+                                          image);
 
                                   Navigator.pushReplacement(
                                     context,
                                     MaterialPageRoute(
                                         builder: (_) => ResultInformRepair(
-                                            informrepair_id: (informrepairs
-                                                        ?.isNotEmpty ==
-                                                    true
-                                                ? (informrepairs![informrepairs!
-                                                                    .length -
-                                                                1]
-                                                            .informrepair_id ??
-                                                        0) +
-                                                    1
-                                                : 1),
+                                            informrepair_id:
+                                                informRepair!.informrepair_id,
                                             user: widget.user)),
                                   );
                                 }
@@ -970,7 +966,9 @@ class _AddInformRepairState extends State<AddInformRepair> {
                           onPressed: () async {
                             Navigator.push(context,
                                 MaterialPageRoute(builder: (context) {
-                              return Home(user: widget.user);
+                              return ResultInformRepair(
+                                  informrepair_id: widget.informrepair_id,
+                                  user: widget.user);
                             }));
                           },
                         ),
@@ -978,7 +976,7 @@ class _AddInformRepairState extends State<AddInformRepair> {
                     ],
                   ),
                   SizedBox(
-                    height: 40,
+                    height: 60,
                   ),
                 ]),
               ),
@@ -1002,6 +1000,17 @@ class _AddInformRepairState extends State<AddInformRepair> {
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
   int _selectedIndex = -1; // Variable to store the selected index
+
+  File? image;
+
+  void _addImageForEquipment() async {
+    final XFile? selectedImages =
+        await imagePicker.pickImage(source: ImageSource.gallery);
+    if (selectedImages != null) {
+      image = File(selectedImages.path);
+      setState(() {});
+    }
+  }
 
   List<Widget> buildEquipmentWidgets() {
     List<Widget> widgets = [];
@@ -1079,9 +1088,7 @@ class _AddInformRepairState extends State<AddInformRepair> {
       ),
     );
 
-    for (int index = 0; index < equipmentIds.length; index++) {
-      final equipmentId = equipmentIds[index];
-
+    for (int index = 0; index < equipments!.length; index++) {
       widgets.add(ListTile(
         title: Row(
           children: [
@@ -1105,7 +1112,7 @@ class _AddInformRepairState extends State<AddInformRepair> {
             Padding(
               padding: const EdgeInsets.all(10.0),
               child: Text(
-                equipmentName[index],
+                equipments?[index].equipmentname ?? "",
                 style: GoogleFonts.prompt(
                   textStyle: TextStyle(
                     color: Color.fromARGB(255, 0, 0, 0),
@@ -1181,7 +1188,7 @@ class _AddInformRepairState extends State<AddInformRepair> {
                             filled: true,
                             fillColor: Colors.white,
                           ),
-                          maxLines: 4,
+                          maxLines: 1,
                           validator: (value) {
                             if (value == null || value.isEmpty) {
                               return 'กรุณาระบุรายละเอียดการแจ้งซ่อม';
@@ -1201,96 +1208,48 @@ class _AddInformRepairState extends State<AddInformRepair> {
                     ],
                   ),
                 ),
-                ElevatedButton(
-                  onPressed: () {
-                    // เรียกฟังก์ชันเพิ่มรูป
-                    // _addImageForEquipment(equipmentIds[index]);
-                    _addImageForEquipment(equipmentId);
-                    _uploadImages();
-                    print('imageFileNames----${imageFileNames}');
-                    print("--_selectedImages-------------${_selectedImages}");
-                  },
-                  child: Text(
-                    'อัพโหลดรูปภาพ',
-                    style: GoogleFonts.prompt(
-                      textStyle: TextStyle(
-                        color: Color.fromARGB(255, 0, 0, 0),
-                        fontSize: 16,
-                      ),
-                    ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Stack(
+                    children: [
+                      pictures != ""
+                          ? Container(
+                              width: 200, // Adjust the width as needed
+                              height: 200, // Adjust the height as needed
+                              child: Image.network(
+                                  baseURL + '/informrepairs/$pictures'),
+                            )
+                          : pictures == "" && image != null
+                              ? Container(
+                                  width: 200, // Adjust the width as needed
+                                  height: 200, // Adjust the height as needed
+                                  child: Image.file(image!),
+                                )
+                              : Container(),
+                      pictures != "" || image != null
+                          ? Align(
+                              alignment: Alignment.topLeft,
+                              child: ElevatedButton(
+                                  onPressed: () {
+                                    if (pictures != "") {
+                                      pictures = "";
+                                    } else if (image != null) {
+                                      image = null;
+                                    }
+                                    setState(() {});
+                                  },
+                                  child: Text('X')))
+                          : Container(),
+                    ],
                   ),
                 ),
-                GridView.builder(
-                  shrinkWrap: true,
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 3,
-                  ),
-                  itemCount: equipmentImages[equipmentId]?.length ?? 0,
-                  itemBuilder: (BuildContext context, int imageIndex) {
-                    final image = equipmentImages[equipmentId]![imageIndex];
-                    final imagePath = image.path; // Get the image file path
-                    final filename =
-                        imagePath.split('/').last; // Get the image file name
-                    // String fileName = equipmentImages[equipmentId]![imageIndex]
-                    //     .path
-                    //     .split('/')
-                    //     .last;
-                    // imageFileNames.add(fileName); // เพิ่มชื่อไฟล์ลงใน List
-                    if (!imageFileNames.contains(filename)) {
-                      imageFileNames.add(filename);
-                    }
-                    // Add the image name to the list
-
-                    return Center(
-                      child: Padding(
-                        padding: const EdgeInsets.all(2),
-                        child: Stack(
-                          children: [
-                            Image.file(File(
-                                equipmentImages[equipmentId]![imageIndex]
-                                    .path)), // Display the image
-                            Positioned(
-                              bottom: 0,
-                              left: 0,
-                              right: 79,
-                              child: Container(
-                                color: Colors.black.withOpacity(0.7),
-                                padding: EdgeInsets.all(5.0),
-                                child: Text(
-                                  filename, // Display the image name
-                                  style: TextStyle(color: Colors.white),
-                                ),
-                              ),
-                            ),
-                            Positioned(
-                              top: 0,
-                              right: 30,
-                              child: IconButton(
-                                icon: Icon(
-                                  Icons.highlight_remove_sharp,
-                                  color: Colors.red,
-                                ),
-                                onPressed: () {
-                                  // Remove the image from the equipmentImages map
-                                  setState(() {
-                                    equipmentImages[equipmentId]!
-                                        .removeAt(imageIndex);
-                                  });
-
-                                  // Remove the image name from the imageFileNames list
-                                  String fileNameToRemove =
-                                      imageFileNames[imageIndex];
-                                  imageFileNames.removeWhere((filename) =>
-                                      filename == fileNameToRemove);
-                                },
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    );
-                  },
-                ),
+                pictures == "" && image == null
+                    ? ElevatedButton(
+                        onPressed: () {
+                          _addImageForEquipment();
+                        },
+                        child: Text('เพิ่มรูป'))
+                    : Container(),
                 Divider(),
               ],
             ),

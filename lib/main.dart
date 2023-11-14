@@ -1,18 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutterr/screen/Home.dart';
-import 'package:flutterr/screen/HomeStaff.dart';
+
 import 'package:flutterr/screen/Login.dart';
 import 'package:flutterr/screen/Staff/List/EditReportform.dart';
-import 'package:flutterr/screen/Staff/List/ListManage.dart';
-import 'package:flutterr/screen/Staff/Summary/Sammary.dart';
-import 'package:flutterr/screen/User/InformRepairToilet/AddInformRepair.dart';
-import 'package:flutterr/screen/User/InformRepairToilet/Edit.dart';
-import 'package:flutterr/screen/User/InformRepairToilet/EditInformRepair.dart';
-import 'package:flutterr/screen/User/InformRepairToilet/InformRepairForm.dart';
-import 'package:flutterr/screen/User/InformRepairToilet/New_EditInformRepair.dart';
-import 'package:flutterr/screen/User/InformRepairToilet/ResultInformRepair.dart';
-import 'package:flutterr/screen/User/ListInformRepair/ListInformRepair.dart';
-import 'package:flutterr/screen/User/ListInformRepair/List_NewItem.dart';
+
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -93,7 +83,7 @@ class _MyHomePageState extends State<MyHomePage> {
             padding: EdgeInsets.only(left: 0, top: 40, right: 0),
             child: Align(
               child: Text(
-                'Equidment Repair',
+                'Equipment Repair',
                 style: GoogleFonts.prompt(
                   textStyle: TextStyle(
                     color: Color.fromARGB(255, 7, 94, 53),

@@ -8,7 +8,7 @@ import 'package:flutterr/model/Room_Model.dart';
 import 'package:flutterr/model/User_Model.dart';
 import 'package:flutterr/screen/Home.dart';
 import 'package:flutterr/screen/Login.dart';
-import 'package:flutterr/screen/User/InformRepairToilet/ResultInformRepair.dart';
+
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:flutter/material.dart';
@@ -519,9 +519,9 @@ class Form extends State<InformRepairForm> {
           Padding(
             padding: EdgeInsets.only(left: 0, top: 0, right: 10),
             child: Image.asset(
-              'images/profile-user.png',
-              width: 30,
-              height: 30,
+              'images/User.png',
+              width: 50,
+              height: 50,
             ),
           ),
           Builder(builder: (context) {
@@ -954,7 +954,7 @@ class Form extends State<InformRepairForm> {
                                               10), // ระยะห่างระหว่างไอคอนและข้อความ
                                       Text(
                                         "ห้อง " +
-                                            room!.room_id.toString() +
+                                            room.room_id.toString() +
                                             " ชั้น " +
                                             room.floor.toString() +
                                             " ตำแหน่ง " +
@@ -1083,11 +1083,10 @@ class Form extends State<InformRepairForm> {
                 ),
                 onPressed: () async {
                   var result = true;
-                  var checkList = 0;
+
                   for (int i = 0; i < equipmentIds.length; i++) {
                     if (isChecked[i] == true) {
                       result = false;
-                      checkList += 1;
                     }
                   }
                   if (buildingId == null || buildingId!.isEmpty) {
@@ -1161,8 +1160,6 @@ class Form extends State<InformRepairForm> {
                         //   widget.user!,
                         //   selectedrooom!,
                         // );
-                        List<Map<String, dynamic>> data = [];
-                        Set<String> uniqueImageFileNames = Set();
 
                         // ทำการบันทึกข้อมูลใน dataList
 

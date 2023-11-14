@@ -658,33 +658,32 @@ class _ViewResultState extends State<ViewResultReview> {
                         ),
                       ),
                     ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Container(
+                          width: 120, // Set the width of the button here
+                          child: FloatingActionButton.extended(
+                            label: Text(
+                              "ย้อนกลับ",
+                              style: TextStyle(color: Colors.white),
+                            ),
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(builder: (context) {
+                                  return ListManage(user: widget.user);
+                                }),
+                              );
+                            },
+                          ),
+                        ),
+                      ],
+                    ),
                   ]),
                 ),
               ),
             ),
-      floatingActionButton: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Container(
-            width: 120, // Set the width of the button here
-            child: FloatingActionButton.extended(
-              label: Text(
-                "ย้อนกลับ",
-                style: TextStyle(color: Colors.white),
-              ),
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) {
-                    return ListManage(user: widget.user);
-                  }),
-                );
-              },
-            ),
-          ),
-        ],
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     ));
   }
 }

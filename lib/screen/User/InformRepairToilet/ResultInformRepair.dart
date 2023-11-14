@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutterr/constant/constant_value.dart';
 import 'package:flutterr/controller/login_controller.dart';
 import 'package:flutterr/model/User_Model.dart';
-import 'package:flutterr/screen/User/InformRepairToilet/Edit.dart';
-import 'package:flutterr/screen/User/InformRepairToilet/EditInformRepair.dart';
 import 'package:flutterr/screen/User/InformRepairToilet/New_EditInformRepair.dart';
 import 'package:flutterr/screen/User/ListInformRepair/ListInformRepair.dart';
 import '../../../controller/informrepair_controller.dart';
@@ -271,9 +269,9 @@ class _ViewResultState extends State<ResultInformRepair> {
           Padding(
             padding: EdgeInsets.only(left: 0, top: 0, right: 10),
             child: Image.asset(
-              'images/profile-user.png',
-              width: 30,
-              height: 30,
+              'images/User.png',
+              width: 50,
+              height: 50,
             ),
           ),
           Builder(builder: (context) {
@@ -485,7 +483,7 @@ class _ViewResultState extends State<ResultInformRepair> {
                                   ),
                                   TextSpan(
                                     text:
-                                        '${informRepair != null ? informRepair!.formattedInformDate() ?? 'N/A' : 'N/A'}',
+                                        '${informRepair != null ? informRepair!.formattedInformDate() : 'N/A'}',
                                     style: GoogleFonts.prompt(
                                       textStyle: TextStyle(
                                         color: Color.fromARGB(255, 0, 0, 0),
@@ -707,19 +705,6 @@ class _ViewResultState extends State<ResultInformRepair> {
                     ),
                   ],
                 ),
-                // Row(
-                //   children: [
-                //     Text(
-                //       "-----------------------------------------------------------------------",
-                //       style: GoogleFonts.prompt(
-                //         textStyle: TextStyle(
-                //           color: Color.fromARGB(255, 0, 0, 0),
-                //           fontSize: 20,
-                //         ),
-                //       ),
-                //     ),
-                //   ],
-                // ),
                 ListView.builder(
                   shrinkWrap:
                       true, // ตั้งค่า shrinkWrap เป็น true เพื่อให้ ListView ย่อเข้าตัวเมื่อมีเนื้อหาน้อย
@@ -810,10 +795,14 @@ class _ViewResultState extends State<ResultInformRepair> {
                                 child: Container(
                                   width: 200,
                                   height: 200,
-                                  child: Image.network(
-                                    baseURL +
-                                        '/informrepairs/${informRepair?.pictures}',
-                                    fit: BoxFit.cover,
+                                  child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(
+                                        10), // 100 is half of 200 (width/2)
+                                    child: Image.network(
+                                      baseURL +
+                                          '/informrepairs/${informRepair?.pictures}',
+                                      fit: BoxFit.cover,
+                                    ),
                                   ),
                                 ),
                               ),

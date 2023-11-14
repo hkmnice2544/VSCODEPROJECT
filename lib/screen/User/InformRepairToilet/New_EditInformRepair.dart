@@ -340,9 +340,9 @@ class _NewEditInformRepairState extends State<NewEditInformRepair> {
           Padding(
             padding: EdgeInsets.only(left: 0, top: 0, right: 10),
             child: Image.asset(
-              'images/profile-user.png',
-              width: 30,
-              height: 30,
+              'images/User.png',
+              width: 50,
+              height: 50,
             ),
           ),
           Builder(builder: (context) {
@@ -836,6 +836,9 @@ class _NewEditInformRepairState extends State<NewEditInformRepair> {
                             ),
                           ),
                         ),
+                  SizedBox(
+                    height: 40,
+                  ),
                   Padding(
                     padding: const EdgeInsets.all(25.0),
                     child: Container(
@@ -857,110 +860,108 @@ class _NewEditInformRepairState extends State<NewEditInformRepair> {
                       ),
                     ),
                   ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Container(
+                          width: 120, // Set the width of the button here
+                          child: FloatingActionButton.extended(
+                            backgroundColor: Color(0xFFEB6727),
+                            label: Text(
+                              "ยืนยัน",
+                              style: GoogleFonts.prompt(
+                                textStyle: TextStyle(
+                                  color: Color.fromARGB(255, 255, 255, 255),
+                                  fontSize: 14,
+                                ),
+                              ),
+                            ),
+                            onPressed: () async {
+                              if (buildingId == null || buildingId!.isEmpty) {
+                                // Show an AlertDialog to inform the user to select a building
+                                showDialog(
+                                  context: context,
+                                  builder: (context) {
+                                    return AlertDialog(
+                                      title: Text('แจ้งเตือน'),
+                                      content: Text('กรุณาเลือกอาคาร'),
+                                      actions: <Widget>[
+                                        TextButton(
+                                          child: Text('ปิด'),
+                                          onPressed: () {
+                                            Navigator.of(context)
+                                                .pop(); // Close the AlertDialog
+                                          },
+                                        ),
+                                      ],
+                                    );
+                                  },
+                                );
+                              } else {
+                                if (formKey.currentState!.validate()) {
+                                  var amount =
+                                      int.tryParse(amountcontrollers[0].text);
+                                  var equipmentId =
+                                      equipments?[_selectedIndex].equipment_id;
+                                  await informrepairController
+                                      .updateInformRepair(
+                                          RoomType,
+                                          "ยังไม่ได้ดำเนินการ",
+                                          amount ?? 0,
+                                          detailscontrollers[0].text,
+                                          informRepair!.pictures ?? "",
+                                          widget.user ?? 0,
+                                          equipmentId ?? 0,
+                                          informRepair!.informrepair_id ?? 0,
+                                          image);
+
+                                  Navigator.pushReplacement(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (_) => ResultInformRepair(
+                                            informrepair_id:
+                                                informRepair!.informrepair_id,
+                                            user: widget.user)),
+                                  );
+                                }
+                              }
+                            },
+                          ),
+                        ),
+                      ),
+                      Container(
+                        width: 120, // Set the width of the button here
+                        child: FloatingActionButton.extended(
+                          backgroundColor: Color(0xFFEB6727),
+                          label: Text(
+                            "ยกเลิก",
+                            style: GoogleFonts.prompt(
+                              textStyle: TextStyle(
+                                color: Color.fromARGB(255, 255, 255, 255),
+                                fontSize: 14,
+                              ),
+                            ),
+                          ),
+                          onPressed: () async {
+                            Navigator.push(context,
+                                MaterialPageRoute(builder: (context) {
+                              return ResultInformRepair(
+                                  informrepair_id: widget.informrepair_id,
+                                  user: widget.user);
+                            }));
+                          },
+                        ),
+                      ),
+                    ],
+                  ),
                   SizedBox(
-                    height: 80,
+                    height: 60,
                   ),
                 ]),
               ),
             )),
-      floatingActionButton: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Container(
-              width: 120, // Set the width of the button here
-              child: FloatingActionButton.extended(
-                backgroundColor: Color(0xFFEB6727),
-                label: Text(
-                  "ยืนยัน",
-                  style: GoogleFonts.prompt(
-                    textStyle: TextStyle(
-                      color: Color.fromARGB(255, 255, 255, 255),
-                      fontSize: 14,
-                    ),
-                  ),
-                ),
-                onPressed: () async {
-                  var result = true;
-                  var checkList = 0;
-                  for (int i = 0; i < equipmentIds.length; i++) {
-                    if (isChecked[i] == true) {
-                      result = false;
-                      checkList += 1;
-                    }
-                  }
-                  if (buildingId == null || buildingId!.isEmpty) {
-                    // Show an AlertDialog to inform the user to select a building
-                    showDialog(
-                      context: context,
-                      builder: (context) {
-                        return AlertDialog(
-                          title: Text('แจ้งเตือน'),
-                          content: Text('กรุณาเลือกอาคาร'),
-                          actions: <Widget>[
-                            TextButton(
-                              child: Text('ปิด'),
-                              onPressed: () {
-                                Navigator.of(context)
-                                    .pop(); // Close the AlertDialog
-                              },
-                            ),
-                          ],
-                        );
-                      },
-                    );
-                  } else {
-                    var amount = int.tryParse(amountcontrollers[0].text);
-                    var equipmentId = equipments?[_selectedIndex].equipment_id;
-                    await informrepairController.updateInformRepair(
-                        RoomType,
-                        "ยังไม่ได้ดำเนินการ",
-                        amount ?? 0,
-                        detailscontrollers[0].text,
-                        informRepair!.pictures ?? "",
-                        widget.user ?? 0,
-                        equipmentId ?? 0,
-                        informRepair!.informrepair_id ?? 0,
-                        image);
-
-                    Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(
-                          builder: (_) => ResultInformRepair(
-                              informrepair_id: informRepair!.informrepair_id,
-                              user: widget.user)),
-                    );
-                  }
-                },
-              ),
-            ),
-          ),
-          Container(
-            width: 120, // Set the width of the button here
-            child: FloatingActionButton.extended(
-              backgroundColor: Color(0xFFEB6727),
-              label: Text(
-                "ยกเลิก",
-                style: GoogleFonts.prompt(
-                  textStyle: TextStyle(
-                    color: Color.fromARGB(255, 255, 255, 255),
-                    fontSize: 14,
-                  ),
-                ),
-              ),
-              onPressed: () async {
-                Navigator.push(context, MaterialPageRoute(builder: (context) {
-                  return ResultInformRepair(
-                      informrepair_id: widget.informrepair_id,
-                      user: widget.user);
-                }));
-              },
-            ),
-          ),
-        ],
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
   }
 
@@ -1069,8 +1070,6 @@ class _NewEditInformRepairState extends State<NewEditInformRepair> {
     );
 
     for (int index = 0; index < equipments!.length; index++) {
-      final equipmentId = equipments?[index].equipment_id;
-
       widgets.add(ListTile(
         title: Row(
           children: [
@@ -1110,181 +1109,131 @@ class _NewEditInformRepairState extends State<NewEditInformRepair> {
       widgets.add(
         Visibility(
           visible: _selectedIndex == index,
-          child: Column(
-            children: [
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Row(
-                  children: [
-                    Expanded(
-                      child: TextFormField(
-                        controller: detailscontrollers[0],
-                        decoration: const InputDecoration(
-                          hintText: 'กรุณากรอกรายละเอียด',
-                          border: InputBorder.none,
-                          filled: true,
-                          fillColor: Colors.white,
+          child: Form(
+            key: formKey,
+            child: Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Row(
+                    children: [
+                      Container(
+                        width: 150,
+                        child: TextFormField(
+                          controller: amountcontrollers[0],
+                          decoration: const InputDecoration(
+                            labelText: 'จำนวน',
+                            border: InputBorder.none,
+                            filled: true,
+                            fillColor: Colors.white,
+                          ),
+                          onChanged: (value) {
+                            setState(() {
+                              amountcontrollers[0].text = value;
+                            });
+                            print(amountcontrollers[0].text);
+                          },
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'กรุณากรอกจำนวน';
+                            } else if (value.length < 1) {
+                              return 'จำนวนต้องมีอย่างน้อย 1 ตัวอักษร';
+                            }
+                            return null; // Return null if the input is valid
+                          },
                         ),
-                        onChanged: (value) {
-                          setState(() {
-                            detailscontrollers[0].text = value;
-                          });
-                          print(detailscontrollers[0].text);
-                        },
                       ),
-                    ),
-                  ],
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Row(
-                  children: [
-                    Container(
-                      width: 200,
-                      child: TextFormField(
-                        controller: amountcontrollers[0],
-                        decoration: const InputDecoration(
-                          hintText: 'กรุณากรอกจำนวน',
-                          border: InputBorder.none,
-                          filled: true,
-                          fillColor: Colors.white,
+                      Container(
+                          child: Text(
+                        "  รายการ",
+                        style: GoogleFonts.prompt(
+                          textStyle: TextStyle(
+                            color: Color.fromARGB(255, 0, 0, 0),
+                            fontSize: 14,
+                          ),
                         ),
-                        onChanged: (value) {
-                          setState(() {
-                            amountcontrollers[0].text = value;
-                          });
-                          print(amountcontrollers[0].text);
-                        },
-                      ),
-                    ),
-                  ],
+                      )),
+                    ],
+                  ),
                 ),
-              ),
-              Stack(
-                children: [
-                  pictures != ""
-                      ? Image.network(baseURL + '/informrepairs/${pictures}')
-                      : pictures == "" && image != null
-                          ? Image.file(image!)
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: TextFormField(
+                          controller: detailscontrollers[0],
+                          decoration: const InputDecoration(
+                            labelText: 'ระบุสาเหตุการชำรุด',
+                            border: InputBorder.none,
+                            filled: true,
+                            fillColor: Colors.white,
+                          ),
+                          maxLines: 1,
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'กรุณาระบุรายละเอียดการแจ้งซ่อม';
+                            } else if (value.length < 4 || value.length > 255) {
+                              return 'รายละเอียดการแจ้งซ่อมต้องมีความยาวตั้งแต่ 4 ถึง 255 ตัวอักษร';
+                            }
+                            return null;
+                          },
+                          onChanged: (value) {
+                            setState(() {
+                              detailscontrollers[0].text = value;
+                            });
+                            print(detailscontrollers[0].text);
+                          },
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Stack(
+                    children: [
+                      pictures != ""
+                          ? Container(
+                              width: 200, // Adjust the width as needed
+                              height: 200, // Adjust the height as needed
+                              child: Image.network(
+                                  baseURL + '/informrepairs/$pictures'),
+                            )
+                          : pictures == "" && image != null
+                              ? Container(
+                                  width: 200, // Adjust the width as needed
+                                  height: 200, // Adjust the height as needed
+                                  child: Image.file(image!),
+                                )
+                              : Container(),
+                      pictures != "" || image != null
+                          ? Align(
+                              alignment: Alignment.topLeft,
+                              child: ElevatedButton(
+                                  onPressed: () {
+                                    if (pictures != "") {
+                                      pictures = "";
+                                    } else if (image != null) {
+                                      image = null;
+                                    }
+                                    setState(() {});
+                                  },
+                                  child: Text('X')))
                           : Container(),
-                  pictures != "" || image != null
-                      ? Align(
-                          alignment: Alignment.topRight,
-                          child: ElevatedButton(
-                              onPressed: () {
-                                if (pictures != "") {
-                                  pictures = "";
-                                } else if (image != null) {
-                                  image = null;
-                                }
-                                setState(() {});
-                              },
-                              child: Text('X')))
-                      : Container(),
-                ],
-              ),
-              pictures == "" && image == null
-                  ? ElevatedButton(
-                      onPressed: () {
-                        _addImageForEquipment();
-                      },
-                      child: Text('เพิ่มรูป'))
-                  : Container(),
-
-              // ElevatedButton(
-              //   onPressed: () {
-              //     // เรียกฟังก์ชันเพิ่มรูป
-              //     // _addImageForEquipment(equipmentIds[index]);
-              //     _addImageForEquipment(
-              //         equipments?[index].equipment_id.toString() ?? "");
-              //     _uploadImages();
-              //     print('imageFileNames----${imageFileNames}');
-              //     print("--_selectedImages-------------${_selectedImages}");
-              //   },
-              //   child: Text(
-              //     'อัพโหลดรูปภาพ',
-              //     style: GoogleFonts.prompt(
-              //       textStyle: TextStyle(
-              //         color: Color.fromARGB(255, 0, 0, 0),
-              //         fontSize: 16,
-              //       ),
-              //     ),
-              //   ),
-              // ),
-              // GridView.builder(
-              //   shrinkWrap: true,
-              //   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-              //     crossAxisCount: 3,
-              //   ),
-              //   itemCount: equipmentImages[equipmentId]?.length ?? 0,
-              //   itemBuilder: (BuildContext context, int imageIndex) {
-              //     final image = equipmentImages[equipmentId]![imageIndex];
-              //     final imagePath = image.path; // Get the image file path
-              //     final filename =
-              //         imagePath.split('/').last; // Get the image file name
-              //     // String fileName = equipmentImages[equipmentId]![imageIndex]
-              //     //     .path
-              //     //     .split('/')
-              //     //     .last;
-              //     // imageFileNames.add(fileName); // เพิ่มชื่อไฟล์ลงใน List
-              //     if (!imageFileNames.contains(filename)) {
-              //       imageFileNames.add(filename);
-              //     }
-              //     // Add the image name to the list
-
-              //     return Center(
-              //       child: Padding(
-              //         padding: const EdgeInsets.all(2),
-              //         child: Stack(
-              //           children: [
-              //             Image.file(File(
-              //                 equipmentImages[equipmentId]![imageIndex]
-              //                     .path)), // Display the image
-              //             Positioned(
-              //               bottom: 0,
-              //               left: 0,
-              //               right: 79,
-              //               child: Container(
-              //                 color: Colors.black.withOpacity(0.7),
-              //                 padding: EdgeInsets.all(5.0),
-              //                 child: Text(
-              //                   filename, // Display the image name
-              //                   style: TextStyle(color: Colors.white),
-              //                 ),
-              //               ),
-              //             ),
-              //             Positioned(
-              //               top: 0,
-              //               right: 30,
-              //               child: IconButton(
-              //                 icon: Icon(
-              //                   Icons.highlight_remove_sharp,
-              //                   color: Colors.red,
-              //                 ),
-              //                 onPressed: () {
-              //                   // Remove the image from the equipmentImages map
-              //                   setState(() {
-              //                     equipmentImages[equipmentId]!
-              //                         .removeAt(imageIndex);
-              //                   });
-
-              //                   // Remove the image name from the imageFileNames list
-              //                   String fileNameToRemove =
-              //                       imageFileNames[imageIndex];
-              //                   imageFileNames.removeWhere(
-              //                       (filename) => filename == fileNameToRemove);
-              //                 },
-              //               ),
-              //             ),
-              //           ],
-              //         ),
-              //       ),
-              //     );
-              //   },
-              // ),
-              Divider(),
-            ],
+                    ],
+                  ),
+                ),
+                pictures == "" && image == null
+                    ? ElevatedButton(
+                        onPressed: () {
+                          _addImageForEquipment();
+                        },
+                        child: Text('เพิ่มรูป'))
+                    : Container(),
+                Divider(),
+              ],
+            ),
           ),
         ),
       );

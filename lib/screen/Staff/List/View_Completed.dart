@@ -662,40 +662,39 @@ class _ViewResultState extends State<View_Completed> {
                   ),
                 ),
               ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Container(
+                      width: 120, // Set the width of the button here
+                      child: FloatingActionButton.extended(
+                        label: Text(
+                          "ย้อนกลับ",
+                          style: GoogleFonts.prompt(
+                            textStyle: TextStyle(
+                              color: Color.fromARGB(255, 255, 255, 255),
+                              fontSize: 14,
+                            ),
+                          ),
+                        ),
+                        onPressed: () {
+                          Navigator.push(context, MaterialPageRoute(
+                            builder: (context) {
+                              return ListManage(user: widget.user);
+                            },
+                          ));
+                        },
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ]),
           ),
         ),
       ),
-      floatingActionButton: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Container(
-              width: 120, // Set the width of the button here
-              child: FloatingActionButton.extended(
-                label: Text(
-                  "ย้อนกลับ",
-                  style: GoogleFonts.prompt(
-                    textStyle: TextStyle(
-                      color: Color.fromARGB(255, 255, 255, 255),
-                      fontSize: 14,
-                    ),
-                  ),
-                ),
-                onPressed: () {
-                  Navigator.push(context, MaterialPageRoute(
-                    builder: (context) {
-                      return ListManage(user: widget.user);
-                    },
-                  ));
-                },
-              ),
-            ),
-          ),
-        ],
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     ));
   }
 }

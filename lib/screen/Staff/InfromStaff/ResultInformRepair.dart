@@ -2,32 +2,30 @@ import 'package:flutter/material.dart';
 import 'package:flutterr/constant/constant_value.dart';
 import 'package:flutterr/controller/login_controller.dart';
 import 'package:flutterr/model/User_Model.dart';
-import 'package:flutterr/screen/User/InformRepairToilet/Edit.dart';
-import 'package:flutterr/screen/User/InformRepairToilet/EditInformRepair.dart';
-import 'package:flutterr/screen/User/InformRepairToilet/EditRoom.dart';
-import 'package:flutterr/screen/User/ListInformRepair/ListInformRepair.dart';
+import 'package:flutterr/screen/HomeStaff.dart';
+import 'package:flutterr/screen/Staff/InfromStaff/ListInformRepair.dart';
+import 'package:flutterr/screen/Staff/InfromStaff/New_EditInformRepair.dart';
+
 import '../../../controller/informrepair_controller.dart';
 import '../../../model/informrepair_model.dart';
-import '../../Home.dart';
 import '../../Login.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class ResultInformRoom extends StatefulWidget {
+class ResultInformRepair extends StatefulWidget {
   final int? informrepair_id;
   final int? user;
-  const ResultInformRoom({super.key, this.informrepair_id, this.user});
+  const ResultInformRepair({super.key, this.informrepair_id, this.user});
 
   @override
-  State<ResultInformRoom> createState() => _ViewResultState();
+  State<ResultInformRepair> createState() => _ViewResultState();
 }
 
-class _ViewResultState extends State<ResultInformRoom> {
+class _ViewResultState extends State<ResultInformRepair> {
   final InformRepairController informController = InformRepairController();
   LoginController loginController = LoginController();
 
   InformRepair? informRepair;
   List<InformRepair>? informrepairs;
-
   bool? isDataLoaded = false;
   String formattedDate = '';
   DateTime informdate = DateTime.now();
@@ -256,25 +254,44 @@ class _ViewResultState extends State<ResultInformRoom> {
         elevation: 0.0,
         actions: [
           Padding(
-            padding: EdgeInsets.only(left: 0, top: 55, right: 15),
-            child: Text(
-              // "หัสยา ขาวใหม่",
-              '${users?.firstname} ${users?.lastname}',
-              style: GoogleFonts.prompt(
-                textStyle: TextStyle(
-                  color: Color.fromARGB(255, 0, 0, 0),
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
-                ),
+            padding: EdgeInsets.only(left: 0, top: 45, right: 10),
+            child: Align(
+              alignment: Alignment.topRight,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  Text(
+                    // "มัลลิกา แซ่ลิ้ม",
+                    '${users?.firstname} ${users?.lastname}',
+                    style: GoogleFonts.prompt(
+                      textStyle: TextStyle(
+                        color: Color.fromARGB(255, 0, 0, 0),
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                  Text(
+                    // "ตำแหน่ง : หัวหน้างานแผนกห้องน้ำ",
+                    '${users?.usertype}',
+                    style: GoogleFonts.prompt(
+                      textStyle: TextStyle(
+                        color: Color.fromARGB(255, 0, 0, 0),
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ),
           ),
           Padding(
             padding: EdgeInsets.only(left: 0, top: 0, right: 10),
             child: Image.asset(
-              'images/profile-user.png',
-              width: 30,
-              height: 30,
+              'images/Staff.png',
+              width: 50,
+              height: 50,
             ),
           ),
           Builder(builder: (context) {
@@ -305,7 +322,7 @@ class _ViewResultState extends State<ResultInformRoom> {
                           context,
                           MaterialPageRoute(
                             builder: (context) =>
-                                Home(user: widget.user), // หน้า A
+                                HomeStaff(user: widget.user), // หน้า A
                           ));
                     }),
               ),
@@ -366,17 +383,17 @@ class _ViewResultState extends State<ResultInformRoom> {
                     ),
                   ),
                 ),
-                Image.asset(
-                  'images/View_Inform.png',
-                  // fit: BoxFit.cover,
-                  width: 220,
-                  alignment: Alignment.center,
-                ),
+                // Image.asset(
+                //   'images/View_Inform.png',
+                //   // fit: BoxFit.cover,
+                //   width: 220,
+                //   alignment: Alignment.center,
+                // ),
                 Padding(
                   padding: const EdgeInsets.all(20.0),
                   child: Container(
                     width: 390,
-                    height: 190,
+                    height: 250,
                     child: Stack(
                       children: [
                         Positioned(
@@ -384,7 +401,7 @@ class _ViewResultState extends State<ResultInformRoom> {
                           top: 0,
                           child: Container(
                             width: 390,
-                            height: 190,
+                            height: 250,
                             decoration: ShapeDecoration(
                               color: Colors.white,
                               shape: RoundedRectangleBorder(
@@ -486,7 +503,7 @@ class _ViewResultState extends State<ResultInformRoom> {
                                   ),
                                   TextSpan(
                                     text:
-                                        '${informRepair != null ? informRepair!.formattedInformDate() ?? 'N/A' : 'N/A'}',
+                                        '${informRepair != null ? informRepair!.formattedInformDate() : 'N/A'}',
                                     style: GoogleFonts.prompt(
                                       textStyle: TextStyle(
                                         color: Color.fromARGB(255, 0, 0, 0),
@@ -502,6 +519,54 @@ class _ViewResultState extends State<ResultInformRoom> {
                         Positioned(
                           left: 50,
                           top: 90,
+                          child: SizedBox(
+                            width: 450,
+                            height: 90,
+                            child: Text.rich(
+                              TextSpan(
+                                children: [
+                                  WidgetSpan(
+                                    child: Icon(Icons.ballot_outlined,
+                                        color:
+                                            const Color.fromARGB(255, 0, 0, 0)),
+                                  ),
+                                  WidgetSpan(
+                                    child: SizedBox(
+                                        width:
+                                            25), // ระยะห่าง 10 พิกเซลระหว่าง TextSpan
+                                  ),
+                                  TextSpan(
+                                    text: 'ประเภทห้องน้ำ  :',
+                                    style: GoogleFonts.prompt(
+                                      textStyle: TextStyle(
+                                        color: Color.fromARGB(255, 0, 0, 0),
+                                        fontSize: 20,
+                                      ),
+                                    ),
+                                  ),
+                                  WidgetSpan(
+                                    child: SizedBox(
+                                        width:
+                                            10), // ระยะห่าง 10 พิกเซลระหว่าง TextSpan
+                                  ),
+                                  TextSpan(
+                                    text:
+                                        '${informRepair != null ? informRepair!.equipment!.room!.roomname ?? 'N/A' : 'N/A'}',
+                                    style: GoogleFonts.prompt(
+                                      textStyle: TextStyle(
+                                        color: Color.fromARGB(255, 0, 0, 0),
+                                        fontSize: 20,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                        Positioned(
+                          left: 50,
+                          top: 130,
                           child: SizedBox(
                             width: 450,
                             height: 90,
@@ -549,7 +614,7 @@ class _ViewResultState extends State<ResultInformRoom> {
                         ),
                         Positioned(
                           left: 50,
-                          top: 135,
+                          top: 170,
                           child: SizedBox(
                             width: 450,
                             height: 90,
@@ -595,6 +660,54 @@ class _ViewResultState extends State<ResultInformRoom> {
                             ),
                           ),
                         ),
+                        Positioned(
+                          left: 50,
+                          top: 210,
+                          child: SizedBox(
+                            width: 450,
+                            height: 90,
+                            child: Text.rich(
+                              TextSpan(
+                                children: [
+                                  WidgetSpan(
+                                    child: Icon(Icons.place_outlined,
+                                        color:
+                                            const Color.fromARGB(255, 0, 0, 0)),
+                                  ),
+                                  WidgetSpan(
+                                    child: SizedBox(
+                                        width:
+                                            25), // ระยะห่าง 10 พิกเซลระหว่าง TextSpan
+                                  ),
+                                  TextSpan(
+                                    text: 'ตำแหน่ง   :',
+                                    style: GoogleFonts.prompt(
+                                      textStyle: TextStyle(
+                                        color: Color.fromARGB(255, 0, 0, 0),
+                                        fontSize: 20,
+                                      ),
+                                    ),
+                                  ),
+                                  WidgetSpan(
+                                    child: SizedBox(
+                                        width:
+                                            10), // ระยะห่าง 10 พิกเซลระหว่าง TextSpan
+                                  ),
+                                  TextSpan(
+                                    text:
+                                        '${informRepair != null ? informRepair!.equipment!.room!.position ?? 'N/A' : 'N/A'}',
+                                    style: GoogleFonts.prompt(
+                                      textStyle: TextStyle(
+                                        color: Color.fromARGB(255, 0, 0, 0),
+                                        fontSize: 20,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
                       ],
                     ),
                   ),
@@ -612,19 +725,6 @@ class _ViewResultState extends State<ResultInformRoom> {
                     ),
                   ],
                 ),
-                // Row(
-                //   children: [
-                //     Text(
-                //       "-----------------------------------------------------------------------",
-                //       style: GoogleFonts.prompt(
-                //         textStyle: TextStyle(
-                //           color: Color.fromARGB(255, 0, 0, 0),
-                //           fontSize: 20,
-                //         ),
-                //       ),
-                //     ),
-                //   ],
-                // ),
                 ListView.builder(
                   shrinkWrap:
                       true, // ตั้งค่า shrinkWrap เป็น true เพื่อให้ ListView ย่อเข้าตัวเมื่อมีเนื้อหาน้อย
@@ -715,10 +815,14 @@ class _ViewResultState extends State<ResultInformRoom> {
                                 child: Container(
                                   width: 200,
                                   height: 200,
-                                  child: Image.network(
-                                    baseURL +
-                                        '/informrepairdetails/image/${informRepair?.pictures}',
-                                    fit: BoxFit.cover,
+                                  child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(
+                                        10), // 100 is half of 200 (width/2)
+                                    child: Image.network(
+                                      baseURL +
+                                          '/informrepairs/${informRepair?.pictures}',
+                                      fit: BoxFit.cover,
+                                    ),
                                   ),
                                 ),
                               ),
@@ -788,7 +892,7 @@ class _ViewResultState extends State<ResultInformRoom> {
                 Navigator.pushReplacement(
                   context,
                   MaterialPageRoute(
-                      builder: (_) => MyEditRoom(
+                      builder: (_) => NewEditInformRepair(
                           informrepair_id: (informRepair?.informrepair_id),
                           user: widget.user)),
                 );
@@ -832,7 +936,7 @@ class _ViewResultState extends State<ResultInformRoom> {
                               if (response == "Deleted successfully") {
                                 Navigator.push(context,
                                     MaterialPageRoute(builder: (context) {
-                                  return Home(user: widget.user);
+                                  return HomeStaff(user: widget.user);
                                 }));
                               }
                             },

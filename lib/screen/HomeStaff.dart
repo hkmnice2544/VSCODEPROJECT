@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutterr/controller/login_controller.dart';
 import 'package:flutterr/model/User_Model.dart';
-import 'package:flutterr/screen/Staff/_InformRepairForm.dart';
+import 'package:flutterr/screen/Staff/InfromStaff/AddInformRepair.dart';
+import 'package:flutterr/screen/Staff/InfromStaff/ListInformRepair.dart';
 import 'Login.dart';
 import 'Staff/List/ListManage.dart';
 import 'Staff/Summary/Sammary.dart';
@@ -187,7 +188,7 @@ class _HomeStaffState extends State<HomeStaff> {
                     ),
                     Text(
                       // "ตำแหน่ง : หัวหน้างานแผนกห้องน้ำ",
-                      'ตำแหน่ง : ${users?.usertype}',
+                      '${users?.usertype}',
                       style: GoogleFonts.prompt(
                         textStyle: TextStyle(
                           color: Color.fromARGB(255, 0, 0, 0),
@@ -203,9 +204,9 @@ class _HomeStaffState extends State<HomeStaff> {
             Padding(
               padding: EdgeInsets.only(left: 0, top: 0, right: 10),
               child: Image.asset(
-                'images/profile-user.png',
-                width: 30,
-                height: 30,
+                'images/Staff.png',
+                width: 50,
+                height: 50,
               ),
             ),
             Builder(builder: (context) {
@@ -218,43 +219,6 @@ class _HomeStaffState extends State<HomeStaff> {
               );
             }),
           ],
-          // Text(
-          //     'John Doe', // ใส่ชื่อที่ต้องการใน Text widget
-          //     style: TextStyle(
-          //       fontSize: 16,
-          //       fontWeight: FontWeight.bold,
-          //     ),
-          //   ),
-
-          // leading: Container(
-          // // padding: EdgeInsets.only(left: 10, top: 2, right: 120.0),
-          // alignment: Alignment.centerLeft,
-          // child: Image.asset(
-          // 'images/MJU_LOGO.png',
-          // fit: BoxFit.cover,
-          // ),
-          // ),
-
-          // actions: <Widget>[
-          //   Text("หัสยา ขาวใหม่",style: TextStyle(color: Color.fromARGB(255, 255, 255, 255),)),
-          //    Icon(
-          //     Icons.supervised_user_circle,
-          //     ),
-
-          //    IconButton(
-          //     onPressed: () {
-          //     },
-          //     icon: const Icon(Icons.menu)),
-          // ],
-
-          // automaticallyImplyLeading: false,
-          // leading: IconButton(
-          //         icon: const Icon(Icons.menu),
-          //         color: Color.fromARGB(255, 255, 255, 255),
-          //         onPressed: () {}
-          //     ),
-          //   title: Text("หัสยา ขาวใหม่",style: TextStyle(color: Color.fromARGB(255, 255, 255, 255),)),
-          //   backgroundColor: Colors.red,
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
         bottomNavigationBar: BottomAppBar(
@@ -312,7 +276,7 @@ class _HomeStaffState extends State<HomeStaff> {
                   style: GoogleFonts.prompt(
                     textStyle: TextStyle(
                       color: Color.fromRGBO(7, 94, 53, 1),
-                      fontSize: 45,
+                      fontSize: 40,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
@@ -324,11 +288,13 @@ class _HomeStaffState extends State<HomeStaff> {
               child: Container(
                 child: Stack(
                   children: [
-                    Image.asset(
-                      'images/inform_Home.png',
-                      width: 500, // กำหนดความกว้าง
-                      height: 250, // กำหนดความสูง
-                      fit: BoxFit.cover,
+                    Center(
+                      child: Image.asset(
+                        'images/inform_Home.png',
+                        width: 440, // กำหนดความกว้าง
+                        height: 250, // กำหนดความสูง
+                        // fit: BoxFit.cover,
+                      ),
                     ),
                     Positioned(
                       child: IconButton(
@@ -339,14 +305,14 @@ class _HomeStaffState extends State<HomeStaff> {
                               1), // ปรับขนาดของไอคอนตามที่คุณต้องการ
                         ),
                         padding:
-                            EdgeInsets.only(left: 435, top: 105, right: 20),
+                            EdgeInsets.only(left: 460, top: 100, right: 20),
                         onPressed: () {
-                          // Navigator.push(
-                          //   context,
-                          //   MaterialPageRoute(builder: (context) {
-                          //     return InformRepairFormStaff(user: widget.user);
-                          //   }),
-                          // );
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) {
+                              return AddInformRepair(user: widget.user);
+                            }),
+                          );
                         },
                       ),
                     ),
@@ -359,47 +325,14 @@ class _HomeStaffState extends State<HomeStaff> {
                 padding: EdgeInsets.only(left: 0, top: 0, right: 0),
                 child: Stack(
                   children: [
-                    Image.asset(
-                      'images/informroom_Home.png',
-                      width: 500, // กำหนดความกว้าง
-                      height: 250, // กำหนดความสูง
-                      fit: BoxFit.cover,
-                    ),
-                    Positioned(
-                      child: IconButton(
-                        icon: Icon(
-                          Icons.chevron_right_sharp,
-                          size: 40,
-                          color: Color.fromRGBO(255, 255, 255,
-                              1), // ปรับขนาดของไอคอนตามที่คุณต้องการ
-                        ),
-                        padding:
-                            EdgeInsets.only(left: 435, top: 105, right: 20),
-                        onPressed: () {
-                          // Navigator.push(
-                          //   context,
-                          //   MaterialPageRoute(builder: (context) {
-                          //     return InformClassrooms(user: widget.user);
-                          //   }),
-                          // );
-                        },
+                    Center(
+                      child: Image.asset(
+                        'images/List_Home.png',
+                        width: 450, // กำหนดความกว้าง
+                        height: 250, // กำหนดความสูง
+                        // fit: BoxFit.cover,
                       ),
                     ),
-                  ],
-                ),
-              ),
-            ),
-            Center(
-              child: Container(
-                padding: EdgeInsets.only(left: 0, top: 0, right: 0),
-                child: Stack(
-                  children: [
-                    Image.asset(
-                      'images/List_Home.png',
-                      width: 500, // กำหนดความกว้าง
-                      height: 250, // กำหนดความสูง
-                      fit: BoxFit.cover,
-                    ),
                     Positioned(
                       child: IconButton(
                         icon: Icon(
@@ -409,14 +342,14 @@ class _HomeStaffState extends State<HomeStaff> {
                               1), // ปรับขนาดของไอคอนตามที่คุณต้องการ
                         ),
                         padding:
-                            EdgeInsets.only(left: 435, top: 110, right: 20),
+                            EdgeInsets.only(left: 465, top: 105, right: 20),
                         onPressed: () {
-                          // Navigator.push(
-                          //   context,
-                          //   MaterialPageRoute(builder: (context) {
-                          //     return ListInformRepair(user: widget.user);
-                          //   }),
-                          // );
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) {
+                              return ListInformRepair(user: widget.user);
+                            }),
+                          );
                         },
                       ),
                     ),
@@ -429,11 +362,13 @@ class _HomeStaffState extends State<HomeStaff> {
                 padding: EdgeInsets.only(left: 0, top: 0, right: 0, bottom: 0),
                 child: Stack(
                   children: [
-                    Image.asset(
-                      'images/List_Manage.png',
-                      width: 520, // กำหนดความกว้าง
-                      height: 250, // กำหนดความสูง
-                      fit: BoxFit.cover,
+                    Center(
+                      child: Image.asset(
+                        'images/List_Manage.png',
+                        width: 470, // กำหนดความกว้าง
+                        height: 250, // กำหนดความสูง
+                        // fit: BoxFit.cover,
+                      ),
                     ),
                     Positioned(
                       child: IconButton(
@@ -444,7 +379,7 @@ class _HomeStaffState extends State<HomeStaff> {
                               1), // ปรับขนาดของไอคอนตามที่คุณต้องการ
                         ),
                         padding:
-                            EdgeInsets.only(left: 465, top: 105, right: 20),
+                            EdgeInsets.only(left: 480, top: 105, right: 20),
                         onPressed: () {
                           Navigator.push(
                             context,
@@ -464,10 +399,12 @@ class _HomeStaffState extends State<HomeStaff> {
                 padding: EdgeInsets.only(left: 0, top: 0, right: 0, bottom: 0),
                 child: Stack(
                   children: [
-                    Image.asset(
-                      'images/List_Summary.png',
-                      width: 550, // กำหนดความกว้าง
-                      height: 250, // กำหนดความสูง
+                    Center(
+                      child: Image.asset(
+                        'images/List_Summary.png',
+                        width: 470, // กำหนดความกว้าง
+                        height: 250, // กำหนดความสูง
+                      ),
                     ),
                     Positioned(
                       child: IconButton(
@@ -478,7 +415,7 @@ class _HomeStaffState extends State<HomeStaff> {
                               1), // ปรับขนาดของไอคอนตามที่คุณต้องการ
                         ),
                         padding:
-                            EdgeInsets.only(left: 490, top: 100, right: 20),
+                            EdgeInsets.only(left: 480, top: 100, right: 20),
                         onPressed: () {
                           Navigator.push(
                             context,

@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutterr/controller/login_controller.dart';
 import 'package:flutterr/model/User_Model.dart';
 import 'package:flutterr/screen/Login.dart';
-import 'package:flutterr/screen/User/InformRepairToilet/InformRepairForm.dart';
-import 'package:flutterr/screen/User/InformRepairToilet/InformRepairRoom.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'User/InformRepairToilet/AddInformRepair.dart';
 import 'User/ListInformRepair/ListInformRepair.dart';
@@ -186,9 +184,9 @@ class _HomeState extends State<Home> {
             Padding(
               padding: EdgeInsets.only(left: 0, top: 0, right: 10),
               child: Image.asset(
-                'images/profile-user.png',
-                width: 30,
-                height: 30,
+                'images/User.png',
+                width: 50,
+                height: 50,
               ),
             ),
             Builder(builder: (context) {
@@ -261,7 +259,7 @@ class _HomeState extends State<Home> {
                     style: GoogleFonts.prompt(
                       textStyle: TextStyle(
                         color: Color.fromRGBO(7, 94, 53, 1),
-                        fontSize: 45,
+                        fontSize: 40,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
@@ -270,15 +268,15 @@ class _HomeState extends State<Home> {
               ),
               Center(
                 child: Container(
-                  padding:
-                      EdgeInsets.only(left: 0, top: 0, right: 0, bottom: 0),
                   child: Stack(
                     children: [
-                      Image.asset(
-                        'images/inform_Home.png',
-                        width: 520, // กำหนดความกว้าง
-                        height: 250, // กำหนดความสูง
-                        fit: BoxFit.cover,
+                      Center(
+                        child: Image.asset(
+                          'images/inform_Home.png',
+                          width: 440, // กำหนดความกว้าง
+                          height: 250, // กำหนดความสูง
+                          // fit: BoxFit.cover,
+                        ),
                       ),
                       Positioned(
                         child: IconButton(
@@ -289,7 +287,7 @@ class _HomeState extends State<Home> {
                                 1), // ปรับขนาดของไอคอนตามที่คุณต้องการ
                           ),
                           padding:
-                              EdgeInsets.only(left: 455, top: 105, right: 20),
+                              EdgeInsets.only(left: 460, top: 100, right: 20),
                           onPressed: () {
                             Navigator.push(
                               context,
@@ -342,15 +340,15 @@ class _HomeState extends State<Home> {
               // ),
               Center(
                 child: Container(
-                  padding:
-                      EdgeInsets.only(left: 0, top: 0, right: 0, bottom: 0),
                   child: Stack(
                     children: [
-                      Image.asset(
-                        'images/List_Home.png',
-                        width: 520, // กำหนดความกว้าง
-                        height: 250, // กำหนดความสูง
-                        fit: BoxFit.cover,
+                      Center(
+                        child: Image.asset(
+                          'images/List_Home.png',
+                          width: 450, // กำหนดความกว้าง
+                          height: 250, // กำหนดความสูง
+                          // fit: BoxFit.cover,
+                        ),
                       ),
                       Positioned(
                         child: IconButton(
@@ -361,7 +359,7 @@ class _HomeState extends State<Home> {
                                 1), // ปรับขนาดของไอคอนตามที่คุณต้องการ
                           ),
                           padding:
-                              EdgeInsets.only(left: 455, top: 105, right: 20),
+                              EdgeInsets.only(left: 465, top: 110, right: 20),
                           onPressed: () {
                             Navigator.push(
                               context,
