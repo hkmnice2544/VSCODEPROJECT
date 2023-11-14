@@ -191,6 +191,27 @@ class _MyWidgetState extends State<ListCompleted> {
                                         )),
                                   ),
                                 ]),
+                                Row(children: [
+                                  Expanded(
+                                    child: Text("ประเภทการแจ้งซ่อม ",
+                                        style: GoogleFonts.prompt(
+                                          textStyle: TextStyle(
+                                            color: Color.fromRGBO(0, 0, 0, 1),
+                                            fontSize: 20,
+                                          ),
+                                        )),
+                                  ),
+                                  Expanded(
+                                    child: Text(
+                                        "${reportRepair?[index].informrepair!.informtype}",
+                                        style: GoogleFonts.prompt(
+                                          textStyle: TextStyle(
+                                            color: Color.fromRGBO(0, 0, 0, 1),
+                                            fontSize: 20,
+                                          ),
+                                        )),
+                                  ),
+                                ]),
                               ],
                             ),
                             leading: reportRepair?[index].status ==

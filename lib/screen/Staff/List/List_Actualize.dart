@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutterr/controller/report_controller.dart';
 import 'package:flutterr/model/Report_Model.dart';
+import 'package:flutterr/screen/Staff/List/EditReportform.dart';
 import '../../../model/informrepair_model.dart';
 import 'ReportInform.dart';
 import 'View_NewInform.dart';
@@ -53,6 +54,7 @@ class NewInform extends State<ListActualize> {
     });
   }
 
+  String? statusScreen = "screen2";
   @override
   void initState() {
     super.initState();
@@ -214,6 +216,27 @@ class NewInform extends State<ListActualize> {
                                         )),
                                   ),
                                 ]),
+                                Row(children: [
+                                  Expanded(
+                                    child: Text("ประเภทการแจ้งซ่อม ",
+                                        style: GoogleFonts.prompt(
+                                          textStyle: TextStyle(
+                                            color: Color.fromRGBO(0, 0, 0, 1),
+                                            fontSize: 20,
+                                          ),
+                                        )),
+                                  ),
+                                  Expanded(
+                                    child: Text(
+                                        "${reportRepair?[index].informrepair!.informtype}",
+                                        style: GoogleFonts.prompt(
+                                          textStyle: TextStyle(
+                                            color: Color.fromRGBO(0, 0, 0, 1),
+                                            fontSize: 20,
+                                          ),
+                                        )),
+                                  ),
+                                ]),
                               ],
                             ),
                             trailing: ElevatedButton(
@@ -221,7 +244,7 @@ class NewInform extends State<ListActualize> {
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                    builder: (context) => ReportInform(
+                                    builder: (context) => EditReportInform(
                                       informrepair_id: reportRepair?[index]
                                               .informrepair!
                                               .informrepair_id ??
@@ -237,9 +260,10 @@ class NewInform extends State<ListActualize> {
                                               .equipment!
                                               .equipment_id ??
                                           0,
-                                      report_id:
-                                          reportRepair?[index].report_id ?? 0,
+                                      //  report_id:
+                                      //      reportRepair?[index].report_id ?? 0,
                                       user: widget.user ?? 0,
+                                      // screencheck: statusScreen ?? "",
                                     ),
                                   ),
                                 );

@@ -178,6 +178,27 @@ class _listAllInformRepairsState extends State<listReviewResult> {
                                 )),
                           ),
                         ]),
+                        Row(children: [
+                          Expanded(
+                            child: Text("ประเภทการแจ้งซ่อม ",
+                                style: GoogleFonts.prompt(
+                                  textStyle: TextStyle(
+                                    color: Color.fromRGBO(0, 0, 0, 1),
+                                    fontSize: 20,
+                                  ),
+                                )),
+                          ),
+                          Expanded(
+                            child: Text(
+                                "${reviews?[index].informRepair!.informtype}",
+                                style: GoogleFonts.prompt(
+                                  textStyle: TextStyle(
+                                    color: Color.fromRGBO(0, 0, 0, 1),
+                                    fontSize: 20,
+                                  ),
+                                )),
+                          ),
+                        ]),
                       ],
                     ),
                     // trailing:

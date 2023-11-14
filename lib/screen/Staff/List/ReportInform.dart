@@ -25,6 +25,7 @@ class ReportInform extends StatefulWidget {
   final int equipment_id;
   final int user;
   final int report_id;
+  final String screencheck;
 
   const ReportInform(
       {Key? key,
@@ -32,7 +33,8 @@ class ReportInform extends StatefulWidget {
       required this.room_id,
       required this.equipment_id,
       required this.user,
-      required this.report_id})
+      required this.report_id,
+      required this.screencheck})
       : super(key: key);
 
   @override
@@ -74,7 +76,11 @@ class _ReportInformState extends State<ReportInform> {
 
   String? statusroomEquipmentId;
 
-  final _repairerList = ["นายอนุวัฒน์ คำเมืองลือ", "นายรชานนท์ พรหมมา"];
+  final _repairerList = [
+    "กรุณาเลือกผู้รับผิดชอบ",
+    "นายอนุวัฒน์ คำเมืองลือ",
+    "นายรชานนท์ พรหมมา"
+  ];
   final _statusList = ["กำลังดำเนินการ", "เสร็จสิ้น"];
 
   final ImagePicker imagePicker = ImagePicker();
@@ -376,41 +382,45 @@ class _ReportInformState extends State<ReportInform> {
                 ),
               ],
             ),
-
-            Row(
-              children: [
-                Text(
-                  "ผลการแจ้งซ่อม",
-                  style: GoogleFonts.prompt(
-                    textStyle: TextStyle(
-                      color: Color.fromARGB(255, 7, 94, 53),
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-              ],
-            ),
+            widget.screencheck == "screen2"
+                ? Row(
+                    children: [
+                      Text(
+                        "ผลการแจ้งซ่อม",
+                        style: GoogleFonts.prompt(
+                          textStyle: TextStyle(
+                            color: Color.fromARGB(255, 7, 94, 53),
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                    ],
+                  )
+                : SizedBox(),
 
             Form(
               key: _formKey,
               child: Row(
                 children: [
-                  Expanded(
-                    child: TextFormField(
-                      key: _commentFieldKey,
-                      controller: detailsTextController,
-                      decoration: InputDecoration(
-                        labelText: 'ผลการแจ้งซ่อม',
-                      ),
-                      validator: (value) {
-                        if (value!.isEmpty) {
-                          return 'กรุณาป้อนผลการแจ้งซ่อม';
-                        }
-                        return null;
-                      },
-                    ),
-                  ),
+                  widget.screencheck == "screen2"
+                      ? Expanded(
+                          child: TextFormField(
+                            key: _commentFieldKey,
+                            controller: detailsTextController,
+                            decoration: InputDecoration(
+                              labelText: 'ผลการแจ้งซ่อม',
+                            ),
+                            validator: (value) {
+                              if (value!.isEmpty &&
+                                  widget.screencheck == "screen2") {
+                                return 'กรุณาป้อนผลการแจ้งซ่อม';
+                              }
+                              return null;
+                            },
+                          ),
+                        )
+                      : SizedBox(),
                 ],
               ),
             ),
@@ -418,7 +428,7 @@ class _ReportInformState extends State<ReportInform> {
               children: [
                 Expanded(
                   child: Text(
-                    "ผู้ซ่อม   :",
+                    "ผู้รับผิดชอบ   :",
                     style: GoogleFonts.prompt(
                       textStyle: TextStyle(
                         color: Color.fromARGB(255, 7, 94, 53),
@@ -515,40 +525,42 @@ class _ReportInformState extends State<ReportInform> {
                 ),
               ],
             ),
-            Row(
-              children: [
-                Expanded(
-                  child: Text(
-                    "รูปภาพ   :",
-                    style: GoogleFonts.prompt(
-                      textStyle: TextStyle(
-                        color: Color.fromARGB(255, 7, 94, 53),
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
-                ),
-                Expanded(
-                  child: MaterialButton(
-                      color: Color.fromARGB(255, 243, 103, 33),
-                      child: Text(
-                        "อัปโหลดรูปภาพ",
-                        style: GoogleFonts.prompt(
-                          textStyle: TextStyle(
-                            color: Color.fromARGB(255, 255, 255, 255),
-                            fontWeight: FontWeight.bold,
+            widget.screencheck == "screen2"
+                ? Row(
+                    children: [
+                      Expanded(
+                        child: Text(
+                          "รูปภาพ   :",
+                          style: GoogleFonts.prompt(
+                            textStyle: TextStyle(
+                              color: Color.fromARGB(255, 7, 94, 53),
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
                         ),
                       ),
-                      onPressed: () {
-                        _selectImages();
-                        _uploadImages();
-                        print('imageFileNames----${imageFileNames}');
-                      }),
-                ),
-              ],
-            ),
+                      Expanded(
+                        child: MaterialButton(
+                            color: Color.fromARGB(255, 243, 103, 33),
+                            child: Text(
+                              "อัปโหลดรูปภาพ",
+                              style: GoogleFonts.prompt(
+                                textStyle: TextStyle(
+                                  color: Color.fromARGB(255, 255, 255, 255),
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ),
+                            onPressed: () {
+                              _selectImages();
+                              _uploadImages();
+                              print('imageFileNames----${imageFileNames}');
+                            }),
+                      ),
+                    ],
+                  )
+                : SizedBox(),
             GridView.builder(
               shrinkWrap: true,
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
@@ -672,7 +684,8 @@ class _ReportInformState extends State<ReportInform> {
               ),
               onPressed: () async {
                 if (_formKey.currentState!.validate()) {
-                  if (imageFileNames.isEmpty) {
+                  if (imageFileNames.isEmpty &&
+                      widget.screencheck == "screen2") {
                     // Show an AlertDialog to inform the user to select an image
                     showDialog(
                       context: context,
@@ -692,11 +705,31 @@ class _ReportInformState extends State<ReportInform> {
                         );
                       },
                     );
+                  } else if (_dropdownrepairer.toString() ==
+                      "กรุณาเลือกผู้รับผิดชอบ") {
+                    showDialog(
+                      context: context,
+                      builder: (context) {
+                        return AlertDialog(
+                          title: Text('แจ้งเตือน'),
+                          content: Text('กรุณาเลือกผู้รับผิดชอบ'),
+                          actions: <Widget>[
+                            TextButton(
+                              child: Text('ปิด'),
+                              onPressed: () {
+                                Navigator.of(context)
+                                    .pop(); // Close the AlertDialog
+                              },
+                            ),
+                          ],
+                        );
+                      },
+                    );
                   } else {
                     await _uploadImages();
                     var response = await reportController.addReport(
                       _dropdownrepairer.toString(),
-                      detailsTextController.text,
+                      detailsTextController.text ?? "",
                       _dropdownstatus.toString(),
                       widget.informrepair_id.toString(),
                     );
@@ -732,37 +765,39 @@ class _ReportInformState extends State<ReportInform> {
             ),
           ),
           SizedBox(width: 10), // ระยะห่างระหว่างปุ่ม
-          Container(
-            width: 120, // Set the width of the button here
-            child: FloatingActionButton.extended(
-              label: Text(
-                "แก้ไข",
-                style: GoogleFonts.prompt(
-                  textStyle: TextStyle(
-                    color: Color.fromARGB(255, 255, 255, 255),
-                    fontSize: 14,
-                  ),
-                ),
-              ),
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => EditReportInform(
-                      informrepair_id: widget.informrepair_id,
-                      room_id: widget.room_id,
-                      equipment_id: widget.equipment_id,
-                      user: widget.user ?? 0,
+          widget.screencheck == "screen2"
+              ? Container(
+                  width: 120, // Set the width of the button here
+                  child: FloatingActionButton.extended(
+                    label: Text(
+                      "แก้ไข",
+                      style: GoogleFonts.prompt(
+                        textStyle: TextStyle(
+                          color: Color.fromARGB(255, 255, 255, 255),
+                          fontSize: 14,
+                        ),
+                      ),
                     ),
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => EditReportInform(
+                            informrepair_id: widget.informrepair_id,
+                            room_id: widget.room_id,
+                            equipment_id: widget.equipment_id,
+                            user: widget.user ?? 0,
+                          ),
+                        ),
+                      );
+
+                      // Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => EditInformRepairs(informrerair_id: informrepairs?[index].informrepair_id)));
+
+                      // Navigator.pushNamed(context, '/one');
+                    },
                   ),
-                );
-
-                // Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => EditInformRepairs(informrerair_id: informrepairs?[index].informrepair_id)));
-
-                // Navigator.pushNamed(context, '/one');
-              },
-            ),
-          ),
+                )
+              : SizedBox(),
           Padding(
             padding: const EdgeInsets.all(10.0),
             child: Container(

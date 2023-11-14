@@ -356,43 +356,6 @@ class _ReportInformState extends State<EditReportInform> {
 
             Row(
               children: [
-                Text(
-                  "ผลการแจ้งซ่อม",
-                  style: GoogleFonts.prompt(
-                    textStyle: TextStyle(
-                      color: Color.fromARGB(255, 7, 94, 53),
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-              ],
-            ),
-
-            Form(
-              key: _formKey,
-              child: Row(
-                children: [
-                  Expanded(
-                    child: TextFormField(
-                      key: _commentFieldKey,
-                      controller: detailsTextController,
-                      decoration: InputDecoration(
-                        labelText: 'ผลการแจ้งซ่อม',
-                      ),
-                      validator: (value) {
-                        if (value!.isEmpty) {
-                          return 'กรุณาป้อนผลการแจ้งซ่อม';
-                        }
-                        return null;
-                      },
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            Row(
-              children: [
                 Expanded(
                   child: Text(
                     "ผู้ซ่อม   :",
@@ -491,6 +454,43 @@ class _ReportInformState extends State<EditReportInform> {
                   ),
                 ),
               ],
+            ),
+            Row(
+              children: [
+                Text(
+                  "ผลการแจ้งซ่อม",
+                  style: GoogleFonts.prompt(
+                    textStyle: TextStyle(
+                      color: Color.fromARGB(255, 7, 94, 53),
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+
+            Form(
+              key: _formKey,
+              child: Row(
+                children: [
+                  Expanded(
+                    child: TextFormField(
+                      key: _commentFieldKey,
+                      controller: detailsTextController,
+                      decoration: InputDecoration(
+                        labelText: '',
+                      ),
+                      validator: (value) {
+                        if (value!.isEmpty) {
+                          return 'กรุณาป้อนผลการแจ้งซ่อม';
+                        }
+                        return null;
+                      },
+                    ),
+                  ),
+                ],
+              ),
             ),
             Row(
               children: [

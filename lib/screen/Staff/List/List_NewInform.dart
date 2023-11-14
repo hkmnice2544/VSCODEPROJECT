@@ -54,7 +54,7 @@ class NewInform extends State<listNewInform> {
   // }
 
   List<String>? DetailID = [];
-
+  String? statusScreen = "screen1";
   void listAllInformRepair() async {
     informRepairList = await informrepairController.listAllInformRepairs();
     for (int i = 0; i < informRepairList!.length; i++) {
@@ -177,7 +177,7 @@ class NewInform extends State<listNewInform> {
                                 ),
                                 Expanded(
                                   child: Text(
-                                      "${informRepairList?[index].informdate}",
+                                      "${informRepairList?[index].formattedInformDate()}",
                                       style: GoogleFonts.prompt(
                                         textStyle: TextStyle(
                                           color: Color.fromRGBO(0, 0, 0, 1),
@@ -228,6 +228,27 @@ class NewInform extends State<listNewInform> {
                                       )),
                                 ),
                               ]),
+                              Row(children: [
+                                Expanded(
+                                  child: Text("ประเภทการแจ้งซ่อม ",
+                                      style: GoogleFonts.prompt(
+                                        textStyle: TextStyle(
+                                          color: Color.fromRGBO(0, 0, 0, 1),
+                                          fontSize: 20,
+                                        ),
+                                      )),
+                                ),
+                                Expanded(
+                                  child: Text(
+                                      "${informRepairList?[index].informtype}",
+                                      style: GoogleFonts.prompt(
+                                        textStyle: TextStyle(
+                                          color: Color.fromRGBO(0, 0, 0, 1),
+                                          fontSize: 20,
+                                        ),
+                                      )),
+                                ),
+                              ]),
                             ],
                           ),
                           trailing: ElevatedButton(
@@ -250,6 +271,7 @@ class NewInform extends State<listNewInform> {
                                         0,
                                     report_id: 0,
                                     user: widget.user ?? 0,
+                                    screencheck: statusScreen ?? "",
                                   ),
                                 ),
                               );
