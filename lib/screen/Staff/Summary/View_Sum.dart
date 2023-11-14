@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutterr/constant/constant_value.dart';
 import 'package:flutterr/controller/report_controller.dart';
 import 'package:flutterr/model/Report_Model.dart';
 import 'package:flutterr/screen/HomeStaff.dart';
@@ -827,7 +828,7 @@ class _ViewResultState extends State<View_Sum> {
                                     ),
                                     Expanded(
                                       child: Text(
-                                        "${reportRepair?.details}",
+                                        "${reportRepair?.informrepair!.details}",
                                         style: GoogleFonts.prompt(
                                           textStyle: TextStyle(
                                             color: Color.fromARGB(255, 0, 0, 0),
@@ -837,6 +838,17 @@ class _ViewResultState extends State<View_Sum> {
                                       ),
                                     ),
                                   ]),
+                                  Center(
+                                    child: Container(
+                                      width: 200,
+                                      height: 200,
+                                      child: Image.network(
+                                        baseURL +
+                                            '/informrepairs/image/${reportRepair!.informrepair!.pictures}',
+                                        fit: BoxFit.cover,
+                                      ),
+                                    ),
+                                  ),
                                   // Wrap(
                                   //   spacing: 8.0, // ระยะห่างระหว่างรูปภาพในแนวนอน
                                   //   runSpacing:
