@@ -628,122 +628,99 @@ class _ReportInformState extends State<EditReportInform> {
                 }),
               ),
             ),
+            SizedBox(width: 10), // ระยะห่างระหว่างปุ่ม
+            Container(
+              width: 300,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Container(
+                    width: 120, // Set the width of the button here
+                    child: FloatingActionButton.extended(
+                      label: Text(
+                        "ยืนยันรายงาน",
+                        style: GoogleFonts.prompt(
+                          textStyle: TextStyle(
+                            color: Color.fromARGB(255, 255, 255, 255),
+                            fontWeight: FontWeight.w400,
+                            decoration: TextDecoration.none,
+                          ),
+                        ),
+                      ),
+                      onPressed: () async {
+                        if (_formKey.currentState!.validate()) {
+                          //await _uploadImages();
+                          var response = await reportController.updateReport(
+                              _dropdownrepairer.toString(),
+                              detailsTextController.text,
+                              _dropdownstatus.toString(),
+                              widget.informrepair_id.toString(),
+                              reports?[0].report_id.toString() ?? "");
+                          final List<Map<String, dynamic>> data = [];
+
+                          for (final imageName in imageFileNames) {
+                            if (!data.any(
+                                (item) => item["pictureUrl"] == imageName)) {
+                              data.add({
+                                "pictureUrl": imageName,
+                                "reportrepair": {
+                                  "report_id": ((reports?[reports!.length - 1]
+                                              .report_id ??
+                                          0) +
+                                      1),
+                                },
+                              });
+                            }
+                          }
+
+                          List<Report_pictures> savedInformPictures =
+                              await Report_PicturesController
+                                  .saveReport_pictures(data);
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) {
+                              return ListManage(user: widget.user);
+                            }),
+                          );
+                        }
+                      },
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(10.0),
+                    child: Container(
+                      width: 120, // Set the width of the button here
+                      child: FloatingActionButton.extended(
+                        label: Text(
+                          "ยกเลิก",
+                          style: GoogleFonts.prompt(
+                            textStyle: TextStyle(
+                              color: Color.fromARGB(255, 255, 255, 255),
+                              fontWeight: FontWeight.w400,
+                              decoration: TextDecoration.none,
+                            ),
+                          ),
+                        ),
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) {
+                              return ListManage(user: widget.user);
+                            }),
+                          );
+                        },
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            SizedBox(
+              height: 50,
+            )
           ]),
         ),
       ),
-      floatingActionButton: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Container(
-            width: 120, // Set the width of the button here
-            child: FloatingActionButton.extended(
-              label: Text(
-                "ยืนยันรายงาน",
-                style: GoogleFonts.prompt(
-                  textStyle: TextStyle(
-                    color: Color.fromARGB(255, 255, 255, 255),
-                    fontWeight: FontWeight.w400,
-                    decoration: TextDecoration.none,
-                  ),
-                ),
-              ),
-              onPressed: () async {
-                if (_formKey.currentState!.validate()) {
-                  //await _uploadImages();
-                  var response = await reportController.updateReport(
-                      _dropdownrepairer.toString(),
-                      detailsTextController.text,
-                      _dropdownstatus.toString(),
-                      widget.informrepair_id.toString(),
-                      reports?[0].report_id.toString() ?? "");
-                  final List<Map<String, dynamic>> data = [];
-
-                  for (final imageName in imageFileNames) {
-                    if (!data.any((item) => item["pictureUrl"] == imageName)) {
-                      data.add({
-                        "pictureUrl": imageName,
-                        "reportrepair": {
-                          "report_id":
-                              ((reports?[reports!.length - 1].report_id ?? 0) +
-                                  1),
-                        },
-                      });
-                    }
-                  }
-
-                  List<Report_pictures> savedInformPictures =
-                      await Report_PicturesController.saveReport_pictures(data);
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) {
-                      return ListManage(user: widget.user);
-                    }),
-                  );
-                }
-              },
-            ),
-          ),
-          SizedBox(width: 10), // ระยะห่างระหว่างปุ่ม
-          Container(
-            width: 120, // Set the width of the button here
-            child: FloatingActionButton.extended(
-              label: Text(
-                "แก้ไข",
-                style: GoogleFonts.prompt(
-                  textStyle: TextStyle(
-                    color: Color.fromARGB(255, 255, 255, 255),
-                    fontSize: 14,
-                  ),
-                ),
-              ),
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => EditReportInform(
-                      informrepair_id: widget.informrepair_id,
-                      room_id: widget.room_id,
-                      equipment_id: widget.equipment_id,
-                      user: widget.user ?? 0,
-                    ),
-                  ),
-                );
-
-                // Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => EditInformRepairs(informrerair_id: informrepairs?[index].informrepair_id)));
-
-                // Navigator.pushNamed(context, '/one');
-              },
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(10.0),
-            child: Container(
-              width: 120, // Set the width of the button here
-              child: FloatingActionButton.extended(
-                label: Text(
-                  "ยกเลิก",
-                  style: GoogleFonts.prompt(
-                    textStyle: TextStyle(
-                      color: Color.fromARGB(255, 255, 255, 255),
-                      fontWeight: FontWeight.w400,
-                      decoration: TextDecoration.none,
-                    ),
-                  ),
-                ),
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) {
-                      return ListManage(user: widget.user);
-                    }),
-                  );
-                },
-              ),
-            ),
-          ),
-        ],
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     ));
   }
 
