@@ -645,7 +645,7 @@ class _ViewResultState extends State<ViewCompleted> {
                                       10), // 100 is half of 200 (width/2)
                                   child: Image.network(
                                     baseURL +
-                                        '/report_pictures/image/${report_picture[index]}',
+                                        '/report_pictures/${report_picture[index]}',
                                     fit: BoxFit.cover,
                                   ),
                                 ),
