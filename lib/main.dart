@@ -27,14 +27,14 @@ class MainApp extends StatelessWidget {
       // home: Login(),
       //home: EditInformRepairs(user: 1001, informrepair_id: 10004),
       // home: NewEditInformRepair(user: 1001, informrepair_id: 10004),
-      home: EditReportInform(
-          informrepair_id: 10001,
-          room_id: 1108,
-          equipment_id: 1005,
-          user: 1001),
+      // home: EditReportInform(
+      //     informrepair_id: 10001,
+      //     room_id: 1108,
+      //     equipment_id: 1005,
+      //     user: 1001),
       // home: AddInformRepair(user: 1001),
       // home: Summary(user: 1001),
-      // home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      home: const MyHomePage(title: 'Flutter Demo Home Page'),
       // home: HomeStaff(user: 1009),
       // home: Home(user: 1001),
       theme: ThemeData(

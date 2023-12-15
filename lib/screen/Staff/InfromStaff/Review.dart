@@ -12,12 +12,12 @@ import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import '../../../controller/report_controller.dart';
 import '../../../model/Report_Model.dart';
-import '../../Home.dart';
 import '../../Login.dart';
 import 'ListInformRepair.dart';
 import 'Rating.dart';
 import 'package:http/http.dart' as http;
 import 'package:google_fonts/google_fonts.dart';
+import '../../HomeStaff.dart';
 
 class Reviews extends StatefulWidget {
   final int? report_id;
@@ -167,16 +167,16 @@ class _MyWidgetState extends State<Reviews> {
           children: <Widget>[
             Expanded(
               child: IconButton(
-                icon: Icon(Icons.home),
-                color: Color.fromARGB(255, 255, 255, 255),
-                onPressed: () {
-                  Navigator.push(context, MaterialPageRoute(
-                    builder: (context) {
-                      return Home(user: widget.user);
-                    },
-                  ));
-                },
-              ),
+                  icon: Icon(Icons.home),
+                  color: Color.fromARGB(255, 255, 255, 255),
+                  onPressed: () {
+                    Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) =>
+                              HomeStaff(user: widget.user), // หน้า A
+                        ));
+                  }),
             ),
             Expanded(
               child: Text(

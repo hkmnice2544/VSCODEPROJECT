@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutterr/constant/constant_value.dart';
+import 'package:flutterr/screen/HomeStaff.dart';
 import '../../../controller/informrepair_controller.dart';
 import '../../../model/informrepair_model.dart';
 import '../../Home.dart';
@@ -114,7 +115,7 @@ class _ViewResultState extends State<View_NewItem> {
                     onPressed: () {
                       Navigator.push(context, MaterialPageRoute(
                         builder: (context) {
-                          return Home(user: widget.user);
+                          return HomeStaff(user: widget.user);
                         },
                       ));
                     }),

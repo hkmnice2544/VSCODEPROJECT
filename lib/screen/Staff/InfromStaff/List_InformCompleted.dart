@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:flutterr/screen/Staff/InfromStaff/View_Completed.dart';
 import '../../../controller/report_controller.dart';
 import '../../../model/Report_Model.dart';
 import 'Review.dart';
-import 'View_Completed.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class InformCompleted extends StatefulWidget {

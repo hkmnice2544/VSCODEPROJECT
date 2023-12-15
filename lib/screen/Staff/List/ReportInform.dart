@@ -226,7 +226,7 @@ class _ReportInformState extends State<ReportInform> {
                       Navigator.push(context, MaterialPageRoute(
                         builder: (context) {
                           var username;
-                          return Home(user: widget.user);
+                          return HomeStaff(user: widget.user);
                         },
                       ));
                     }),

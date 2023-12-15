@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutterr/screen/User/ListInformRepair/List_%20Check%20status.dart';
+import 'package:flutterr/screen/Staff/InfromStaff/List_%20Check%20status.dart';
 import '../../../Model/informrepair_model.dart';
-import '../../Home.dart';
 import '../../Login.dart';
 import 'List_InformCompleted.dart';
 import 'List_NewItem.dart';
 import 'package:google_fonts/google_fonts.dart';
+import '../../HomeStaff.dart';
 
 class ListInformRepair extends StatefulWidget {
   final int? user;
@@ -108,19 +108,21 @@ class _ListInformRepairState extends State<ListInformRepair> {
                               context,
                               MaterialPageRoute(
                                 builder: (context) =>
-                                    Home(user: widget.user), // หน้า A
+                                    HomeStaff(user: widget.user), // หน้า A
                               ));
                         }),
                   ),
                   Expanded(
-                    child: Text("หน้าแรก",
-                        style: GoogleFonts.prompt(
-                          textStyle: TextStyle(
-                            color: Color.fromRGBO(255, 255, 255, 1),
-                            fontSize: 14,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        )),
+                    child: Text(
+                      "หน้าแรก",
+                      style: GoogleFonts.prompt(
+                        textStyle: TextStyle(
+                          color: Color.fromRGBO(255, 255, 255, 1),
+                          fontSize: 14,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
                   ),
                   Expanded(child: Text("                           ")),
                   Expanded(

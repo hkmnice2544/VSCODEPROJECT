@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutterr/constant/constant_value.dart';
 import 'package:flutterr/controller/report_pictures_controller.dart';
 import 'package:flutterr/model/Report_pictures_Model.dart';
+import 'package:flutterr/screen/HomeStaff.dart';
 import 'package:intl/intl.dart';
 import '../../../controller/report_controller.dart';
 import '../../../model/Report_Model.dart';
@@ -105,7 +106,7 @@ class _ViewResultState extends State<ViewCompleted> {
                     onPressed: () {
                       Navigator.push(context, MaterialPageRoute(
                         builder: (context) {
-                          return Home(user: widget.user);
+                          return HomeStaff(user: widget.user);
                         },
                       ));
                     }),

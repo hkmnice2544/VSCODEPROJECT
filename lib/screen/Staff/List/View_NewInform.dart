@@ -130,7 +130,7 @@ class _ViewResultState extends State<ViewNewInform> {
                       Navigator.push(context, MaterialPageRoute(
                         builder: (context) {
                           var username;
-                          return Home(user: widget.user);
+                          return HomeStaff(user: widget.user);
                         },
                       ));
                     }),

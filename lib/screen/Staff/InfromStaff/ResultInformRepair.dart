@@ -4,7 +4,7 @@ import 'package:flutterr/controller/login_controller.dart';
 import 'package:flutterr/model/User_Model.dart';
 import 'package:flutterr/screen/HomeStaff.dart';
 import 'package:flutterr/screen/Staff/InfromStaff/ListInformRepair.dart';
-import 'package:flutterr/screen/Staff/InfromStaff/New_EditInformRepair.dart';
+import 'package:flutterr/screen/Staff/InfromStaff/EditInformRepair.dart';
 
 import '../../../controller/informrepair_controller.dart';
 import '../../../model/informrepair_model.dart';
